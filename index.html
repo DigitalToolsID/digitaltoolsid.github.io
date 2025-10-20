@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Convert - Your Smart Unit Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">Universal Convert</h1>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search for any unit conversion...">
+                <button class="search-button">🔍</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li class="nav-item active" data-category="cooking">
+                        <span class="icon">🍳</span> Cooking
+                    </li>
+                    <li class="nav-item" data-category="digital-data">
+                        <span class="icon">💾</span> Digital Data
+                    </li>
+                    <li class="nav-item" data-category="time-zone">
+                        <span class="icon">⏰</span> Time & Zone
+                    </li>
+                    <li class="nav-item" data-category="engineering">
+                        <span class="icon">⚙️</span> Engineering
+                    </li>
+                    <li class="nav-item pro-feature" data-category="currency">
+                        <span class="icon">💰</span> Currency <span class="pro-tag">PRO</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <section class="content-area">
+            <div id="converterContainer">
+                <h2 class="category-title">Welcome to Universal Convert!</h2>
+                <p>Select a category from the left to start converting units.</p>
+            </div>
+
+            <div class="utility-panel">
+                <h3>Your Favorites</h3>
+                <ul id="favoritesList">
+                    <li>No favorites yet.</li>
+                </ul>
+                <h3 style="margin-top: 20px;">Recent History</h3>
+                <ul id="historyList">
+                    <li>No recent conversions.</li>
+                </ul>
+                <div class="ad-placeholder">
+                    <p>Your Ad Here</p>
+                    </div>
+                <a href="https://www.buymeacoffee.com/yourusername" target="_blank" class="donate-button">☕ Buy Me a Coffee</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Universal Convert. All rights reserved.</p>
+            <p>Powered by Universal Convert | <a href="#" class="privacy-link">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
