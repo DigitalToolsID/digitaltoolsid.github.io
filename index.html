@@ -44,9 +44,37 @@
 
         <section class="content-area">
             <div id="converterContainer">
-                <h2 class="category-title">Welcome to Universal Convert!</h2>
-                <p>Select a category from the left to start converting units.</p>
-            </div>
+    <h2 class="category-title">🍳 Cooking Ingredients</h2>
+    <p>Convert common cooking units for water-like substances.</p>
+    <div class="converter-form">
+        <div class="input-group">
+            <input type="number" id="cookingInput" value="250" placeholder="Enter value">
+            <select id="cookingUnitFrom">
+                <option value="gram">grams</option>
+                <option value="ml">ml (milliliters)</option>
+                <option value="cup">cups (US)</option>
+                <option value="oz">oz (ounces)</option>
+                <option value="pound">pounds (lb)</option>
+                <option value="tbsp">tbsp (tablespoons)</option>
+                <option value="tsp">tsp (teaspoons)</option>
+            </select>
+        </div>
+        <div class="result-group">
+            <p>Result:</p>
+            <span id="cookingResult">0.00</span>
+            <select id="cookingUnitTo">
+                <option value="ml">ml (milliliters)</option>
+                <option value="gram">grams</option>
+                <option value="cup">cups (US)</option>
+                <option value="oz">oz (ounces)</option>
+                <option value="pound">pounds (lb)</option>
+                <option value="tbsp">tbsp (tablespoons)</option>
+                <option value="tsp">tsp (teaspoons)</option>
+            </select>
+        </div>
+        <p style="font-size:0.8em; color: #666; margin-top:10px;">(Note: Conversions are approximate for general cooking ingredients, similar to water density.)</p>
+    </div>
+</div>
 
             <div class="utility-panel">
                 <h3>Your Favorites</h3>
