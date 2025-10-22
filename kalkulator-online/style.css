@@ -1,11 +1,13 @@
 /*
 ======================================================
-FINAL MUTLAK CLEAN CSS FOR SIMPLE CALCULATOR
-Fixes: Centering, Nav-Back Display, and Correct Mobile Scaling
+FINAL MUTLAK CSS: FIXED ALL ISSUES
+1. Centering & Desktop Width (300px)
+2. Mobile Width (90vw) & Large Buttons (Fixes shrinking)
+3. Fixes 'Back to Catalog' text issue
 ======================================================
 */
 body {
-    /* Kembali ke styling dasar pemosisian tengah yang berfungsi baik */
+    /* Perbaikan Pemosisian Tengah yang Stabil */
     margin: 0;
     display: flex;
     flex-direction: column; 
@@ -21,7 +23,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    /* Lebar Final: Dibatasi 300px di Desktop, diubah di Mobile */
+    /* Lebar default Desktop yang sudah teruji */
     width: 300px;
     margin: 10px 0;
 }
@@ -57,17 +59,24 @@ button {
     transition: background-color 0.1s;
 }
 
-/* ... (Styling tombol lainnya tetap sama) ... */
 .operator { background-color: orange; }
-#calculate-btn { grid-column: span 2; background-color: #4CAF50; }
+.operator:hover { background-color: darkorange; }
+
+/* Tombol '=' (CALCULATE) - Ukuran yang benar untuk Desktop */
+#calculate-btn { 
+    grid-column: span 2; 
+    background-color: #4CAF50;
+}
+#calculate-btn:hover { background-color: #45a049; }
 
 
-/* STYLING NAVIGASI (BACK TO CATALOG) */
+/* STYLING NAVIGASI */
 .nav-back {
     margin-bottom: 20px;
     font-size: 1.1em;
     text-align: center;
-    /* Lebar navigasi disetel otomatis sesuai konten */
+    /* Tambahkan lebar otomatis agar teks tidak terpotong di Desktop */
+    width: auto;
 }
 
 .nav-back a {
@@ -78,18 +87,18 @@ button {
 
 
 /* ======================================================
-   FINAL FIX MUTLAK: MEDIA QUERY (Solusi untuk Tombol Kecil)
+   FINAL FIX MUTLAK: MEDIA QUERY (Solusi Semua Masalah Mobile)
    ====================================================== */
 @media (max-width: 450px) {
     #calculator {
-        /* Wajib: Ubah lebar menjadi 90% hanya di HP untuk mengatasi masalah kecil */
+        /* Wajib: Paksakan lebar 90% di HP untuk mengatasi masalah mengecil */
         width: 90vw; 
         max-width: none;
         padding: 15px; 
     }
 
     #display {
-        height: 70px; 
+        height: 70px; /* Tinggikan display */
         font-size: 2.2em;
     }
     
@@ -102,8 +111,9 @@ button {
         gap: 6px;
     }
     
+    /* Perbaikan: Pastikan navigasi juga mengikuti lebar 90% agar teks utuh */
     .nav-back {
-        width: 90vw; /* Agar rata dengan lebar kalkulator */
+        width: 90vw; 
         margin-bottom: 30px;
     }
 }
