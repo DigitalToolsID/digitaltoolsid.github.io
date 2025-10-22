@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kalkulator Sederhana Online</title>
+    <title>Simple Calculator Online</title>
     <link rel="stylesheet" href="style.css"> 
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
@@ -18,13 +18,8 @@
 </head>
 
 <body>
-
-<div style="text-align: center; margin: 0 auto 15px auto;">
-    <a href="/" style="text-decoration: none; color: #3498db; font-size: 1em; font-weight: bold;">
-        ← Back to Tools Catalog (NAVIGASI)
-    </a>
-</div>
-   <div id="calculator" style="margin: 0 auto;"></div>
+<div class="nav-back"><a href="/">...</a></div>
+    <div id="calculator"> 
         <input type="text" id="display" readonly value="0">
         
         <div id="keys">
@@ -49,13 +44,10 @@
             
             <button onclick="appendToDisplay('0')">0</button>
             <button onclick="appendToDisplay('.')">.</button>
-            <button id="calculate-btn" onclick="calculate()" style="background-color: #e74c3c; color: white;">=</button>
+            <button id="calculate-btn" onclick="calculate()">=</button>
         </div>
     </div>
 
     <script src="script.js"></script>
-
-
-
-    </body>
+</body>
 </html>

@@ -1,10 +1,17 @@
+/*
+======================================================
+FINAL MUTLAK CLEAN CSS FOR SIMPLE CALCULATOR
+Fixes: Centering, Nav-Back Display, and Correct Mobile Scaling
+======================================================
+*/
 body {
+    /* Kembali ke styling dasar pemosisian tengah yang berfungsi baik */
     margin: 0;
     display: flex;
+    flex-direction: column; 
     justify-content: center;
-    align-items: center;
-    /* Pastikan kalkulator di tengah layar */
-    min-height: 100vh; 
+    align-items: center; 
+    min-height: 100vh;
     background-color: #f4f4f4;
     font-family: Arial, sans-serif;
 }
@@ -14,7 +21,9 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    width: 300px; /* Ukuran lebar kalkulator */
+    /* Lebar Final: Dibatasi 300px di Desktop, diubah di Mobile */
+    width: 300px;
+    margin: 10px 0;
 }
 
 #display {
@@ -33,8 +42,7 @@ body {
 
 #keys {
     display: grid;
-    /* Membuat tata letak 4 kolom yang sama besar */
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
@@ -49,24 +57,53 @@ button {
     transition: background-color 0.1s;
 }
 
-button:hover {
-    background-color: #777;
+/* ... (Styling tombol lainnya tetap sama) ... */
+.operator { background-color: orange; }
+#calculate-btn { grid-column: span 2; background-color: #4CAF50; }
+
+
+/* STYLING NAVIGASI (BACK TO CATALOG) */
+.nav-back {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    text-align: center;
+    /* Lebar navigasi disetel otomatis sesuai konten */
 }
 
-.operator {
-    background-color: orange; /* Warna oranye untuk operator */
+.nav-back a {
+    text-decoration: none;
+    color: #3498db; 
+    font-weight: bold;
 }
 
-.operator:hover {
-    background-color: darkorange;
-}
 
-/* Mengatur tombol "=" agar lebih lebar (menggunakan 2 kolom) */
-#calculate-btn {
-    grid-column: span 2; 
-    background-color: #4CAF50;
-}
+/* ======================================================
+   FINAL FIX MUTLAK: MEDIA QUERY (Solusi untuk Tombol Kecil)
+   ====================================================== */
+@media (max-width: 450px) {
+    #calculator {
+        /* Wajib: Ubah lebar menjadi 90% hanya di HP untuk mengatasi masalah kecil */
+        width: 90vw; 
+        max-width: none;
+        padding: 15px; 
+    }
 
-#calculate-btn:hover {
-    background-color: #45a049;
+    #display {
+        height: 70px; 
+        font-size: 2.2em;
+    }
+    
+    button {
+        height: 70px; /* Perbesar tinggi tombol untuk kenyamanan jari */
+        font-size: 1.4em;
+    }
+
+    #keys {
+        gap: 6px;
+    }
+    
+    .nav-back {
+        width: 90vw; /* Agar rata dengan lebar kalkulator */
+        margin-bottom: 30px;
+    }
 }
