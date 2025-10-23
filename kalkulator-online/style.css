@@ -69,8 +69,7 @@ button {
     margin-bottom: 20px;
     font-size: 1.1em;
     text-align: center;
-    width: 300px;
-    max-width: 90vw; 
+    width: 300px; /* Lebar default nav disamakan dengan kalkulator desktop */
 }
 
 .nav-back a {
