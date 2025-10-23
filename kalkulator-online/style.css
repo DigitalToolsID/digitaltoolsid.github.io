@@ -1,9 +1,7 @@
 /*
 ======================================================
-FINAL MUTLAK CSS: FIXED ALL ISSUES
-1. Centering & Desktop Width (300px)
-2. Mobile Width (90vw) & Large Buttons (Fixes shrinking)
-3. Fixes 'Back to Catalog' text issue
+FINAL MUTLAK CLEAN CSS FOR SIMPLE CALCULATOR
+Fixes: Responsive Mobile Scaling and Correct Button Proportions
 ======================================================
 */
 body {
@@ -23,8 +21,8 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    /* Lebar default Desktop yang sudah teruji */
-    width: 300px;
+    /* Lebar default Desktop */
+    width: 300px; 
     margin: 10px 0;
 }
 
@@ -49,6 +47,7 @@ body {
 }
 
 button {
+    /* Tinggi tombol default untuk Desktop */
     height: 50px;
     font-size: 1.2em;
     border: none;
@@ -61,12 +60,7 @@ button {
 
 .operator { background-color: orange; }
 .operator:hover { background-color: darkorange; }
-
-/* Tombol '=' (CALCULATE) - Ukuran yang benar untuk Desktop */
-#calculate-btn { 
-    grid-column: span 2; 
-    background-color: #4CAF50;
-}
+#calculate-btn { grid-column: span 2; background-color: #4CAF50; }
 #calculate-btn:hover { background-color: #45a049; }
 
 
@@ -75,45 +69,41 @@ button {
     margin-bottom: 20px;
     font-size: 1.1em;
     text-align: center;
-    /* Tambahkan lebar otomatis agar teks tidak terpotong di Desktop */
-    width: auto;
+    width: 300px;
+    max-width: 90vw; 
 }
 
 .nav-back a {
     text-decoration: none;
     color: #3498db; 
     font-weight: bold;
+    display: block;
 }
 
 
 /* ======================================================
-   FINAL FIX MUTLAK: MEDIA QUERY (Solusi Semua Masalah Mobile)
+   FINAL FIX MUTLAK: MEDIA QUERY (Solusi untuk Tombol Mobile)
    ====================================================== */
 @media (max-width: 450px) {
     #calculator {
-        /* Wajib: Paksakan lebar 90% di HP untuk mengatasi masalah mengecil */
+        /* Wajib: Paksakan lebar 90% di HP agar tidak mengecil */
         width: 90vw; 
         max-width: none;
         padding: 15px; 
     }
 
-    #display {
-        height: 70px; /* Tinggikan display */
-        font-size: 2.2em;
-    }
-    
+    /* Perbesar tombol dan display HANYA di layar kecil */
     button {
         height: 70px; /* Perbesar tinggi tombol untuk kenyamanan jari */
         font-size: 1.4em;
     }
-
-    #keys {
-        gap: 6px;
-    }
     
-    /* Perbaikan: Pastikan navigasi juga mengikuti lebar 90% agar teks utuh */
+    #display {
+        height: 70px;
+        font-size: 2.2em;
+    }
+
     .nav-back {
-        width: 90vw; 
-        margin-bottom: 30px;
+        width: 90vw; /* Samakan lebar nav dengan kalkulator */
     }
 }
