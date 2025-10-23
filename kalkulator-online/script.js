@@ -38,4 +38,32 @@ function calculate() {
         document.getElementById('display').value = 'Error';
         currentInput = '0';
     }
+/* ======================================================
+FINAL FIX: FUNGSI COPY RESULT (MENYALIN HASIL)
+======================================================
+*/
+function copyResult() {
+    // 1. Dapatkan elemen display
+    const display = document.getElementById('display');
+    
+    // 2. Buat elemen input sementara untuk menyalin teks
+    const tempInput = document.createElement('input');
+    
+    // 3. Atur nilai input sementara dengan nilai display
+    tempInput.value = display.value;
+    
+    // 4. Tambahkan elemen input sementara ke body dokumen
+    document.body.appendChild(tempInput);
+    
+    // 5. Pilih teks di dalamnya
+    tempInput.select();
+    
+    // 6. Salin teks ke clipboard
+    document.execCommand('copy');
+    
+    // 7. Hapus elemen input sementara
+    document.body.removeChild(tempInput);
+    
+    // Opsional: Beri tahu pengguna bahwa hasil telah disalin (dengan alert sederhana)
+    alert("Result copied to clipboard!");
 }
