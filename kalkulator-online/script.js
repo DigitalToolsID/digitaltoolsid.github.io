@@ -1,56 +1,73 @@
-let currentInput = document.getElementById('display').value;
+/*
+======================================================
+FINAL CLEAN JAVASCRIPT FOR SIMPLE CALCULATOR
+Fixes: All button functions and adds copyResult()
+======================================================
+*/
 
-// Fungsi untuk menambahkan angka/operator ke layar
+// Mendapatkan elemen display
+const display = document.getElementById('display');
+
+// Variabel untuk menyimpan perhitungan
+let currentInput = '0';
+let operator = null;
+let previousInput = null;
+
+// Memastikan display selalu diperbarui
+function updateDisplay() {
+    display.value = currentInput;
+}
+
+// 1. Fungsi untuk menambahkan nilai ke display
 function appendToDisplay(value) {
-    // Jika layar hanya menampilkan '0' dan pengguna memasukkan angka/operator (bukan desimal), ganti '0'
     if (currentInput === '0' && value !== '.') {
         currentInput = value;
     } else {
         currentInput += value;
     }
-    document.getElementById('display').value = currentInput;
+    updateDisplay();
 }
 
-// Fungsi untuk menghapus layar (tombol C)
+// 2. Fungsi untuk menghapus display (C)
 function clearDisplay() {
     currentInput = '0';
-    document.getElementById('display').value = currentInput;
+    operator = null;
+    previousInput = null;
+    updateDisplay();
 }
 
-// Fungsi untuk menghapus karakter terakhir (tombol DEL)
+// 3. Fungsi untuk menghapus karakter terakhir (DEL)
 function deleteLast() {
-    currentInput = currentInput.slice(0, -1); // Menghapus karakter terakhir
-    if (currentInput === '') {
-        currentInput = '0'; // Jika semua terhapus, kembalikan ke '0'
-    }
-    document.getElementById('display').value = currentInput;
-}
-
-// Fungsi untuk menghitung hasil (tombol =)
-function calculate() {
-    try {
-        // 'eval()' adalah cara cepat untuk menghitung string matematika.
-        let result = eval(currentInput); 
-        currentInput = result.toString();
-        document.getElementById('display').value = currentInput;
-    } catch (error) {
-        // Menangani kesalahan perhitungan (misal: sintaks salah atau pembagian dengan nol)
-        document.getElementById('display').value = 'Error';
+    if (currentInput.length > 1) {
+        currentInput = currentInput.slice(0, -1);
+    } else {
         currentInput = '0';
     }
-/* ======================================================
-FINAL FIX: FUNGSI COPY RESULT (MENYALIN HASIL)
-======================================================
-*/
+    updateDisplay();
+}
+
+// 4. Fungsi untuk melakukan perhitungan
+function calculate() {
+    try {
+        // Menggunakan eval() untuk perhitungan sederhana
+        // Catatan: Dalam proyek profesional, eval() dihindari karena risiko keamanan.
+        currentInput = eval(currentInput).toString();
+    } catch (e) {
+        currentInput = "Error";
+    }
+    updateDisplay();
+}
+
+// 5. FINAL FIX: Fungsi untuk menyalin hasil ke clipboard (COPY)
 function copyResult() {
     // 1. Dapatkan elemen display
-    const display = document.getElementById('display');
+    const displayElement = document.getElementById('display');
     
     // 2. Buat elemen input sementara untuk menyalin teks
     const tempInput = document.createElement('input');
     
     // 3. Atur nilai input sementara dengan nilai display
-    tempInput.value = display.value;
+    tempInput.value = displayElement.value;
     
     // 4. Tambahkan elemen input sementara ke body dokumen
     document.body.appendChild(tempInput);
@@ -58,7 +75,7 @@ function copyResult() {
     // 5. Pilih teks di dalamnya
     tempInput.select();
     
-    // 6. Salin teks ke clipboard
+    // 6. Salin teks ke clipboard (Metode modern)
     document.execCommand('copy');
     
     // 7. Hapus elemen input sementara
@@ -67,3 +84,7 @@ function copyResult() {
     // Opsional: Beri tahu pengguna bahwa hasil telah disalin (dengan alert sederhana)
     alert("Result copied to clipboard!");
 }
+
+
+// Inisialisasi display saat halaman dimuat
+updateDisplay();
