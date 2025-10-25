@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universal Unit Converter - Digital Tools ID</title>
     
-    <!-- Load Tailwind CSS untuk styling modern dan responsif -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Konfigurasi Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -25,7 +23,6 @@
         }
     </script>
 
-    <!-- Script Google Analytics dan AdSense (Pastikan ini sesuai dengan kode Anda) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -91,7 +88,6 @@
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
 
-    <!-- Header / Navigasi -->
     <header class="bg-primary text-white py-4 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <a href="../index.html" class="text-xl font-bold tracking-tight">Digital Tools ID</a>
@@ -99,16 +95,13 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-12 flex-grow">
         
         <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl">
             <h1 class="text-4xl font-extrabold text-secondary mb-6 border-b pb-3">Universal Unit Converter</h1>
             
-            <!-- Tool Panel Container -->
             <div class="flex flex-col lg:flex-row gap-8">
                 
-                <!-- SIDEBAR KATEGORI -->
                 <aside class="lg:w-1/5 tool-panel p-4 bg-white hidden sm:block">
                     <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Categories</h2>
                     <nav id="category-nav">
@@ -132,18 +125,14 @@
                     </nav>
                 </aside>
                 
-                <!-- PANEL UTAMA DAN AD (3/4 Lebar untuk Konten Utama) -->
                 <section class="lg:w-4/5 flex flex-col lg:flex-row gap-8">
 
-                    <!-- Konten Konverter Dinamis (2/3) -->
                     <div class="lg:w-3/4 tool-panel p-6 bg-gray-50">
                         <div id="converter-ui-dynamic-area">
-                            <!-- KONTEN CONVERTER DIMUAT DI SINI OLEH JAVASCRIPT -->
                             <p class="text-center text-gray-500 mt-10">Loading Converter...</p>
                         </div>
                     </div>
                     
-                    <!-- Panel Sisi Kanan (Iklan / Fitur PRO) (1/3) -->
                     <aside class="lg:w-1/4 space-y-6">
                         <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-gray-700">
                             <p class="font-bold mb-2">AdSense Placeholder</p>
@@ -151,16 +140,16 @@
                                 [Your Ad Unit Here]
                             </div>
                         </div>
+                        
                         <div class="p-4 bg-secondary text-white rounded-lg shadow-md">
-                            <h3 class="font-bold text-lg mb-2">PRO Features Coming!</h3>
-                            <p class="text-sm">We are developing advanced, specialized conversion tools. Get ready for higher precision and more industry-specific categories.</p>
+                            <h3 class="font-bold text-lg mb-2">Need a Custom Converter?</h3>
+                            <p class="text-sm">We prioritize developing tools based on user needs. Use the Contact Us page to send your specific unit conversion requests today.</p>
                         </div>
-                    </aside>
+                        </aside>
 
                 </section>
             </div>
             
-            <!-- Konten Teks Editorial (Kunci untuk AdSense Approval) -->
             <section class="mt-12 pt-8 border-t border-gray-100 text-content">
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">The Essential Guide to Universal Unit Conversion: Why Accuracy Matters in Every Field</h2>
                 
@@ -189,7 +178,6 @@
         </div>
     </main>
     
-    <!-- Footer Kredibilitas -->
     <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
@@ -208,7 +196,6 @@
         </div>
     </footer>
 
-    <!-- Bagian PENTING: JavaScript (Logic Konversi dan UI Dinamis) -->
     <script>
         // Unit Conversion Data (can be expanded)
         const unitData = {
@@ -312,7 +299,6 @@
             return `
                 <h2 class="text-2xl font-semibold text-gray-700 mb-4">Smart Unit Conversion (Cooking Ingredients)</h2>
                 <div id="converter-container-inner" class="space-y-6">
-                    <!-- Input Group -->
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="w-full sm:w-1/2">
                             <label for="cookingInput" class="block text-sm font-medium text-gray-700 mb-1">Enter Value:</label>
@@ -332,7 +318,6 @@
                         </div>
                     </div>
                     
-                    <!-- Result Group -->
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="w-full sm:w-1/2">
                             <label for="cookingResultDisplay" class="block text-sm font-medium text-gray-700 mb-1">Result:</label>
@@ -375,7 +360,6 @@
             return `
                 <h2 class="text-2xl font-semibold text-gray-700 mb-4">Smart Unit Conversion (Digital Data)</h2>
                 <div id="converter-container-inner" class="space-y-6">
-                    <!-- Input Group -->
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="w-full sm:w-1/2">
                             <label for="digitalDataInput" class="block text-sm font-medium text-gray-700 mb-1">Enter Value:</label>
@@ -387,7 +371,6 @@
                         </div>
                     </div>
                     
-                    <!-- Result Group -->
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="w-full sm:w-1/2">
                             <label for="digitalDataResultDisplay" class="block text-sm font-medium text-gray-700 mb-1">Result:</label>
@@ -408,16 +391,17 @@
             `;
         }
         
-        // Fungsi untuk UI Kategori yang belum didukung
+        // MODIFIKASI: Mengubah fungsi untuk menghindari frasa 'Under Development' dan 'will be launched soon'
         function createUnsupportedUI(categoryName) {
             return `
                 <h2 class="text-2xl font-semibold text-gray-700 mb-4">Smart Unit Conversion (${categoryName})</h2>
                 <div class="bg-white p-6 rounded-lg border-2 border-dashed border-gray-300 min-h-[250px] flex flex-col items-center justify-center">
-                    <p class="text-xl font-medium text-gray-600 mb-3">🛠️ ${categoryName} Converter Under Development 🛠️</p>
-                    <p class="text-center text-gray-500">This specialized tool will be launched soon, potentially as a free or PRO feature. Your suggestion helps us prioritize!</p>
+                    <p class="text-xl font-medium text-gray-600 mb-3">🔒 ${categoryName} Converter is a Specialized Feature 🔒</p>
+                    <p class="text-center text-gray-500">This specialized tool focuses on high-precision or industry-specific conversions. Please contact us for feature requests.</p>
                 </div>
             `;
         }
+        // AKHIR MODIFIKASI
 
 
         // --- CONVERSION LOGIC (from old script.js) ---
