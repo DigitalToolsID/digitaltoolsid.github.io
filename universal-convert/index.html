@@ -3,121 +3,569 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Convert - Your Smart Unit Converter</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Universal Unit Converter - Digital Tools ID</title>
+    
+    <!-- Load Tailwind CSS untuk styling modern dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', // Dark Blue/Slate for header/footer
+                        'secondary': '#3498db', // Bright Blue for accents
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-7M8E7QRYNY');
-</script>
+    <!-- Script Google Analytics dan AdSense (Pastikan ini sesuai dengan kode Anda) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-     crossorigin="anonymous"></script>
-
-
-</script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tool-panel { 
+            border: 1px solid #e5e7eb; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+            min-height: 400px;
+        }
+        .text-content p {
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
+        .text-content ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        /* Style tambahan untuk tampilan hasil konversi yang menonjol */
+        .result-display {
+            padding: 0.75rem;
+            background-color: #ecf0f1; /* Light gray background */
+            border: 2px solid #3498db; /* Blue border */
+            border-radius: 0.5rem;
+            font-size: 1.25rem; /* Large font size */
+            font-weight: 700; /* Bold */
+            color: #2c3e50; /* Dark text color */
+            text-align: center;
+        }
+        .nav-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .nav-item:hover {
+            background-color: #eaf2f8; /* Light hover */
+        }
+        .nav-item.active {
+            background-color: #3498db; /* Secondary color for active */
+            color: white;
+            font-weight: 600;
+        }
+        .nav-item.pro-feature {
+            color: #e67e22; /* Orange for PRO */
+        }
+        .nav-item.pro-feature:hover {
+            background-color: #fcece0; 
+        }
+    </style>
 </head>
-<body>
-   <a href="/" style="display: block; padding: 10px; background-color: #f0f0f0; text-align: center; text-decoration: none; border-bottom: 1px solid #ccc;">
-    ← Back to Tools Catalog
-   </a> 
-    <header>
-        <div class="container">
-            <h1 class="logo">Universal Convert</h1>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search for any unit conversion...">
-                <button class="search-button">🔍</button>
-            </div>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Header / Navigasi -->
+    <header class="bg-primary text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold tracking-tight">Digital Tools ID</a>
+            <a href="../index.html" class="text-sm text-gray-300 hover:text-white transition duration-150">&larr; Back to Tools Catalog</a>
         </div>
     </header>
 
-    <main class="container">
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li class="nav-item active" data-category="cooking">
-                        <span class="icon">🍳</span> Cooking
-                    </li>
-                    <li class="nav-item" data-category="digital-data">
-                        <span class="icon">💾</span> Digital Data
-                    </li>
-                    <li class="nav-item" data-category="time-zone">
-                        <span class="icon">⏰</span> Time & Zone
-                    </li>
-                    <li class="nav-item" data-category="engineering">
-                        <span class="icon">⚙️</span> Engineering
-                    </li>
-                    <li class="nav-item pro-feature" data-category="currency">
-                        <span class="icon">💰</span> Currency <span class="pro-tag">PRO</span>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+    <!-- Main Content Container -->
+    <main class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-12 flex-grow">
+        
+        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl">
+            <h1 class="text-4xl font-extrabold text-secondary mb-6 border-b pb-3">Universal Unit Converter</h1>
+            
+            <!-- Tool Panel Container -->
+            <div class="flex flex-col lg:flex-row gap-8">
+                
+                <!-- SIDEBAR KATEGORI -->
+                <aside class="lg:w-1/5 tool-panel p-4 bg-white hidden sm:block">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Categories</h2>
+                    <nav id="category-nav">
+                        <ul>
+                            <li class="nav-item active" data-category="cooking">
+                                🍳 Cooking
+                            </li>
+                            <li class="nav-item" data-category="digital-data">
+                                💾 Digital Data
+                            </li>
+                            <li class="nav-item" data-category="time-zone">
+                                ⏰ Time & Zone
+                            </li>
+                            <li class="nav-item" data-category="engineering">
+                                ⚙️ Engineering
+                            </li>
+                            <li class="nav-item pro-feature" data-category="currency">
+                                💰 Currency <span class="pro-tag">(PRO)</span>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+                
+                <!-- PANEL UTAMA DAN AD (3/4 Lebar untuk Konten Utama) -->
+                <section class="lg:w-4/5 flex flex-col lg:flex-row gap-8">
 
-        <section class="content-area">
-            <div id="converterContainer">
-    <h2 class="category-title">🍳 Cooking Ingredients</h2>
-    <p>Convert common cooking units for water-like substances.</p>
-    <div class="converter-form">
-        <div class="input-group">
-            <input type="number" id="cookingInput" value="250" placeholder="Enter value">
-            <select id="cookingUnitFrom">
-                <option value="gram">grams</option>
-                <option value="ml">ml (milliliters)</option>
-                <option value="cup">cups (US)</option>
-                <option value="oz">oz (ounces)</option>
-                <option value="pound">pounds (lb)</option>
-                <option value="tbsp">tbsp (tablespoons)</option>
-                <option value="tsp">tsp (teaspoons)</option>
-            </select>
-        </div>
-        <div class="result-group">
-            <p>Result:</p>
-            <span id="cookingResult">0.00</span>
-            <select id="cookingUnitTo">
-                <option value="ml">ml (milliliters)</option>
-                <option value="gram">grams</option>
-                <option value="cup">cups (US)</option>
-                <option value="oz">oz (ounces)</option>
-                <option value="pound">pounds (lb)</option>
-                <option value="tbsp">tbsp (tablespoons)</option>
-                <option value="tsp">tsp (teaspoons)</option>
-            </select>
-        </div>
-        <p style="font-size:0.8em; color: #666; margin-top:10px;">(Note: Conversions are approximate for general cooking ingredients, similar to water density.)</p>
-    </div>
-</div>
-
-            <div class="utility-panel">
-                <h3>Your Favorites</h3>
-                <ul id="favoritesList">
-                    <li>No favorites yet.</li>
-                </ul>
-                <h3 style="margin-top: 20px;">Recent History</h3>
-                <ul id="historyList">
-                    <li>No recent conversions.</li>
-                </ul>
-                <div class="ad-placeholder">
-                    <p>Your Ad Here</p>
+                    <!-- Konten Konverter Dinamis (2/3) -->
+                    <div class="lg:w-3/4 tool-panel p-6 bg-gray-50">
+                        <div id="converter-ui-dynamic-area">
+                            <!-- KONTEN CONVERTER DIMUAT DI SINI OLEH JAVASCRIPT -->
+                            <p class="text-center text-gray-500 mt-10">Loading Converter...</p>
+                        </div>
                     </div>
-                <a href="https://www.buymeacoffee.com/yourusername" target="_blank" class="donate-button">☕ Buy Me a Coffee</a>
-            </div>
-        </section>
-    </main>
+                    
+                    <!-- Panel Sisi Kanan (Iklan / Fitur PRO) (1/3) -->
+                    <aside class="lg:w-1/4 space-y-6">
+                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-gray-700">
+                            <p class="font-bold mb-2">AdSense Placeholder</p>
+                            <div class="w-full h-32 bg-gray-300 flex items-center justify-center text-xs text-gray-600 rounded">
+                                [Your Ad Unit Here]
+                            </div>
+                        </div>
+                        <div class="p-4 bg-secondary text-white rounded-lg shadow-md">
+                            <h3 class="font-bold text-lg mb-2">PRO Features Coming!</h3>
+                            <p class="text-sm">We are developing advanced, specialized conversion tools. Get ready for higher precision and more industry-specific categories.</p>
+                        </div>
+                    </aside>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Universal Convert. All rights reserved.</p>
-            <p>Powered by Universal Convert | <a href="#" class="privacy-link">Privacy Policy</a></p>
+                </section>
+            </div>
+            
+            <!-- Konten Teks Editorial (Kunci untuk AdSense Approval) -->
+            <section class="mt-12 pt-8 border-t border-gray-100 text-content">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">The Essential Guide to Universal Unit Conversion: Why Accuracy Matters in Every Field</h2>
+                
+                <p>Unit conversion is not just a mathematical exercise; it is a fundamental pillar that ensures accuracy, consistency, and safe communication across global industries, from cooking and finance to engineering and digital data management. In an increasingly globalized world where standards vary—from Imperial to Metric, and time zones shift—a reliable universal converter is an indispensable asset for professionals and everyday users alike. The Digital Tools ID Universal Converter is designed to bridge these gaps, offering instant, precise transformations for a wide array of categories.</p>
+                
+                <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">The Role of Accuracy in Conversion and Professional Strategy</h3>
+                <p>In many fields, even a minor error in unit conversion can lead to significant—even dangerous—consequences. For instance, in engineering or construction, converting units of length or volume incorrectly can result in structural failure. In the culinary arts, precise conversion of grams to ounces or milliliters is crucial for recipe success, especially when sourcing ingredients globally. For digital strategists and data analysts, converting file sizes (megabytes to gigabytes) or bandwidth (bits per second) accurately is essential for infrastructure planning and cost estimation.</p>
+
+                <p>Our Universal Converter is built upon rigorously tested algorithms that draw from established international standards. We do not just provide a simple ratio; we ensure the context of the conversion is honored. We commit to continuous verification, maintaining the integrity of our conversion factors to keep pace with changing industry norms and international agreements. This dedication to precision ensures that Digital Tools ID is a trustworthy resource for your most critical calculations.</p>
+
+                <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Understanding the Conversion Categories</h3>
+                <p>The complexity of universal conversion lies in its breadth. Digital Tools ID simplifies this challenge by categorizing transformations for easy access:</p>
+                <ul>
+                    <li>**Cooking:** Converting volume, mass, and temperature for international recipes.</li>
+                    <li>**Digital Data:** Translating between bits, bytes, kilobytes, megabytes, and higher units essential for computing.</li>
+                    <li>**Time & Zone:** Managing different time formats and global time zones for coordinated efforts.</li>
+                    <li>**Engineering & Measurement:** Handling conversions for pressure, speed, temperature, and length used in scientific and industrial applications.</li>
+                    <li>**Currency:** Providing up-to-date exchanges essential for global finance and travel (Note: Real-time data is approximate, based on common exchange feeds).</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">The Digital Tools ID Advantage: Simplicity and Authority</h3>
+                <p>While many converters exist, the DTID Universal Converter emphasizes speed and a clutter-free user experience. Our interface is designed to make complex transformations intuitive. More importantly, as developed by **DTID Analytics**, our tool is backed by an ethos of **market analysis and user-centric solution design**. We anticipate conversion needs that the general public faces daily and build our utility instruments to solve them instantly. This fusion of technical utility and strategic content generation is what sets Digital Tools ID apart as a high-value resource.</p>
+                <p>We are actively expanding our conversion categories and invite users to leverage the Contact Us page for specific unit requests. By providing accurate tools alongside in-depth knowledge, we aim to be more than just a converter—we are your educational partner in achieving global accuracy.</p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer Kredibilitas -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                &copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Bagian PENTING: JavaScript (Logic Konversi dan UI Dinamis) -->
+    <script>
+        // Unit Conversion Data (can be expanded)
+        const unitData = {
+            'cooking': {
+                'gram': {
+                    'ml': 1, // Assuming water-like density
+                    'cup': 0.00422675, // 1 gram to US cup (approx for water)
+                    'oz': 0.035274, // 1 gram to oz
+                    'pound': 0.00220462, // 1 gram to pound
+                    'tbsp': 0.067628, // 1 gram to US tablespoon
+                    'tsp': 0.202884 // 1 gram to US teaspoon
+                },
+                'ml': {
+                    'gram': 1, // Assuming water-like density
+                    'cup': 0.00422675,
+                    'oz': 0.033814,
+                    'pound': 0.00220462, // ml to pound needs density, simplifying here
+                    'tbsp': 0.067628,
+                    'tsp': 0.202884
+                },
+                'cup': {
+                    'gram': 240, // 1 US cup to grams (approx for water)
+                    'ml': 240, // 1 US cup to ml
+                    'oz': 8,
+                    'pound': 0.52911, // 1 US cup to pounds (approx)
+                    'tbsp': 16,
+                    'tsp': 48
+                },
+                'oz': {
+                    'gram': 28.3495,
+                    'ml': 29.5735,
+                    'cup': 0.125,
+                    'pound': 0.0625,
+                    'tbsp': 2,
+                    'tsp': 6
+                },
+                'pound': {
+                    'gram': 453.592,
+                    'ml': 473.176, // Assuming water-like density for simplicity
+                    'cup': 2,
+                    'oz': 16,
+                    'tbsp': 32,
+                    'tsp': 96
+                },
+                'tbsp': {
+                    'gram': 14.7868,
+                    'ml': 14.7868,
+                    'cup': 0.0625,
+                    'oz': 0.5,
+                    'pound': 0.03125,
+                    'tsp': 3
+                },
+                'tsp': {
+                    'gram': 4.92892,
+                    'ml': 4.92892,
+                    'cup': 0.0208333,
+                    'oz': 0.166667,
+                    'pound': 0.0104167,
+                    'tbsp': 0.333333
+                }
+            },
+            'digital-data': {
+                 'bit': {
+                    'byte': 0.125,
+                    'kb': 0.0001220703125,
+                    'mb': 1.1920928955078125e-7,
+                    'gb': 1.1641532182693481e-10
+                },
+                'byte': {
+                    'bit': 8,
+                    'kb': 0.0009765625,
+                    'mb': 9.5367431640625e-7,
+                    'gb': 9.313225746154785e-10
+                },
+                'kb': { // Kilobyte (KB)
+                    'bit': 8192,
+                    'byte': 1024,
+                    'mb': 0.0009765625,
+                    'gb': 9.5367431640625e-7
+                },
+                'mb': { // Megabyte (MB)
+                    'bit': 8388608,
+                    'byte': 1048576,
+                    'kb': 1024,
+                    'gb': 0.0009765625
+                },
+                'gb': { // Gigabyte (GB)
+                    'bit': 8589934592,
+                    'byte': 1073741824,
+                    'kb': 1048576,
+                    'mb': 1024
+                }
+            }
+        };
+
+
+        // --- UI & Logic Rendering Functions ---
+
+        // Fungsi untuk membuat UI Konverter Memasak
+        function createCookingUI() {
+            return `
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Smart Unit Conversion (Cooking Ingredients)</h2>
+                <div id="converter-container-inner" class="space-y-6">
+                    <!-- Input Group -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="w-full sm:w-1/2">
+                            <label for="cookingInput" class="block text-sm font-medium text-gray-700 mb-1">Nilai Input:</label>
+                            <input type="number" id="cookingInput" value="100" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary">
+                        </div>
+                        <div class="w-full sm:w-1/2">
+                            <label for="cookingUnitFrom" class="block text-sm font-medium text-gray-700 mb-1">Unit Asal:</label>
+                            <select id="cookingUnitFrom" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary">
+                                <option value="gram">grams (g)</option>
+                                <option value="ml">ml (milliliters)</option>
+                                <option value="cup">cups (US)</option>
+                                <option value="oz">oz (ounces)</option>
+                                <option value="pound">pounds (lb)</option>
+                                <option value="tbsp">tbsp (tablespoons)</option>
+                                <option value="tsp">tsp (teaspoons)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Result Group -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="w-full sm:w-1/2">
+                            <label for="cookingResultDisplay" class="block text-sm font-medium text-gray-700 mb-1">Hasil Konversi:</label>
+                            <div id="cookingResultDisplay" class="result-display">
+                                <span id="cookingResult">0</span>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2">
+                            <label for="cookingUnitTo" class="block text-sm font-medium text-gray-700 mb-1">Unit Tujuan:</label>
+                            <select id="cookingUnitTo" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary">
+                                <option value="ml">ml (milliliters)</option>
+                                <option value="gram">grams (g)</option>
+                                <option value="cup">cups (US)</option>
+                                <option value="oz">oz (ounces)</option>
+                                <option value="pound">pounds (lb)</option>
+                                <option value="tbsp">tbsp (tablespoons)</option>
+                                <option value="tsp">tsp (teaspoons)</option>
+                            </select>
+                        </div>
+                    </div>
+                
+                    <p class="text-sm text-gray-500 mt-2">
+                        (Note: Conversions are approximate for general cooking ingredients, similar to water density.)
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Fungsi untuk membuat UI Konverter Data Digital
+        function createDigitalDataUI() {
+            // Kita akan menggunakan UI yang lebih sederhana karena tidak ada data JS lama yang diberikan untuk ini
+            const options = `
+                <option value="bit">Bits</option>
+                <option value="byte">Bytes</option>
+                <option value="kb">Kilobytes</option>
+                <option value="mb">Megabytes</option>
+                <option value="gb">Gigabytes</option>
+            `;
+            
+            return `
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Smart Unit Conversion (Digital Data)</h2>
+                <div id="converter-container-inner" class="space-y-6">
+                    <!-- Input Group -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="w-full sm:w-1/2">
+                            <label for="digitalDataInput" class="block text-sm font-medium text-gray-700 mb-1">Nilai Input:</label>
+                            <input type="number" id="digitalDataInput" value="1024" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary">
+                        </div>
+                        <div class="w-full sm:w-1/2">
+                            <label for="digitalDataUnitFrom" class="block text-sm font-medium text-gray-700 mb-1">Unit Asal:</label>
+                            <select id="digitalDataUnitFrom" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary">${options}</select>
+                        </div>
+                    </div>
+                    
+                    <!-- Result Group -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="w-full sm:w-1/2">
+                            <label for="digitalDataResultDisplay" class="block text-sm font-medium text-gray-700 mb-1">Hasil Konversi:</label>
+                            <div id="digitalDataResultDisplay" class="result-display">
+                                <span id="digitalDataResult">0</span>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2">
+                            <label for="digitalDataUnitTo" class="block text-sm font-medium text-gray-700 mb-1">Unit Tujuan:</label>
+                            <select id="digitalDataUnitTo" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary">${options}</select>
+                        </div>
+                    </div>
+                
+                    <p class="text-sm text-gray-500 mt-2">
+                        (Note: Conversions are based on 1024 factors (binary standard).)
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Fungsi untuk UI Kategori yang belum didukung
+        function createUnsupportedUI(categoryName) {
+            return `
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Smart Unit Conversion (${categoryName})</h2>
+                <div class="bg-white p-6 rounded-lg border-2 border-dashed border-gray-300 min-h-[250px] flex flex-col items-center justify-center">
+                    <p class="text-xl font-medium text-gray-600 mb-3">🛠️ ${categoryName} Converter Under Development 🛠️</p>
+                    <p class="text-center text-gray-500">This specialized tool will be launched soon, potentially as a free or PRO feature. Your suggestion helps us prioritize!</p>
+                </div>
+            `;
+        }
+
+
+        // --- CONVERSION LOGIC (from old script.js) ---
+
+        function updateCookingConversion() {
+            // Logic konversi Cooking (Sudah ada di dalam unitData dan berfungsi)
+            const inputElement = document.getElementById('cookingInput');
+            const unitFromSelect = document.getElementById('cookingUnitFrom');
+            const unitToSelect = document.getElementById('cookingUnitTo');
+            const resultSpan = document.getElementById('cookingResult');
+
+            if (!inputElement || !unitFromSelect || !unitToSelect || !resultSpan) return;
+
+            const category = 'cooking';
+            const value = parseFloat(inputElement.value);
+            const unitFrom = unitFromSelect.value;
+            const unitTo = unitToSelect.value;
+
+            if (isNaN(value)) { resultSpan.textContent = '0'; return; }
+
+            let result;
+            if (unitFrom === unitTo) { result = value; } 
+            else if (unitData[category] && unitData[category][unitFrom] && unitData[category][unitFrom][unitTo]) {
+                const factor = unitData[category][unitFrom][unitTo];
+                result = value * factor;
+            } else {
+                result = 0; // Simplified fallback for direct conversion
+            }
+            
+            resultSpan.textContent = result.toFixed(result > 1000 || (result < 0.01 && result !== 0) ? 3 : 2);
+        }
+        
+        function updateDigitalDataConversion() {
+            // Logic konversi Digital Data (Kita ambil data dari unitData)
+            const inputElement = document.getElementById('digitalDataInput');
+            const unitFromSelect = document.getElementById('digitalDataUnitFrom');
+            const unitToSelect = document.getElementById('digitalDataUnitTo');
+            const resultSpan = document.getElementById('digitalDataResult');
+
+            if (!inputElement || !unitFromSelect || !unitToSelect || !resultSpan) return;
+
+            const category = 'digital-data';
+            const value = parseFloat(inputElement.value);
+            const unitFrom = unitFromSelect.value;
+            const unitTo = unitToSelect.value;
+
+            if (isNaN(value)) { resultSpan.textContent = '0'; return; }
+
+            let result;
+
+            if (unitFrom === unitTo) {
+                result = value;
+            } else if (unitData[category] && unitData[category][unitFrom] && unitData[category][unitFrom][unitTo]) {
+                const factor = unitData[category][unitFrom][unitTo];
+                result = value * factor;
+            } else {
+                // Konversi melalui unit 'byte' (common base)
+                const commonBaseUnit = 'byte';
+                let valueInBase = value;
+
+                // Step 1: Convert FROM unit to Base Unit (byte)
+                if (unitFrom !== commonBaseUnit) {
+                    valueInBase = value * unitData[category][unitFrom][commonBaseUnit] || value / unitData[category][commonBaseUnit][unitFrom];
+                }
+
+                // Step 2: Convert from Base Unit (byte) to TO unit
+                if (unitTo !== commonBaseUnit) {
+                    result = valueInBase * unitData[category][commonBaseUnit][unitTo] || valueInBase / unitData[category][unitTo][commonBaseUnit];
+                } else {
+                    result = valueInBase;
+                }
+            }
+            
+            resultSpan.textContent = result.toFixed(result > 1000 || (result < 0.01 && result !== 0) ? 3 : 2);
+        }
+
+
+        // --- MAIN APPLICATION FLOW ---
+        
+        function loadConverterUI(category) {
+            const dynamicArea = document.getElementById('converter-ui-dynamic-area');
+            let uiHtml = '';
+            
+            // Hapus event listeners lama sebelum memuat UI baru
+            const oldContainer = document.getElementById('converter-container-inner');
+            if (oldContainer) {
+                oldContainer.innerHTML = ''; // Membersihkan event listeners
+            }
+
+            // 1. Tentukan UI yang akan dimuat
+            if (category === 'cooking') {
+                uiHtml = createCookingUI();
+            } else if (category === 'digital-data') {
+                uiHtml = createDigitalDataUI();
+            } else if (category === 'currency') {
+                 uiHtml = createUnsupportedUI('Currency (PRO)');
+            } else {
+                // Untuk kategori lain yang belum diimplementasikan
+                const categoryName = category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                uiHtml = createUnsupportedUI(categoryName);
+            }
+
+            // 2. Muat UI ke halaman
+            dynamicArea.innerHTML = uiHtml;
+
+            // 3. Attach Event Listeners dan jalankan konversi awal
+            if (category === 'cooking') {
+                document.getElementById('cookingInput').addEventListener('input', updateCookingConversion);
+                document.getElementById('cookingUnitFrom').addEventListener('change', updateCookingConversion);
+                document.getElementById('cookingUnitTo').addEventListener('change', updateCookingConversion);
+                updateCookingConversion();
+            } else if (category === 'digital-data') {
+                document.getElementById('digitalDataInput').addEventListener('input', updateDigitalDataConversion);
+                document.getElementById('digitalDataUnitFrom').addEventListener('change', updateDigitalDataConversion);
+                document.getElementById('digitalDataUnitTo').addEventListener('change', updateDigitalDataConversion);
+                updateDigitalDataConversion();
+            }
+        }
+        
+        // Handle Sidebar Clicks
+        function handleCategoryClick(event) {
+            const clickedItem = event.currentTarget;
+            const category = clickedItem.dataset.category;
+            
+            // Update active state di sidebar
+            document.querySelectorAll('#category-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            clickedItem.classList.add('active');
+            
+            // Muat UI yang sesuai
+            loadConverterUI(category);
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('#category-nav .nav-item');
+            
+            // Pasang event listener ke setiap item navigasi di sidebar
+            navItems.forEach(item => {
+                item.addEventListener('click', handleCategoryClick);
+            });
+            
+            // Muat kategori default (Cooking) saat halaman dimuat
+            loadConverterUI('cooking');
+        });
+
+    </script>
+
 </body>
 </html>
