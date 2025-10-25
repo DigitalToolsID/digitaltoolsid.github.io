@@ -2,57 +2,353 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Calculator Online</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <link rel="stylesheet" href="style.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator Online - Digital Tools ID</title>
+    
+    <!-- Load Tailwind CSS untuk styling modern dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', // Dark Blue/Slate for header/footer
+                        'secondary': '#3498db', // Bright Blue for accents
+                    }
+                }
+            }
+        }
+    </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-7M8E7QRYNY');
-</script>
+    <!-- Script Google Analytics dan AdSense (Pastikan ini sesuai dengan kode Anda) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-     crossorigin="anonymous"></script>
-</head>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f4f4; }
+        .calculator-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        #calculator {
+            /* Badan Kalkulator SANGAT GELAP */
+            background-color: #181a1c; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            width: 300px; /* Lebar default Desktop */
+            margin-bottom: 30px;
+        }
+        #display {
+            width: 100%;
+            height: 60px;
+            border: none;
+            background-color: #444;
+            color: white;
+            font-size: 2em;
+            text-align: right;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        #keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        button {
+            height: 50px;
+            font-size: 1.2em;
+            
+            /* Hapus Box Shadow, Ganti dengan Border Ringan */
+            border: 1px solid #7f8f9e; /* Border Abu-abu Ringan */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.1s;
+            
+            /* STYLING TOMBOL ANGKA (DEFAULT) */
+            background-color: #333f48; /* Warna Abu-abu Sedang */
+            color: white !important; /* Teks PUTIH DIPAKSA */
+        }
+        button:active {
+             transform: translateY(1px);
+             box-shadow: none; /* Hilangkan shadow saat ditekan */
+        }
 
-<body>
-    <div class="nav-back">
-        <a href="/">← Back to Tools Catalog</a>
-    </div>
-
-    <div id="calculator"> 
-        <input type="text" id="display" readonly value="0">
+        /* Operator buttons (Orange, Blue, Red, Green) */
         
-        <div id="keys">
-            <button class="operator" onclick="clearDisplay()">C</button>
-            <button class="operator" onclick="appendToDisplay('/')">/</button>
-            <button class="operator" onclick="appendToDisplay('*')">*</button>
-            <button class="operator" onclick="copyResult()">COPY</button>
+        /* Tombol C dan / * - + */
+        .operator { 
+            background-color: #ff9800 !important; /* Orange */
+            color: white !important;
+        }
+        .operator:hover { background-color: #f57c00 !important; }
+        
+        /* Tombol DEL */
+        .del-btn { 
+            background-color: #e74c3c !important; /* Red */
+            color: white !important;
+        }
+        .del-btn:hover { background-color: #c0392b !important; }
+        
+        /* Tombol COPY */
+        .copy-btn { 
+            background-color: #3498db !important; /* Blue */
+            color: white !important;
+        }
+        .copy-btn:hover { background-color: #2980b9 !important; }
 
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button class="operator" onclick="appendToDisplay('-')">-</button>
+        /* Tombol Equal (=) */
+        #calculate-btn { 
+            grid-column: span 2; 
+            background-color: #4CAF50 !important; /* Green */
+            color: white !important;
+        }
+        #calculate-btn:hover { background-color: #45a049 !important; }
+        
+        /* Pastikan elemen non-tombol kalkulator tetap terlihat baik */
+        .text-content p {
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
+        
+        /* ======================================================
+           MEDIA QUERY untuk Responsif Seluler 
+           ====================================================== */
+        @media (max-width: 450px) {
+            #calculator {
+                width: 90vw; 
+                max-width: none;
+                padding: 15px; 
+            }
+            button {
+                height: 70px;
+                font-size: 1.4em;
+            }
+            #display {
+                height: 70px;
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
 
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button class="operator" onclick="appendToDisplay('+')">+</button>
-
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="deleteLast()">DEL</button> 
-
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button id="calculate-btn" onclick="calculate()">=</button>
+    <!-- Header / Navigasi -->
+    <header class="bg-primary text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold tracking-tight">Digital Tools ID</a>
+            <a href="../index.html" class="text-sm text-gray-300 hover:text-white transition duration-150">&larr; Back to Tools Catalog</a>
         </div>
-    </div>
+    </header>
 
-    <script src="script.js"></script>
+    <!-- Main Content Container -->
+    <main class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-12 flex-grow">
+        
+        <div class="calculator-container mx-auto max-w-2xl"> 
+            
+            <h1 class="text-3xl font-extrabold text-secondary mb-6 text-center">Simple Calculator Online</h1>
+
+            <!-- Kalkulator UI -->
+            <div id="calculator"> 
+                <input type="text" id="display" readonly value="0">
+                
+                <div id="keys">
+                    <!-- Tombol C dan Operator -->
+                    <button class="operator" onclick="clearDisplay()">C</button>
+                    <button class="operator" onclick="appendToDisplay('/')">/</button>
+                    <button class="operator" onclick="appendToDisplay('*')">*</button>
+                    <button class="copy-btn" onclick="copyResult()">COPY</button>
+
+                    <!-- Baris 7, 8, 9 -->
+                    <button onclick="appendToDisplay('7')">7</button>
+                    <button onclick="appendToDisplay('8')">8</button>
+                    <button onclick="appendToDisplay('9')">9</button>
+                    <button class="operator" onclick="appendToDisplay('-')">-</button>
+
+                    <!-- Baris 4, 5, 6 -->
+                    <button onclick="appendToDisplay('4')">4</button>
+                    <button onclick="appendToDisplay('5')">5</button>
+                    <button onclick="appendToDisplay('6')">6</button>
+                    <button class="operator" onclick="appendToDisplay('+')">+</button>
+
+                    <!-- Baris 1, 2, 3 -->
+                    <button onclick="appendToDisplay('1')">1</button>
+                    <button onclick="appendToDisplay('2')">2</button>
+                    <button onclick="appendToDisplay('3')">3</button>
+                    <button class="del-btn" onclick="deleteLast()">DEL</button> 
+
+                    <!-- Baris 0 dan Equal -->
+                    <button onclick="appendToDisplay('0')">0</button>
+                    <button onclick="appendToDisplay('.')">.</button>
+                    <button id="calculate-btn" onclick="calculate()">=</button>
+                </div>
+            </div>
+
+            <!-- AdSense Placeholder di Bawah Kalkulator -->
+            <div class="w-full max-w-xs sm:max-w-md p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-gray-700 text-center mb-10">
+                <p class="font-bold mb-2">AdSense Placeholder (Display Ad)</p>
+                <div class="w-full h-24 bg-gray-300 flex items-center justify-center text-xs text-gray-600 rounded">
+                    [Your Ad Unit Here]
+                </div>
+            </div>
+
+            <!-- Konten Teks Editorial (Kunci untuk AdSense Approval) -->
+            <section class="mt-8 pt-8 border-t border-gray-100 text-content max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">The Power of Simplicity: Why a Fast, Reliable Online Calculator is Essential for Daily Life</h2>
+                
+                <p>In the age of complex software and scientific instruments, the fundamental need for quick, accurate arithmetic remains constant. While powerful financial and scientific calculators are necessary for specialized tasks, the average user primarily requires a tool that is fast, highly reliable, and free from unnecessary complexity. The Digital Tools ID Simple Calculator is engineered precisely for this purpose: to deliver instant, ad-friendly solutions for basic arithmetic that support daily tasks, from budget planning and quick estimates to educational support.</p>
+
+                <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Beyond the Basics: The Importance of a Focused Tool</h3>
+                <p>Many modern calculators are bogged down by advanced functions, leading to cluttered interfaces and slower operation. Our Simple Calculator philosophy centers on *functional minimalism*. By focusing exclusively on addition, subtraction, multiplication, and division, we guarantee exceptional speed and prevent user errors caused by complex input modes. This specialized focus ensures that when speed and accuracy for everyday numbers matter most—whether you are splitting a bill, calculating percentages, or verifying quick sums—the DTID calculator performs optimally.</p>
+
+                <p>Developed by **DTID Analytics**, our Simple Calculator adheres to rigorous testing standards. We ensure the mathematical logic operates consistently across all devices, guaranteeing that the results you receive are trustworthy. Our commitment to maintaining this tool means it remains free from bugs and delivers the reliability expected by professionals and students alike. This emphasis on foundational reliability, supported by our technical assurance, builds the *Expertise* and *Trust* that defines Digital Tools ID.</p>
+
+                <h3 class="2xl font-semibold text-gray-700 mt-6 mb-3">Integrating Speed and User Experience (UX)</h3>
+                <p>The Simple Calculator is designed to integrate seamlessly into a productive workflow. Features like the 'COPY' function are implemented to save users time, allowing results to be quickly transferred to spreadsheets or documents without manual transcription. The interface utilizes a clean, high-contrast design, making it highly legible even on mobile devices. This attention to UX is paramount, turning a basic utility into a high-value daily asset.</p>
+
+                <h3 class="2xl font-semibold text-gray-700 mt-6 mb-3">A Foundational Tool for Future Growth</h3>
+                <p>The Simple Calculator serves as the foundational utility within the broader Digital Tools ID ecosystem. We are committed to continuous development, with plans to introduce related **PRO** features (such as advanced graphing or specialized financial modules) in the future. By maintaining the core simplicity of this tool, we ensure that our users always have a quick, reliable starting point, demonstrating our long-term commitment to providing diverse and high-value utilities for global users.</p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer Kredibilitas -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                &copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bagian PENTING: JavaScript Kalkulator (Final) -->
+    <script>
+        // Mendapatkan elemen display
+        const display = document.getElementById('display');
+
+        // Variabel untuk menyimpan perhitungan
+        let currentInput = '0';
+        let operator = null;
+        let previousInput = null;
+
+        // Memastikan display selalu diperbarui
+        function updateDisplay() {
+            display.value = currentInput;
+        }
+
+        // 1. Fungsi untuk menambahkan nilai ke display
+        function appendToDisplay(value) {
+            // Memastikan input pertama setelah '0' menggantikan '0'
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else if (value === '.' && currentInput.includes('.')) {
+                // Mencegah dua titik desimal
+                return;
+            } else {
+                currentInput += value;
+            }
+            updateDisplay();
+        }
+
+        // 2. Fungsi untuk menghapus display (C)
+        function clearDisplay() {
+            currentInput = '0';
+            operator = null;
+            previousInput = null;
+            updateDisplay();
+        }
+
+        // 3. Fungsi untuk menghapus karakter terakhir (DEL)
+        function deleteLast() {
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            updateDisplay();
+        }
+
+        // 4. Fungsi untuk melakukan perhitungan
+        function calculate() {
+            try {
+                // Membersihkan string input: memastikan operator dan titik desimal tidak ganda/di akhir
+                let expression = currentInput.replace(/--/g, '+');
+                
+                // Menggunakan eval() untuk perhitungan sederhana
+                let result = eval(expression);
+                
+                // Memformat hasil
+                currentInput = result.toString();
+                
+            } catch (e) {
+                currentInput = "Error";
+            }
+            updateDisplay();
+        }
+
+        // 5. FINAL FIX: Fungsi untuk menyalin hasil ke clipboard (COPY)
+        function copyResult() {
+            const displayElement = document.getElementById('display');
+            
+            // Perbaikan: Paksa elemen display menjadi dapat dipilih (select)
+            displayElement.select();
+            
+            // Coba metode execCommand yang paling sering bekerja di lingkungan lokal/iFrame
+            try {
+                const successful = document.execCommand('copy');
+                // Optional: Feedback visual if successful is not needed here, 
+                // but if using alert/modal, this is where you'd confirm.
+            } catch (err) {
+                // Fallback jika gagal (misalnya, jika select() di input readonly gagal)
+                fallbackCopyTextToClipboard(displayElement.value);
+            }
+        }
+        
+        // Fungsi Fallback untuk iFrame/legacy browser (jika select() gagal)
+        function fallbackCopyTextToClipboard(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
+
+        // Inisialisasi display saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', updateDisplay);
+
+    </script>
 </body>
 </html>
