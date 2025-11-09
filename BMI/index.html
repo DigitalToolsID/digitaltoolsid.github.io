@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="appTitle">Kalkulator Analisis Kesehatan (IMT & BMR/TDEE)</title>
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1e3a8a"> <link rel="apple-touch-icon" href="/icon-192.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'toggle-bg': '#e5e7eb',
+                        'slider-color': '#2c3e50', 
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya kustom untuk tampilan hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 1200px; 
+            padding: 1.5rem; 
+        }
+        
+        /* Gaya untuk tabel klasifikasi */
+        .classification-table th, .classification-table td {
+            padding: 0.5rem 1rem;
+            text-align: left;
+        }
+
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya untuk banner PWA */
+        #pwaBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            height: 70px;
+        }
+        #pwaBanner.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tabs Style */
+        .tab-button.active {
+            border-color: #1e3a8a;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        /* Padding untuk PWA banner */
+        @media (max-width: 767px) {
+            body.pwa-visible {
+                padding-bottom: 70px; 
+            }
+        }
+
+        /* Tambahkan gaya khusus untuk daftar poin agar lebih rapi */
+        .action-list {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .action-list li {
+            margin-bottom: 0.25rem;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+            </div>
+    </header>
+
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Body Mass Index (BMI) & Calorie Analyzer</h1>
+            
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+                Complete Health Analysis: Calculate your BMI, BMR, & Calorie Needs to receive an accurate guide for reaching your ideal weight.
+            </p>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative">
+                        <label for="weightInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelWeight">Weight (kg)</label>
+                        <input type="number" id="weightInput" placeholder="E.g.: 70" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                    </div>
+                    
+                    <div class="relative">
+                        <label for="heightInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelHeight">Height (cm)</label>
+                        <input type="number" id="heightInput" placeholder="E.g.: 175" step="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative">
+                        <label for="ageInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelAge">Age (Years)</label>
+                        <input type="number" id="ageInput" placeholder="E.g.: 30" step="1" min="1" max="100" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                    </div>
+                    
+                    <div class="relative">
+                        <label for="genderSelect" class="block text-sm font-medium text-gray-700 mb-1" id="labelGender">Gender</label>
+                        <select id="genderSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150 appearance-none bg-white">
+                            <option value="male" id="genderMale">Male</option>
+                            <option value="female" id="genderFemale">Female</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400 mt-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <label for="activitySelect" class="block text-sm font-medium text-gray-700 mb-1" id="labelActivity">Activity Level (TDEE)</label>
+                    <select id="activitySelect" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150 appearance-none bg-white">
+                        <option value="1.2" id="activitySedentary">Sedentary (Little or no exercise)</option>
+                        <option value="1.375" id="activityLight">Lightly Active (1-3 days/week)</option>
+                        <option value="1.55" id="activityModerate">Moderately Active (3-5 days/week)</option>
+                        <option value="1.725" id="activityVery">Very Active (6-7 days/week)</option>
+                        <option value="1.9" id="activityExtra">Extra Active (Hard daily exercise)</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400 mt-5" xmlns="http://www.w3d.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+
+                <button id="calculateButton" onclick="calculateFullHealthMetrics()" class="w-full bg-secondary text-white font-semibold py-3 rounded-xl shadow-md hover:bg-primary transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50">
+                    Calculate BMI & Calories
+                </button>
+                
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
+            </div>
+
+            <div id="resultBox" class="result-box mt-6 bg-secondary/5 border border-secondary/30 rounded-xl shadow-lg">
+                
+                <div class="flex border-b border-gray-300 mb-4 -mx-3 px-3">
+                    <button id="tabBmi" onclick="setActiveTab('bmi')" class="tab-button active flex-1 py-2 text-sm text-gray-500 border-b-2 border-transparent hover:border-secondary transition duration-150 ease-in-out">BMI Result</button>
+                    <button id="tabAnalysis" onclick="setActiveTab('analysis')" class="tab-button flex-1 py-2 text-sm text-gray-500 border-b-2 border-transparent hover:border-secondary transition duration-150 ease-in-out">Health Analysis</button>
+                </div>
+
+                <div id="contentBmi" class="tab-content">
+                    <div class="grid grid-cols-2 gap-4 border-b pb-4 mb-4">
+                        <div class="text-center">
+                            <p id="labelYourBmi" class="text-sm text-gray-600 font-medium">Your BMI</p>
+                            <p id="bmiResult" class="text-4xl font-bold text-primary mt-1">--</p>
+                        </div>
+                        <div class="text-center">
+                            <p id="labelCategory" class="text-sm text-gray-600 font-medium">Category</p>
+                            <p id="categoryResult" class="text-xl font-semibold mt-1 text-green-600">--</p>
+                        </div>
+                    </div>
+
+                    <div id="weightAdviceBox" class="p-3 mt-4 mb-4 rounded-lg hidden">
+                        <p id="adviceText" class="text-sm text-gray-800 font-medium"></p>
+                        <p id="actionAdviceText" class="text-sm text-gray-800 font-bold mt-1"></p> 
+                    </div>
+                    
+                    <h3 id="classificationTitle" class="lg font-bold mb-3 text-primary border-b pb-2">BMI Classification (WHO Standard)</h3>
+                    <table class="classification-table w-full text-sm text-gray-700 rounded-lg overflow-hidden">
+                        <thead class="bg-primary-dark text-white">
+                            <tr>
+                                <th id="tableHeaderCategory" class="rounded-tl-lg">Category</th>
+                                <th id="tableHeaderBmi" class="rounded-tr-lg">BMI (kg/m²)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td id="catUnderweight">Underweight</td>
+                                <td>&lt; 18.5</td>
+                            </tr>
+                            <tr class="bg-green-50 border-b">
+                                <td id="catNormal">Normal Weight</td>
+                                <td>18.5 – 24.9</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td id="catOverweight">Overweight</td>
+                                <td>25.0 – 29.9</td>
+                            </tr>
+                            <tr class="bg-red-50 border-b">
+                                <td id="catObese1">Obese Class I</td>
+                                <td>30.0 – 34.9</td>
+                            </tr>
+                            <tr class="bg-red-100 border-b">
+                                <td id="catObese2">Obese Class II</td>
+                                <td>35.0 – 39.9</td>
+                            </tr>
+                            <tr class="bg-red-200">
+                                <td id="catObese3" class="rounded-bl-lg">Obese Class III</td>
+                                <td class="rounded-br-lg">&ge; 40.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="contentAnalysis" class="tab-content hidden">
+                    <h3 id="analysisHeader" class="text-lg font-bold mb-3 text-primary border-b pb-2">Your Daily Calorie Needs Estimation</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p id="labelBmr" class="text-sm text-blue-800 font-medium mb-1">Basal Metabolic Rate (BMR)</p>
+                            <p id="bmrResult" class="text-2xl font-bold text-blue-600">--</p>
+                            <p id="bmrDescription" class="text-xs text-gray-600 mt-1">Calories burned at rest.</p>
+                        </div>
+                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <p id="labelTdee" class="text-sm text-green-800 font-medium mb-1">Total Daily Energy Expenditure (TDEE)</p>
+                            <p id="tdeeResult" class="text-2xl font-bold text-green-600">--</p>
+                            <p id="tdeeDescription" class="text-xs text-gray-600 mt-1">Estimated calories burned including activity.</p>
+                        </div>
+                    </div>
+
+                    <h3 id="calorieAdviceTitle" class="text-lg font-bold mt-6 mb-3 text-primary border-b pb-2">Weight Goal Calorie Advice</h3>
+                    <div id="calorieAdviceBox" class="space-y-2 text-sm text-gray-700">
+                        <p id="maintainAdvice"><span class="font-semibold">Maintain Weight:</span> <span id="maintainValue">--</span> Calories/day</p>
+                        <p id="loseAdvice"><span class="font-semibold text-red-700">Mild Weight Loss:</span> <span id="loseValue">--</span> Calories/day</p>
+                        <p id="gainAdvice"><span class="font-semibold text-green-700">Mild Weight Gain:</span> <span id="gainValue">--</span> Calories/day</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding Your Health Metrics: Beyond BMI</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Critical Limitations of BMI (For High-Value Content)</h3>
+                
+                <div id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
+                    <p id="content2Intro"></p>
+
+                    <div id="case1">
+                        <h4 class="text-base font-semibold mt-0 text-primary-dark" id="case1Header"></h4>
+                        <p id="case1Desc"></p>
+                        <p class="font-bold text-gray-800 mt-2" id="case1AdviceTitle"></p>
+                        <ul class="action-list list-disc ml-4 space-y-1" id="case1Advice">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    
+                    <div id="case2" class="pt-4 border-t border-gray-100">
+                        <h4 class="text-base font-semibold mt-0 text-primary-dark" id="case2Header"></h4>
+                        <p id="case2Desc"></p>
+                        <p class="font-bold text-gray-800 mt-2" id="case2AdviceTitle"></p>
+                        <ul class="action-list list-disc ml-4 space-y-1" id="case2Advice">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+
+                    <div id="case3" class="pt-4 border-t border-gray-100">
+                        <h4 class="text-base font-semibold mt-0 text-primary-dark" id="case3Header"></h4>
+                        <p id="case3Desc"></p>
+                        <p class="font-bold text-gray-800 mt-2" id="case3AdviceTitle"></p>
+                        <ul class="action-list list-disc ml-4 space-y-1" id="case3Advice">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+
+                    <div id="alternativeMetrics" class="pt-4 border-t border-gray-100">
+                        <h4 class="text-base font-semibold mt-0 text-primary-dark" id="altMetricsHeader"></h4>
+                        <p id="altMetricsDesc"></p>
+                    </div>
+                </div>
+
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Interpreting Results and Next Steps (Actionable Advice)</h3>
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            </section>
+
+        </div>
+    </main>
+    
+    <div id="pwaBanner" class="p-3 bg-primary-dark text-white text-center shadow-2xl">
+        <p id="pwaAdviceText" class="text-sm font-medium">
+            👋 <strong>Install Kalkulator IMT</strong> ini di Homescreen Anda untuk akses cepat! Klik tombol <strong>Bagikan</strong> (⬆️) lalu pilih <strong>Add to Home Screen</strong>.
+        </p>
+        <button onclick="closePWABanner()" class="mt-2 text-xs font-semibold text-gray-300 hover:text-white underline">
+            Close
+        </button>
+    </div>
+
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                &copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // LOGIKA BARU UNTUK BMI, BMR, dan TDEE
+        // **********************************************
+
+        // Objek terjemahan diperbarui dengan label BMR/TDEE dan Aktivitas
+        const translations = {
+            id: {
+                appTitle: "Kalkulator Analisis Kesehatan (IMT & Kalori)",
+                headerTitle: "Kalkulator Indeks Massa Tubuh (IMT) & Kalori",
+                toolSubtitle: "Analisis Kesehatan Lengkap: Hitung IMT, BMR, & Kebutuhan Kalori Anda untuk mendapatkan panduan akurat menuju berat badan ideal.",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                labelWeight: "Berat Badan (kg)",
+                labelHeight: "Tinggi Badan (cm)",
+                labelAge: "Usia (Tahun)",
+                labelGender: "Jenis Kelamin",
+                genderMale: "Pria",
+                genderFemale: "Wanita",
+                labelActivity: "Tingkat Aktivitas (TDEE)",
+                activitySedentary: "Sangat Ringan (Kurang/Tanpa olahraga)",
+                activityLight: "Ringan (1-3 hari/minggu)",
+                activityModerate: "Sedang (3-5 hari/minggu)",
+                activityVery: "Sangat Aktif (6-7 hari/minggu)",
+                activityExtra: "Ekstra Aktif (Latihan berat harian)",
+                calculateButton: "Hitung IMT & Kalori",
+                labelYourBmi: "IMT Anda",
+                labelCategory: "Kategori",
+                classificationTitle: "Klasifikasi IMT (Standar WHO)",
+                tableHeaderCategory: "Kategori",
+                tableHeaderBmi: "IMT (kg/m²)",
+                catUnderweight: "Kekurangan Berat Badan",
+                catNormal: "Berat Badan Normal",
+                catOverweight: "Kelebihan Berat Badan",
+                catObese1: "Obesitas Kelas I",
+                catObese2: "Obesitas Kelas II",
+                catObese3: "Obesitas Kelas III",
+                inputError: "Mohon masukkan nilai yang valid untuk Berat, Tinggi, dan Usia.",
+                placeholderWeight: "Contoh: 70",
+                placeholderHeight: "Contoh: 175",
+                placeholderAge: "Contoh: 30",
+
+                // Saran BMI
+                adviceNormal: "IMT Anda dalam kisaran normal. Pertahankan gaya hidup sehat Anda!",
+                adviceUnderweight: (minWeight, maxWeight) => `Anda berada di bawah berat badan ideal. Kisaran berat badan normal untuk tinggi badan Anda adalah antara ${minWeight} kg hingga ${maxWeight} kg.`,
+                adviceOverweight: (minWeight, maxWeight) => `Anda memiliki berat badan berlebih. Kisaran berat badan normal untuk tinggi badan Anda adalah antara ${minWeight} kg hingga ${maxWeight} kg.`,
+                
+                // Saran Tindakan BMI BARU
+                actionNormal: "Lanjutkan dengan pola makan seimbang dan aktivitas rutin.",
+                actionUnderweight: "Konsultasikan ahli gizi untuk rencana peningkatan berat badan yang sehat.",
+                actionOverweight: "Upayakan penurunan berat badan. Fokus pada defisit kalori harian. Lihat tab Analisis Kesehatan untuk target Anda.",
+
+
+                // Tabs & Analisis
+                tabBmiText: "Hasil IMT",
+                tabAnalysisText: "Analisis Kesehatan",
+                analysisHeader: "Estimasi Kebutuhan Kalori Harian Anda",
+                labelBmr: "Tingkat Metabolik Basal (BMR)",
+                bmrDescription: "Kalori yang dibakar saat istirahat (tidur, dll).",
+                labelTdee: "Total Pengeluaran Energi Harian (TDEE)",
+                tdeeDescription: "Estimasi kalori yang dibakar termasuk aktivitas.",
+                calorieAdviceTitle: "Saran Kalori untuk Tujuan Berat Badan",
+                maintainAdvice: "Pertahankan Berat Badan:",
+                loseAdvice: "Penurunan Berat Badan Ringan (Defisit 500 kkal):",
+                gainAdvice: "Peningkatan Berat Badan Ringan (Surplus 500 kkal):",
+
+                // Konten Edukasi Wajib (Diperbarui dengan Konten Rinci)
+                sectionHeader1: "Memahami Metrik Kesehatan Anda: Melampaui IMT",
+                content1: "Indeks Massa Tubuh (IMT) adalah titik awal, tetapi kesehatan sejati membutuhkan pandangan yang lebih luas. Alat analisis kami menggabungkan perhitungan IMT, BMR (tingkat kalori istirahat), dan TDEE (kebutuhan kalori total) untuk memberikan Anda peta jalan yang komprehensif, menghubungkan status berat badan Anda saat ini dengan kebutuhan energi harian Anda. <br><br> Memahami ketiga metrik ini secara bersamaan adalah kunci untuk manajemen berat badan yang efektif. IMT memberi tahu Anda di mana Anda berada dalam skala populasi umum. BMR (<strong>Basal Metabolic Rate</strong>) memberi tahu Anda berapa banyak kalori yang dibakar tubuh Anda *hanya untuk mempertahankan fungsi dasar*—seperti bernapas dan menjaga suhu tubuh—tanpa memperhitungkan aktivitas. <br><br> Kemudian, TDEE (<strong>Total Daily Energy Expenditure</strong>) adalah metrik terpenting untuk tindakan. TDEE adalah estimasi jumlah total kalori yang Anda bakar per hari, termasuk BMR ditambah semua aktivitas fisik (mulai dari mencuci piring hingga latihan berat). Dengan mengetahui TDEE Anda secara akurat, Anda dapat menentukan secara pasti target kalori harian yang diperlukan untuk mempertahankan, menurunkan, atau menambah berat badan dengan cara yang paling sehat. Melampaui IMT dengan data BMR dan TDEE akan mengubah pendekatan Anda dari sekadar diagnosis menjadi perencanaan nutrisi yang akurat.",
+                
+                // Konten 2 - Perkenalan
+                sectionHeader2: "Batasan Kritis IMT (Untuk Analisis Mendalam)",
+                content2Intro: `Meskipun Indeks Massa Tubuh (IMT) berfungsi sebagai alat skrining cepat yang diakui oleh Organisasi Kesehatan Dunia (WHO) untuk mengidentifikasi kategori berat badan, penting bagi pengguna alat ini untuk memahami keterbatasan kritisnya. IMT hanyalah perhitungan matematis yang mengukur rasio antara berat badan total Anda dengan kuadrat tinggi badan. Formula ini <strong>gagal membedakan</strong> komponen-komponen yang membentuk berat badan Anda (lemak, otot, tulang, dan air). Kegagalan metodologis inilah yang membuat IMT seringkali memberikan klasifikasi yang salah pada kelompok populasi tertentu.`,
+                
+                // Kasus 1
+                case1Header: `Kasus 1: Atlet dan Binaragawan (Massa Otot Tinggi)`,
+                case1Desc: `Ini adalah batasan IMT yang paling sering dikutip. Otot, secara volume, jauh lebih padat dan berat daripada lemak. Seorang atlet atau binaragawan yang memiliki massa otot tinggi mungkin memiliki IMT di atas 25, yang secara otomatis mengklasifikasikannya ke dalam kategori Kelebihan Berat Badan (<strong>Overweight</strong>) atau bahkan Obesitas.`,
+                case1AdviceTitle: `Saran Tindakan Tambahan:`,
+                case1Advice1: `IMT tetap berguna sebagai <strong>metrik pemantauan konsistensi</strong> selama musim latihan.`,
+                case1Advice2: `Gunakan hasil TDEE kami (di tab Analisis Kesehatan) untuk mempersonalisasi asupan kalori Anda demi menjaga atau membangun massa otot.`,
+                case1Advice3: `**Wajib:** Lakukan pengukuran persentase lemak tubuh yang lebih akurat (misalnya <em>calipers</em> atau DEXA <em>scan</em>) untuk mengonfirmasi komposisi tubuh Anda yang sebenarnya.`,
+                
+                // Kasus 2
+                case2Header: `Kasus 2: Lansia (Sarcopenia dan Massa Otot Rendah)`,
+                case2Desc: `Sebaliknya, IMT juga dapat meremehkan risiko kesehatan pada lansia. Seiring bertambahnya usia, seseorang secara alami kehilangan massa otot (kondisi yang dikenal sebagai Sarcopenia). Orang lansia mungkin memiliki berat badan yang tampak "normal" atau bahkan "kurang" pada kalkulator IMT (misalnya IMT 22), tetapi persentase lemak tubuh mereka bisa sangat tinggi karena mereka kehilangan jaringan otot yang padat. Kondisi ini dikenal sebagai Obesitas dengan Berat Badan Normal.`,
+                case2AdviceTitle: `Saran Tindakan Tambahan:`,
+                case2Advice1: `Gunakan hasil IMT sebagai <strong>pemicu untuk meningkatkan aktivitas fisik</strong>, meskipun hasilnya tampak normal.`,
+                case2Advice2: `Hasil BMR adalah metrik penting untuk memantau kebutuhan kalori dasar lansia.`,
+                case2Advice3: `**Wajib:** Fokus pada latihan ketahanan (<em>resistance training</em>) untuk mencegah hilangnya massa otot lebih lanjut dan konsultasikan asupan protein harian Anda.`,
+
+                // Kasus 3
+                case3Header: `Kasus 3: Distribusi Lemak (Risiko Jantung)`,
+                case3Desc: `Batasan terpenting IMT lainnya adalah kegagalannya dalam menilai <strong>distribusi lemak</strong>. Seseorang dengan IMT yang normal (misalnya 23.5) namun memiliki timbunan lemak yang tinggi di sekitar perut (lemak visceral) memiliki risiko penyakit kardiovaskular dan diabetes yang jauh lebih tinggi. Lemak visceral sangat aktif secara metabolik dan beracun.`,
+                case3AdviceTitle: `Saran Tindakan Tambahan:`,
+                case3Advice1: `IMT yang normal adalah awal yang baik, namun tetap **wajib memantau lingkar perut Anda**.`,
+                case3Advice2: `Ukur lingkar pinggang Anda: idealnya di bawah 102 cm (Pria) dan 88 cm (Wanita) menurut WHO.`,
+                case3Advice3: `Jika ambang batas terlampaui, fokus pada defisit kalori (dihitung TDEE) dan lakukan latihan kardio secara rutin.`,
+
+                // Metrik Alternatif
+                altMetricsHeader: `Metrik Alternatif yang Lebih Baik`,
+                altMetricsDesc: `Kami mendorong pengguna untuk tidak hanya mengandalkan angka IMT. Untuk analisis yang lebih lengkap, pertimbangkan metrik kesehatan lain. Metode alternatif terbaik mencakup: pengukuran <strong>Persentase Lemak Tubuh</strong>, rasio <strong>Lingkar Pinggang-ke-Pinggul (<em>Waist-to-Hip Ratio</em>)</strong> untuk menilai distribusi lemak visceral, dan tentunya, konsultasi rutin dengan profesional kesehatan. Dengan memahami batasan ini, Anda dapat menempatkan hasil IMT Anda dalam konteks yang benar untuk pengambilan keputusan kesehatan yang lebih akurat.`,
+                
+                sectionHeader3: "Langkah Selanjutnya: Menginterpretasi Hasil (Saran Tindakan)",
+                content3: "Setelah mendapatkan IMT, BMR, dan TDEE, langkah selanjutnya adalah bertindak. Interpretasi hasil Anda harus fokus pada TDEE, di mana Anda dapat menentukan defisit (untuk penurunan berat badan) atau surplus (untuk penambahan berat badan) kalori harian yang aman. <br><br> Jika target Anda adalah <strong>menurunkan berat badan</strong>, Anda perlu menciptakan defisit kalori. Sebagai panduan umum, pengurangan 500 Kalori dari TDEE Anda per hari akan menghasilkan penurunan sekitar 0.5 kg berat badan per minggu—ini adalah laju yang sehat dan berkelanjutan. Jika target Anda adalah <strong>menambah berat badan</strong>, Anda perlu menciptakan surplus kalori, menambahkan 500 Kalori ke TDEE Anda per hari. <br><br> Penting untuk selalu memastikan asupan kalori Anda tidak pernah turun di bawah BMR Anda untuk menjaga fungsi tubuh dasar. Gunakan kalkulator kami untuk menemukan target kalori Anda, kemudian mulai lacak nutrisi Anda dengan alat kami yang lain (yang akan datang). Selalu ingat untuk berkonsultasi dengan dokter atau ahli gizi sebelum membuat perubahan pola makan yang signifikan.",
+
+                // Saran PWA
+                pwaAdvice: `👋 <strong>Install Kalkulator IMT</strong> ini di Homescreen Anda untuk akses cepat! Klik tombol <strong>Bagikan</strong> (⬆️) lalu pilih <strong>Add to Home Screen</strong>.`,
+            },
+            en: {
+                appTitle: "Health Analysis Calculator (BMI & BMR/TDEE)",
+                headerTitle: "Body Mass Index (BMI) & Calorie Analyzer",
+                toolSubtitle: "Complete Health Analysis: Calculate your BMI, BMR, & Calorie Needs to receive an accurate guide for reaching your ideal weight.",
+                backToCatalogText: "Back to Tools Catalog",
+                labelWeight: "Weight (kg)",
+                labelHeight: "Height (cm)",
+                labelAge: "Age (Years)",
+                labelGender: "Gender",
+                genderMale: "Male",
+                genderFemale: "Female",
+                labelActivity: "Activity Level (TDEE)",
+                activitySedentary: "Sedentary (Little or no exercise)",
+                activityLight: "Lightly Active (1-3 days/week)",
+                activityModerate: "Moderately Active (3-5 days/week)",
+                activityVery: "Very Active (6-7 days/week)",
+                activityExtra: "Extra Active (Hard daily exercise)",
+                calculateButton: "Calculate BMI & Calories",
+                labelYourBmi: "Your BMI",
+                labelCategory: "Category",
+                classificationTitle: "BMI Classification (WHO Standard)",
+                tableHeaderCategory: "Category",
+                tableHeaderBmi: "BMI (kg/m²)",
+                catUnderweight: "Underweight",
+                catNormal: "Normal Weight",
+                catOverweight: "Overweight",
+                catObese1: "Obese Class I",
+                catObese2: "Obese Class II",
+                catObese3: "Obese Class III",
+                inputError: "Please enter valid values for Weight, Height, and Age.",
+                placeholderWeight: "E.g.: 70",
+                placeholderHeight: "E.g.: 175",
+                placeholderAge: "E.g.: 30",
+                
+                // Saran BMI
+                adviceNormal: "Your BMI is in the normal range. Maintain your healthy lifestyle!",
+                adviceUnderweight: (minWeight, maxWeight) => `You are below the ideal weight. The normal weight range for your height is between ${minWeight} kg and ${maxWeight} kg.`,
+                adviceOverweight: (minWeight, maxWeight) => `You are overweight. The normal weight range for your height is between ${minWeight} kg and ${maxWeight} kg.`,
+
+                // Saran Tindakan BMI BARU
+                actionNormal: "Continue with a balanced diet and regular activity.",
+                actionUnderweight: "Consult a nutritionist for a healthy weight gain plan.",
+                actionOverweight: "Work toward weight loss. Focus on a daily calorie deficit. See the Health Analysis tab for your target.",
+
+
+                // Tabs & Analisis
+                tabBmiText: "BMI Result",
+                tabAnalysisText: "Health Analysis",
+                analysisHeader: "Your Daily Calorie Needs Estimation",
+                labelBmr: "Basal Metabolic Rate (BMR)",
+                bmrDescription: "Calories burned at rest.",
+                labelTdee: "Total Daily Energy Expenditure (TDEE)",
+                tdeeDescription: "Estimated calories burned including activity.",
+                calorieAdviceTitle: "Weight Goal Calorie Advice",
+                maintainAdvice: "Maintain Weight:",
+                loseAdvice: "Mild Weight Loss (500 kcal Deficit):",
+                gainAdvice: "Mild Weight Gain (500 kcal Surplus):",
+                
+                // Konten Edukasi Wajib (Diperbarui dengan Konten Rinci)
+                sectionHeader1: "Understanding Your Health Metrics: Beyond BMI",
+                content1: "The Body Mass Index (BMI) is a starting point, but true health requires a wider view. Our analysis tool combines BMI, BMR (resting calorie rate), and TDEE (total daily calorie needs) to provide you with a comprehensive roadmap, connecting your current weight status with your daily energy requirements. <br><br> Understanding these three metrics simultaneously is key to effective weight management. BMI tells you where you stand on the general population scale. BMR (<strong>Basal Metabolic Rate</strong>) tells you how many calories your body burns *just to maintain basic functions*—like breathing and maintaining body temperature—without accounting for activity. <br><br> Then, TDEE (<strong>Total Daily Energy Expenditure</strong>) is the most important metric for action. TDEE is the estimated total number of calories you burn per day, including your BMR plus all physical activity (from washing dishes to intense exercise). By knowing your TDEE accurately, you can precisely determine the daily calorie target needed to maintain, lose, or gain weight in the healthiest way possible. Moving beyond BMI with BMR and TDEE data transforms your approach from mere diagnosis to accurate nutritional planning.",
+
+                // Konten 2 - Perkenalan
+                sectionHeader2: "Critical Limitations of BMI (For In-Depth Analysis)",
+                content2Intro: `While the Body Mass Index (BMI) serves as a quick screening tool recognized by the World Health Organization (WHO) for identifying weight categories, it is crucial for users of this tool to understand its critical limitations. BMI is simply a mathematical calculation that measures the ratio of your total body weight to the square of your height. This formula <strong>fails to distinguish</strong> the components that make up your body mass (fat, muscle, bone, and water). This methodological flaw often leads to misclassification in certain populations.`,
+                
+                // Kasus 1
+                case1Header: `Kasus 1: Atlet dan Binaragawan (Massa Otot Tinggi)`,
+                case1Desc: `This is the most frequently cited limitation of BMI. Muscle tissue is significantly denser and heavier than fat tissue by volume. An athlete or bodybuilder with high muscle mass might register a BMI over 25, automatically classifying them as Kelebihan Berat Badan (<strong>Overweight</strong>) atau bahkan Obesitas.`,
+                case1AdviceTitle: `Additional Action Advice:`,
+                case1Advice1: `BMI can still serve as a <strong>consistency monitoring metric</strong> during training seasons.`,
+                case1Advice2: `Use our TDEE result (in the Health Analysis tab) to personalize your calorie intake for maintaining or building muscle mass.`,
+                case1Advice3: `**Mandatory:** Get a more accurate body fat percentage measurement (using <em>calipers</em> atau DEXA <em>scan</em>) to confirm your true body composition.`,
+                
+                // Kasus 2
+                case2Header: `Kasus 2: Lansia (Sarcopenia dan Massa Otot Rendah)`,
+                case2Desc: `Conversely, BMI can also underestimate health risks in the elderly. As we age, people naturally lose muscle mass (a condition known as Sarcopenia). An elderly person might have a seemingly "normal" or even "underweight" BMI reading (e.g., BMI 22), yet their body fat percentage could be dangerously high because they have lost dense muscle tissue. This condition is known as Normal-Weight Obesity.`,
+                case2AdviceTitle: `Saran Tindakan Tambahan:`,
+                case2Advice1: `Use the BMI result as a <strong>trigger to increase physical activity</strong>, even if the result looks normal.`,
+                case2Advice2: `The calculated BMR result is a vital metric for monitoring the basic calorie needs of the elderly.`,
+                case2Advice3: `**Mandatory:** Focus on regular resistance training (<em>resistance training</em>) to prevent further muscle loss and consult your daily protein intake.`,
+
+                // Kasus 3
+                case3Header: `Kasus 3: Distribusi Lemak (Risiko Jantung)`,
+                case3Desc: `Another major limitation of BMI is its failure to assess <strong>fat distribution</strong>. An individual with a normal BMI (e.g., 23.5) but high fat deposits around the abdomen (visceral fat) carries a significantly higher risk of cardiovascular disease and diabetes. Visceral fat is metabolically active and toxic.`,
+                case3AdviceTitle: `Additional Action Advice:`,
+                case3Advice1: `A normal BMI is a good start, but it's still **mandatory to monitor your abdominal circumference**.`,
+                case3Advice2: `Measure your waist circumference: ideally below 102 cm (Men) and 88 cm (Women) per WHO standards.`,
+                case3Advice3: `If the threshold is exceeded, focus on a calorie deficit (using calculated TDEE) and engage in regular cardio exercises.`,
+
+                // Metrik Alternatif
+                altMetricsHeader: `Superior Alternative Metrics`,
+                altMetricsDesc: `We encourage users not to rely solely on the BMI number. For a more complete analysis, consider other health metrics. Superior alternative methods include: measuring <strong>Body Fat Percentage</strong>, the <strong>Waist-to-Hip Ratio</strong> to assess visceral fat distribution, and, of course, regular consultation with a healthcare professional. By understanding these limitations, you can place your BMI result into the correct context for more accurate health decision-making.`,
+
+                sectionHeader3: "Next Steps: Interpreting Results (Actionable Advice)",
+                content3: "Once you have your BMI, BMR, and TDEE, the next step is action. Interpreting your results should focus on TDEE, where you can determine a safe daily calorie deficit (for weight loss) or surplus (for weight gain) per day. <br><br> If your goal is <strong>weight loss</strong>, you need to create a calorie deficit. As a general guide, reducing 500 Calories from your TDEE per day will result in a loss of about 0.5 kg of body weight per week—this is a healthy and sustainable rate. If your goal is <strong>weight gain</strong>, you need to create a calorie surplus, adding 500 Calories to your TDEE per day. <br><br> It is crucial to always ensure your calorie intake never drops below your BMR to maintain basic bodily functions. Use our calculator to find your calorie target, then start tracking your nutrition with our other tools (coming soon). Always remember to consult a doctor or nutritionist before making significant dietary changes.",
+
+                // Saran PWA
+                pwaAdvice: `👋 <strong>Install BMI Calculator</strong> on your Homescreen for quick access! Click the <strong>Share</strong> button (${getShareIcon()}) lalu pilih <strong>Add to Home Screen</strong>.`,
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        // Fungsi Bantu
+        function getShareIcon() {
+            const ua = navigator.userAgent;
+            if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) { return '⬆️'; } 
+            if (/Android/.test(ua)) { return '⋮'; }
+            return '⬇️'; 
+        }
+
+        // Fungsi untuk mengaktifkan tab
+        function setActiveTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+            if (tabName === 'bmi') {
+                document.getElementById('tabBmi').classList.add('active');
+                document.getElementById('contentBmi').classList.remove('hidden');
+            } else if (tabName === 'analysis') {
+                document.getElementById('tabAnalysis').classList.add('active');
+                document.getElementById('contentAnalysis').classList.remove('hidden');
+            }
+        }
+
+        // Fungsi untuk menghitung BMR (Harris-Benedict Equation)
+        function calculateBMR(weightKg, heightCm, ageYears, gender) {
+            let bmr = 0;
+            // Rumus: 
+            // Pria: 66.5 + (13.75 × berat kg) + (5.003 × tinggi cm) - (6.75 × usia tahun)
+            // Wanita: 655.1 + (9.563 × berat kg) + (1.850 × tinggi cm) - (4.676 × usia tahun)
+            if (gender === 'male') {
+                bmr = 66.5 + (13.75 * weightKg) + (5.003 * heightCm) - (6.75 * ageYears);
+            } else {
+                bmr = 655.1 + (9.563 * weightKg) + (1.850 * heightCm) - (4.676 * ageYears);
+            }
+            return Math.round(bmr);
+        }
+
+        // Fungsi untuk menghitung TDEE
+        function calculateTDEE(bmr, activityMultiplier) {
+            return Math.round(bmr * activityMultiplier);
+        }
+
+
+        // Fungsi untuk menentukan kategori IMT dan warna
+        function getBMICategory(bmi, lang) {
+            let categoryKey = '';
+            let colorClass = '';
+
+            if (bmi < 18.5) {
+                categoryKey = 'underweight';
+                colorClass = 'text-yellow-600';
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+                categoryKey = 'normal';
+                colorClass = 'text-green-600';
+            } else if (bmi >= 25.0 && bmi <= 29.9) {
+                categoryKey = 'overweight';
+                colorClass = 'text-orange-600';
+            } else { // >= 30.0 (Obese)
+                categoryKey = 'obese3'; // Obese Class 1, 2, 3
+                colorClass = 'text-red-700';
+            }
+            
+            const categoryText = translations[lang]['cat' + categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)];
+
+            return { categoryText, colorClass, categoryKey }; 
+        }
+
+        // Fungsi untuk menghitung kisaran berat badan normal
+        function calculateNormalWeightRange(heightM) {
+            const minNormalBMI = 18.5;
+            const maxNormalBMI = 24.9;
+
+            const minWeight = minNormalBMI * heightM * heightM;
+            const maxWeight = maxNormalBMI * heightM * heightM;
+
+            return {
+                min: minWeight.toFixed(1),
+                max: maxWeight.toFixed(1)
+            };
+        }
+
+
+        // Fungsi utama untuk menghitung semua metrik
+        function calculateFullHealthMetrics() {
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            const heightCm = parseFloat(document.getElementById('heightInput').value);
+            const age = parseFloat(document.getElementById('ageInput').value); // Input baru
+            const gender = document.getElementById('genderSelect').value; // Input baru
+            const activityMultiplier = parseFloat(document.getElementById('activitySelect').value); // Input baru
+
+            const lang = currentLang;
+            const resultBox = document.getElementById('resultBox');
+            const errorAlert = document.getElementById('errorAlert');
+            const weightAdviceBox = document.getElementById('weightAdviceBox');
+            const adviceText = document.getElementById('adviceText');
+            const actionAdviceText = document.getElementById('actionAdviceText'); // ID BARU
+
+            // 1. Validasi Input LENGKAP
+            if (isNaN(weight) || weight <= 0 || isNaN(heightCm) || heightCm <= 0 || isNaN(age) || age < 1) {
+                document.getElementById('errorText').textContent = translations[lang].inputError;
+                errorAlert.classList.remove('hidden');
+                resultBox.classList.remove('visible');
+                weightAdviceBox.classList.add('hidden');
+                return;
+            }
+            
+            errorAlert.classList.add('hidden');
+
+            // --- PERHITUNGAN BMI ---
+            const heightM = heightCm / 100;
+            const bmi = weight / (heightM * heightM);
+            const formattedBmi = bmi.toFixed(1);
+
+            const { categoryText, colorClass, categoryKey } = getBMICategory(bmi, lang);
+            
+            document.getElementById('bmiResult').textContent = formattedBmi;
+            const categoryResultElement = document.getElementById('categoryResult');
+            categoryResultElement.textContent = categoryText;
+            categoryResultElement.className = `text-xl font-semibold mt-1 ${colorClass}`;
+            
+            // --- PERHITUNGAN BMR & TDEE ---
+            const bmrValue = calculateBMR(weight, heightCm, age, gender);
+            const tdeeValue = calculateTDEE(bmrValue, activityMultiplier);
+
+            document.getElementById('bmrResult').textContent = `${bmrValue} Kkal`;
+            document.getElementById('tdeeResult').textContent = `${tdeeValue} Kkal`;
+            
+            // --- SARAN KALORI ---
+            document.getElementById('maintainValue').textContent = `${tdeeValue} Kkal/hari`;
+            document.getElementById('loseValue').textContent = `${Math.max(tdeeValue - 500, 1200)} Kkal/hari`; // Minimal 1200
+            document.getElementById('gainValue').textContent = `${tdeeValue + 500} Kkal/hari`;
+
+            // --- SARAN BERAT BADAN (TEXTUAL & ACTIONABLE) ---
+            const normalRange = calculateNormalWeightRange(heightM);
+            let adviceMessage = '';
+            let actionMessage = '';
+            let adviceBoxClass = '';
+
+            if (categoryKey === 'normal') {
+                adviceMessage = translations[lang].adviceNormal;
+                actionMessage = translations[lang].actionNormal; // Saran Tindakan Normal
+                adviceBoxClass = 'bg-green-100 border-green-300';
+            } else if (categoryKey === 'underweight') {
+                adviceMessage = translations[lang].adviceUnderweight(normalRange.min, normalRange.max);
+                actionMessage = translations[lang].actionUnderweight; // Saran Tindakan Underweight
+                adviceBoxClass = 'bg-yellow-100 border-yellow-300';
+            } else { 
+                adviceMessage = translations[lang].adviceOverweight(normalRange.min, normalRange.max);
+                // JIKA OBESE, CATEGORY KEY TETAP 'obese3' TAPI MENGGUNAKAN ADVICE DARI 'overweight'
+                actionMessage = translations[lang].actionOverweight; // Saran Tindakan Overweight/Obese
+                adviceBoxClass = 'bg-red-100 border-red-300';
+            }
+            
+            adviceText.textContent = adviceMessage;
+            actionAdviceText.textContent = actionMessage; // Update Saran Tindakan
+            weightAdviceBox.className = `p-3 mt-4 mb-4 rounded-lg border ${adviceBoxClass}`;
+            weightAdviceBox.classList.remove('hidden'); // Pastikan muncul
+
+            // 7. Tampilkan kotak hasil & set tab default
+            resultBox.classList.add('visible');
+            setActiveTab('bmi'); // Tampilkan tab BMI secara default setelah perhitungan
+        }
+
+
+        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
+        function setLanguage(lang) {
+            currentLang = lang; // Simpan bahasa saat ini
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+
+            // Update teks statis
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').textContent = t.toolSubtitle; // UPDATE SUBTITLE
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            
+            // Update label formulir dan tombol
+            document.getElementById('labelWeight').textContent = t.labelWeight;
+            document.getElementById('labelHeight').textContent = t.labelHeight;
+            document.getElementById('labelAge').textContent = t.labelAge;
+            document.getElementById('labelGender').textContent = t.labelGender;
+            document.getElementById('genderMale').textContent = t.genderMale;
+            document.getElementById('genderFemale').textContent = t.genderFemale;
+            document.getElementById('labelActivity').textContent = t.labelActivity;
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+
+            // Update option aktivitas
+            document.getElementById('activitySedentary').textContent = t.activitySedentary;
+            document.getElementById('activityLight').textContent = t.activityLight;
+            document.getElementById('activityModerate').textContent = t.activityModerate;
+            document.getElementById('activityVery').textContent = t.activityVery;
+            document.getElementById('activityExtra').textContent = t.activityExtra;
+            
+            // Update placeholder
+            document.getElementById('weightInput').placeholder = t.placeholderWeight;
+            document.getElementById('heightInput').placeholder = t.placeholderHeight;
+            document.getElementById('ageInput').placeholder = t.placeholderAge;
+
+            // Update label hasil BMI
+            document.getElementById('labelYourBmi').textContent = t.labelYourBmi;
+            document.getElementById('labelCategory').textContent = t.labelCategory;
+            document.getElementById('classificationTitle').textContent = t.classificationTitle;
+            
+            // Update header tabel & klasifikasi
+            document.getElementById('tableHeaderCategory').textContent = t.tableHeaderCategory;
+            document.getElementById('tableHeaderBmi').textContent = t.tableHeaderBmi;
+            document.getElementById('catUnderweight').textContent = t.catUnderweight;
+            document.getElementById('catNormal').textContent = t.catNormal;
+            document.getElementById('catOverweight').textContent = t.catOverweight;
+            document.getElementById('catObese1').textContent = t.catObese1;
+            document.getElementById('catObese2').textContent = t.catObese2;
+            document.getElementById('catObese3').textContent = t.catObese3;
+
+            // Update Tabs
+            document.getElementById('tabBmi').textContent = t.tabBmiText;
+            document.getElementById('tabAnalysis').textContent = t.tabAnalysisText;
+
+            // Update Analisis
+            document.getElementById('analysisHeader').textContent = t.analysisHeader;
+            document.getElementById('labelBmr').textContent = t.labelBmr;
+            document.getElementById('bmrDescription').textContent = t.bmrDescription;
+            document.getElementById('labelTdee').textContent = t.labelTdee;
+            document.getElementById('tdeeDescription').textContent = t.tdeeDescription;
+            document.getElementById('calorieAdviceTitle').textContent = t.calorieAdviceTitle;
+            document.getElementById('maintainAdvice').firstChild.textContent = t.maintainAdvice;
+            document.getElementById('loseAdvice').firstChild.textContent = t.loseAdvice;
+            document.getElementById('gainAdvice').firstChild.textContent = t.gainAdvice;
+            
+            // Update Konten Edukasi Wajib - Menggunakan struktur baru
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1; // CONTENT 1
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            
+            // Memperbarui Konten 2 (yang sekarang terpecah)
+            document.getElementById('content2Intro').innerHTML = t.content2Intro;
+            
+            // Kasus 1
+            document.getElementById('case1Header').textContent = t.case1Header;
+            document.getElementById('case1Desc').innerHTML = t.case1Desc;
+            document.getElementById('case1AdviceTitle').textContent = t.case1AdviceTitle;
+            document.getElementById('case1Advice').innerHTML = `
+                <li>${t.case1Advice1}</li>
+                <li>${t.case1Advice2}</li>
+                <li>${t.case1Advice3}</li>
+            `;
+
+            // Kasus 2
+            document.getElementById('case2Header').textContent = t.case2Header;
+            document.getElementById('case2Desc').innerHTML = t.case2Desc;
+            document.getElementById('case2AdviceTitle').textContent = t.case2AdviceTitle;
+            document.getElementById('case2Advice').innerHTML = `
+                <li>${t.case2Advice1}</li>
+                <li>${t.case2Advice2}</li>
+                <li>${t.case2Advice3}</li>
+            `;
+
+            // Kasus 3
+            document.getElementById('case3Header').textContent = t.case3Header;
+            document.getElementById('case3Desc').innerHTML = t.case3Desc;
+            document.getElementById('case3AdviceTitle').textContent = t.case3AdviceTitle;
+            document.getElementById('case3Advice').innerHTML = `
+                <li>${t.case3Advice1}</li>
+                <li>${t.case3Advice2}</li>
+                <li>${t.case3Advice3}</li>
+            `;
+
+            // Metrik Alternatif
+            document.getElementById('altMetricsHeader').textContent = t.altMetricsHeader;
+            document.getElementById('altMetricsDesc').innerHTML = t.altMetricsDesc;
+
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3').innerHTML = t.content3; // CONTENT 3
+
+            // Update Saran PWA
+            const pwaAdviceText = document.getElementById('pwaAdviceText');
+            const pwaMessage = t.pwaAdvice;
+            pwaAdviceText.innerHTML = pwaMessage.replace(/<strong>(.*?)<\/strong>/g, '<span>$1</span>');
+
+
+            // Perbarui hasil yang sudah ada (jika sudah dihitung)
+            const bmiResultElement = document.getElementById('bmiResult');
+            if (bmiResultElement.textContent !== '--') {
+                 // Hitung ulang dengan bahasa baru untuk mendapatkan teks yang diperbarui
+                 calculateFullHealthMetrics();
+            }
+
+             // Pastikan error message diupdate
+            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
+                document.getElementById('errorText').textContent = t.inputError;
+            }
+        }
+        
+        // Fungsi untuk menampilkan banner PWA
+        function showPWABanner() {
+            const pwaBanner = document.getElementById('pwaBanner');
+            const body = document.body;
+            if (window.innerWidth < 768) {
+                setTimeout(() => {
+                    pwaBanner.classList.add('show');
+                    body.classList.add('pwa-visible'); 
+                }, 2000); 
+            }
+        }
+        
+        // Fungsi untuk menutup banner PWA
+        function closePWABanner() {
+            const pwaBanner = document.getElementById('pwaBanner');
+            const body = document.body;
+            pwaBanner.classList.remove('show');
+            body.classList.remove('pwa-visible');
+        }
+        document.querySelector('#pwaBanner button').onclick = closePWABanner;
+        
+        // Event listener untuk perubahan bahasa
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) {
+                    setLanguage(newLang);
+                    document.getElementById('resultBox').classList.remove('visible');
+                    document.getElementById('errorAlert').classList.add('hidden');
+                    closePWABanner();
+                }
+            }
+        });
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('en'); 
+            showPWABanner();
+        });
+
+    </script>
+</body>
+</html>
