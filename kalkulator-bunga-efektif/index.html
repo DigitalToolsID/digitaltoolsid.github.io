@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Judul akan di-set oleh JS -->
+    <title id="appTitle">Kalkulator Bunga Efektif</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Kode Google Analytic dan Adsense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Hijau untuk Keuangan
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya kustom untuk tampilan hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 1200px; 
+            padding: 1.5rem; 
+        }
+        
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya kustom untuk input dan tombol */
+        .calculate-button {
+            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e8449;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e8449;
+        }
+        
+        /* Gaya untuk deskripsi input baru */
+        .input-description {
+            font-size: 0.75rem; /* text-xs */
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+
+<!-- Body dengan kode pengaman -->
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+            </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Effective Annual Interest Rate (APR) Calculator</h1>
+            
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+                Unmask the true cost of your fixed-installment loans (KPR, car, multipurpose) by calculating the real annual effective interest rate (APR/EIR), including hidden upfront fees.
+            </p>
+            
+            <!-- Form Input -->
+            <form id="aprForm" onsubmit="calculateAPR(event)" class="space-y-4">
+                
+                <div class="relative">
+                    <label for="principal" class="block text-sm font-medium text-gray-700 mb-1" id="labelPrincipal">Loan Principal (Pokok Pinjaman)</label>
+                    <input type="text" id="principal" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <p class="input-description" id="descPrincipal">Jumlah dana pinjaman yang Anda terima sebelum dipotong biaya apa pun.</p>
+                </div>
+                
+                <div class="relative">
+                    <label for="monthlyInstallment" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyInstallment">Monthly Installment (Angsuran Tetap Bulanan)</label>
+                    <input type="text" id="monthlyInstallment" inputmode="numeric" value="300.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <p class="input-description" id="descMonthlyInstallment">Jumlah tetap yang harus Anda bayar setiap bulan ke bank/penyedia kredit.</p>
+                </div>
+
+                <div class="relative">
+                    <label for="loanTermMonths" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTermMonths">Loan Term (Total Bulan)</label>
+                    <input type="number" id="loanTermMonths" min="1" max="360" value="48" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <p class="input-description" id="descLoanTermMonths">Total periode pembayaran angsuran dalam hitungan bulan (misalnya: 4 tahun = 48 bulan).</p>
+                </div>
+
+                <!-- Section Biaya Awal (Upfront Fees) -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <p id="feesHeader" class="text-sm font-bold text-gray-700 mb-3">Upfront Fees (Biaya Awal yang Dipotong/Dibayar di Muka)</p>
+
+                    <div class="relative mb-2">
+                        <label for="adminFee" class="block text-xs font-medium text-gray-600 mb-1" id="labelAdminFee">Administration Fee</label>
+                        <input type="text" id="adminFee" inputmode="numeric" value="100.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+
+                    <div class="relative mb-2">
+                        <label for="provisionFee" class="block text-xs font-medium text-gray-600 mb-1" id="labelProvisionFee">Provision Fee</label>
+                        <input type="text" id="provisionFee" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                    
+                    <div class="relative">
+                        <label for="insuranceFee" class="block text-xs font-medium text-gray-600 mb-1" id="labelInsuranceFee">Upfront Insurance Fee</label>
+                        <input type="text" id="insuranceFee" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+                    </div>
+                </div>
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
+                    Calculate True APR
+                </button>
+                
+                <!-- Error Alert -->
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-6 bg-finance-color/5 border border-finance-color/30 rounded-xl shadow-lg">
+                
+                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-primary border-b pb-2">Effective Rate Calculation Result</h3>
+                
+                <div class="space-y-4">
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <p id="labelEffectiveAPR" class="text-sm text-green-800 font-medium mb-1">True Annual Effective Interest Rate (APR)</pre>
+                        <p id="effectiveAPRResult" class="text-3xl font-extrabold text-finance-color">0.00%</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <p id="labelNetPrincipal" class="text-sm text-gray-800 font-medium mb-1">Net Principal Received</p>
+                            <p id="netPrincipalResult" class="text-xl font-bold text-gray-700">0</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <p id="labelTotalInterestCost" class="text-sm text-yellow-800 font-medium mb-1">Total Interest + Fees Cost</p>
+                            <p id="totalInterestCostResult" class="text-xl font-bold text-yellow-700">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Konten Edukasi dan Contoh Kasus -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Unmasking the True Cost: APR vs. Flat Rate</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeaderCase" class="text-lg font-bold text-gray-800 mb-2">Contoh Kasus: Perbandingan Kredit (Flat vs. Efektif Sebenarnya)</h3>
+                <p id="contentCaseIntro" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
+                
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+                    <p id="caseInputs" class="text-gray-700 text-sm font-semibold mb-2"></p>
+                    <p id="caseResultText" class="text-blue-800 text-sm leading-relaxed"></p>
+                </div>
+
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Why APR is the Key Metric</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer (Sama seperti alat yang lain) -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // LOGIKA KALKULATOR BUNGA EFEKTIF (APR/EIR)
+        // **********************************************
+
+        const translations = {
+            id: {
+                appTitle: "Kalkulator Bunga Efektif (APR)",
+                headerTitle: "Kalkulator Bunga Efektif Tahunan (APR/EIR)",
+                // Deskripsi yang memikat dan jelas
+                toolSubtitle: "Ketahui biaya pinjaman angsuran tetap (KPR, mobil, serbaguna) dengan menghitung suku bunga efektif tahunan (APR/EIR) yang sesungguhnya, termasuk biaya awal tersembunyi.",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                // Input
+                labelPrincipal: "Pokok Pinjaman (Loan Principal)",
+                descPrincipal: "Jumlah dana pinjaman yang Anda terima sebelum dipotong biaya apa pun.",
+                labelMonthlyInstallment: "Angsuran Tetap Bulanan (Monthly Installment)",
+                descMonthlyInstallment: "Jumlah tetap yang harus Anda bayar setiap bulan ke bank/penyedia kredit.",
+                labelLoanTermMonths: "Jangka Waktu Pinjaman (Total Bulan)",
+                descLoanTermMonths: "Total periode pembayaran angsuran dalam hitungan bulan (misalnya: 4 tahun = 48 bulan).",
+                feesHeader: "Biaya Awal (Upfront Fees) - Dipotong/Dibayar di Muka",
+                labelAdminFee: "Biaya Administrasi",
+                labelProvisionFee: "Biaya Provisi",
+                labelInsuranceFee: "Biaya Asuransi Awal",
+                calculateButton: "Hitung APR Sebenarnya",
+                inputError: "Mohon masukkan semua nilai input yang valid (Pokok Pinjaman, Angsuran, dan Jangka Waktu > 0). Pastikan Angsuran Bulanan lebih besar dari Pokok Pinjaman dibagi Jangka Waktu.",
+                // Hasil
+                resultHeader: "Hasil Perhitungan Bunga Efektif",
+                labelEffectiveAPR: "Suku Bunga Efektif Tahunan Sebenarnya (APR)",
+                labelNetPrincipal: "Pokok Pinjaman Bersih yang Diterima",
+                labelTotalInterestCost: "Total Biaya Bunga + Biaya Awal",
+
+                // Konten Edukasi & Contoh Kasus
+                sectionHeader1: "Membongkar Biaya Sebenarnya: APR vs. Bunga Flat",
+                content1: "Suku bunga yang ditawarkan oleh penjual seringkali menggunakan metode 'flat' yang kelihatannya kecil. Namun, bunga flat tidak mencerminkan biaya pinjaman yang sesungguhnya karena tidak mempertimbangkan pengurangan saldo pokok dari waktu ke waktu. APR (Annual Percentage Rate) adalah metrik standar yang mencerminkan bunga sebenarnya yang Anda bayar setiap tahun, termasuk mempertimbangkan semua biaya awal (administrasi, provisi, asuransi) yang mengurangi dana yang benar-benar Anda terima.",
+                
+                sectionHeaderCase: "Contoh Kasus: Perbandingan Kredit Motor (Flat vs. Efektif Sebenarnya)",
+                contentCaseIntro: "Berikut adalah contoh bagaimana kalkulator ini bekerja dan bagaimana biaya awal memengaruhi bunga yang sebenarnya Anda bayar:",
+                caseInputs: "Input Kasus: Pinjaman Pokok: 10.000.000 | Angsuran Bulanan: 300.000 | Jangka Waktu: 48 Bulan (4 Tahun) | Biaya Awal (Admin): 100.000.",
+                caseResultText: "Jika Anda menghitung hanya berdasarkan Angsuran Bulanan, bunga flat-nya adalah 7.5%. NAMUN, setelah memperhitungkan biaya awal Rp 100.000, **Bunga Efektif Tahunan (APR) yang sebenarnya adalah sekitar 12.8%**.",
+
+                sectionHeader2: "Mengapa APR adalah Metrik Kunci",
+                content2: "APR adalah metrik terpenting untuk membandingkan tawaran pinjaman. Ketika Anda ditawari dua pinjaman dengan 'bunga 10%', tetapi salah satunya memiliki biaya provisi dan asuransi yang besar, pinjaman dengan biaya awal yang lebih tinggi akan memiliki APR yang lebih tinggi pula. Kalkulator ini memberikan kekuatan untuk membuat keputusan finansial yang lebih cerdas dan menghemat uang dalam jangka panjang.",
+
+                sectionHeader3: "Penting (Disclaimer)",
+                content3: "Kalkulator ini menggunakan metode matematika iteratif (Trial and Error) untuk memperkirakan Bunga Efektif Tahunan (APR) yang akurat. Hasil ini adalah estimasi teoretis. Hasil aktual pinjaman dapat sedikit berbeda tergantung pada metode pembulatan bank dan hari pencairan. Selalu verifikasi perhitungan Anda dengan dokumen pinjaman resmi dari penyedia kredit.",
+
+                // Footer
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            },
+            en: {
+                appTitle: "Effective Annual Interest Rate Calculator (APR)",
+                headerTitle: "Effective Annual Interest Rate (APR/EIR) Calculator",
+                // Deskripsi yang memikat dan jelas
+                toolSubtitle: "Unmask the true cost of your fixed-installment loans (Mortgage, car, multipurpose) by calculating the real annual effective interest rate (APR/EIR), including hidden upfront fees.",
+                backToCatalogText: "Back to Tools Catalog",
+                // Input
+                labelPrincipal: "Loan Principal (Pokok Pinjaman)",
+                descPrincipal: "The total principal amount of the loan before any fees or deductions.",
+                labelMonthlyInstallment: "Monthly Installment (Angsuran Tetap Bulanan)",
+                descMonthlyInstallment: "The fixed amount you must pay every month to the bank/credit provider.",
+                labelLoanTermMonths: "Loan Term (Total Months)",
+                descLoanTermMonths: "The total period of installment payments in months (e.g., 4 years = 48 months).",
+                feesHeader: "Upfront Fees (Deducted/Paid in Advance)",
+                labelAdminFee: "Administration Fee",
+                labelProvisionFee: "Provision Fee",
+                labelInsuranceFee: "Upfront Insurance Fee",
+                calculateButton: "Calculate True APR",
+                inputError: "Please enter all valid input values (Principal, Installment, and Term > 0). Ensure the Monthly Installment is greater than the Principal divided by the Term.",
+                // Hasil
+                resultHeader: "Effective Rate Calculation Result",
+                labelEffectiveAPR: "True Annual Effective Interest Rate (APR)",
+                labelNetPrincipal: "Net Principal Received",
+                labelTotalInterestCost: "Total Interest + Fees Cost",
+
+                // Konten Edukasi & Contoh Kasus
+                sectionHeader1: "Unmasking the True Cost: APR vs. Flat Rate",
+                content1: "The interest rate offered by vendors often uses a seemingly small 'flat rate' method. However, a flat rate does not reflect the true cost of borrowing because it doesn't consider the principal balance decreasing over time. APR (Annual Percentage Rate) is the standard metric reflecting the real interest you pay annually, critically including all upfront fees (administration, provision, insurance) that reduce the funds you actually receive.",
+                
+                sectionHeaderCase: "Case Example: Motorbike Loan Comparison (Flat vs. True Effective Rate)",
+                contentCaseIntro: "Here is an example of how this calculator works and how upfront fees impact the real interest you pay:",
+                caseInputs: "Case Inputs: Loan Principal: 10,000,000 | Monthly Installment: 300,000 | Loan Term: 48 Months (4 Years) | Upfront Fee (Admin): 100,000.",
+                caseResultText: "If calculated only on the Monthly Installment, the flat rate is 7.5%. HOWEVER, after factoring in the Rp 100,000 upfront fee, the **True Annual Effective Interest Rate (APR) is approximately 12.8%**.",
+
+                sectionHeader2: "Why APR is the Key Metric",
+                content2: "APR is the most important metric for comparing loan offers. When you are offered two loans at '10% interest,' but one has large provision and insurance fees, the loan with higher upfront costs will have a much higher APR. This calculator gives you the power to make smarter financial decisions and save money in the long run.",
+
+                sectionHeader3: "Disclaimer",
+                content3: "This calculator uses an iterative mathematical method (Trial and Error) to estimate the accurate Annual Effective Interest Rate (APR). The result is a theoretical estimate. The actual loan result may differ slightly depending on the bank's rounding method and disbursement day. Always verify your calculations with the official loan documents from the credit provider.",
+
+                // Footer
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        // Fungsi utilitas untuk memformat angka dengan pemisah ribuan (tanpa simbol mata uang)
+        function formatNumber(amount) {
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(amount);
+        }
+
+        // Fungsi yang dipanggil oleh event oninput untuk memformat input secara real-time
+        function formatInput(inputElement) {
+            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            
+            if (rawValue) {
+                const numericValue = parseInt(rawValue, 10);
+                inputElement.value = formatNumber(numericValue);
+            } else {
+                inputElement.value = ''; 
+            }
+        }
+        
+        // Fungsi untuk membersihkan format dari input string
+        function cleanInput(formattedValue) {
+            return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
+        }
+
+        // Fungsi utama untuk menghitung APR (Menggunakan Metode Iterasi / Interpolasi)
+        function calculateAPR(event) {
+            event.preventDefault();
+
+            // 1. Ambil dan Bersihkan Input
+            const L_principal = cleanInput(document.getElementById('principal').value); // Pokok Pinjaman Awal
+            const M_installment = cleanInput(document.getElementById('monthlyInstallment').value); // Angsuran Bulanan Tetap
+            const N_months = parseInt(document.getElementById('loanTermMonths').value) || 0; // Jangka Waktu (Bulan)
+            
+            // Biaya Awal
+            const feeAdmin = cleanInput(document.getElementById('adminFee').value);
+            const feeProvision = cleanInput(document.getElementById('provisionFee').value);
+            const feeInsurance = cleanInput(document.getElementById('insuranceFee').value);
+            
+            const totalUpfrontFees = feeAdmin + feeProvision + feeInsurance;
+            
+            // Pokok Bersih yang Diterima (Dasar Kalkulasi APR)
+            const L_net = L_principal - totalUpfrontFees; 
+
+            const resultBox = document.getElementById('resultBox');
+            const errorAlert = document.getElementById('errorAlert');
+
+            // 2. Validasi Input Kritis
+            if (L_principal <= 0 || M_installment <= 0 || N_months <= 0) {
+                document.getElementById('errorText').textContent = translations[currentLang].inputError;
+                errorAlert.classList.remove('hidden');
+                resultBox.classList.remove('visible');
+                return;
+            }
+            // Validasi Logis (Angsuran Bulanan harus bisa menutupi pokok)
+            if (M_installment < L_principal / N_months) {
+                 document.getElementById('errorText').textContent = translations[currentLang].inputError;
+                 errorAlert.classList.remove('hidden');
+                 resultBox.classList.remove('visible');
+                 return;
+            }
+            
+            errorAlert.classList.add('hidden');
+            
+            // 3. Perhitungan Bunga (Metode Bisection/Trial and Error)
+            
+            // Fungsi untuk menghitung Nilai Sekarang (Net Present Value)
+            // L_net = M_installment * [ 1 - (1 + R_monthly)^(-N_months) ] / R_monthly
+            // Kita harus mencari R_monthly (suku bunga bulanan) yang membuat persamaan ini benar.
+            const calculateNPV = (R_monthly) => {
+                if (R_monthly === 0) {
+                    return M_installment * N_months;
+                }
+                const powerTerm = Math.pow(1 + R_monthly, -N_months);
+                return M_installment * (1 - powerTerm) / R_monthly;
+            };
+
+            // Batas Pencarian Rate (Range 0% hingga 100% per bulan)
+            let lowRate = 0;
+            let highRate = 1; // 100% per bulan (max 1200% APR)
+            const tolerance = 0.0000001; // Akurasi
+
+            let R_monthly = 0;
+            let attempts = 0;
+            const maxAttempts = 100;
+
+            // Jika L_net <= 0, berarti biaya awal lebih besar dari pokok pinjaman.
+            // APR dalam kasus ini tidak terdefinisi atau sangat tinggi/tak terhingga secara praktis.
+            if (L_net <= 0) {
+                R_monthly = 1; // Maksimumkan rate (sebagai indikasi pinjaman sangat buruk)
+            } else {
+                 // Mulai Iterasi Bisection
+                while ((highRate - lowRate) > tolerance && attempts < maxAttempts) {
+                    R_monthly = (lowRate + highRate) / 2;
+                    const npv = calculateNPV(R_monthly);
+
+                    if (npv > L_net) {
+                        lowRate = R_monthly;
+                    } else {
+                        highRate = R_monthly;
+                    }
+                    attempts++;
+                }
+            }
+
+            const R_annual_APR = R_monthly * 12; // Konversi ke APR (desimal)
+
+            // 4. Hitung Total Biaya
+            const totalRepayment = M_installment * N_months;
+            const totalCost = totalRepayment - L_net; // Total Bunga + Biaya Awal
+
+            // 5. Tampilkan Hasil
+            document.getElementById('effectiveAPRResult').textContent = (R_annual_APR * 100).toFixed(2) + '%';
+            document.getElementById('netPrincipalResult').textContent = formatNumber(Math.round(L_net));
+            document.getElementById('totalInterestCostResult').textContent = formatNumber(Math.round(totalCost));
+
+            // Tampilkan kotak hasil
+            resultBox.classList.add('visible');
+        }
+
+
+        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+            document.documentElement.lang = lang; 
+
+            // Ambil nilai saat ini (tanpa format) untuk input mata uang
+            const pValue = cleanInput(document.getElementById('principal').value);
+            const mValue = cleanInput(document.getElementById('monthlyInstallment').value);
+            const aValue = cleanInput(document.getElementById('adminFee').value);
+            const prValue = cleanInput(document.getElementById('provisionFee').value);
+            const iValue = cleanInput(document.getElementById('insuranceFee').value);
+
+
+            // Update teks statis 
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            
+            // Update label formulir dan tombol
+            document.getElementById('labelPrincipal').textContent = t.labelPrincipal;
+            document.getElementById('descPrincipal').textContent = t.descPrincipal;
+            document.getElementById('labelMonthlyInstallment').textContent = t.labelMonthlyInstallment;
+            document.getElementById('descMonthlyInstallment').textContent = t.descMonthlyInstallment;
+            document.getElementById('labelLoanTermMonths').textContent = t.labelLoanTermMonths;
+            document.getElementById('descLoanTermMonths').textContent = t.descLoanTermMonths;
+            document.getElementById('feesHeader').textContent = t.feesHeader;
+            document.getElementById('labelAdminFee').textContent = t.labelAdminFee;
+            document.getElementById('labelProvisionFee').textContent = t.labelProvisionFee;
+            document.getElementById('labelInsuranceFee').textContent = t.labelInsuranceFee;
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+
+            // Format ulang input value berdasarkan bahasa baru
+            document.getElementById('principal').value = formatNumber(pValue);
+            document.getElementById('monthlyInstallment').value = formatNumber(mValue);
+            document.getElementById('adminFee').value = formatNumber(aValue);
+            document.getElementById('provisionFee').value = formatNumber(prValue);
+            document.getElementById('insuranceFee').value = formatNumber(iValue);
+
+            
+            // Update label hasil
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            document.getElementById('labelEffectiveAPR').textContent = t.labelEffectiveAPR;
+            document.getElementById('labelNetPrincipal').textContent = t.labelNetPrincipal;
+            document.getElementById('labelTotalInterestCost').textContent = t.labelTotalInterestCost;
+
+
+            // Update Konten Edukasi & Contoh Kasus
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('sectionHeaderCase').textContent = t.sectionHeaderCase;
+            document.getElementById('contentCaseIntro').innerHTML = t.contentCaseIntro;
+            document.getElementById('caseInputs').textContent = t.caseInputs;
+            document.getElementById('caseResultText').textContent = t.caseResultText;
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2').innerHTML = t.content2;
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3').innerHTML = t.content3;
+            
+            // Update Footer
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+
+            // Format ulang hasil jika sudah ada
+            const resultElement = document.getElementById('effectiveAPRResult');
+            if (resultElement.textContent !== '0.00%') {
+                 // Panggil kembali fungsi hitung untuk me-refresh format angka
+                 calculateAPR({ preventDefault: () => {} }); 
+            }
+
+             // Pastikan error message diupdate
+            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
+                document.getElementById('errorText').textContent = t.inputError;
+            }
+        }
+        
+        // Event listener untuk perubahan bahasa
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) {
+                    setLanguage(newLang);
+                    // Sembunyikan hasil saat bahasa berganti
+                    document.getElementById('resultBox').classList.remove('visible');
+                    document.getElementById('errorAlert').classList.add('hidden');
+                }
+            }
+        });
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logika Deteksi Bahasa Awal (Sama seperti alat lain)
+            let defaultLang = 'en'; 
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('id')) {
+                defaultLang = 'id';
+            }
+            setLanguage(defaultLang); 
+        });
+
+    </script>
+</body>
+</html>

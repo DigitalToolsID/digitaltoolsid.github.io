@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Judul akan di-set oleh JS -->
+    <title id="appTitle">Kalkulator Siklus Menstruasi & Ovulasi</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Kode Google Analytic dan Adsense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <!-- Konfigurasi Tailwind (Sama seperti BMI) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'toggle-bg': '#e5e7eb',
+                        'health-color': '#e11d48', // Warna baru untuk alat ini (Pink/Rose)
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya kustom untuk tampilan hasil (Sama seperti BMI) */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 1200px; 
+            padding: 1.5rem; 
+        }
+        
+        /* Gaya Toggle Bahasa (Sama seperti BMI) */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya untuk daftar poin agar lebih rapi */
+        .action-list {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .action-list li {
+            margin-bottom: 0.25rem;
+        }
+        
+    </style>
+</head>
+<!-- Body dengan kode pengaman (Sama seperti BMI) -->
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+    <!-- Header (Sama seperti BMI, path ../index.html sudah benar) -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+            </div>
+    </header>
+
+    <!-- Main Content (Struktur sama, ID diubah) -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Menstrual & Ovulation Cycle Calculator</h1>
+            
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+                Estimate your next period date, ovulation window, and most fertile days based on your cycle.
+            </p>
+            
+            <!-- Form Input (Baru) -->
+            <div class="space-y-4">
+                <div class="relative">
+                    <label for="lastPeriodDate" class="block text-sm font-medium text-gray-700 mb-1" id="labelLastPeriod">First Day of Last Period</label>
+                    <input type="date" id="lastPeriodDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                </div>
+                
+                <div class="relative">
+                    <label for="cycleLength" class="block text-sm font-medium text-gray-700 mb-1" id="labelCycleLength">Average Cycle Length (days)</label>
+                    <input type="number" id="cycleLength" placeholder="E.g.: 28" step="1" min="20" max="45" value="28" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                </div>
+
+                <button id="calculateButton" onclick="calculateCycle()" class="w-full bg-health-color text-white font-semibold py-3 rounded-xl shadow-md hover:bg-rose-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-health-color focus:ring-opacity-50">
+                    Calculate My Cycle
+                </button>
+                
+                <!-- Error Alert (Sama seperti BMI) -->
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
+            </div>
+
+            <!-- Result Box (Struktur sama, ID diubah, tanpa tabs) -->
+            <div id="resultBox" class="result-box mt-6 bg-health-color/5 border border-health-color/30 rounded-xl shadow-lg">
+                
+                <h3 id="resultHeader" class="text-lg font-bold mb-4 text-primary border-b pb-2">Your Estimated Cycle</h3>
+                
+                <div class="space-y-4">
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p id="labelNextPeriod" class="text-sm text-blue-800 font-medium mb-1">Estimated Next Period</pre>
+                        <p id="nextPeriodResult" class="text-2xl font-bold text-blue-600">--</p>
+                    </div>
+                    <div class="p-4 bg-pink-50 border border-pink-200 rounded-lg">
+                        <p id="labelFertileWindow" class="text-sm text-pink-800 font-medium mb-1">Estimated Fertile Window</p>
+                        <p id="fertileWindowResult" class="text-xl font-bold text-pink-600">--</p>
+                    </div>
+                    <div class="p-4 bg-pink-100 border border-pink-300 rounded-lg">
+                        <p id="labelOvulation" class="text-sm text-pink-900 font-medium mb-1">Approximate Ovulation Day</p>
+                        <p id="ovulationResult" class="text-xl font-bold text-pink-700">--</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Konten Edukasi (Struktur sama, ID diubah) -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding Your Menstrual Cycle</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">How This Calculator Works (Luteal Phase)</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Medical Disclaimer</h3>
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer (Sama seperti BMI) -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // LOGIKA BARU UNTUK KALKULATOR SIKLUS
+        // **********************************************
+
+        // Objek terjemahan BARU untuk alat ini
+        const translations = {
+            id: {
+                appTitle: "Kalkulator Siklus Menstruasi & Ovulasi",
+                headerTitle: "Kalkulator Siklus Menstruasi & Ovulasi",
+                toolSubtitle: "Perkirakan tanggal periode berikutnya, jendela ovulasi, dan hari paling subur berdasarkan siklus Anda.",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                labelLastPeriod: "Hari Pertama Periode Terakhir",
+                labelCycleLength: "Rata-rata Lama Siklus (hari)",
+                calculateButton: "Hitung Siklus Saya",
+                resultHeader: "Hasil Estimasi Siklus Anda",
+                labelNextPeriod: "Perkiraan Periode Berikutnya",
+                labelFertileWindow: "Perkiraan Jendela Subur",
+                labelOvulation: "Perkiraan Hari Ovulasi",
+                inputError: "Mohon masukkan Tanggal Periode Terakhir dan Lama Siklus yang valid (antara 20-45 hari).",
+                placeholderCycle: "Contoh: 28",
+
+                // Konten Edukasi (Penting untuk AdSense)
+                sectionHeader1: "Memahami Siklus Menstruasi Anda",
+                content1: "Siklus menstruasi adalah proses bulanan yang dialami tubuh wanita sebagai persiapan untuk kemungkinan kehamilan. Siklus ini diatur oleh hormon dan rata-rata berlangsung selama 28 hari, meskipun siklus normal dapat berkisar antara 21 hingga 35 hari. Mengetahui siklus Anda sangat penting tidak hanya untuk perencanaan kehamilan tetapi juga sebagai indikator kesehatan secara keseluruhan.",
+                
+                sectionHeader2: "Cara Kerja Kalkulator Ini (Fase Luteal)",
+                content2: "Kalkulator ini bekerja berdasarkan metode standar yang mengasumsikan Fase Luteal (waktu dari ovulasi ke periode berikutnya) adalah konstan selama 14 hari. Perhitungan dilakukan sebagai berikut: <br> 1. <strong>Periode Berikutnya:</strong> Tanggal Periode Terakhir + Lama Siklus Anda. <br> 2. <strong>Hari Ovulasi:</strong> Tanggal Periode Berikutnya - 14 Hari. <br> 3. <strong>Jendela Subur:</strong> Diperkirakan 5 hari sebelum ovulasi dan pada hari ovulasi itu sendiri. Ini adalah periode ketika kemungkinan hamil paling tinggi karena sperma dapat bertahan hidup di dalam tubuh hingga 5 hari.",
+                
+                sectionHeader3: "Penting (Disclaimer Medis)",
+                content3: "Kalkulator ini hanya memberikan <strong>estimasi</strong> dan tidak boleh dianggap sebagai pengganti nasihat medis profesional. Siklus dapat bervariasi karena stres, perubahan gaya hidup, atau kondisi kesehatan. Untuk pelacakan kesuburan yang akurat atau jika Anda memiliki siklus yang tidak teratur, harap berkonsultasi dengan dokter atau ahli kesehatan.",
+
+                // Footer
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            },
+            en: {
+                appTitle: "Menstrual & Ovulation Cycle Calculator",
+                headerTitle: "Menstrual & Ovulation Cycle Calculator",
+                toolSubtitle: "Estimate your next period date, ovulation window, and most fertile days based on your cycle.",
+                backToCatalogText: "Back to Tools Catalog",
+                labelLastPeriod: "First Day of Last Period",
+                labelCycleLength: "Average Cycle Length (days)",
+                calculateButton: "Calculate My Cycle",
+                resultHeader: "Your Estimated Cycle Results",
+                labelNextPeriod: "Estimated Next Period",
+                labelFertileWindow: "Estimated Fertile Window",
+                labelOvulation: "Approximate Ovulation Day",
+                inputError: "Please enter a valid Last Period Date and Cycle Length (between 20-45 days).",
+                placeholderCycle: "E.g.: 28",
+
+                // Konten Edukasi (Penting untuk AdSense)
+                sectionHeader1: "Understanding Your Menstrual Cycle",
+                content1: "The menstrual cycle is the monthly process a woman's body goes through in preparation for a potential pregnancy. It is regulated by hormones, and while the average cycle is 28 days, a normal cycle can range from 21 to 35 days. Knowing your cycle is crucial not only for family planning but also as a general health indicator.",
+                
+                sectionHeader2: "How This Calculator Works (Luteal Phase)",
+                content2: "This calculator operates on the standard method which assumes the Luteal Phase (the time from ovulation to the next period) is a constant 14 days. The calculation is as follows: <br> 1. <strong>Next Period:</strong> Last Period Date + Your Cycle Length. <br> 2. <strong>Ovulation Day:</strong> Next Period Date - 14 Days. <br> 3. <strong>Fertile Window:</strong> Estimated as 5 days before ovulation and the day of ovulation itself. This is the period of highest pregnancy likelihood, as sperm can survive in the body for up to 5 days.",
+                
+                sectionHeader3: "Important (Medical Disclaimer)",
+                content3: "This calculator provides an <strong>estimate only</strong> and should not be considered a substitute for professional medical advice. Cycles can vary due to stress, lifestyle changes, or health conditions. For accurate fertility tracking or if you have irregular cycles, please consult a doctor or healthcare provider.",
+
+                // Footer
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        // Fungsi untuk memformat Tanggal agar bisa dibaca
+        function formatDate(date, lang) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const locale = lang === 'id' ? 'id-ID' : 'en-US';
+            return date.toLocaleDateString(locale, options);
+        }
+
+        // Fungsi utama untuk menghitung siklus
+        function calculateCycle() {
+            const lastPeriodInput = document.getElementById('lastPeriodDate').value;
+            const cycleLength = parseInt(document.getElementById('cycleLength').value);
+
+            const lang = currentLang;
+            const resultBox = document.getElementById('resultBox');
+            const errorAlert = document.getElementById('errorAlert');
+
+            // 1. Validasi Input
+            if (!lastPeriodInput || isNaN(cycleLength) || cycleLength < 20 || cycleLength > 45) {
+                document.getElementById('errorText').textContent = translations[lang].inputError;
+                errorAlert.classList.remove('hidden');
+                resultBox.classList.remove('visible');
+                return;
+            }
+            
+            errorAlert.classList.add('hidden');
+
+            // --- PERHITUNGAN INTI ---
+            // Gunakan T00:00:00 untuk menghindari masalah timezone
+            const lastPeriodDate = new Date(lastPeriodInput + 'T00:00:00');
+
+            // 1. Perkiraan Periode Berikutnya
+            const nextPeriodDate = new Date(lastPeriodDate);
+            nextPeriodDate.setDate(lastPeriodDate.getDate() + cycleLength);
+
+            // 2. Perkiraan Ovulasi (14 hari SEBELUM periode berikutnya)
+            const ovulationDate = new Date(nextPeriodDate);
+            ovulationDate.setDate(nextPeriodDate.getDate() - 14);
+
+            // 3. Jendela Subur (5 hari sebelum ovulasi + hari ovulasi)
+            const fertileStartDate = new Date(ovulationDate);
+            fertileStartDate.setDate(ovulationDate.getDate() - 5);
+            
+            // Tampilkan Hasil
+            document.getElementById('nextPeriodResult').textContent = formatDate(nextPeriodDate, lang);
+            document.getElementById('ovulationResult').textContent = formatDate(ovulationDate, lang);
+            document.getElementById('fertileWindowResult').textContent = `${formatDate(fertileStartDate, lang)} - ${formatDate(ovulationDate, lang)}`;
+
+            // Tampilkan kotak hasil
+            resultBox.classList.add('visible');
+        }
+
+
+        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa (Disesuaikan untuk alat ini)
+        function setLanguage(lang) {
+            currentLang = lang; // Simpan bahasa saat ini
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+
+            // Update teks statis
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            
+            // Update label formulir dan tombol
+            document.getElementById('labelLastPeriod').textContent = t.labelLastPeriod;
+            document.getElementById('labelCycleLength').textContent = t.labelCycleLength;
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            
+            // Update placeholder
+            document.getElementById('cycleLength').placeholder = t.placeholderCycle;
+
+            // Update label hasil
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            document.getElementById('labelNextPeriod').textContent = t.labelNextPeriod;
+            document.getElementById('labelFertileWindow').textContent = t.labelFertileWindow;
+            document.getElementById('labelOvulation').textContent = t.labelOvulation;
+
+            // Update Konten Edukasi
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2').innerHTML = t.content2;
+Read
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3').innerHTML = t.content3;
+            
+            // Update Footer
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+
+            // Perbarui hasil yang sudah ada (jika sudah dihitung)
+            const resultElement = document.getElementById('nextPeriodResult');
+            if (resultElement.textContent !== '--') {
+                 calculateCycle(); // Hitung ulang dengan bahasa baru
+            }
+
+             // Pastikan error message diupdate
+            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
+                document.getElementById('errorText').textContent = t.inputError;
+            }
+        }
+        
+        // Event listener untuk perubahan bahasa (Sama seperti BMI)
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) {
+                    setLanguage(newLang);
+                    // Sembunyikan hasil saat bahasa berganti agar tidak membingungkan
+                    document.getElementById('resultBox').classList.remove('visible');
+                    document.getElementById('errorAlert').classList.add('hidden');
+                }
+            }
+        });
+
+        // Inisialisasi (Sama seperti BMI, tanpa PWA)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Atur tanggal hari ini sebagai tanggal input maksimum
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('lastPeriodDate').setAttribute('max', today);
+
+            // Set bahasa default (mengikuti contoh BMI)
+            setLanguage('en'); 
+        });
+
+    </script>
+</body>
+</html>

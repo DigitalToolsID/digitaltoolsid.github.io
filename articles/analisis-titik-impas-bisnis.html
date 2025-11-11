@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Judul akan di-set oleh JS -->
+    <title id="appTitle">Artikel: Analisis Kelayakan Bisnis</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Kode Google Analytic dan Adsense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Hijau untuk Keuangan
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya Toggle Bahasa (Sama seperti alat lain) */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya untuk tombol CTA */
+        .cta-button {
+            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e8449;
+        }
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e8449;
+        }
+    </style>
+</head>
+
+<!-- Body dengan kode pengaman -->
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+            </div>
+    </header>
+
+    <!-- Main Content (Konten Artikel) -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <!-- Judul Artikel -->
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-4"></h1>
+            
+            <!-- Konten Artikel -->
+            <article class="prose prose-lg max-w-none">
+                <p id="contentIntro" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+
+                <h2 id="sectionHeader1" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
+                <p id="content1_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li id="content1_2"></li>
+                    <li id="content1_3"></li>
+                </ul>
+                <p id="content1_4" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+
+                <h2 id="sectionHeader2" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
+                <p id="content2_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li id="content2_2"></li>
+                    <li id="content2_3"></li>
+                </ul>
+                <p id="content2_4" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+
+                <h2 id="sectionHeader3" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
+                <p id="content3_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li id="content3_2"></li>
+                    <li id="content3_3"></li>
+                </ul>
+                <p id="content3_4" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+                
+                <h2 id="sectionHeader4" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
+                <p id="content4_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li id="content4_2"></li>
+                    <li id="content4_3"></li>
+                    <li id="content4_4"></li>
+                </ul>
+                <p id="content4_5" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+                
+
+            </article>
+
+            <!-- Paragraf Penutup "Keren" dan Tombol CTA -->
+            <div class="mt-12 pt-6 border-t border-gray-200 text-center">
+                <p id="contentCTA" class="text-lg text-gray-800 font-medium mb-6"></p>
+                
+                <!-- CTA sekarang merujuk ke Kalkulator NPV/IRR/BEP yang akan dibuat (F3 di index.html) -->
+                <a href="../kalkulator-npv-irr-bep/index.html" id="buttonCTA" class="cta-button inline-block bg-finance-color text-white font-semibold py-3 px-8 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50 text-lg">
+                    <!-- Teks diisi oleh JS -->
+                </a>
+                <p id="buttonNotice" class="text-sm text-gray-500 mt-3"></p>
+            </div>
+
+        </div>
+    </main>
+    
+    <!-- Footer (Sama seperti alat lain) -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // LOGIKA TRANSLATE KONTEN ARTIKEL
+        // **********************************************
+
+        const translations = {
+            id: {
+                appTitle: "Artikel: Analisis Kelayakan Bisnis",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                
+                // Konten Artikel (Bahasa Indonesia)
+                headerTitle: "Tiga Metrik Penting: BEP, NPV, dan IRR untuk Analisis Kelayakan Bisnis",
+                contentIntro: "Bagi pemilik usaha atau investor yang fokus pada bisnis riil, keputusan terbaik didasarkan pada perhitungan yang kokoh. Untuk menilai apakah sebuah rencana bisnis layak diinvestasikan, Anda memerlukan tiga metrik utama: Titik Impas (BEP), Nilai Sekarang Bersih (NPV), dan Tingkat Pengembalian Internal (IRR). Ketiga metrik ini memberikan sudut pandang yang berbeda—keamanan operasional, nilai waktu uang, dan potensi keuntungan—yang harus dipertimbangkan secara bersamaan.",
+                
+                sectionHeader1: "1. Metrik Keamanan Operasional: Titik Impas (BEP)",
+                content1_1: "Titik Impas (Break-Even Point - BEP) adalah alat manajemen risiko paling dasar. BEP memberi tahu Anda seberapa banyak penjualan yang harus Anda capai agar pendapatan sama persis dengan total biaya, menghasilkan keuntungan nol (Profit = 0).",
+                content1_2: "<strong>Komponen Kunci:</strong> Memisahkan Biaya Tetap (sewa, gaji) dan Biaya Variabel (bahan baku, komisi).",
+                content1_3: "<strong>Relevansi:</strong> BEP membantu menentukan batas aman. Jika proyeksi penjualan jauh di atas BEP, bisnis tersebut memiliki margin keamanan yang baik. Jika BEP mendekati kapasitas maksimum, risikonya tinggi.",
+                content1_4: "BEP dapat dihitung dalam unit produk atau dalam total pendapatan (Rupiah). Dalam investasi riil, BEP adalah validasi pertama bahwa model bisnis Anda secara fundamental dapat menghasilkan laba.",
+
+                sectionHeader2: "2. Metrik Nilai Waktu Uang: Net Present Value (NPV)",
+                content2_1: "Uang hari ini lebih berharga daripada uang yang sama di masa depan (Nilai Waktu Uang). NPV (Net Present Value - Nilai Sekarang Bersih) adalah metrik yang mengakui prinsip ini. NPV menghitung selisih antara nilai sekarang dari semua arus kas masuk yang diharapkan (pendapatan) dengan nilai sekarang dari semua arus kas keluar (biaya investasi dan operasional).",
+                content2_2: "<strong>Relevansi:</strong> NPV mengukur apakah investasi, setelah memperhitungkan risiko (melalui tingkat diskonto), benar-benar akan menambahkan nilai ke perusahaan.",
+                content2_3: "<strong>Aturan Keputusan:</strong> Jika NPV adalah <strong>positif (> 0)</strong>, proyek tersebut diharapkan menguntungkan dan layak diterima. Jika NPV negatif, investasi tersebut akan merugi dan harus ditolak.",
+                content2_4: "NPV adalah alat yang sangat objektif karena memaksa investor untuk menggunakan tingkat diskonto (biaya modal) yang realistis.",
+
+                sectionHeader3: "3. Metrik Efisiensi Modal: Internal Rate of Return (IRR)",
+                content3_1: "IRR (Internal Rate of Return - Tingkat Pengembalian Internal) adalah metrik yang melengkapi NPV. IRR adalah suku bunga diskonto yang membuat NPV suatu proyek menjadi nol (NPV = 0). Dengan kata lain, IRR adalah tingkat keuntungan tahunan yang diharapkan dari suatu investasi.",
+                content3_2: "<strong>Relevansi:</strong> IRR adalah tingkat keuntungan yang dihasilkan oleh proyek itu sendiri. Ini membantu membandingkan efisiensi modal antara berbagai proyek investasi.",
+                content3_3: "<strong>Aturan Keputusan:</strong> Proyek tersebut layak diterima jika IRR <strong>lebih tinggi</strong> dari biaya modal (tingkat pengembalian minimum yang diwajibkan oleh investor atau bank).",
+                content3_4: "Investor sering lebih menyukai IRR karena mudah dibandingkan dengan suku bunga bank atau tingkat pengembalian investasi lain (misalnya, 'Proyek ini menghasilkan 20% per tahun').",
+
+                sectionHeader4: "4. Menggabungkan Ketiga Metrik untuk Keputusan Terbaik",
+                content4_1: "Investor yang cerdas tidak pernah hanya mengandalkan satu metrik:",
+                content4_2: "<strong>BEP</strong> menjawab: 'Seberapa banyak volume penjualan yang harus saya dapatkan agar aman secara operasional?'",
+                content4_3: "<strong>NPV</strong> menjawab: 'Apakah investasi ini akan menghasilkan nilai tambah nyata bagi saya hari ini?'",
+                content4_4: "<strong>IRR</strong> menjawab: 'Berapa tingkat keuntungan tahunan maksimum yang dapat saya harapkan dari investasi ini?'",
+                content4_5: "Untuk mengambil keputusan investasi riil yang paling akurat, Anda harus menggunakan gabungan ketiga alat ini. Gunakan NPV dan IRR untuk kelayakan jangka panjang dan BEP untuk menilai risiko operasional harian. Analisis yang terukur adalah kunci keberhasilan di dunia bisnis.",
+                
+                // Paragraf "Keren" dan Tombol CTA
+                contentCTA: "Untuk menilai kelayakan rencana bisnis Anda secara menyeluruh—mulai dari keamanan operasional hingga profitabilitas jangka panjang—Anda dapat menggunakan kalkulator NPV, IRR, dan BEP di bawah ini.",
+                buttonCTA: "Hitung BEP, NPV, dan IRR Bisnis Anda",
+                buttonNotice: "", // Dihapus teks "sedang dalam pengembangan"
+
+                // Footer
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            },
+            en: {
+                appTitle: "Article: Business Viability Analysis",
+                backToCatalogText: "Back to Tools Catalog",
+                
+                // Konten Artikel (Bahasa Inggris)
+                headerTitle: "Three Essential Metrics: BEP, NPV, and IRR for Business Viability Analysis",
+                contentIntro: "For business owners or investors focused on real business ventures, the best decisions are based on solid calculation. To assess whether a business plan is worth investing in, you need three key metrics: Break-Even Point (BEP), Net Present Value (NPV), and Internal Rate of Return (IRR). These three metrics provide different perspectives—operational safety, the time value of money, and potential profitability—all of which must be considered simultaneously.",
+                
+                sectionHeader1: "1. Operational Safety Metric: Break-Even Point (BEP)",
+                content1_1: "The Break-Even Point (BEP) is the most basic risk management tool. BEP tells you how much sales you must achieve so that revenue exactly equals total costs, resulting in zero profit (Profit = 0).",
+                content1_2: "<strong>Key Components:</strong> Separating Fixed Costs (rent, salaries) and Variable Costs (raw materials, commissions).",
+                content1_3: "<strong>Relevance:</strong> BEP helps determine the safety margin. If projected sales are far above BEP, the business has a good safety margin. If BEP is close to maximum capacity, the risk is high.",
+                content1_4: "BEP can be calculated in unit products or in total revenue (Rupiah/Currency). In real investment, BEP is the first validation that your business model is fundamentally capable of generating profit.",
+
+                sectionHeader2: "2. Time Value Metric: Net Present Value (NPV)",
+                content2_1: "Money today is worth more than the same money in the future (Time Value of Money). NPV (Net Present Value) is a metric that recognizes this principle. NPV calculates the difference between the present value of all expected cash inflows (revenue) and the present value of all cash outflows (investment and operational costs).",
+                content2_2: "<strong>Relevance:</strong> NPV measures whether the investment, after accounting for risk (through the discount rate), will actually add value to the company.",
+                content2_3: "<strong>Decision Rule:</strong> If the NPV is <strong>positive (> 0)</strong>, the project is expected to be profitable and should be accepted. If the NPV is negative, the investment will result in a loss and should be rejected.",
+                content2_4: "NPV is a very objective tool because it forces investors to use a realistic discount rate (cost of capital).",
+
+                sectionHeader3: "3. Capital Efficiency Metric: Internal Rate of Return (IRR)",
+                content3_1: "IRR (Internal Rate of Return) is a metric that complements NPV. IRR is the discount rate that makes the NPV of a project zero (NPV = 0). In other words, IRR is the expected annual rate of return from an investment.",
+                content3_2: "<strong>Relevance:</strong> IRR is the rate of return generated by the project itself. It helps compare capital efficiency between various investment projects.",
+                content3_3: "<strong>Decision Rule:</strong> The project is worth accepting if the IRR is <strong>higher</strong> than the cost of capital (the minimum required rate of return set by the investor or bank).",
+                content3_4: "Investors often prefer IRR because it is easily compared to bank interest rates or other investment returns (e.g., 'This project yields 20% per year').",
+
+                sectionHeader4: "4. Combining the Three Metrics for the Best Decisions",
+                content4_1: "Smart investors never rely on just one metric:",
+                content4_2: "<strong>BEP</strong> answers: 'How much sales volume do I need to achieve to be operationally safe?'",
+                content4_3: "<strong>NPV</strong> answers: 'Will this investment generate real added value for me today?'",
+                content4_4: "<strong>IRR</strong> answers: 'What is the maximum annual rate of return I can expect from this investment?'",
+                content4_5: "To make the most accurate real investment decision, you must use a combination of these three tools. Use NPV and IRR for long-term feasibility and BEP for assessing daily operational risk. Measurable analysis is the key to success in the business world.",
+                
+                // Paragraf "Keren" dan Tombol CTA
+                contentCTA: "To comprehensively assess the viability of your business plan—from operational safety to long-term profitability—you can use the NPV, IRR, and BEP calculators below.",
+                buttonCTA: "Calculate Your Business BEP, NPV, and IRR",
+                buttonNotice: "", // Dihapus teks "is currently under development"
+
+                // Footer
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+            const buttonCTA = document.getElementById('buttonCTA');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+            document.documentElement.lang = lang; 
+
+            // Daftar ID elemen dan kunci terjemahan
+            const elementsToTranslate = [
+                { id: 'appTitle', key: 'appTitle' },
+                { id: 'backToCatalogText', key: 'backToCatalogText' },
+                { id: 'headerTitle', key: 'headerTitle' },
+                { id: 'contentIntro', key: 'contentIntro' },
+                { id: 'sectionHeader1', key: 'sectionHeader1' },
+                { id: 'content1_1', key: 'content1_1' },
+                { id: 'content1_2', key: 'content1_2' },
+                { id: 'content1_3', key: 'content1_3' },
+                { id: 'content1_4', key: 'content1_4' },
+                { id: 'sectionHeader2', key: 'sectionHeader2' },
+                { id: 'content2_1', key: 'content2_1' },
+                { id: 'content2_2', key: 'content2_2' },
+                { id: 'content2_3', key: 'content2_3' },
+                { id: 'content2_4', key: 'content2_4' },
+                { id: 'sectionHeader3', key: 'sectionHeader3' },
+                { id: 'content3_1', key: 'content3_1' },
+                { id: 'content3_2', key: 'content3_2' },
+                { id: 'content3_3', key: 'content3_3' },
+                { id: 'content3_4', key: 'content3_4' },
+                { id: 'sectionHeader4', key: 'sectionHeader4' },
+                { id: 'content4_1', key: 'content4_1' },
+                { id: 'content4_2', key: 'content4_2' },
+                { id: 'content4_3', key: 'content4_3' },
+                { id: 'content4_4', key: 'content4_4' },
+                { id: 'content4_5', key: 'content4_5' },
+                { id: 'contentCTA', key: 'contentCTA' },
+                { id: 'buttonCTA', key: 'buttonCTA' },
+                { id: 'buttonNotice', key: 'buttonNotice' },
+                { id: 'linkPrivacy', key: 'linkPrivacy' },
+                { id: 'linkTerms', key: 'linkTerms' },
+                { id: 'linkAbout', key: 'linkAbout' },
+                { id: 'linkContact', key: 'linkContact' },
+                { id: 'footerCopyright', key: 'footerCopyright' }
+            ];
+
+            // Loop untuk menerjemahkan
+            elementsToTranslate.forEach(item => {
+                const element = document.getElementById(item.id);
+                if (element) {
+                    // Gunakan innerHTML untuk elemen yang mengandung tag HTML (seperti <strong>, <em>, dll.)
+                    if (['contentIntro', 'content1_1', 'content1_2', 'content1_3', 'content1_4', 'content2_1', 'content2_2', 'content2_3', 'content2_4', 'content3_1', 'content3_2', 'content3_3', 'content3_4', 'content4_1', 'content4_2', 'content4_3', 'content4_4', 'content4_5', 'contentCTA', 'footerCopyright'].includes(item.id)) {
+                        element.innerHTML = t[item.key];
+                    } else {
+                        // Gunakan textContent untuk elemen lain (judul, label, dll)
+                        element.textContent = t[item.key];
+                    }
+                }
+            });
+            
+            // Karena Kalkulator BEP/NPV/IRR akan dibuat, CTA diaktifkan
+            buttonCTA.removeAttribute('disabled');
+        }
+        
+        // Event listener untuk perubahan bahasa
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) {
+                    setLanguage(newLang);
+                }
+            }
+        });
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logika Deteksi Bahasa Awal
+            let defaultLang = 'en'; 
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('id')) {
+                defaultLang = 'id';
+            }
+            setLanguage(defaultLang); 
+        });
+
+    </script>
+</body>
+</html>
