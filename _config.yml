@@ -1,0 +1,4 @@
+# Konfigurasi agar Jekyll tidak mengabaikan file penting
+include: 
+  - sitemap.xml
+  - robots.txt
