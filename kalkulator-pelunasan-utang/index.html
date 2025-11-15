@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Canonical for EN version (Standard practice) -->
+    <link rel="canonical" href="https://digitaltoolsid.github.io/debt-payoff-calculator/" />
+    <!-- Hreflang Tags for multilingual setup (AdSense/SEO Best Practice) -->
+    <link rel="alternate" href="https://digitaltoolsid.github.io/debt-payoff-calculator/" hreflang="en" />
+    <link rel="alternate" href="https://digitaltoolsid.github.io/debt-payoff-calculator/id" hreflang="id" />
+    
+    <title id="appTitle">Kalkulator Pelunasan Utang: Snowball vs. Avalanche</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', 
+                        'debt-color': '#e74c3c', // Red for debt
+                        'snowball-color': '#3498db', // Blue for Snowball
+                        'avalanche-color': '#f39c12', // Orange for Avalanche
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* General styles */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 3000px;
+            padding: 1.5rem; 
+        }
+        .calculate-button {
+            box-shadow: 0 4px #c0392b; 
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 6px #c0392b;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #c0392b;
+        }
+        .input-description {
+            font-size: 0.75rem; 
+            color: #6b7280; 
+            margin-top: 0.25rem;
+        }
+
+        /* Language Toggle (Fixed in Header) */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+
+        /* Debt Input Styles */
+        .debt-input-group {
+            border: 1px solid #fecaca;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #fef2f2;
+        }
+        
+        /* New Advice/Reading Result Box */
+        .advice-section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .advice-section strong {
+            color: #1e3a8a; /* Primary-dark color */
+        }
+        /* Style for currency results to align right */
+        .currency-result {
+            display: flex;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Kembali ke Katalog Alat</span>
+            </a>
+            
+            <!-- Language Toggle (Fixed in Header, Default ID) -->
+            <div id="languageSwitcher" class="lang-toggle-container lang-id">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-debt-color mb-2">Kalkulator Pelunasan Utang: Snowball vs. Avalanche</h1>
+            
+            <!-- Value Proposition (Pemikat) -->
+            <p id="valueProposition" class="text-lg text-primary-dark font-semibold mb-6 border-b pb-4">
+                Bebas utang lebih cepat! Ketahui secara pasti berapa tahun dan berapa puluh juta Rupiah yang dapat Anda hemat dengan menambah pembayaran ekstra.
+            </p>
+
+            <!-- Form Input -->
+            <form id="debtPayoffForm" onsubmit="calculateDebtPayoff(event)" class="space-y-6">
+
+                <!-- 1. UTANG (DEBT) INPUT SECTION -->
+                <section class="border border-red-300 p-4 rounded-lg bg-red-50">
+                    <h2 id="debtTitle" class="text-xl font-bold text-debt-color mb-3">1. Utang Anda (Pokok, Angsuran Wajib Bulanan, Tenor)</h2>
+                    <p id="debtDesc" class="input-description mb-4">Masukkan Sisa Pokok Utang, Angsuran Wajib Bulanan, dan Sisa Jangka Waktu. Suku Bunga Tahunan (APR) akan dihitung secara otomatis untuk menentukan prioritas utang.</p>
+                    <div id="debtInputContainer" class="space-y-4">
+                        <!-- Debt fields will be generated here by JS -->
+                    </div>
+                </section>
+
+                <!-- 2. MONTHLY PAYMENT SETTINGS -->
+                <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
+                    <h2 id="paymentTitle" class="text-xl font-bold text-primary-dark mb-3">2. Pengaturan Pembayaran Ekstra</h2>
+                    
+                    <div class="space-y-3">
+                        <!-- Extra Payment Input (Required for comparison) -->
+                        <div class="relative pt-2">
+                            <label for="extraPayment" class="block text-sm font-medium text-gray-700 mb-1" id="extraPaymentLabel">Tambahan Pembayaran Bulanan</label>
+                            <input type="text" id="extraPayment" inputmode="numeric" value="500000" 
+                                   onfocus="stripFormatting(this)" onblur="applyFormatting(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                             <p id="extraPaymentHint" class="input-description">Jumlah ini akan digunakan untuk melunasi utang yang diprioritaskan secara agresif untuk kedua simulasi.</p>
+                        </div>
+                    </div>
+                </section>
+                
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full bg-debt-color text-white font-semibold py-3 rounded-xl hover:bg-red-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-debt-color focus:ring-opacity-50">
+                    Hitung & Bandingkan Strategi
+                </button>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-6 bg-gray-100 border rounded-xl shadow-lg">
+                
+                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-primary border-b pb-2">Perbandingan Pelunasan (Snowball vs. Avalanche)</h3>
+                
+                <!-- BASELINE SCENARIO (Minimum Payment Only) -->
+                <div class="p-3 mb-4 rounded-lg border-2 border-primary-dark/20 bg-white shadow-sm">
+                    <p id="baseScenarioTitle" class="text-lg font-bold text-primary-dark">Skenario 1: Hanya Pembayaran Minimum (Dasar)</p>
+                    <div class="flex justify-between text-sm mt-2">
+                        <p id="baseTimeLabel" class="text-gray-600">Total Waktu Pelunasan:</p>
+                        <p id="outputBaseTime" class="font-semibold">N/A</p>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <p id="baseInterestLabel" class="text-gray-600">Total Bunga Dibayar:</p>
+                        <!-- Output interest only, without currency prefix -->
+                        <p id="outputBaseInterest" class="font-semibold currency-result">0</p>
+                    </div>
+                </div>
+
+                <!-- COMPARISON RESULTS -->
+                <div id="comparisonContainer" class="space-y-4">
+                    
+                    <!-- Debt Avalanche Result -->
+                    <div class="p-4 rounded-lg border-2 border-avalanche-color/50 bg-yellow-50">
+                        <p id="avalancheTitle" class="text-lg font-bold text-avalanche-color flex items-center">
+                            Debt Avalanche (Biaya Termurah)
+                        </p>
+                        <div class="flex justify-between text-sm mt-2">
+                            <p id="avalancheTimeLabel" class="text-gray-600">Waktu Dihemat:</p>
+                            <p id="outputAvalancheTimeSaved" class="font-bold text-avalanche-color">0 Bulan</p>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <p id="avalancheInterestLabel" class="text-gray-600">Bunga Dihemat:</p>
+                            <!-- Output interest only, without currency prefix -->
+                            <p id="outputAvalancheInterestSaved" class="font-bold text-avalanche-color currency-result">0</p>
+                        </div>
+                        <div class="flex justify-between text-base border-t pt-1 mt-1">
+                             <p id="avalancheNewTimeLabel" class="text-gray-800">Waktu Pelunasan Baru:</p>
+                            <p id="outputAvalancheNewTime" class="font-extrabold text-avalanche-color">N/A</p>
+                        </div>
+                    </div>
+
+                    <!-- Debt Snowball Result -->
+                    <div class="p-4 rounded-lg border-2 border-snowball-color/50 bg-blue-50">
+                        <p id="snowballTitle" class="text-lg font-bold text-snowball-color flex items-center">
+                            Debt Snowball (Motivasi Tertinggi)
+                        </p>
+                         <div class="flex justify-between text-sm mt-2">
+                            <p id="snowballTimeLabel" class="text-gray-600">Waktu Dihemat:</p>
+                            <p id="outputSnowballTimeSaved" class="font-bold text-snowball-color">0 Bulan</p>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <p id="snowballInterestLabel" class="text-gray-600">Bunga Dihemat:</p>
+                            <!-- Output interest only, without currency prefix -->
+                            <p id="outputSnowballInterestSaved" class="font-bold text-snowball-color currency-result">0</p>
+                        </div>
+                         <div class="flex justify-between text-base border-t pt-1 mt-1">
+                             <p id="snowballNewTimeLabel" class="text-gray-800">Waktu Pelunasan Baru:</p>
+                            <p id="outputSnowballNewTime" class="font-extrabold text-snowball-color">N/A</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- NEW: RESULT INTERPRETATION AND NEXT STEPS -->
+                <div id="interpretationContainer" class="advice-section mt-6">
+                    <h4 id="interpretationHeader" class="text-lg font-bold text-primary-dark mb-3">Membaca Hasil & Langkah Selanjutnya</h4>
+                    <p id="interpretationTip1" class="text-sm leading-relaxed mb-2">
+                        <!-- Dynamic content based on comparison will go here -->
+                    </p>
+                    <p id="interpretationTip2" class="text-sm leading-relaxed mb-2">
+                        <!-- General action tips will go here -->
+                    </p>
+                    <p id="interpretationTip3" class="text-sm leading-relaxed">
+                        <!-- Action priority -->
+                    </p>
+                </div>
+                <!-- END NEW BLOCK -->
+
+                <!-- Strategi & Tips Section -->
+                <div id="strategyContainer" class="mt-6 p-4 rounded-lg border-l-4 border-primary-dark bg-blue-50 text-gray-800">
+                    <p id="strategyTitle" class="font-bold mb-1 text-primary-dark">Strategi Optimum Pelunasan Utang & Tips:</p>
+                    <p id="strategyP1" class="text-sm leading-relaxed mb-2">
+                        Alat ini membandingkan dua jalur menuju kebebasan utang:
+                        <ul>
+                            <li id="li-avalanche"><strong>Debt Avalanche:</strong> Menargetkan utang dengan <strong>APR (suku bunga terimplikasi) tertinggi</strong> terlebih dahulu. Ini adalah strategi yang secara matematis paling efisien dan menghemat biaya bunga minimum.</li>
+                            <li id="li-snowball"><strong>Debt Snowball:</strong> Menargetkan utang dengan <strong>saldo pokok terkecil</strong> terlebih dahulu. Ini memberikan dorongan moral dan motivasi awal yang tinggi, meskipun total bunga yang dibayar mungkin sedikit lebih besar.</li>
+                        </ul>
+                    </p>
+                    <p id="strategyP2" class="text-sm leading-relaxed">
+                        <strong>Cara Memanfaatkan Alat Ini Secara Optimum:</strong> Gunakan input 'Tambahan Pembayaran Bulanan' untuk mensimulasikan seberapa besar dampak dana ekstra pada kedua metode. Jika Avalanche (biaya minimum) dan Snowball (motivasi tertinggi) memberikan hasil yang serupa, pilih Snowball. Jika Avalanche menghemat biaya yang signifikan (perbedaan bunga besar), pilih Avalanche.
+                    </p>
+                </div>
+                
+            </div>
+            
+            <!-- Description and Disclaimer -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="descriptionTitle" class="text-xl font-bold text-gray-800 mb-3">Memahami Utang Anda Melalui APR Terimplikasi</h2>
+                <p id="descriptionP1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">
+                    Kalkulator ini menghitung <strong>Annual Percentage Rate (APR)</strong> utang Anda secara terbalik (dari pokok, angsuran, dan tenor) karena APR adalah metrik terpenting untuk menentukan prioritas utang. Utang dengan APR tertinggi adalah yang paling "mahal" dan harus menjadi target utama dalam strategi pelunasan <strong>Debt Avalanche</strong>.
+                </p>
+                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-secondary text-gray-800 p-4 rounded-lg text-xs mt-4">
+                    <!-- Updated Disclaimer content will be loaded by JS from translation object -->
+                </div>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkPrivacy">Kebijakan Privasi</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkTerms">Ketentuan Layanan</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkAbout">Tentang Kami</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkContact">Hubungi Kami</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // CONFIGURATION
+        // **********************************************
+
+        let currentLang = 'id'; // DEFAULT INDONESIAN
+        let debtCounter = 0; // GLOBAL COUNTER
+        let debtIds = []; // Array to track currently active debt IDs
+
+        const FinancialConfig = {
+            // Debt Field Definitions (ONLY Option A remains: APR Reverse-Engineered from Payment/Tenor)
+            DEBT_FIELDS: [
+                { id: 'name', label_en: 'Debt Name', label_id: 'Nama Utang', type: 'text', placeholder_en: 'e.g., Credit Card A', placeholder_id: 'misalnya, Kartu Kredit A' },
+                { id: 'principal', label_en: 'Current Principal Balance', label_id: 'Sisa Pokok Utang', type: 'currency', default: 50000000 },
+                { id: 'minPayment', label_en: 'Required Monthly Payment', label_id: 'Angsuran Wajib Bulanan', type: 'currency', default: 2000000 },
+                { id: 'tenor', label_en: 'Remaining Tenor (Months)', label_id: 'Sisa Jangka Waktu (Bulan)', type: 'number', default: 36 },
+            ],
+            // Removed DEBT_FIELDS_OPTION_B
+        };
+
+        // **********************************************
+        // TRANSLATIONS
+        // **********************************************
+        const translations = {
+            en: {
+                appTitle: "Debt Payoff Calculator: Snowball vs. Avalanche",
+                backToCatalogText: "Back to Tools Catalog",
+                headerTitle: "Debt Payoff Calculator: Snowball vs. Avalanche",
+                // Updated Value Proposition
+                valueProposition: "Unlock your fastest path to debt freedom! Find out exactly how many years and thousands of dollars you can save by adding extra payment.",
+                
+                debtTitle: "1. Your Debts (Principal, Required Payment, Tenor)",
+                debtDesc: "Enter the Principal Balance, Required Monthly Payment, and Remaining Tenor. The Annual Percentage Rate (APR) will be calculated automatically to determine debt priority.",
+                
+                paymentTitle: "2. Extra Payment Setting",
+                extraPaymentLabel: "Extra Monthly Payment",
+                extraPaymentHint: "This amount will be used to aggressively pay down the prioritized debt for both simulations.",
+
+                calculateButton: "Calculate & Compare Strategies",
+                resultHeader: "Payoff Comparison (Snowball vs. Avalanche)",
+                
+                baseScenarioTitle: "Scenario 1: Minimum Payment Only (Baseline)",
+                baseTimeLabel: "Total Payoff Time:",
+                baseInterestLabel: "Total Interest Paid:",
+                
+                avalancheTitle: "Debt Avalanche (Lowest Cost)",
+                avalancheTimeLabel: "Time Saved:",
+                avalancheInterestLabel: "Interest Saved:",
+                avalancheNewTimeLabel: "New Payoff Time:",
+                
+                snowballTitle: "Debt Snowball (Highest Motivation)",
+                snowballTimeLabel: "Time Saved:",
+                snowballInterestLabel: "Interest Saved:",
+                snowballNewTimeLabel: "New Payoff Time:",
+
+                strategyTitle: "Optimal Debt Payoff Strategy & Tips:",
+                strategyP1: `This tool compares two paths to debt freedom:
+                    <ul>
+                        <li><strong>Debt Avalanche:</strong> Targets the debt with the <strong>highest implied APR</strong> first. This is the mathematically most efficient strategy, saving the minimum interest cost.</li>
+                        <li><strong>Debt Snowball:</strong> Targets the debt with the <strong>smallest principal balance</strong> first. This provides a high morale and initial motivation boost, although the total interest paid may be slightly higher.</li>
+                    </ul>`,
+                strategyP2: `<strong>How to Use This Tool Optimally:</strong> Use the 'Extra Monthly Payment' input to simulate the impact of additional funds on both methods. If Avalanche (minimum cost) and Snowball (highest motivation) yield similar results, choose Snowball. If Avalanche saves significant costs (large interest difference), choose Avalanche.`,
+                
+                // NEW INTERPRETATION TEXTS (Uses <strong> for bolding)
+                interpretationHeader: "Reading Your Results & Next Steps",
+                interpretationTip1: `The comparison shows how much time and money you save compared to the Baseline (Scenario 1) by applying the Extra Payment. <strong>Avalanche</strong> saves more interest (money), while <strong>Snowball</strong> offers faster initial wins (motivation).`,
+                interpretationTip2: `The best strategy depends on your personality: Choose <strong>Avalanche</strong> if saving money is your absolute priority (highest APR debt is prioritized). Choose <strong>Snowball</strong> if you need quick wins to stay motivated (smallest balance debt is prioritized).`,
+                interpretationTip3: `To implement the chosen strategy, identify the <strong>Priority Debt</strong> (highest APR for Avalanche, smallest balance for Snowball). Pay the minimum on all other debts and direct your entire Extra Payment amount solely to the Priority Debt until it's gone.`,
+
+                descriptionTitle: "Understanding Your Debt Through Implied APR",
+                descriptionP1: `This calculator reverse-engineers the <strong>Annual Percentage Rate (APR)</strong> of your debt (from principal, payment, and tenor) because the <strong>APR</strong> is the most important metric for setting debt priority. The highest <strong>APR</strong> debt is the most "expensive" and should be the primary target in the <strong>Debt Avalanche</strong> strategy.`,
+                
+                // Updated Disclaimer
+                disclaimerBox: `<strong>Disclaimer:</strong> This tool is intended solely for simulation and tracking purposes. The results are based purely on the values you input and the APR calculation is an approximation. The calculation assumes that the lender credits the extra payment towards the principal balance, not interest, and that no administration or similar fees are imposed by the lender for accelerated payoff. Always consult certified financial professionals for personalized planning.`,
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us", 
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.",
+                currencyPrefix: "IDR " 
+            },
+            id: {
+                appTitle: "Kalkulator Pelunasan Utang: Snowball vs. Avalanche",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                headerTitle: "Kalkulator Pelunasan Utang: Snowball vs. Avalanche",
+                // Updated Value Proposition
+                valueProposition: "Bebas utang lebih cepat! Ketahui secara pasti berapa tahun dan berapa puluh juta Rupiah yang dapat Anda hemat dengan menambah pembayaran ekstra.",
+                
+                debtTitle: "1. Utang Anda (Pokok, Angsuran Wajib Bulanan, Tenor)",
+                debtDesc: "Masukkan Sisa Pokok Utang, Angsuran Wajib Bulanan, dan Sisa Jangka Waktu. Suku Bunga Tahunan (APR) akan dihitung secara otomatis untuk menentukan prioritas utang.",
+                
+                paymentTitle: "2. Pengaturan Pembayaran Ekstra",
+                extraPaymentLabel: "Tambahan Pembayaran Bulanan",
+                extraPaymentHint: "Jumlah ini akan digunakan untuk melunasi utang yang diprioritaskan secara agresif untuk kedua simulasi.",
+
+                calculateButton: "Hitung & Bandingkan Strategi",
+                resultHeader: "Perbandingan Pelunasan (Snowball vs. Avalanche)",
+
+                baseScenarioTitle: "Skenario 1: Hanya Pembayaran Minimum (Dasar)",
+                baseTimeLabel: "Total Waktu Pelunasan:",
+                baseInterestLabel: "Total Bunga Dibayar:",
+                
+                avalancheTitle: "Debt Avalanche (Biaya Termurah)",
+                avalancheTimeLabel: "Waktu Dihemat:",
+                avalancheInterestLabel: "Bunga Dihemat:",
+                avalancheNewTimeLabel: "Waktu Pelunasan Baru:",
+                
+                snowballTitle: "Debt Snowball (Motivasi Tertinggi)",
+                snowballTimeLabel: "Waktu Dihemat:",
+                snowballInterestLabel: "Bunga Dihemat:",
+                snowballNewTimeLabel: "Waktu Pelunasan Baru:",
+
+                strategyTitle: "Strategi Optimum Pelunasan Utang & Tips:",
+                strategyP1: `Alat ini membandingkan dua jalur menuju kebebasan utang:
+                    <ul>
+                        <li><strong>Debt Avalanche:</strong> Menargetkan utang dengan <strong>APR (suku bunga terimplikasi) tertinggi</strong> terlebih dahulu. Ini adalah strategi yang secara matematis paling efisien dan menghemat biaya bunga minimum.</li>
+                        <li><strong>Debt Snowball:</strong> Menargetkan utang dengan <strong>saldo pokok terkecil</strong> terlebih dahulu. Ini memberikan dorongan moral dan motivasi awal yang tinggi, meskipun total bunga yang dibayar mungkin sedikit lebih besar.</li>
+                    </ul>`,
+                strategyP2: `<strong>Cara Memanfaatkan Alat Ini Secara Optimum:</strong> Gunakan input 'Tambahan Pembayaran Bulanan' untuk mensimulasikan seberapa besar dampak dana ekstra pada kedua metode. Jika Avalanche (biaya minimum) dan Snowball (motivasi tertinggi) memberikan hasil yang serupa, pilih Snowball. Jika Avalanche menghemat biaya yang signifikan (perbedaan bunga besar), pilih Avalanche.`,
+                
+                // NEW INTERPRETATION TEXTS (Uses <strong> for bolding, consistent language)
+                interpretationHeader: "Membaca Hasil & Langkah Selanjutnya",
+                interpretationTip1: `Hasil perbandingan di atas menunjukkan: 
+                    <ol class="list-decimal ml-5 mt-2 space-y-2">
+                        <li>Pinjaman <strong>{avalancheDebtName}</strong> memiliki tingkat suku bunga yang paling mahal (APR Terimplikasi), yaitu <strong>{avalancheApr}</strong>.</li>
+                        <li>Pinjaman <strong>{snowballDebtName}</strong> memiliki sisa saldo utang paling kecil, yaitu <strong>{currencyPrefix}{snowballPrincipal}</strong>.</li>
+                    </ol>
+                    `,
+                interpretationTip2: `Strategi terbaik tergantung pada kepribadian Anda:
+                    <ul class="list-disc ml-5 mt-2 space-y-2">
+                        <li>Pilih Strategi <strong>Avalanche</strong> (prioritas utang: {avalancheDebtName}) jika penghematan biaya bunga adalah prioritas Anda. Sesuai hasil kalkulasi, strategi ini memberikan pengurangan biaya bunga sebesar <strong>{currencyPrefix}{avalancheInterestSaved}</strong> dan percepatan waktu pelunasan <strong>{avalancheTimeSaved}</strong>.</li>
+                        <li>Pilih Strategi <strong>Snowball</strong> (prioritas utang: {snowballDebtName}) jika Anda lebih nyaman dan ingin lebih cepat menuntaskan selesainya pinjaman dengan saldo terkecil. Sesuai hasil kalkulasi, strategi ini memberikan pengurangan biaya bunga sebesar <strong>{currencyPrefix}{snowballInterestSaved}</strong> dan percepatan waktu pelunasan <strong>{snowballTimeSaved}</strong>.</li>
+                    </ul>`,
+                interpretationTip3: "Untuk mengimplementasikan strategi yang Anda pilih (Avalanche atau Snowball), bayarlah dengan jumlah minimum pada semua utang lainnya dan arahkan seluruh jumlah pembayaran ekstra <strong>{currencyPrefix}{extraPayment}</strong> Anda hanya ke utang prioritas sesuai dengan strategi yang Anda pilih.",
+                
+                descriptionTitle: "Memahami Utang Anda Melalui APR Terimplikasi",
+                descriptionP1: `Kalkulator ini menghitung <strong>Annual Percentage Rate (APR)</strong> utang Anda secara terbalik (dari pokok, angsuran, dan tenor) karena <strong>APR</strong> adalah metrik terpenting untuk menentukan prioritas utang. Utang dengan <strong>APR</strong> tertinggi adalah yang paling "mahal" dan harus menjadi target utama dalam strategi pelunasan <strong>Debt Avalanche</strong>.`,
+                
+                // Updated Disclaimer
+                disclaimerBox: `<strong>Penafian:</strong> Alat ini ditujukan semata-mata untuk tujuan simulasi dan pelacakan. Hasil didasarkan murni pada nilai yang Anda masukkan dan perhitungan <strong>APR</strong> adalah perkiraan. Kalkulasi dengan asumsi bahwa pihak pemberi pinjaman memperhitungkan pembayaran ekstra dan peminjam sebagai pelunasan pokok utang, bukan untuk pelunasan bunga, dan tidak ada pengenaan biaya administrasi atau sejenisnya sehubungan dengan percepatan pelunasan yang diterapkan oleh pihak pemberi pinjaman. Selalu konsultasikan dengan profesional profesional keuangan bersertifikat untuk perencanaan yang dipersonalisasi.`,
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami", 
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics.",
+                currencyPrefix: "Rp "
+            }
+        };
+
+
+        // **********************************************
+        // UTILITY FUNCTIONS (Formatting & Parsing)
+        // **********************************************
+        
+        // Formats currency number for INPUT fields and large output currency amounts (no decimals, rounds to nearest whole number)
+        function formatNumber(amount) {
+            if (typeof amount !== 'number' || isNaN(amount)) return '0';
+            const locale = 'id-ID'; 
+            // Menggunakan id-ID untuk format ribuan (dot/titik) dan membulatkan ke nol desimal
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(Math.round(amount));
+        }
+
+        
+        // Strip formatting on focus for CURRENCY
+        function stripFormatting(inputElement) {
+            let rawValue = cleanInput(inputElement.value);
+            inputElement.value = rawValue !== 0 ? rawValue.toString() : '';
+        }
+
+        // Apply formatting on blur for CURRENCY
+        function applyFormatting(inputElement) {
+            let rawValue = cleanInput(inputElement.value);
+            inputElement.value = formatNumber(rawValue);
+            
+            const debtId = inputElement.id.split('-').pop();
+            if (document.getElementById(`debt-group-${debtId}`)) {
+                updateDebtDisplay(debtId);
+            }
+        }
+        
+        // Strip formatting on focus for TENOR/NUMBER
+        function stripTenorFormatting(inputElement) {
+             let rawValue = cleanTenorInput(inputElement.value);
+            inputElement.value = rawValue !== 0 ? rawValue.toString() : '';
+        }
+        
+        // Apply formatting on blur for TENOR/NUMBER
+        function applyTenorFormatting(inputElement) {
+            let rawValue = cleanTenorInput(inputElement.value);
+            inputElement.value = rawValue || 1; 
+            
+            const debtId = inputElement.id.split('-').pop();
+            if (document.getElementById(`debt-group-${debtId}`)) {
+                updateDebtDisplay(debtId);
+            }
+        }
+
+        function cleanInput(formattedValue) {
+            if (typeof formattedValue !== 'string') return 0;
+            // This assumes the input field value contains '15.000.000' and needs all dots removed to be read as 15000000.
+            return parseFloat(formattedValue.replace(/[^0-9]/g, '')) || 0;
+        }
+        
+        function cleanTenorInput(value) {
+            return parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
+        }
+        
+        // Removed cleanRateInput
+
+        // Converts months to years and months string
+        function monthsToTime(totalMonths, lang) {
+            const t = translations[lang];
+            const years = Math.floor(totalMonths / 12);
+            const months = Math.round(totalMonths % 12);
+            
+            const yearText = lang === 'en' ? 'Years' : 'Tahun';
+            const monthText = lang === 'en' ? 'Months' : 'Bulan';
+
+            if (totalMonths === Infinity || totalMonths > 1200) {
+                 return lang === 'en' ? 'Too Long ( > 100 Years)' : 'Terlalu Lama ( > 100 Tahun)';
+            }
+            if (totalMonths >= 12) {
+                return `${years} ${yearText}, ${months} ${monthText}`;
+            } else {
+                return `${Math.round(totalMonths)} ${monthText}`;
+            }
+        }
+
+        // **********************************************
+        // FINANCIAL CORE LOGIC
+        // **********************************************
+        
+        // Removed calculateMinPayment as it is no longer used for input mode B
+        
+        // Calculate APR (Annual Percentage Rate) from P, M, n - Using Bisection Method for stability
+        function calculateAPR(principal, payment, tenorMonths) {
+            if (principal <= 0 || payment <= 0 || tenorMonths <= 0) return 0; 
+
+            // Calculate the total amount paid
+            const totalPaid = payment * tenorMonths;
+            
+            // If total payment is insufficient or just covers the principal
+            if (totalPaid < principal || Math.abs(totalPaid - principal) < 0.01) { 
+                return totalPaid < principal ? 9999 : 0; // 9999 means error/impossible
+            }
+
+            // Target function: calculates the PV (Present Value) of an annuity (loan)
+            const calculatePV = (r, Pmt, n) => {
+                if (r === 0) return Pmt * n;
+                // PV = Pmt * [1 - (1+r)^-n] / r
+                return Pmt * (1 - Math.pow(1 + r, -n)) / r;
+            };
+
+            // Bisection Method Implementation
+            let lowRate = 0.0000001 / 12; // near 0% APR monthly rate
+            let highRate = 1; // 100% monthly rate (1200% APR max search)
+            const targetPV = principal;
+            const tolerance = 0.0000001;
+            const maxIterations = 100;
+
+            for (let i = 0; i < maxIterations; i++) {
+                let midRate = (lowRate + highRate) / 2;
+                
+                // Calculate the present value based on the midRate guess
+                let currentPV = calculatePV(midRate, payment, tenorMonths);
+
+                // Check for convergence
+                if (Math.abs(currentPV - targetPV) < tolerance) {
+                    return midRate * 12 * 100; // Found accurate APR percentage
+                }
+
+                // Adjust bounds based on result
+                if (currentPV > targetPV) {
+                    // Current PV is too high (rate is too low). Raise the lower bound.
+                    lowRate = midRate;
+                } else {
+                    // Current PV is too low (rate is too high). Lower the upper bound.
+                    highRate = midRate;
+                }
+                
+                if (highRate - lowRate < tolerance) {
+                    break;
+                }
+            }
+            
+            // If loop finishes, return the best estimate
+            const monthlyRate = (lowRate + highRate) / 2;
+            return monthlyRate * 12 * 100;
+        }
+
+
+        /**
+         * Simulates the payoff schedule based on a given strategy (Snowball or Avalanche).
+         */
+        function runPayoffSimulation(debts, extraPayment, strategy) {
+            let activeDebts = JSON.parse(JSON.stringify(debts)); // Deep copy
+            let totalMonths = 0;
+            let totalInterest = 0;
+            let snowballPayment = extraPayment; 
+            
+            // Note: minPayment must be present for all debts before starting.
+            // This is ensured in the calculateDebtPayoff controller logic.
+
+
+            while (activeDebts.some(d => d.principal > 0) && totalMonths < 1200) {
+                totalMonths++;
+                
+                // --- Re-sort based on remaining principal/APR for prioritization
+                if (strategy === 'avalanche') {
+                    activeDebts.sort((a, b) => {
+                        // Priority 1: Keep active debts first
+                        if (a.principal > 0 && b.principal === 0) return -1;
+                        if (a.principal === 0 && b.principal > 0) return 1;
+                        // Priority 2: Highest APR first (b.apr - a.apr)
+                        return b.apr - a.apr; 
+                    });
+                } else if (strategy === 'snowball') {
+                    activeDebts.sort((a, b) => {
+                        // Priority 1: Keep active debts first
+                        if (a.principal > 0 && b.principal === 0) return -1;
+                        if (a.principal === 0 && b.principal > 0) return 1;
+                        // Priority 2: Smallest Principal first (a.principal - b.principal)
+                        return a.principal - b.principal; 
+                    });
+                }
+                
+                let priorityDebt = activeDebts.find(d => d.principal > 0);
+                if (!priorityDebt) break;
+
+                // --- 1. Pay Minimums on all NON-priority debts
+                activeDebts.forEach(debt => {
+                    if (debt.principal > 0 && debt !== priorityDebt) {
+                        const interest = debt.principal * debt.monthlyRate;
+                        totalInterest += interest;
+
+                        const principalPaid = debt.minPayment - interest;
+                        debt.principal -= principalPaid;
+                        
+                        if (debt.principal < 0) debt.principal = 0;
+                    }
+                });
+                
+                // --- 2. Attack the PRIORITY debt
+                if (priorityDebt.principal > 0) {
+                    // Total payment is minPayment + extra/snowball
+                    const totalPayment = priorityDebt.minPayment + snowballPayment;
+
+                    const interest = priorityDebt.principal * priorityDebt.monthlyRate;
+                    totalInterest += interest;
+
+                    // Remaining amount after interest is paid towards principal
+                    const principalPaid = totalPayment - interest; 
+                    
+                    priorityDebt.principal -= principalPaid;
+
+                    // Check for payoff this month
+                    if (priorityDebt.principal <= 0) {
+                        // If paid off, add the *full* minPayment to the snowball
+                        snowballPayment += priorityDebt.minPayment;
+                        priorityDebt.principal = 0;
+                    }
+                }
+            }
+
+            return { totalMonths: totalMonths, totalInterest: totalInterest };
+        }
+
+
+        // **********************************************
+        // UI GENERATION & INTERACTION (Simplified)
+        // **********************************************
+        
+        // Removed setInputMode as there is only one mode now
+        
+        // Calculates/updates the implied APR value
+        function updateDebtDisplay(debtId) {
+            const container = document.getElementById(`debt-input-fields-${debtId}`);
+            if (!container) return;
+            
+            // Safely read values
+            const principal = cleanInput(document.getElementById(`principal-${debtId}`)?.value || '0');
+            const payment = cleanInput(document.getElementById(`minPayment-${debtId}`)?.value || '0');
+            // Tenor must be at least 1 for calculations to avoid division by zero errors
+            const tenorRaw = cleanTenorInput(document.getElementById(`tenor-${debtId}`)?.value || '1');
+            const tenor = tenorRaw === 0 ? 1 : tenorRaw; 
+            
+            const aprDisplay = document.getElementById(`apr-payment-display-${debtId}`);
+            const lang = currentLang;
+
+            let outputText = '';
+            let outputColor = '#2c3e50';
+
+            // Input validation for APR calculation
+            if (principal <= 0 || payment <= 0 || tenor <= 0) {
+                outputText = lang === 'en' ? 'Implied APR: N/A (Enter P, M, T)' : 'APR Terimplikasi: N/A (Isi P, M, T)';
+                outputColor = '#2c3e50';
+            } else if (payment * tenor < principal) {
+                outputText = lang === 'en' ? 'Implied APR: Error/Payment too low' : 'APR Terimplikasi: Error/Angsuran terlalu rendah';
+                outputColor = '#e74c3c';
+            } else {
+                const apr = calculateAPR(principal, payment, tenor);
+                
+                if (apr > 0 && apr < 9999) {
+                    outputText = `${lang === 'en' ? 'Implied APR' : 'APR Terimplikasi'}: ${apr.toFixed(2)}%`;
+                    outputColor = apr > 20 ? '#e74c3c' : '#27ae60';
+                } else if (apr === 0) {
+                    outputText = `${lang === 'en' ? 'Implied APR' : 'APR Terimplikasi'}: 0.00%`;
+                    outputColor = '#27ae60';
+                } else { // Handle impossible/extreme high rate case (e.g., return value 9999)
+                    outputText = lang === 'en' ? 'Implied APR: Error/Payment too low' : 'APR Terimplikasi: Error/Angsuran terlalu rendah';
+                    outputColor = '#e74c3c';
+                }
+            }
+            
+            aprDisplay.textContent = outputText;
+            aprDisplay.style.color = outputColor;
+        }
+
+        // Adds a new debt input group (Initial generation)
+        function addDebt() {
+            const container = document.getElementById('debtInputContainer');
+            const lang = currentLang;
+            const t = translations[lang];
+
+            // Determine the next sequential number based on existing elements
+            let debtNumber = 1;
+            const existingDebtGroups = document.querySelectorAll('.debt-input-group');
+            if (existingDebtGroups.length > 0) {
+                 // Get the ID of the last added debt group, split 'debt-group-X' to get X
+                const lastId = parseInt(existingDebtGroups[existingDebtGroups.length - 1].id.split('-').pop());
+                debtNumber = lastId + 1;
+            }
+            // Use the debtNumber as the new unique ID
+            const debtId = debtNumber;
+            debtCounter = Math.max(debtCounter, debtId);
+
+
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'debt-input-group space-y-3';
+            groupDiv.id = `debt-group-${debtId}`;
+
+            let htmlContent = `
+                <div class="flex justify-between items-center mb-4 pb-2 border-b border-red-200">
+                    <p class="font-bold text-debt-color">${lang === 'en' ? 'Debt' : 'Utang'} #${debtId}</p>
+                    <button type="button" onclick="removeDebt(${debtId})" class="text-sm font-semibold text-debt-color hover:text-red-700 transition duration-150">
+                        ${lang === 'en' ? 'Remove Debt' : 'Hapus Utang'}
+                    </button>
+                </div>
+                <div id="debt-input-fields-${debtId}" data-mode="A">
+                    <!-- Fields will be dynamically injected here -->
+                </div>
+                <p id="apr-payment-display-${debtId}" class="text-sm font-semibold text-primary-dark mt-2"></p>
+            `;
+
+            groupDiv.innerHTML = htmlContent;
+            container.appendChild(groupDiv);
+            
+            // Render fields (always uses the single DEBT_FIELDS structure now)
+            renderDebtFields(debtId);
+        }
+        
+        // New function to render fields (replaces setInputMode for rendering logic)
+        function renderDebtFields(debtId) {
+            const container = document.getElementById(`debt-input-fields-${debtId}`);
+            if (!container) return; 
+            const fields = FinancialConfig.DEBT_FIELDS;
+
+            let htmlContent = '';
+            fields.forEach(field => {
+                // Ensure all field labels are translated based on currentLang
+                const labelText = field[`label_${currentLang}`];
+                const placeholderText = field[`placeholder_${currentLang}`] || '';
+
+                let valueDisplay = field.default;
+                let eventHandlers = '';
+
+                if (field.type === 'currency') {
+                    // Use focus/blur for better UX when deleting/typing numbers
+                    eventHandlers = 'onfocus="stripFormatting(this)" onblur="applyFormatting(this)"';
+                    valueDisplay = formatNumber(field.default);
+                } else if (field.type === 'number') {
+                    // Use focus/blur for Tenor input
+                    eventHandlers = 'onfocus="stripTenorFormatting(this)" onblur="applyTenorFormatting(this)"';
+                }
+                
+                // Safely read existing value if available (to maintain state during language switch)
+                let existingInput = document.getElementById(`${field.id}-${debtId}`);
+                if (existingInput) {
+                    if (field.type === 'currency' && document.activeElement !== existingInput) {
+                         valueDisplay = formatNumber(cleanInput(existingInput.value));
+                    } else if (field.type === 'currency' && document.activeElement === existingInput) {
+                        valueDisplay = cleanInput(existingInput.value).toString();
+                    } else if (field.type === 'number' && document.activeElement === existingInput) {
+                        valueDisplay = cleanTenorInput(existingInput.value).toString();
+                    } else if (field.type === 'number' && document.activeElement !== existingInput) {
+                        valueDisplay = cleanTenorInput(existingInput.value) || 1;
+                    } else {
+                        valueDisplay = existingInput.value;
+                    }
+                } else if (field.type === 'currency') {
+                    valueDisplay = formatNumber(field.default);
+                } else if (field.type === 'number') {
+                    valueDisplay = field.default || 1;
+                }
+
+                htmlContent += `
+                    <div class="relative ${field.id === 'tenor' || field.id === 'minPayment' ? 'col-span-1' : 'col-span-2'}">
+                        <label for="${field.id}-${debtId}" class="block text-sm font-medium text-gray-700 mb-1">${labelText}</label>
+                        <input type="text" id="${field.id}-${debtId}" 
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-debt-color focus:border-debt-color transition duration-150 ${field.id}-input" 
+                               value="${valueDisplay}" 
+                               ${eventHandlers}
+                               placeholder="${placeholderText}"
+                               ${field.type === 'currency' || field.type === 'number' ? 'inputmode="numeric"' : ''}
+                               required>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `<div class="grid grid-cols-2 gap-3">${htmlContent}</div>`;
+            
+            // Trigger calculation immediately after rendering
+            updateDebtDisplay(debtId);
+        }
+
+
+        function removeDebt(id) {
+            const group = document.getElementById(`debt-group-${id}`);
+            if (group) {
+                group.remove();
+            }
+        }
+        
+        // Generates initial debt fields and the Add Debt button
+        function generateDebtInputs() {
+            const container = document.getElementById('debtInputContainer');
+            container.innerHTML = ''; // Clear existing inputs
+            debtCounter = 0; // Reset counter for clean generation
+
+            // Generate 2 initial debts (User can delete or add more)
+            addDebt();
+            addDebt();
+            
+            // Add button to add more debts
+            const addButtonText = currentLang === 'en' ? '+ Add Another Debt' : '+ Tambah Utang Lain';
+            const addButton = document.createElement('button');
+            addButton.type = 'button';
+            addButton.id = 'addDebtButton';
+            addButton.className = 'w-full bg-red-100 text-debt-color font-semibold py-2 rounded-lg hover:bg-red-200 transition duration-150 mt-4';
+            addButton.textContent = addButtonText;
+            addButton.onclick = addDebt;
+            container.appendChild(addButton);
+        }
+
+        // **********************************************
+        // MAIN CALCULATION CONTROLLER
+        // **********************************************
+
+        function calculateDebtPayoff(event) {
+            event.preventDefault();
+
+            const t = translations[currentLang];
+            const debtGroups = document.querySelectorAll('.debt-input-group');
+            let debts = [];
+            // Use applyFormatting here to ensure extraPayment is correctly parsed just before calculation
+            const extraPaymentInput = document.getElementById('extraPayment');
+            applyFormatting(extraPaymentInput); 
+            const extraPayment = cleanInput(extraPaymentInput.value);
+
+
+            // 1. Gather Debt Data & Calculate all necessary metrics
+            debtGroups.forEach(group => {
+                const idSuffix = group.id.split('-').pop();
+                
+                // Read all required fields
+                const principal = cleanInput(document.getElementById(`principal-${idSuffix}`)?.value || '0');
+                const tenorRaw = cleanTenorInput(document.getElementById(`tenor-${idSuffix}`)?.value || '1');
+                const tenor = tenorRaw === 0 ? 1 : tenorRaw; 
+                // IMPORTANT: Read the name from the input field
+                const nameInput = document.getElementById(`name-${idSuffix}`)?.value.trim();
+                // Use input name if provided, otherwise use default "Utang #X"
+                const name = nameInput || `${currentLang === 'en' ? 'Debt' : 'Utang'} #${idSuffix}`;
+                
+                const minPayment = cleanInput(document.getElementById(`minPayment-${idSuffix}`)?.value || '0');
+
+
+                // Calculate APR using P, M, T (Always this path now)
+                const apr = calculateAPR(principal, minPayment, tenor);
+                
+                // Only include valid debts
+                // Must ensure minPayment is enough to cover principal (minPayment * tenor >= principal)
+                const meetsMinPaymentRule = minPayment * tenor >= principal;
+
+                if (principal > 0 && minPayment > 0 && apr >= 0 && apr < 9999 && meetsMinPaymentRule) { 
+                    debts.push({
+                        name: name,
+                        principal: principal,
+                        minPayment: minPayment,
+                        tenorMonths: tenor,
+                        apr: apr,
+                        monthlyRate: apr / 100 / 12,
+                        id: parseInt(idSuffix) // Add ID for better reference
+                    });
+                } else if (principal > 0 && apr >= 0 && !meetsMinPaymentRule) {
+                    console.warn(`Debt ${name} diabaikan: Angsuran minimum terlalu rendah atau tenor terlalu pendek.`);
+                }
+            });
+
+            if (debts.length === 0) {
+                const errorMessage = currentLang === 'en' ? 
+                    'Calculation Failed: Please enter at least one valid debt with sufficient payment/rate/tenor details.' : 
+                    'Perhitungan Gagal: Mohon masukkan setidaknya satu utang yang valid dengan detail Pokok Utang, Angsuran Wajib Bulanan, dan Jangka Waktu yang memadai.';
+                
+                const resultBox = document.getElementById('resultBox');
+                resultBox.innerHTML = `<div class="p-4 text-center text-lg font-bold text-debt-color">${errorMessage}</div>`;
+                resultBox.classList.add('visible');
+                return;
+            }
+            
+            document.getElementById('resultBox').classList.remove('visible'); // Clear any previous error message
+
+            // 2. BASELINE SCENARIO (No Extra Payment)
+            // Use Avalanche sorting for baseline to establish the mathematically minimum interest base
+            const { totalMonths: baseMonths, totalInterest: baseInterest } = runPayoffSimulation(debts, 0, 'avalanche');
+            
+            // 3. SNOWBALL SCENARIO (Extra Payment Applied)
+            const { totalMonths: snowballMonths, totalInterest: snowballInterest } = runPayoffSimulation(debts, extraPayment, 'snowball');
+
+            // 4. AVALANCHE SCENARIO (Extra Payment Applied)
+            const { totalMonths: avalancheMonths, totalInterest: avalancheInterest } = runPayoffSimulation(debts, extraPayment, 'avalanche');
+
+
+            // 5. Display Results
+            const resultBox = document.getElementById('resultBox');
+            
+            // BASELINE
+            document.getElementById('outputBaseTime').textContent = monthsToTime(baseMonths, currentLang);
+            document.getElementById('outputBaseInterest').textContent = formatNumber(baseInterest);
+
+            // AVALANCHE
+            const avalancheTimeSaved = baseMonths - avalancheMonths;
+            const avalancheInterestSaved = baseInterest - avalancheInterest;
+            document.getElementById('outputAvalancheTimeSaved').textContent = monthsToTime(avalancheTimeSaved, currentLang);
+            const formattedAvalancheInterestSaved = avalancheInterestSaved > 0 ? formatNumber(avalancheInterestSaved) : formatNumber(0);
+            document.getElementById('outputAvalancheInterestSaved').textContent = formattedAvalancheInterestSaved;
+            document.getElementById('outputAvalancheNewTime').textContent = monthsToTime(avalancheMonths, currentLang);
+
+            // SNOWBALL
+            const snowballTimeSaved = baseMonths - snowballMonths;
+            const snowballInterestSaved = baseInterest - snowballInterest; 
+            document.getElementById('outputSnowballTimeSaved').textContent = monthsToTime(snowballTimeSaved, currentLang);
+            const formattedSnowballInterestSaved = snowballInterestSaved > 0 ? formatNumber(snowballInterestSaved) : formatNumber(0);
+            document.getElementById('outputSnowballInterestSaved').textContent = formattedSnowballInterestSaved;
+            document.getElementById('outputSnowballNewTime').textContent = monthsToTime(snowballMonths, currentLang);
+
+            // 6. Update Interpretation Block
+            updateInterpretationBlock(debts, baseInterest, avalancheInterest, snowballInterest, avalancheTimeSaved, snowballTimeSaved, extraPayment);
+
+
+            // Show result box
+            resultBox.classList.add('visible');
+        }
+        
+        // New function to update the interpretation block with dynamic data
+        function updateInterpretationBlock(debts, baseInterest, avalancheInterest, snowballInterest, avalancheTimeSavedMonths, snowballTimeSavedMonths, extraPayment) {
+             const t = translations[currentLang];
+             const lang = currentLang;
+
+             // Find the Avalanche priority debt (Highest APR)
+             // Sort by APR descending
+             const sortedByApr = [...debts].sort((a, b) => b.apr - a.apr);
+             const avalanchePriority = sortedByApr[0];
+             const avalancheApr = (avalanchePriority ? avalanchePriority.apr.toFixed(2) : 'N/A') + '%';
+             // Use the 'name' property directly, which already defaults to "Utang #X" if empty
+             const avalancheDebtName = avalanchePriority ? avalanchePriority.name : (lang === 'en' ? 'Avalanche Priority Debt' : 'Utang Prioritas Avalanche');
+             
+             // Find the Snowball priority debt (Smallest Principal)
+             // Sort by Principal ascending
+             const sortedByPrincipal = [...debts].sort((a, b) => a.principal - b.principal);
+             const snowballPriority = sortedByPrincipal[0];
+             const snowballPrincipal = snowballPriority ? formatNumber(snowballPriority.principal) : 'N/A';
+             // Use the 'name' property directly
+             const snowballDebtName = snowballPriority ? snowballPriority.name : (lang === 'en' ? 'Snowball Priority Debt' : 'Utang Prioritas Snowball');
+
+             // Calculate Savings
+             const avalancheInterestSaved = baseInterest - avalancheInterest;
+             const snowballInterestSaved = baseInterest - snowballInterest;
+             
+             const formatTime = (months) => monthsToTime(months, lang);
+             const formattedExtraPayment = formatNumber(extraPayment);
+
+             // Prepare string replacements for dynamic text (using template strings for easy replacement)
+             let tip1Content = t.interpretationTip1;
+             let tip2Content = t.interpretationTip2;
+             let tip3Content = t.interpretationTip3;
+             
+             // Perform replacements
+             tip1Content = tip1Content
+                 .replace('{avalancheDebtName}', avalancheDebtName)
+                 .replace('{avalancheApr}', avalancheApr)
+                 .replace('{snowballDebtName}', snowballDebtName)
+                 .replace('{currencyPrefix}', t.currencyPrefix)
+                 .replace('{snowballPrincipal}', snowballPrincipal);
+                 
+             tip2Content = tip2Content
+                 .replace(/{avalancheDebtName}/g, avalancheDebtName)
+                 .replace(/{snowballDebtName}/g, snowballDebtName)
+                 .replace(/{currencyPrefix}/g, t.currencyPrefix)
+                 .replace('{avalancheInterestSaved}', formatNumber(avalancheInterestSaved))
+                 .replace('{avalancheTimeSaved}', formatTime(avalancheTimeSavedMonths))
+                 .replace('{snowballInterestSaved}', formatNumber(snowballInterestSaved))
+                 .replace('{snowballTimeSaved}', formatTime(snowballTimeSavedMonths));
+                 
+             tip3Content = tip3Content
+                 .replace('{currencyPrefix}', t.currencyPrefix)
+                 .replace('{extraPayment}', formattedExtraPayment);
+
+
+             document.getElementById('interpretationHeader').textContent = t.interpretationHeader;
+             document.getElementById('interpretationTip1').innerHTML = tip1Content;
+             document.getElementById('interpretationTip2').innerHTML = tip2Content;
+             document.getElementById('interpretationTip3').innerHTML = tip3Content;
+             
+             // Update Disclaimer Content
+             document.getElementById('disclaimerBox').innerHTML = t.disclaimerBox;
+
+        }
+
+
+        // **********************************************
+        // LANGUAGE SWITCHING LOGIC
+        // **********************************************
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+            document.documentElement.lang = lang; 
+
+            // Re-generate all debt inputs and the Add Debt button with new labels
+            generateDebtInputs();
+            
+            // Update static texts (Ensuring full translation)
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('valueProposition').textContent = t.valueProposition;
+            
+            document.getElementById('debtTitle').textContent = t.debtTitle;
+            document.getElementById('debtDesc').textContent = t.debtDesc;
+            
+            document.getElementById('paymentTitle').textContent = t.paymentTitle;
+            document.getElementById('extraPaymentLabel').textContent = t.extraPaymentLabel;
+            document.getElementById('extraPaymentHint').textContent = t.extraPaymentHint;
+
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            
+            document.getElementById('baseScenarioTitle').textContent = t.baseScenarioTitle;
+            document.getElementById('baseTimeLabel').textContent = t.baseTimeLabel;
+            document.getElementById('baseInterestLabel').textContent = t.baseInterestLabel;
+            
+            document.getElementById('avalancheTitle').textContent = t.avalancheTitle;
+            document.getElementById('avalancheTimeLabel').textContent = t.avalancheTimeLabel;
+            document.getElementById('avalancheInterestLabel').textContent = t.avalancheInterestLabel;
+            document.getElementById('avalancheNewTimeLabel').textContent = t.avalancheNewTimeLabel;
+
+            document.getElementById('snowballTitle').textContent = t.snowballTitle;
+            document.getElementById('snowballTimeLabel').textContent = t.snowballTimeLabel;
+            document.getElementById('snowballInterestLabel').textContent = t.snowballInterestLabel;
+            document.getElementById('snowballNewTimeLabel').textContent = t.snowballNewTimeLabel;
+
+            document.getElementById('strategyTitle').textContent = t.strategyTitle;
+            document.getElementById('strategyP1').innerHTML = t.strategyP1;
+            document.getElementById('strategyP2').innerHTML = t.strategyP2;
+
+            document.getElementById('descriptionTitle').textContent = t.descriptionTitle;
+            document.getElementById('descriptionP1').innerHTML = t.descriptionP1;
+            
+            // Update Disclaimer Content
+            document.getElementById('disclaimerBox').innerHTML = t.disclaimerBox;
+            
+            
+            // Force update of APR/Payment display for all existing debts
+            document.querySelectorAll('.debt-input-group').forEach(group => {
+                const debtId = group.id.split('-').pop();
+                updateDebtDisplay(debtId);
+            });
+
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+
+            // Re-calculate results to update dynamic time/interest format and language
+            if (document.getElementById('resultBox').classList.contains('visible')) {
+                 calculateDebtPayoff({ preventDefault: () => {} });
+            }
+        }
+
+        // **********************************************
+        // INITIALIZATION
+        // **********************************************
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial language to Indonesian (ID) based on user's request context
+            setLanguage('id'); 
+        });
+        
+    </script>
+</body>
+</html>

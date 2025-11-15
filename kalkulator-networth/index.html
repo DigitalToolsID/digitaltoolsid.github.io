@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://digitaltoolsid.github.io/net-worth-calculator/" />
+    <title id="appTitle">Personal Net Worth & Financial Health Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tailwind (Menggunakan warna yang sama dengan alat lain) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Green for positive net worth
+                        'debt-color': '#e74c3c', // Red for debt/negative net worth
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* General styles */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 2000px;
+            padding: 1.5rem; 
+        }
+        .calculate-button {
+            box-shadow: 0 4px #1e8449; 
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e8449;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e8449;
+        }
+        .input-description {
+            font-size: 0.75rem; 
+            color: #6b7280; 
+            margin-top: 0.25rem;
+        }
+        
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        /* Default: EN */
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Style untuk Narasi Nasehat */
+        .advice-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        .advice-box.positive {
+            background-color: #d1fae5; /* Green 100 */
+            border: 1px solid #34d399; /* Green 300 */
+            color: #065f46; /* Green 800 */
+        }
+        .advice-box.negative {
+            background-color: #fee2e2; /* Red 100 */
+            border: 1px solid #f87171; /* Red 300 */
+            color: #991b1b; /* Red 800 */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+
+    <!-- Header (Consistent with other tools) -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            
+            <!-- Language Toggle (DITAMBAHKAN KEMBALI) -->
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-2">Personal Net Worth & Financial Health Calculator</h1>
+            
+            <!-- Value Proposition (Pemikat) Diperbarui -->
+            <p id="valueProposition" class="text-lg text-finance-color font-semibold mb-6 border-b pb-4">
+                Know your net worth value and get personalized advice on what adjustments you need to make going forward.
+            </p>
+
+            <!-- Form Input -->
+            <form id="netWorthForm" onsubmit="calculateNetWorth(event)" class="space-y-6">
+
+                <!-- ASET (ASSETS) SECTION -->
+                <section class="border border-green-200 p-4 rounded-lg bg-green-50">
+                    <h2 id="assetTitle" class="text-xl font-bold text-finance-color mb-3">1. Total Assets</h2>
+                    <p id="assetDesc" class="input-description mb-4">Enter the current market value of everything you own.</p>
+                    <div id="assetsInputContainer" class="space-y-3">
+                        <!-- Asset fields will be generated here by JS -->
+                    </div>
+                    <div class="mt-4 p-3 border-t border-green-300">
+                        <p id="assetSubtotalLabel" class="text-sm text-green-800 font-medium">Subtotal Assets:</p>
+                        <p id="subtotalAssets" class="text-xl font-extrabold text-finance-color">IDR 0</p>
+                    </div>
+                </section>
+
+                <!-- KEWAJIBAN (LIABILITIES) SECTION -->
+                <section class="border border-red-200 p-4 rounded-lg bg-red-50">
+                    <h2 id="liabilityTitle" class="text-xl font-bold text-debt-color mb-3">2. Total Liabilities</h2>
+                    <p id="liabilityDesc" class="input-description mb-4">Enter the outstanding balances of all your debts and loans.</p>
+                    <div id="liabilitiesInputContainer" class="space-y-3">
+                         <!-- Liability fields will be generated here by JS -->
+                    </div>
+                    <div class="mt-4 p-3 border-t border-red-300">
+                        <p id="liabilitySubtotalLabel" class="text-sm text-red-800 font-medium">Subtotal Liabilities:</p>
+                        <p id="subtotalLiabilities" class="text-xl font-extrabold text-debt-color">IDR 0</p>
+                    </div>
+                </section>
+                
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
+                    Calculate Net Worth
+                </button>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-6 bg-gray-100 border rounded-xl shadow-lg">
+                
+                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-primary border-b pb-2">Net Worth Summary (Assets - Liabilities)</h3>
+                
+                <div id="netWorthDisplay" class="p-5 rounded-lg text-center">
+                    <p id="netWorthLabel" class="text-base text-gray-800 font-medium mb-1">Your Current Financial Health</p>
+                    <p id="netWorthResult" class="text-4xl font-extrabold">0</p>
+                    <p id="netWorthStatus" class="text-lg font-semibold mt-2"></p>
+                </div>
+
+                <!-- Kontainer Nasehat (Advice Container) DITAMBAHKAN -->
+                <div id="adviceContainer">
+                    <!-- Narasi nasehat akan ditampilkan di sini oleh JS -->
+                </div>
+                
+            </div>
+            
+            <!-- Description and Disclaimer -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="descriptionTitle" class="text-xl font-bold text-gray-800 mb-3">Understanding Your Net Worth</h2>
+                <p id="descriptionP1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">
+                    Your <strong>Net Worth</strong> is a single, powerful figure that tells you exactly where you stand financially. Calculated simply as <strong>Total Assets minus Total Liabilities</strong>, this number provides a clear benchmark for your financial health and progress towards financial independence. Regularly tracking your Net Worth is key to making informed decisions about debt repayment, saving, and investing.
+                </p>
+                <p id="descriptionP2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">
+                    A <strong>Positive Net Worth</strong> indicates that your assets are greater than your debts (wealth accumulation), while a <strong>Negative Net Worth</strong> suggests you owe more than you own. Our calculator uses detailed, customizable categories to ensure you capture the full picture of your financial balance sheet, from liquid savings to long-term investments like real estate.
+                </p>
+                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-secondary text-gray-800 p-4 rounded-lg text-xs mt-4">
+                    <strong>Disclaimer:</strong> This tool is intended solely for simulation and tracking purposes. The results are based purely on the values you input and do not constitute professional financial advice, tax, or legal consultation. Always consult certified financial professionals for personalized planning.
+                </div>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer (Consistent with other tools) -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkPrivacy">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkTerms">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkAbout">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkContact">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // CONFIGURATION (For Modularity & Maintenance)
+        // **********************************************
+
+        let currentLang = 'en'; // DEFAULT DIUBAH KE ENGLISH
+
+        const FinancialConfig = {
+            // Define all input fields for Assets
+            ASSETS: [
+                { id: 'cash', label_en: 'Cash & Checking Accounts', label_id: 'Kas & Rekening Giro', default: 5000000 },
+                { id: 'savings', label_en: 'Savings & Money Market Accounts', label_id: 'Tabungan & Rekening Pasar Uang', default: 10000000 },
+                { id: 'stocks', label_en: 'Stocks, Bonds, & Mutual Funds', label_id: 'Saham, Obligasi, & Reksa Dana', default: 30000000 },
+                { id: 'retirement', label_en: 'Retirement Accounts (e.g., 401k/IRA)', label_id: 'Rekening Pensiun (misalnya DPLK/IRA)', default: 50000000 },
+                { id: 'realEstate', label_en: 'Real Estate Current Value (Primary Home/Rental)', label_id: 'Nilai Properti Saat Ini (Rumah Utama/Sewa)', default: 500000000 },
+                { id: 'vehicles', label_en: 'Vehicles Current Market Value', label_id: 'Nilai Pasar Kendaraan Saat Ini', default: 50000000 },
+                { id: 'otherAssets', label_en: 'Other Significant Assets', label_id: 'Aset Signifikan Lainnya', default: 0 },
+            ],
+            
+            // Define all input fields for Liabilities
+            LIABILITIES: [
+                { id: 'mortgage', label_en: 'Mortgage Outstanding Balance', label_id: 'Sisa Utang KPR', default: 350000000 },
+                { id: 'carLoan', label_en: 'Car Loan Outstanding Balance', label_id: 'Sisa Utang Kredit Mobil', default: 20000000 },
+                { id: 'studentLoan', label_en: 'Student Loan Balance', label_id: 'Sisa Utang Pinjaman Pelajar/Pendidikan', default: 0 },
+                { id: 'creditCard', label_en: 'Credit Card Debt Balance', label_id: 'Sisa Utang Kartu Kredit', default: 5000000 },
+                { id: 'personalLoan', label_en: 'Personal Loans/Other Debt', label_id: 'Pinjaman Pribadi/Utang Lain', default: 0 },
+            ],
+        };
+
+        // **********************************************
+        // TRANSLATIONS (DIperbarui untuk Narasi Nasehat)
+        // **********************************************
+        const translations = {
+            en: {
+                appTitle: "Personal Net Worth & Financial Health Calculator",
+                backToCatalogText: "Back to Tools Catalog",
+                headerTitle: "Personal Net Worth & Financial Health Calculator",
+                // Diperbarui sesuai permintaan pengguna
+                valueProposition: "Know your net worth value and get personalized advice on what adjustments you need to make going forward.", 
+                assetTitle: "1. Total Assets",
+                assetDesc: "Enter the current market value of everything you own.",
+                assetSubtotalLabel: "Subtotal Assets:",
+                liabilityTitle: "2. Total Liabilities",
+                liabilityDesc: "Enter the outstanding balances of all your debts and loans.",
+                liabilitySubtotalLabel: "Subtotal Liabilities:",
+                calculateButton: "Calculate Net Worth",
+                resultHeader: "Net Worth Summary (Assets - Liabilities)",
+                netWorthLabel: "Your Current Financial Health",
+                positiveStatus: "Positive Net Worth!",
+                negativeStatus: "Negative Net Worth (Focus on Debt)!",
+                zeroStatus: "Net Worth is Zero.",
+                // Narasi nasehat DITAMBAHKAN
+                advicePositive: "Congratulations! A positive Net Worth means you are on the right path to building wealth. **Your key action is to maintain momentum:** Keep increasing your high-value assets and aggressively pay down high-interest debt to accelerate your financial freedom.",
+                adviceNegative: "A negative Net Worth indicates that your debts currently exceed your assets. **Your primary focus must be on debt reduction:** Create a strict budget, prioritize paying off high-interest liabilities (like credit cards), and avoid taking on new non-essential debt. Every small action to reduce debt is progress.",
+                adviceZero: "Your Net Worth is Zero. Focus on increasing assets or reducing debt to start building positive net worth.",
+                // Deskripsi dipertahankan seperti aslinya
+                descriptionTitle: "Understanding Your Net Worth",
+                descriptionP1: `Your <strong>Net Worth</strong> is a single, powerful figure that tells you exactly where you stand financially. Calculated simply as <strong>Total Assets minus Total Liabilities</strong>, this number provides a clear benchmark for your financial health and progress towards financial independence. Regularly tracking your Net Worth is key to making informed decisions about debt repayment, saving, and investing.`,
+                descriptionP2: `A <strong>Positive Net Worth</strong> indicates that your assets are greater than your debts (wealth accumulation), while a <strong>Negative Net Worth</strong> suggests you owe more than you own. Our calculator uses detailed, customizable categories to ensure you capture the full picture of your financial balance sheet, from liquid savings to long-term investments like real estate.`,
+                disclaimerBox: `<strong>Disclaimer:</strong> This tool is intended solely for simulation and tracking purposes. The results are based purely on the values you input and do not constitute professional financial advice, tax, or legal consultation. Always consult certified financial professionals for personalized planning.`,
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            },
+            id: {
+                appTitle: "Kalkulator Nilai Bersih & Kesehatan Finansial Pribadi",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                headerTitle: "Kalkulator Nilai Bersih & Kesehatan Finansial Pribadi",
+                // Diperbarui sesuai permintaan pengguna
+                valueProposition: "Ketahui nilai kekayaan bersih Anda dan dapatkan nasehat personal tentang penyesuaian apa yang perlu Anda lakukan ke depannya.",
+                assetTitle: "1. Total Aset",
+                assetDesc: "Masukkan nilai pasar saat ini dari semua yang Anda miliki (harta).",
+                assetSubtotalLabel: "Subtotal Aset:",
+                liabilityTitle: "2. Total Kewajiban",
+                liabilityDesc: "Masukkan sisa saldo utang dan pinjaman Anda saat ini.",
+                liabilitySubtotalLabel: "Subtotal Kewajiban:",
+                calculateButton: "Hitung Nilai Bersih",
+                resultHeader: "Ringkasan Nilai Bersih (Aset - Kewajiban)",
+                netWorthLabel: "Kesehatan Finansial Anda Saat Ini",
+                positiveStatus: "Nilai Bersih Positif!",
+                negativeStatus: "Nilai Bersih Negatif (Fokus pada Utang)!",
+                zeroStatus: "Nilai Bersih Nol.",
+                // Narasi nasehat DITAMBAHKAN
+                advicePositive: "Selamat! Nilai Bersih positif berarti Anda berada di jalur yang benar dalam membangun kekayaan. **Tindakan kunci Anda adalah menjaga momentum:** Terus tingkatkan aset bernilai tinggi dan lunasi utang berbunga tinggi secara agresif untuk mempercepat kemandirian finansial Anda.",
+                adviceNegative: "Nilai Bersih negatif menunjukkan bahwa utang Anda saat ini melebihi aset Anda. **Fokus utama Anda harus pada pengurangan utang:** Buat anggaran ketat, prioritaskan pelunasan kewajiban berbunga tinggi (seperti kartu kredit), dan hindari mengambil utang non-esensial baru. Setiap tindakan kecil untuk mengurangi utang adalah kemajuan.",
+                adviceZero: "Nilai Bersih Anda adalah Nol. Fokus pada peningkatan aset atau pengurangan utang untuk mulai membangun kekayaan bersih positif.",
+                // Deskripsi dipertahankan seperti aslinya
+                descriptionTitle: "Memahami Nilai Bersih (Net Worth) Anda",
+                descriptionP1: `<strong>Nilai Bersih (Net Worth)</strong> adalah angka tunggal yang kuat yang menunjukkan posisi finansial Anda secara tepat. Dihitung sederhana sebagai <strong>Total Aset dikurangi Total Kewajiban</strong>, angka ini memberikan tolok ukur yang jelas untuk kesehatan finansial dan kemajuan menuju kemandirian finansial Anda. Melacak Nilai Bersih Anda secara teratur adalah kunci untuk membuat keputusan yang tepat tentang pembayaran utang, tabungan, dan investasi.`,
+                descriptionP2: `<strong>Nilai Bersih Positif</strong> menunjukkan bahwa aset Anda lebih besar daripada utang Anda (akumulasi kekayaan), sedangkan <strong>Nilai Bersih Negatif</strong> menunjukkan bahwa Anda berutang lebih dari yang Anda miliki. Kalkulator ini menggunakan kategori yang terperinci dan dapat disesuaikan untuk memastikan Anda menangkap gambaran lengkap neraca keuangan pribadi Anda.`,
+                disclaimerBox: `<strong>Penafian:</strong> Alat ini ditujukan semata-mata untuk tujuan simulasi dan pelacakan. Hasil didasarkan murni pada nilai yang Anda masukkan dan bukan merupakan nasihat keuangan profesional, konsultasi pajak, atau hukum. Selalu konsultasikan dengan profesional keuangan bersertifikat untuk perencanaan yang dipersonalisasi.`,
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            }
+        };
+
+
+        // **********************************************
+        // UTILITY FUNCTIONS 
+        // **********************************************
+        
+        // Formats number to IDR standard (without currency symbol for cleaner input/output)
+        function formatNumber(amount) {
+            if (typeof amount !== 'number') return '0';
+            // Use 'id-ID' locale for consistent formatting (dot separator)
+            const locale = 'id-ID'; 
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(Math.round(amount));
+        }
+
+        // Cleans formatted string input to a raw number
+        function cleanInput(formattedValue) {
+            // Removes all non-digit characters (including thousand separators)
+            return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
+        }
+
+        // Formats input value in real-time
+        function formatInput(inputElement) {
+            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            if (rawValue) {
+                const numericValue = parseInt(rawValue, 10);
+                inputElement.value = formatNumber(numericValue);
+            } else {
+                inputElement.value = ''; 
+            }
+            // Update subtotals when any input changes
+            updateSubtotals();
+        }
+
+        // **********************************************
+        // UI GENERATION & SUBTOTALS
+        // **********************************************
+
+        function generateInputFields() {
+            const assetsContainer = document.getElementById('assetsInputContainer');
+            const liabilitiesContainer = document.getElementById('liabilitiesInputContainer');
+
+            assetsContainer.innerHTML = '';
+            liabilitiesContainer.innerHTML = '';
+
+            const lang = currentLang;
+
+            // 1. Generate Asset Inputs
+            FinancialConfig.ASSETS.forEach(item => {
+                const labelKey = `label_${lang}`;
+                const labelText = item[labelKey] || item.label_en; // Fallback ke EN
+
+                const div = document.createElement('div');
+                div.className = 'relative';
+                div.innerHTML = `
+                    <label for="${item.id}" class="block text-sm font-medium text-gray-700 mb-1">${labelText}</label>
+                    <input type="text" id="${item.id}" inputmode="numeric" value="${formatNumber(item.default)}" 
+                           oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150 asset-input" required>
+                `;
+                assetsContainer.appendChild(div);
+            });
+
+            // 2. Generate Liability Inputs
+            FinancialConfig.LIABILITIES.forEach(item => {
+                const labelKey = `label_${lang}`;
+                const labelText = item[labelKey] || item.label_en; // Fallback ke EN
+
+                const div = document.createElement('div');
+                div.className = 'relative';
+                div.innerHTML = `
+                    <label for="${item.id}" class="block text-sm font-medium text-gray-700 mb-1">${labelText}</label>
+                    <input type="text" id="${item.id}" inputmode="numeric" value="${formatNumber(item.default)}" 
+                           oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-debt-color focus:border-debt-color transition duration-150 liability-input" required>
+                `;
+                liabilitiesContainer.appendChild(div);
+            });
+        }
+
+        function updateSubtotals() {
+            let totalAssets = 0;
+            let totalLiabilities = 0;
+
+            // Sum Assets
+            document.querySelectorAll('.asset-input').forEach(input => {
+                totalAssets += cleanInput(input.value);
+            });
+
+            // Sum Liabilities
+            document.querySelectorAll('.liability-input').forEach(input => {
+                totalLiabilities += cleanInput(input.value);
+            });
+
+            // Display Subtotals
+            document.getElementById('subtotalAssets').textContent = `IDR ${formatNumber(totalAssets)}`;
+            document.getElementById('subtotalLiabilities').textContent = `IDR ${formatNumber(totalLiabilities)}`;
+        }
+
+        // **********************************************
+        // MAIN CALCULATION LOGIC
+        // **********************************************
+
+        function calculateNetWorth(event) {
+            event.preventDefault();
+
+            let totalAssets = 0;
+            let totalLiabilities = 0;
+            const t = translations[currentLang];
+
+            // Recalculate Totals based on current inputs
+            document.querySelectorAll('.asset-input').forEach(input => {
+                totalAssets += cleanInput(input.value);
+            });
+            document.querySelectorAll('.liability-input').forEach(input => {
+                totalLiabilities += cleanInput(input.value);
+            });
+
+            // Net Worth Calculation
+            const netWorth = totalAssets - totalLiabilities;
+            
+            const resultBox = document.getElementById('resultBox');
+            const netWorthDisplay = document.getElementById('netWorthDisplay');
+            const netWorthResult = document.getElementById('netWorthResult');
+            const netWorthStatus = document.getElementById('netWorthStatus');
+            const adviceContainer = document.getElementById('adviceContainer'); // DITAMBAHKAN
+
+            // 1. Update Subtotal Displays
+            document.getElementById('subtotalAssets').textContent = `IDR ${formatNumber(totalAssets)}`;
+            document.getElementById('subtotalLiabilities').textContent = `IDR ${formatNumber(totalLiabilities)}`;
+
+            // 2. Determine Status and Apply Styling
+            let statusText = t.zeroStatus;
+            let bgColor = "bg-yellow-100";
+            let textColor = "text-gray-800";
+            let adviceHTML = ''; // DITAMBAHKAN
+
+            if (netWorth > 0) {
+                statusText = t.positiveStatus;
+                bgColor = "bg-finance-color/10";
+                textColor = "text-finance-color";
+                // Narasi Nasehat Positif
+                adviceHTML = `<div class="advice-box positive"><p class="font-bold text-base mb-1">${currentLang === 'en' ? 'Financial Advice:' : 'Nasehat Finansial:'}</p>${t.advicePositive}</div>`;
+            } else if (netWorth < 0) {
+                statusText = t.negativeStatus;
+                bgColor = "bg-debt-color/10";
+                textColor = "text-debt-color";
+                // Narasi Nasehat Negatif
+                adviceHTML = `<div class="advice-box negative"><p class="font-bold text-base mb-1">${currentLang === 'en' ? 'Financial Advice:' : 'Nasehat Finansial:'}</p>${t.adviceNegative}</div>`;
+            } else {
+                 // Narasi Nasehat Nol
+                 adviceHTML = `<div class="advice-box bg-yellow-100 border-yellow-300 text-yellow-800"><p class="font-bold text-base mb-1">${currentLang === 'en' ? 'Financial Advice:' : 'Nasehat Finansial:'}</p>${t.adviceZero}</div>`;
+            }
+            
+            // 3. Display Results
+            netWorthResult.textContent = `IDR ${formatNumber(netWorth)}`;
+            netWorthStatus.textContent = statusText;
+            adviceContainer.innerHTML = adviceHTML; // DITAMBAHKAN
+            
+            // Update styling
+            netWorthDisplay.className = `p-5 rounded-lg text-center transition duration-300 ${bgColor}`;
+            netWorthResult.className = `text-4xl font-extrabold transition duration-300 ${textColor}`;
+
+            // Show result box
+            resultBox.classList.add('visible');
+        }
+
+        // **********************************************
+        // LANGUAGE SWITCHING LOGIC
+        // **********************************************
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+            document.documentElement.lang = lang; 
+
+            // Re-generate input fields with new labels
+            generateInputFields();
+            
+            // Update static texts
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('valueProposition').textContent = t.valueProposition;
+            document.getElementById('assetTitle').textContent = t.assetTitle;
+            document.getElementById('assetDesc').textContent = t.assetDesc;
+            document.getElementById('assetSubtotalLabel').textContent = t.assetSubtotalLabel;
+            document.getElementById('liabilityTitle').textContent = t.liabilityTitle;
+            document.getElementById('liabilityDesc').textContent = t.liabilityDesc;
+            document.getElementById('liabilitySubtotalLabel').textContent = t.liabilitySubtotalLabel;
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            document.getElementById('netWorthLabel').textContent = t.netWorthLabel;
+
+            document.getElementById('descriptionTitle').textContent = t.descriptionTitle;
+            document.getElementById('descriptionP1').innerHTML = t.descriptionP1;
+            document.getElementById('descriptionP2').innerHTML = t.descriptionP2;
+            document.getElementById('disclaimerBox').innerHTML = t.disclaimerBox;
+
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+
+            // Re-calculate results to update status text and advice
+            if (document.getElementById('resultBox').classList.contains('visible')) {
+                 calculateNetWorth({ preventDefault: () => {} });
+            } else {
+                updateSubtotals();
+            }
+        }
+
+        // **********************************************
+        // INITIALIZATION
+        // **********************************************
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial language to English (EN)
+            setLanguage('en'); 
+        });
+        
+    </script>
+</body>
+</html>

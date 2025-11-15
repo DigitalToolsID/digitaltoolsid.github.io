@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://digitaltoolsid.github.io/emergency-fund-calculator/" />
+    <title id="appTitle">Ideal Emergency Fund Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tailwind (Menggunakan warna yang sama dengan alat lain) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Green for positive net worth / savings
+                        'debt-color': '#e74c3c', // Red for debt/negative gap
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* General styles */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 2000px;
+            padding: 1.5rem; 
+        }
+        .calculate-button {
+            box-shadow: 0 4px #1e8449; 
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e8449;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e8449;
+        }
+        .input-description {
+            font-size: 0.75rem; 
+            color: #6b7280; 
+            margin-top: 0.25rem;
+        }
+
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        /* Default: EN */
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            
+            <!-- Language Toggle (Default EN) -->
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
+                    EN
+                </button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
+                    ID
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-2">Ideal Emergency Fund Calculator</h1>
+            
+            <!-- Value Proposition (Pemikat) -->
+            <p id="valueProposition" class="text-lg text-finance-color font-semibold mb-6 border-b pb-4">
+                Calculate your minimum cash fund to meet emergency conditions and get tips on how to manage that fund.
+            </p>
+
+            <!-- Form Input -->
+            <form id="emergencyFundForm" onsubmit="calculateEmergencyFund(event)" class="space-y-6">
+
+                <!-- 1. ESSENTIAL EXPENSES SECTION -->
+                <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
+                    <h2 id="expenseTitle" class="text-xl font-bold text-primary-dark mb-3">1. Monthly Essential Expenses</h2>
+                    <p id="expenseDesc" class="input-description mb-4">Enter your absolute required monthly costs to maintain your basic lifestyle.</p>
+                    <div id="expensesInputContainer" class="space-y-3">
+                        <!-- Expense fields will be generated here by JS -->
+                    </div>
+                    <div class="mt-4 p-3 border-t border-gray-200">
+                        <p id="subtotalExpensesLabel" class="text-sm text-gray-800 font-medium">Total Monthly Essential Expenses:</p>
+                        <p id="totalExpenses" class="text-xl font-extrabold text-primary-dark">IDR 0</p>
+                    </div>
+                </section>
+
+                <!-- 2. SAFETY NET PERIOD -->
+                <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
+                    <h2 id="periodTitle" class="text-xl font-bold text-primary-dark mb-3">2. Safety Net Period</h2>
+                    <p id="periodDesc" class="input-description mb-4">Select how many months of expenses your emergency fund should cover.</p>
+                    <div id="safetyPeriodContainer" class="flex flex-wrap gap-4">
+                        <!-- Period options will be generated here by JS -->
+                    </div>
+                    <div class="mt-4 p-3 border-t border-gray-200">
+                        <p id="selectedPeriodLabel" class="text-sm text-gray-800 font-medium">Selected Period:</p>
+                        <p id="selectedPeriod" class="text-xl font-extrabold text-primary-dark">6 Months</p>
+                    </div>
+                </section>
+
+                <!-- 3. CURRENT FUND (OPTIONAL) -->
+                 <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
+                    <h2 id="currentFundTitle" class="text-xl font-bold text-primary-dark mb-3">3. Current Emergency Fund (Optional)</h2>
+                    <p id="currentFundDesc" class="input-description mb-4">Enter the amount you currently have saved specifically for emergencies.</p>
+                    <div class="relative">
+                        <label for="currentFund" class="block text-sm font-medium text-gray-700 mb-1" id="currentFundInputLabel">Current Fund Amount</label>
+                        <input type="text" id="currentFund" inputmode="numeric" value="0" 
+                               oninput="formatInput(this, true)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150 current-fund-input">
+                    </div>
+                </section>
+                
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
+                    Calculate Fund Target
+                </button>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-6 bg-gray-100 border rounded-xl shadow-lg">
+                
+                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-primary border-b pb-2">Emergency Fund Summary</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-3 border-b">
+                        <p id="totalExpensesLabel" class="text-base text-gray-600">Total Monthly Essential Expenses:</p>
+                        <p id="outputTotalExpenses" class="text-lg font-bold text-primary-dark">IDR 0</p>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-finance-color/10 border border-finance-color/30">
+                        <p id="targetLabel" class="text-lg font-semibold text-finance-color">Ideal Emergency Fund Target:</p>
+                        <p id="outputTarget" class="text-2xl font-extrabold text-finance-color">IDR 0</p>
+                    </div>
+                    <div class="flex justify-between items-center p-3 border-b">
+                        <p id="currentFundLabel" class="text-base text-gray-600">Current Fund Saved:</p>
+                        <p id="outputCurrentFund" class="text-lg font-bold text-primary-dark">IDR 0</p>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg" id="gapContainer">
+                        <p id="gapLabel" class="text-xl font-bold">The Gap:</p>
+                        <p id="outputGap" class="text-2xl font-extrabold text-primary-dark">IDR 0</p>
+                    </div>
+                </div>
+
+                <!-- Call-to-Action / Advice -->
+                <div id="adviceContainer" class="mt-6 p-4 rounded-lg border-l-4 border-secondary bg-blue-50 text-gray-800">
+                    <p id="adviceCTA" class="font-bold mb-1 text-primary-dark">Quick Action Plan:</p>
+                    <p id="adviceText" class="text-sm leading-relaxed">Your calculated target is a crucial financial milestone. Deposit this amount into a separate, high-yield savings account or money market account. Avoid touching it for non-emergencies. Review this goal annually.</p>
+                </div>
+                
+            </div>
+            
+            <!-- Description and Disclaimer -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="descriptionTitle" class="text-xl font-bold text-gray-800 mb-3">The Purpose of an Emergency Fund</h2>
+                <p id="descriptionP1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">
+                    An emergency fund is a liquidity reserve specifically designed to cover unexpected, essential expenses like job loss, medical crises, or major home repairs. It protects you from high-interest debt and keeps your long-term investments safe, ensuring you maintain financial stability during unforeseen circumstances.
+                </p>
+                <!-- DESKRIPSI BARU DITAMBAHKAN -->
+                <p id="descriptionP2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">
+                    The calculation for your Ideal Emergency Fund Target is straightforward: **Total Monthly Essential Expenses** multiplied by your selected **Safety Net Period** (in months). For example, if your essential expenses are IDR 10,000,000 and you select a 6-month safety period, your target fund is IDR 60,000,000. This method ensures your target is directly based on your specific lifestyle and required level of security.
+                </p>
+                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-secondary text-gray-800 p-4 rounded-lg text-xs mt-4">
+                    <strong>Disclaimer:</strong> This tool is intended solely for simulation and tracking purposes. The results are based purely on the values you input and do not constitute professional financial advice, tax, or legal consultation. Always consult certified financial professionals for personalized planning.
+                </div>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkPrivacy">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkTerms">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkAbout">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="linkContact">Contact Us</a>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // CONFIGURATION (Modularitas Kode)
+        // **********************************************
+
+        let currentLang = 'en'; // DEFAULT ENGLISH
+
+        const FinancialConfig = {
+            // Kategori Biaya Hidup Bulanan Wajib (Essential Expenses)
+            ESSENTIAL_EXPENSES: [
+                { id: 'housing', label_en: 'Housing/Rent/Mortgage', label_id: 'Tempat Tinggal/Sewa/KPR', default: 5000000 },
+                { id: 'groceries', label_en: 'Groceries (Absolute Minimum)', label_id: 'Kebutuhan Pangan (Minimum Absolut)', default: 1500000 },
+                { id: 'utilities', label_en: 'Utilities (Electric, Water, Internet)', label_id: 'Utilitas (Listrik, Air, Internet)', default: 1000000 },
+                { id: 'insurance', label_en: 'Insurance Premiums (Health, Life)', label_id: 'Premi Asuransi (Kesehatan, Jiwa)', default: 800000 },
+                { id: 'minDebt', label_en: 'Minimum Debt Payments (Mandatory)', label_id: 'Pembayaran Utang Minimum (Wajib)', default: 2000000 },
+                { id: 'transport', label_en: 'Essential Transportation (e.g., Gas/Public)', label_id: 'Transportasi Esensial', default: 500000 },
+                { id: 'otherEssential', label_en: 'Other Absolute Essential Costs', label_id: 'Biaya Esensial Absolut Lain', default: 0 },
+            ],
+            
+            // Opsi Periode Aman (Safety Net Periods)
+            SAFETY_PERIODS: [
+                { id: 3, label_en: '3 Months (Minimum)', label_id: '3 Bulan (Minimum)', recommended: false },
+                { id: 6, label_en: '6 Months (Standard)', label_id: '6 Bulan (Standar)', recommended: true },
+                { id: 12, label_en: '12 Months (Conservative)', label_id: '12 Bulan (Konservatif)', recommended: false },
+            ],
+        };
+
+        // **********************************************
+        // TRANSLATIONS
+        // **********************************************
+        const translations = {
+            en: {
+                appTitle: "Ideal Emergency Fund Calculator",
+                backToCatalogText: "Back to Tools Catalog",
+                headerTitle: "Ideal Emergency Fund Calculator",
+                // Value Proposition
+                valueProposition: "Calculate your minimum cash fund to meet emergency conditions and get tips on how to manage that fund.",
+                
+                expenseTitle: "1. Monthly Essential Expenses",
+                expenseDesc: "Enter your absolute required monthly costs to maintain your basic lifestyle.",
+                subtotalExpensesLabel: "Total Monthly Essential Expenses:",
+                
+                periodTitle: "2. Safety Net Period",
+                periodDesc: "Select how many months of expenses your emergency fund should cover.",
+                selectedPeriodLabel: "Selected Period:",
+                
+                currentFundTitle: "3. Current Emergency Fund (Optional)",
+                currentFundDesc: "Enter the amount you currently have saved specifically for emergencies.",
+                currentFundInputLabel: "Current Fund Amount",
+
+                calculateButton: "Calculate Fund Target",
+                resultHeader: "Emergency Fund Summary",
+                totalExpensesLabel: "Total Monthly Essential Expenses:",
+                targetLabel: "Ideal Emergency Fund Target:",
+                currentFundLabel: "Current Fund Saved:",
+                gapLabel: "The Gap:",
+                
+                adviceCTA: "Quick Action Plan:",
+                adviceText: "Your calculated target is a crucial financial milestone. Deposit this amount into a separate, high-yield savings account or money market account. Avoid touching it for non-emergencies. Review this goal annually.",
+                
+                descriptionTitle: "The Purpose of an Emergency Fund",
+                descriptionP1: "An emergency fund is a liquidity reserve specifically designed to cover unexpected, essential expenses like job loss, medical crises, or major home repairs. It protects you from high-interest debt and keeps your long-term investments safe, ensuring you maintain financial stability during unforeseen circumstances.",
+                // Deskripsi Formula DIBENAHI (dihapus ** dan diganti <strong>)
+                descriptionP2: `The calculation for your Ideal Emergency Fund Target is straightforward: <strong>Total Monthly Essential Expenses</strong> multiplied by your selected <strong>Safety Net Period</strong> (in months). For example, if your essential expenses are IDR 10,000,000 and you select a 6-month safety period, your target fund is IDR 60,000,000. This method ensures your target is directly based on your specific lifestyle and required level of security.`,
+                disclaimerBox: `<strong>Disclaimer:</strong> This tool is intended solely for simulation and tracking purposes. The results are based purely on the values you input and do not constitute professional financial advice, tax, or legal consultation. Always consult certified financial professionals for personalized planning.`,
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            },
+            id: {
+                appTitle: "Kalkulator Dana Darurat Ideal",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                headerTitle: "Kalkulator Dana Darurat Ideal",
+                // Value Proposition
+                valueProposition: "Hitung dana tunai minimum Anda agar cukup memenuhi kondisi darurat dan tips bagaimana mengelola dana tersebut.",
+                
+                expenseTitle: "1. Biaya Hidup Bulanan Wajib",
+                expenseDesc: "Masukkan biaya bulanan wajib absolut Anda untuk mempertahankan gaya hidup dasar Anda.",
+                subtotalExpensesLabel: "Total Biaya Hidup Bulanan Wajib:",
+                
+                periodTitle: "2. Periode Aman",
+                periodDesc: "Pilih berapa bulan biaya hidup yang harus dicakup oleh dana darurat Anda.",
+                selectedPeriodLabel: "Periode yang Dipilih:",
+                
+                currentFundTitle: "3. Dana Darurat Saat Ini (Opsional)",
+                currentFundDesc: "Masukkan jumlah yang saat ini telah Anda tabung secara khusus untuk keadaan darurat.",
+                currentFundInputLabel: "Jumlah Dana Saat Ini",
+
+                calculateButton: "Hitung Target Dana",
+                resultHeader: "Ringkasan Dana Darurat",
+                totalExpensesLabel: "Total Biaya Hidup Bulanan Wajib:",
+                targetLabel: "Target Dana Darurat Ideal:",
+                currentFundLabel: "Dana Saat Ini yang Tersimpan:",
+                gapLabel: "Selisih (Kekurangan/Kelebihan):",
+                
+                adviceCTA: "Rencana Tindakan Cepat:",
+                adviceText: "Target yang Anda hitung adalah tonggak finansial yang krusial. Simpan jumlah ini ke dalam rekening tabungan terpisah dengan imbal hasil tinggi atau rekening pasar uang. Hindari menggunakannya untuk hal-hal yang bukan keadaan darurat. Tinjau kembali tujuan ini setiap tahun.",
+                
+                descriptionTitle: "Tujuan Dana Darurat",
+                descriptionP1: "Dana darurat adalah cadangan likuiditas yang dirancang khusus untuk menutupi pengeluaran tak terduga dan esensial seperti kehilangan pekerjaan, krisis medis, atau perbaikan besar rumah. Ini melindungi Anda dari utang berbunga tinggi dan menjaga investasi jangka panjang Anda tetap aman, memastikan Anda mempertahankan stabilitas finansial selama keadaan yang tidak terduga.",
+                // Deskripsi Formula DIBENAHI (dihapus ** dan diganti <strong>)
+                descriptionP2: `Perhitungan untuk Target Dana Darurat Ideal Anda sangat sederhana: <strong>Total Biaya Hidup Bulanan Wajib</strong> dikalikan dengan <strong>Periode Aman</strong> yang Anda pilih (dalam bulan). Contohnya, jika biaya esensial Anda adalah IDR 10.000.000 dan Anda memilih periode aman 6 bulan, maka target dana Anda adalah IDR 60.000.000. Metode ini memastikan target Anda didasarkan langsung pada gaya hidup dan tingkat keamanan spesifik Anda.`,
+                disclaimerBox: `<strong>Penafian:</strong> Alat ini ditujukan semata-mata untuk tujuan simulasi dan pelacakan. Hasil didasarkan murni pada nilai yang Anda masukkan dan bukan merupakan nasihat keuangan profesional, konsultasi pajak, atau hukum. Selalu konsultasikan dengan profesional keuangan bersertifikat untuk perencanaan yang dipersonalisasi.`,
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            }
+        };
+
+
+        // **********************************************
+        // UTILITY FUNCTIONS 
+        // **********************************************
+        
+        // Formats number to IDR standard (without currency symbol for cleaner input/output)
+        function formatNumber(amount) {
+            if (typeof amount !== 'number') return '0';
+            const locale = 'id-ID'; 
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(Math.round(amount));
+        }
+
+        // Cleans formatted string input to a raw number
+        function cleanInput(formattedValue) {
+            // Removes all non-digit characters (including thousand separators)
+            return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
+        }
+
+        // Formats input value in real-time
+        function formatInput(inputElement, isOptional = false) {
+            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            
+            // Only required inputs update subtotal on change
+            if (!isOptional) {
+                 // Check if the input is empty or zero
+                if (!rawValue || parseInt(rawValue, 10) === 0) {
+                     // If it's zero, leave it as '0' or empty but we need to update subtotals
+                } else {
+                    const numericValue = parseInt(rawValue, 10);
+                    inputElement.value = formatNumber(numericValue);
+                }
+                updateSubtotals();
+            } else {
+                if (rawValue) {
+                    const numericValue = parseInt(rawValue, 10);
+                    inputElement.value = formatNumber(numericValue);
+                } else {
+                    inputElement.value = '0'; // Ensure optional fund defaults to 0 if cleared
+                }
+            }
+        }
+
+        // **********************************************
+        // UI GENERATION & SUBTOTALS
+        // **********************************************
+
+        function generateInputFields() {
+            const expensesContainer = document.getElementById('expensesInputContainer');
+            const periodContainer = document.getElementById('safetyPeriodContainer');
+
+            expensesContainer.innerHTML = '';
+            periodContainer.innerHTML = '';
+
+            const lang = currentLang;
+
+            // 1. Generate Expense Inputs
+            FinancialConfig.ESSENTIAL_EXPENSES.forEach(item => {
+                const labelKey = `label_${lang}`;
+                const labelText = item[labelKey] || item.label_en; 
+
+                const div = document.createElement('div');
+                div.className = 'relative';
+                div.innerHTML = `
+                    <label for="${item.id}" class="block text-sm font-medium text-gray-700 mb-1">${labelText}</label>
+                    <input type="text" id="${item.id}" inputmode="numeric" value="${formatNumber(item.default)}" 
+                           oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150 expense-input" required>
+                `;
+                expensesContainer.appendChild(div);
+            });
+
+            // 2. Generate Safety Period Radios
+            FinancialConfig.SAFETY_PERIODS.forEach(item => {
+                const labelKey = `label_${lang}`;
+                const labelText = item[labelKey] || item.label_en; 
+                const checked = item.recommended ? 'checked' : '';
+
+                const radioDiv = document.createElement('div');
+                radioDiv.className = 'flex items-center';
+                radioDiv.innerHTML = `
+                    <input type="radio" id="period-${item.id}" name="safetyPeriod" value="${item.id}" ${checked}
+                           class="h-4 w-4 text-finance-color border-gray-300 focus:ring-finance-color" onchange="updateSelectedPeriod()">
+                    <label for="period-${item.id}" class="ml-2 block text-sm font-medium text-gray-700">${labelText}</label>
+                `;
+                periodContainer.appendChild(radioDiv);
+            });
+            
+            // Re-render current fund label
+            document.getElementById('currentFundInputLabel').textContent = translations[lang].currentFundInputLabel;
+            
+            // Re-calculate subtotals after re-generating inputs
+            updateSubtotals();
+            updateSelectedPeriod();
+        }
+
+        function updateSubtotals() {
+            let total = 0;
+
+            // Sum Expenses
+            document.querySelectorAll('.expense-input').forEach(input => {
+                total += cleanInput(input.value);
+            });
+
+            // Display Subtotal
+            document.getElementById('totalExpenses').textContent = `IDR ${formatNumber(total)}`;
+        }
+        
+        function updateSelectedPeriod() {
+            const selectedRadio = document.querySelector('input[name="safetyPeriod"]:checked');
+            const periodDisplay = document.getElementById('selectedPeriod');
+            
+            if (selectedRadio) {
+                const selectedId = parseInt(selectedRadio.value);
+                const periodConfig = FinancialConfig.SAFETY_PERIODS.find(p => p.id === selectedId);
+                const labelKey = `label_${currentLang}`;
+                periodDisplay.textContent = periodConfig[labelKey] || periodConfig.label_en;
+            }
+        }
+
+        // **********************************************
+        // MAIN CALCULATION LOGIC
+        // **********************************************
+
+        function calculateEmergencyFund(event) {
+            event.preventDefault();
+
+            const t = translations[currentLang];
+            let totalEssentialExpenses = 0;
+
+            // 1. Calculate Total Essential Expenses
+            document.querySelectorAll('.expense-input').forEach(input => {
+                totalEssentialExpenses += cleanInput(input.value);
+            });
+
+            // 2. Get Safety Net Period (in months)
+            const selectedPeriodRadio = document.querySelector('input[name="safetyPeriod"]:checked');
+            const safetyPeriod = selectedPeriodRadio ? parseInt(selectedPeriodRadio.value) : 6; // Default to 6 months
+
+            // 3. Get Current Fund
+            const currentFundInput = document.getElementById('currentFund').value;
+            const currentFund = cleanInput(currentFundInput);
+
+            // 4. Calculate Target (Formula Inti)
+            const idealTarget = totalEssentialExpenses * safetyPeriod;
+            
+            // 5. Calculate Gap
+            const gap = idealTarget - currentFund; 
+
+            // 6. Display Results
+            const resultBox = document.getElementById('resultBox');
+            const outputTarget = document.getElementById('outputTarget');
+            const outputGap = document.getElementById('outputGap');
+            const gapContainer = document.getElementById('gapContainer');
+            
+            // A. Update Subtotal Expenses
+            document.getElementById('outputTotalExpenses').textContent = `IDR ${formatNumber(totalEssentialExpenses)}`;
+            
+            // B. Update Current Fund Output
+            document.getElementById('outputCurrentFund').textContent = `IDR ${formatNumber(currentFund)}`;
+
+            // C. Update Target Output
+            outputTarget.textContent = `IDR ${formatNumber(idealTarget)}`;
+            
+            // D. Update Gap Output and Styling
+            outputGap.textContent = `IDR ${formatNumber(Math.abs(gap))}`;
+            outputGap.classList.remove('text-finance-color', 'text-debt-color', 'text-primary-dark');
+
+            if (gap > 0) {
+                // Gap Positif = Kekurangan
+                gapContainer.classList.remove('bg-finance-color/10', 'bg-red-50');
+                gapContainer.classList.add('bg-red-50');
+                outputGap.classList.add('text-debt-color');
+                // Perbaikan tanda bintang di label gap dinamis
+                document.getElementById('gapLabel').textContent = `${t.gapLabel} (${currentLang === 'en' ? 'Shortfall' : 'Kekurangan'}):`;
+            } else if (gap < 0) {
+                // Gap Negatif = Kelebihan
+                gapContainer.classList.remove('bg-red-50');
+                gapContainer.classList.add('bg-finance-color/10');
+                outputGap.classList.add('text-finance-color');
+                // Perbaikan tanda bintang di label gap dinamis
+                document.getElementById('gapLabel').textContent = `${t.gapLabel} (${currentLang === 'en' ? 'Surplus' : 'Kelebihan'}):`;
+            } else {
+                // Gap Nol = Sudah Ideal
+                gapContainer.classList.remove('bg-finance-color/10', 'bg-red-50');
+                outputGap.classList.add('text-primary-dark');
+                 // Perbaikan tanda bintang di label gap dinamis
+                 document.getElementById('gapLabel').textContent = `${t.gapLabel}: (${currentLang === 'en' ? 'Ideal' : 'Ideal'})`;
+            }
+            
+            // Show result box
+            resultBox.classList.add('visible');
+        }
+
+        // **********************************************
+        // LANGUAGE SWITCHING LOGIC
+        // **********************************************
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            // Update status toggle
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+            document.documentElement.lang = lang; 
+
+            // Re-generate input fields and radio buttons with new labels
+            generateInputFields();
+            
+            // Update static texts
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('valueProposition').textContent = t.valueProposition;
+            
+            document.getElementById('expenseTitle').textContent = t.expenseTitle;
+            document.getElementById('expenseDesc').textContent = t.expenseDesc;
+            document.getElementById('subtotalExpensesLabel').textContent = t.subtotalExpensesLabel;
+
+            document.getElementById('periodTitle').textContent = t.periodTitle;
+            document.getElementById('periodDesc').textContent = t.periodDesc;
+            document.getElementById('selectedPeriodLabel').textContent = t.selectedPeriodLabel;
+
+            document.getElementById('currentFundTitle').textContent = t.currentFundTitle;
+            document.getElementById('currentFundDesc').textContent = t.currentFundDesc;
+            
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+
+            document.getElementById('totalExpensesLabel').textContent = t.totalExpensesLabel;
+            document.getElementById('targetLabel').textContent = t.targetLabel;
+            document.getElementById('currentFundLabel').textContent = t.currentFundLabel;
+            // The Gap Label text is dynamically set in calculateEmergencyFund based on gap state.
+
+            document.getElementById('adviceCTA').textContent = t.adviceCTA;
+            document.getElementById('adviceText').textContent = t.adviceText;
+
+            document.getElementById('descriptionTitle').textContent = t.descriptionTitle;
+            document.getElementById('descriptionP1').innerHTML = t.descriptionP1;
+            document.getElementById('descriptionP2').innerHTML = t.descriptionP2; // Deskripsi baru
+            document.getElementById('disclaimerBox').innerHTML = t.disclaimerBox;
+
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+
+            // Re-calculate results to update dynamic status text (like the gap label)
+            if (document.getElementById('resultBox').classList.contains('visible')) {
+                 calculateEmergencyFund({ preventDefault: () => {} });
+            }
+        }
+
+        // **********************************************
+        // INITIALIZATION
+        // **********************************************
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial language to English (EN)
+            setLanguage('en'); 
+        });
+        
+    </script>
+</body>
+</html>
