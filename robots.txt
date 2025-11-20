@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /sitemap.xml
+
 Sitemap: https://digitaltoolsid.github.io/sitemap.xml
