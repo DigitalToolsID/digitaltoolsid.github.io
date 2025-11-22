@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pph-detil/" />
+    <!-- Judul akan di-set oleh JS -->
+ 
+    <meta name="description" content="Kalkulator PPh 21 Indonesia. Hitung estimasi pajak penghasilan tahunan dan bulanan Anda berdasarkan gaji, status PTKP, dan aturan tarif pajak terbaru (UU HPP)." />
+ 
+    <title id="appTitle">Indonesia Income Tax Calculator</title>
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/indonesia-income-tax-calculator/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/indonesia-income-tax-calculator/index.html" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Kode Google Analytic dan Adsense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Hijau untuk Keuangan
+                        'tax-color': '#c0392b', // Merah bata untuk Pajak
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya kustom untuk tampilan hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 3000px; 
+            padding: 1.5rem; 
+        }
+        
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya kustom untuk input dan tombol */
+        .calculate-button {
+            box-shadow: 0 4px #922b21; /* Warna merah gelap */
+            background-color: #c0392b; /* tax-color */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #922b21;
+            background-color: #e74c3c;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #922b21;
+        }
+
+        /* Gaya untuk deskripsi input */
+        .input-description {
+            font-size: 0.75rem; /* text-xs */
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 0.25rem;
+        }
+
+        /* Gaya Kartu Hasil Utama */
+        .result-card-main {
+            background-color: #fef2f2; /* Red 50 */
+            border: 2px solid #fecaca; /* Red 200 */
+        }
+        
+        /* Section Header */
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Indonesia Income Tax (PPh 21) Calculator</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+               <!-- Konten Subtitle akan diisi oleh JS -->
+            </p>
+            
+            <!-- Form Input -->
+            <form id="taxForm" onsubmit="calculateTax(event)" class="space-y-6">
+                
+                <!-- Penghasilan -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title" id="headerIncome">1. Income Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <label for="monthlySalary" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlySalary">Monthly Gross Salary</label>
+                            <input type="text" id="monthlySalary" inputmode="numeric" value="15.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-tax-color focus:border-tax-color" required>
+                            <p class="input-description" id="descMonthlySalary">Gaji kotor sebulan (Gaji Pokok + Tunjangan Tetap).</p>
+                        </div>
+                        
+                        <div class="relative">
+                            <label for="otherIncome" class="block text-sm font-medium text-gray-700 mb-1" id="labelOtherIncome">Other Monthly Allowance</label>
+                            <input type="text" id="otherIncome" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-tax-color focus:border-tax-color">
+                            <p class="input-description" id="descOtherIncome">Tunjangan lain (makan, transport) atau bonus prorata sebulan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status PTKP -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title" id="headerStatus">2. Tax Relief Status (PTKP)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <label for="ptkpStatus" class="block text-sm font-medium text-gray-700 mb-1" id="labelPtkp">Marital Status & Dependents</label>
+                            <select id="ptkpStatus" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-tax-color focus:border-tax-color bg-white">
+                                <option value="54000000">TK/0 - Single, 0 Dependent</option>
+                                <option value="58500000">TK/1 - Single, 1 Dependent</option>
+                                <option value="63000000">TK/2 - Single, 2 Dependents</option>
+                                <option value="67500000">TK/3 - Single, 3 Dependents</option>
+                                <option value="58500000">K/0 - Married, 0 Dependent</option>
+                                <option value="63000000">K/1 - Married, 1 Dependent</option>
+                                <option value="67500000">K/2 - Married, 2 Dependents</option>
+                                <option value="72000000">K/3 - Married, 3 Dependents</option>
+                            </select>
+                            <p class="input-description" id="descPtkp">Status PTKP (Penghasilan Tidak Kena Pajak) Anda.</p>
+                        </div>
+                        <div class="relative">
+                            <label for="hasNPWP" class="block text-sm font-medium text-gray-700 mb-1" id="labelNpwp">Have NPWP?</label>
+                            <select id="hasNPWP" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-tax-color focus:border-tax-color bg-white">
+                                <option value="yes">Yes (Have NPWP)</option>
+                                <option value="no">No (Non-NPWP +20%)</option>
+                            </select>
+                            <p class="input-description" id="descNpwp">Tarif pajak 20% lebih tinggi jika tidak memiliki NPWP.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-red-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
+                    Calculate Tax
+                </button>
+                
+                <!-- Error Alert -->
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
+                
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-red-300">Tax Calculation Result</h3>
+                
+                <!-- Hasil Utama -->
+                <div class="text-center mb-8">
+                    <p id="labelMonthlyTax" class="text-lg font-bold text-gray-700 mb-1">Estimated Monthly Tax (PPh 21)</p>
+                    <p id="resultMonthlyTax" class="text-4xl font-extrabold text-tax-color">0</p>
+                    <p id="labelTakeHome" class="text-sm text-gray-600 mt-2">Net Take Home Pay: <span id="resultTakeHome" class="font-bold text-finance-color text-lg">0</span></p>
+                </div>
+
+                <!-- Interpretasi Hasil -->
+                <div class="mb-8 bg-white p-4 rounded-lg border border-red-200">
+                    <h4 id="headerInterpretation" class="text-md font-bold text-primary mb-2">Result Analysis</h4>
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
+                        <!-- Teks interpretasi dinamis -->
+                    </p>
+                </div>
+
+                <!-- Detail Perhitungan -->
+                <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Calculation Breakdown (Annual)</h4>
+                <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
+                    <!-- Gross Income -->
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
+                        <div class="text-gray-600" id="labelGrossAnnual">Gross Annual Income</div>
+                        <div class="text-right font-semibold" id="valGrossAnnual">0</div>
+                    </div>
+                    <!-- Biaya Jabatan -->
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 bg-gray-50">
+                        <div class="text-gray-600" id="labelOccCost">Occupational Cost (Biaya Jabatan)</div>
+                        <div class="text-right text-red-500" id="valOccCost">0</div>
+                    </div>
+                    <!-- Netto -->
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
+                        <div class="text-gray-600" id="labelNetAnnual">Net Annual Income</div>
+                        <div class="text-right font-semibold" id="valNetAnnual">0</div>
+                    </div>
+                    <!-- PTKP -->
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 bg-gray-50">
+                        <div class="text-gray-600" id="labelPTKPVal">PTKP (Tax Relief)</div>
+                        <div class="text-right text-green-600" id="valPTKP">0</div>
+                    </div>
+                    <!-- PKP -->
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 font-bold">
+                        <div class="text-gray-800" id="labelPKP">Taxable Income (PKP)</div>
+                        <div class="text-right text-primary" id="valPKP">0</div>
+                    </div>
+                    <!-- Total Pajak Tahunan -->
+                    <div class="p-3 grid grid-cols-2 gap-4 font-extrabold bg-red-50">
+                        <div class="text-tax-color" id="labelTotalAnnualTax">Total Annual Tax</div>
+                        <div class="text-right text-tax-color" id="valTotalAnnualTax">0</div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Konten Edukasi SEO/EEAT Baru -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans" id="educationSection">
+                
+                <!-- Panduan Pemilihan Kalkulator -->
+                <div class="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <h2 class="text-lg font-bold text-blue-800 mb-2" id="guideTitle">Bingung Memilih Kalkulator Pajak?</h2>
+                    <div class="text-sm text-blue-800 leading-relaxed" id="guideContent">
+                         <!-- Konten dinamis akan diisi oleh JS -->
+                    </div>
+                </div>
+
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding PPh 21 (Indonesian Income Tax)</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Tax Brackets (UU HPP)</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Tax Saving Tips</h3>
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
+                <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
+                    <li id="tip1"></li>
+                    <li id="tip2"></li>
+                    <li id="tip3"></li>
+                </ul>
+
+                <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // PAJAK CONFIG (Memenuhi Kriteria Arsitektur Terpisah)
+        // **********************************************
+
+        // Variabel yang mudah berubah (PTKP dan Tarif) dipisahkan di sini.
+        const PajakConfig = {
+            // Nilai PTKP Tahunan (Peraturan saat ini: TKP 54jt)
+            PTKP: {
+                TK: 54000000,
+                K0: 58500000,
+                K1: 63000000,
+                K2: 67500000,
+                K3: 72000000,
+            },
+            
+            // Tarif PPh Pasal 17 (UU HPP - Berlaku Efektif)
+            TARIF_PROGRESIF: [
+                { limit: 60000000, rate: 0.05 },    // s.d. 60 Juta: 5%
+                { limit: 250000000, rate: 0.15 },   // 60 Juta s.d. 250 Juta: 15%
+                { limit: 500000000, rate: 0.25 },   // 250 Juta s.d. 500 Juta: 25%
+                { limit: 5000000000, rate: 0.30 },  // 500 Juta s.d. 5 Miliar: 30%
+                { limit: Infinity, rate: 0.35 }     // Di atas 5 Miliar: 35%
+            ],
+            
+            // Pengurang untuk Karyawan Tetap (Asumsi Max)
+            PENGURANG_KARYAWAN: {
+                JABATAN_RATE: 0.05, // Biaya Jabatan 5%
+                JABATAN_MAX_ANNUAL: 6000000, // Maksimum Biaya Jabatan per tahun
+            },
+
+            // Norma Penghitungan Penghasilan Neto (NPPN) untuk Freelancer/Pekerja Lepas
+            NPPN_RATE_FREELANCER: 0.50, // 50% (untuk jasa tertentu di Indonesia)
+        };
+
+        // **********************************************
+        // TERJEMAHAN (DITAMBAHKAN)
+        // **********************************************
+        const translations = {
+            id: {
+                appTitle: "Kalkulator PPh 21",
+                headerTitle: "Kalkulator PPh 21 Indonesia",
+                toolSubtitle: "Hitung estimasi pajak penghasilan (PPh 21) Anda dengan mudah dan akurat sesuai aturan terbaru (UU HPP). Kalkulator ini membantu Anda mengetahui berapa potongan pajak bulanan dan berapa gaji bersih (take home pay) yang akan Anda terima, serta memperhitungkan PTKP dan Biaya Jabatan.",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                // Input
+                headerIncome: "1. Detail Penghasilan",
+                labelMonthlySalary: "Gaji Pokok Bulanan (Bruto)",
+                descMonthlySalary: "Gaji kotor sebulan sebelum potongan, termasuk tunjangan tetap.",
+                labelOtherIncome: "Tunjangan Tidak Tetap/Lainnya",
+                descOtherIncome: "Rata-rata tunjangan makan, transport, atau lembur per bulan.",
+                
+                headerStatus: "2. Status Pajak (PTKP)",
+                labelPtkp: "Status Perkawinan & Tanggungan",
+                descPtkp: "Pilih status PTKP yang sesuai untuk menentukan penghasilan bebas pajak Anda.",
+                labelNpwp: "Memiliki NPWP?",
+                descNpwp: "Jika 'Tidak', tarif pajak akan dikenakan 20% lebih tinggi dari tarif normal.",
+                
+                calculateButton: "Hitung Pajak",
+                inputError: "Mohon masukkan nilai gaji yang valid.",
+                
+                // Result
+                resultHeader: "Hasil Perhitungan Pajak",
+                labelMonthlyTax: "Estimasi PPh 21 Bulanan",
+                labelTakeHome: "Gaji Bersih (Take Home Pay): ",
+                
+                headerInterpretation: "Analisis Hasil",
+                interpTaxable: "<b>Penghasilan Anda Kena Pajak.</b> Penghasilan tahunan Anda melebihi batas PTKP. Anda wajib membayar pajak sesuai tarif progresif yang berlaku.",
+                interpNonTaxable: "<b>Penghasilan Anda Tidak Kena Pajak (Nihil).</b> Penghasilan tahunan Anda masih di bawah batas PTKP. Anda tidak perlu membayar PPh 21.",
+                
+                detailHeader: "Rincian Perhitungan (Tahunan)",
+                labelGrossAnnual: "Penghasilan Bruto Setahun",
+                labelOccCost: "Biaya Jabatan (Maks 6 Jt/th)",
+                labelNetAnnual: "Penghasilan Netto Setahun",
+                labelPTKPVal: "PTKP (Penghasilan Tidak Kena Pajak)",
+                labelPKP: "PKP (Penghasilan Kena Pajak)",
+                labelTotalAnnualTax: "Total PPh 21 Terutang Setahun",
+                
+                // Guide Content
+                guideTitle: "Bingung Memilih Kalkulator Pajak?",
+                guideContent: "Kami menyediakan dua jenis alat pajak. <b>Gunakan Kalkulator Ini (PPh 21 Lengkap)</b> jika Anda adalah <b>Karyawan/Pegawai</b> yang menerima gaji bulanan dan ingin mengetahui detail potongan PPh 21 per bulan, termasuk pengaruh NPWP dan Biaya Jabatan.<br><br><b>Gunakan Kalkulator PPh Tahunan (Simpel)</b> jika Anda adalah <b>Freelancer/Pengusaha</b> yang ingin menghitung cepat pajak dari total pendapatan kotor setahun tanpa detail potongan bulanan.",
+
+                // Edukasi
+                sectionHeader1: "Memahami PPh 21 (Pajak Penghasilan)",
+                content1: "PPh 21 adalah pajak atas penghasilan berupa gaji, upah, honorarium, tunjangan, dan pembayaran lain yang diterima oleh Wajib Pajak orang pribadi dalam negeri sehubungan dengan pekerjaan atau jabatan. Perhitungan pajak di Indonesia menggunakan sistem <b>Tarif Progresif</b> berdasarkan UU Harmonisasi Peraturan Perpajakan (HPP).",
+                sectionHeader2: "Lapisan Tarif Pajak (UU HPP)",
+                content2: "Tarif pajak dikenakan pada <b>PKP (Penghasilan Kena Pajak)</b> secara bertingkat:<br><ul><li><b>5%</b>: untuk PKP sampai dengan Rp 60 Juta</li><li><b>15%</b>: untuk PKP di atas Rp 60 Juta s.d. Rp 250 Juta</li><li><b>25%</b>: untuk PKP di atas Rp 250 Juta s.d. Rp 500 Juta</li><li><b>30%</b>: untuk PKP di atas Rp 500 Juta s.d. Rp 5 Miliar</li><li><b>35%</b>: untuk PKP di atas Rp 5 Miliar</li></ul>",
+                sectionHeader3: "Tips Menghemat Pajak",
+                content3: "Beberapa cara legal untuk mengoptimalkan pajak Anda:",
+                tip1: "<b>Pastikan PTKP Benar:</b> Selalu update status tanggungan ke HR perusahaan (misal: baru menikah atau punya anak) agar PTKP Anda naik dan pajak turun.",
+                tip2: "<b>Miliki NPWP:</b> Pastikan NPWP Anda aktif (atau NIK sudah validasi sebagai NPWP) untuk menghindari denda tarif 20% lebih tinggi.",
+                tip3: "<b>Manfaatkan Pengurang Pajak:</b> Iuran pensiun dan JHT (Jaminan Hari Tua) yang dibayar karyawan dapat menjadi pengurang penghasilan bruto.",
+                sectionHeader4: "Disclaimer",
+                content4: "Kalkulator ini menggunakan metode perhitungan PPh 21 setahun yang disetahunkan (metode umum) untuk estimasi. Perhitungan real di slip gaji mungkin menggunakan metode TER (Tarif Efektif Rata-rata) untuk pemotongan bulanan, namun total pajak setahun akan tetap sama saat SPT Tahunan. Hasil ini adalah estimasi dan bukan merupakan nasihat pajak resmi.",
+
+                // Footer
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            },
+            en: {
+                appTitle: "Income Tax Calculator",
+                headerTitle: "Indonesia Income Tax (PPh 21) Calculator",
+                toolSubtitle: "Calculate your estimated income tax (PPh 21) accurately based on the latest Indonesian regulations (UU HPP). This calculator helps you determine your monthly tax deduction and net take-home pay, factoring in non-taxable income relief (PTKP) and occupational costs.",
+                backToCatalogText: "Back to Tools Catalog",
+                // Input
+                headerIncome: "1. Income Details",
+                labelMonthlySalary: "Monthly Gross Salary",
+                descMonthlySalary: "Gross monthly salary before deductions, including fixed allowances.",
+                labelOtherIncome: "Other Monthly Allowances",
+                descOtherIncome: "Average monthly meal, transport, or overtime allowances.",
+                
+                headerStatus: "2. Tax Status (PTKP)",
+                labelPtkp: "Marital Status & Dependents",
+                descPtkp: "Select your PTKP status to determine your tax-free income threshold.",
+                labelNpwp: "Have NPWP?",
+                descNpwp: "If 'No', a 20% surcharge is applied to the standard tax rate.",
+                
+                calculateButton: "Calculate Tax",
+                inputError: "Please enter a valid salary amount.",
+                
+                // Result
+                resultHeader: "Tax Calculation Result",
+                labelMonthlyTax: "Estimated Monthly Tax (PPh 21)",
+                labelTakeHome: "Net Take Home Pay: ",
+                
+                headerInterpretation: "Result Analysis",
+                interpTaxable: "<b>Your Income is Taxable.</b> Your annual income exceeds the non-taxable threshold (PTKP). You are required to pay tax according to the progressive rates.",
+                interpNonTaxable: "<b>Your Income is Non-Taxable.</b> Your annual income is below the PTKP threshold. You do not need to pay Income Tax (PPh 21).",
+                
+                detailHeader: "Calculation Breakdown (Annual)",
+                labelGrossAnnual: "Gross Annual Income",
+                labelOccCost: "Occupational Cost (Max 6M/yr)",
+                labelNetAnnual: "Net Annual Income",
+                labelPTKPVal: "PTKP (Non-Taxable Income)",
+                labelPKP: "PKP (Taxable Income)",
+                labelTotalAnnualTax: "Total Annual Tax Payable",
+                
+                // Guide Content
+                guideTitle: "Confused About Which Tax Calculator to Use?",
+                guideContent: "We offer two types of tax tools. <b>Use This Calculator (Detailed PPh 21)</b> if you are an <b>Employee/Staff</b> receiving a monthly salary and want to see detailed monthly PPh 21 deductions, including the impact of NPWP and Occupational Costs.<br><br><b>Use the Annual PPh Calculator (Simple)</b> if you are a <b>Freelancer/Business Owner</b> wanting a quick tax estimate from total gross annual income without monthly breakdown details.",
+
+                // Edukasi
+                sectionHeader1: "Understanding PPh 21 (Indonesian Income Tax)",
+                content1: "PPh 21 is a tax on income in the form of salaries, wages, honoraria, allowances, and other payments received by individual domestic taxpayers in connection with employment. Tax calculation in Indonesia uses a <b>Progressive Rate</b> system based on the Law on Harmonization of Tax Regulations (UU HPP).",
+                sectionHeader2: "Tax Brackets (UU HPP)",
+                content2: "Tax rates are applied to <b>PKP (Taxable Income)</b> in tiers:<br><ul><li><b>5%</b>: for PKP up to IDR 60 Million</li><li><b>15%</b>: for PKP above IDR 60 Million to IDR 250 Million</li><li><b>25%</b>: for PKP above IDR 250 Million to IDR 500 Million</li><li><b>30%</b>: for PKP above IDR 500 Million to IDR 5 Billion</li><li><b>35%</b>: for PKP above IDR 5 Billion</li></ul>",
+                sectionHeader3: "Tax Saving Tips",
+                content3: "Legal ways to optimize your taxes:",
+                tip1: "<b>Update PTKP:</b> Always update your dependent status with HR (e.g., marriage or new child) to increase your tax relief.",
+                tip2: "<b>Have an NPWP:</b> Ensure your NPWP is active (or NIK is validated) to avoid the 20% higher penalty rate.",
+                tip3: "<b>Deductibles:</b> Pension and Old Age Security (JHT) contributions paid by employees are deductible from gross income.",
+                sectionHeader4: "Disclaimer",
+                content4: "This calculator uses the annualized PPh 21 calculation method for estimation. Actual payroll deductions may use the TER (Average Effective Rate) method for monthly withholding, but the total annual tax will remain the same upon filing the Annual Tax Return (SPT). This result is an estimate and not official tax advice.",
+
+                // Footer
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        function formatNumber(amount, decimalPlaces = 0) {
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: decimalPlaces,
+                maximumFractionDigits: decimalPlaces,
+            }).format(amount);
+        }
+
+        function formatInput(inputElement) {
+            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            if (rawValue) {
+                const numericValue = parseInt(rawValue, 10);
+                inputElement.value = formatNumber(numericValue);
+            } else {
+                inputElement.value = ''; 
+            }
+        }
+        
+        function cleanInput(formattedValue) {
+            return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
+        }
+
+        function calculateTax(event) {
+            event.preventDefault();
+
+            // 1. Inputs
+            const monthlySalary = cleanInput(document.getElementById('monthlySalary').value);
+            const otherIncome = cleanInput(document.getElementById('otherIncome').value);
+            const ptkp = parseInt(document.getElementById('ptkpStatus').value);
+            const hasNPWP = document.getElementById('hasNPWP').value === 'yes';
+
+            // 2. Validasi
+            if (monthlySalary < 0) {
+                 // alert handled via HTML5 required
+                 return;
+            }
+
+            // 3. Perhitungan (Logika PPh 21 Indonesia - Metode Setahun)
+            
+            // A. Penghasilan Bruto Setahun
+            const grossMonthly = monthlySalary + otherIncome;
+            const grossAnnual = grossMonthly * 12;
+            
+            // B. Pengurang (Biaya Jabatan)
+            // 5% dari Bruto, Maksimal 6.000.000 per tahun (500.000 per bulan)
+            let occupationalCost = grossAnnual * 0.05;
+            if (occupationalCost > 6000000) {
+                occupationalCost = 6000000;
+            }
+            
+            // Catatan: Iuran Pensiun/JHT juga pengurang, tapi untuk simplifikasi kita abaikan dulu atau anggap 0
+            // di kalkulator sederhana ini.
+            
+            // C. Penghasilan Netto Setahun
+            const netAnnual = grossAnnual - occupationalCost;
+            
+            // D. PKP (Penghasilan Kena Pajak)
+            let pkp = netAnnual - ptkp;
+            // Pembulatan PKP ke ribuan ke bawah (aturan pajak)
+            pkp = Math.floor(pkp / 1000) * 1000;
+            
+            let annualTax = 0;
+
+            if (pkp <= 0) {
+                pkp = 0;
+                annualTax = 0;
+            } else {
+                // E. Tarif Progresif (UU HPP)
+                let remainingPKP = pkp;
+                
+                // Layer 1: 0 - 60 Juta (5%)
+                if (remainingPKP > 60000000) {
+                    annualTax += 60000000 * 0.05;
+                    remainingPKP -= 60000000;
+                } else {
+                    annualTax += remainingPKP * 0.05;
+                    remainingPKP = 0;
+                }
+                
+                // Layer 2: 60 - 250 Juta (15%)
+                if (remainingPKP > 0) {
+                    if (remainingPKP > 190000000) { // 250jt - 60jt
+                        annualTax += 190000000 * 0.15;
+                        remainingPKP -= 190000000;
+                    } else {
+                        annualTax += remainingPKP * 0.15;
+                        remainingPKP = 0;
+                    }
+                }
+                
+                // Layer 3: 250 - 500 Juta (25%)
+                if (remainingPKP > 0) {
+                    if (remainingPKP > 250000000) { // 500jt - 250jt
+                        annualTax += 250000000 * 0.25;
+                        remainingPKP -= 250000000;
+                    } else {
+                        annualTax += remainingPKP * 0.25;
+                        remainingPKP = 0;
+                    }
+                }
+                
+                // Layer 4: 500 Juta - 5 Miliar (30%)
+                if (remainingPKP > 0) {
+                    if (remainingPKP > 4500000000) { // 5M - 500jt
+                        annualTax += 4500000000 * 0.30;
+                        remainingPKP -= 4500000000;
+                    } else {
+                        annualTax += remainingPKP * 0.30;
+                        remainingPKP = 0;
+                    }
+                }
+                
+                // Layer 5: > 5 Miliar (35%)
+                if (remainingPKP > 0) {
+                    annualTax += remainingPKP * 0.35;
+                }
+            }
+            
+            // F. Non-NPWP Surcharge (+20%)
+            if (!hasNPWP) {
+                annualTax = annualTax * 1.20;
+            }
+            
+            const monthlyTax = annualTax / 12;
+            const takeHomePay = grossMonthly - monthlyTax;
+
+            // 4. Tampilkan Hasil
+            document.getElementById('resultMonthlyTax').textContent = formatNumber(Math.round(monthlyTax));
+            document.getElementById('resultTakeHome').textContent = formatNumber(Math.round(takeHomePay));
+            
+            // Breakdown Values
+            document.getElementById('valGrossAnnual').textContent = formatNumber(Math.round(grossAnnual));
+            document.getElementById('valOccCost').textContent = "(" + formatNumber(Math.round(occupationalCost)) + ")";
+            document.getElementById('valNetAnnual').textContent = formatNumber(Math.round(netAnnual));
+            document.getElementById('valPTKP').textContent = "(" + formatNumber(Math.round(ptkp)) + ")";
+            document.getElementById('valPKP').textContent = formatNumber(Math.round(pkp));
+            document.getElementById('valTotalAnnualTax').textContent = formatNumber(Math.round(annualTax));
+            
+            // Interpretation
+            const t = translations[currentLang];
+            const interpBox = document.getElementById('textInterpretation');
+            if (pkp > 0) {
+                interpBox.innerHTML = t.interpTaxable;
+                interpBox.parentElement.classList.add('border-red-200', 'bg-red-50');
+                interpBox.parentElement.classList.remove('border-green-200', 'bg-green-50');
+            } else {
+                interpBox.innerHTML = t.interpNonTaxable;
+                interpBox.parentElement.classList.add('border-green-200', 'bg-green-50');
+                interpBox.parentElement.classList.remove('border-red-200', 'bg-red-50');
+            }
+
+            document.getElementById('resultBox').classList.add('visible');
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            const switcher = document.getElementById('languageSwitcher');
+            switcher.classList.remove('lang-en', 'lang-id');
+            switcher.classList.add(`lang-${lang}`);
+
+            // Get values
+            const salaryVal = document.getElementById('monthlySalary').value;
+            const otherVal = document.getElementById('otherIncome').value;
+
+            // Update Text
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            
+            document.getElementById('headerIncome').textContent = t.headerIncome;
+            document.getElementById('labelMonthlySalary').textContent = t.labelMonthlySalary;
+            document.getElementById('descMonthlySalary').textContent = t.descMonthlySalary;
+            document.getElementById('labelOtherIncome').textContent = t.labelOtherIncome;
+            document.getElementById('descOtherIncome').textContent = t.descOtherIncome;
+            
+            document.getElementById('headerStatus').textContent = t.headerStatus;
+            document.getElementById('labelPtkp').textContent = t.labelPtkp;
+            document.getElementById('descPtkp').textContent = t.descPtkp;
+            document.getElementById('labelNpwp').textContent = t.labelNpwp;
+            document.getElementById('descNpwp').textContent = t.descNpwp;
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            
+            // Re-format Inputs
+            document.getElementById('monthlySalary').value = formatNumber(cleanInput(salaryVal));
+            document.getElementById('otherIncome').value = formatNumber(cleanInput(otherVal));
+            
+            // Results
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            document.getElementById('labelMonthlyTax').textContent = t.labelMonthlyTax;
+            // Partial replace for take home label
+            const takeHomeVal = document.getElementById('resultTakeHome').textContent;
+            document.getElementById('labelTakeHome').innerHTML = t.labelTakeHome + `<span id="resultTakeHome" class="font-bold text-finance-color text-lg">${takeHomeVal}</span>`;
+            
+            document.getElementById('headerInterpretation').textContent = t.headerInterpretation;
+            
+            document.getElementById('detailHeader').textContent = t.detailHeader;
+            document.getElementById('labelGrossAnnual').textContent = t.labelGrossAnnual;
+            document.getElementById('labelOccCost').textContent = t.labelOccCost;
+            document.getElementById('labelNetAnnual').textContent = t.labelNetAnnual;
+            document.getElementById('labelPTKPVal').textContent = t.labelPTKPVal;
+            document.getElementById('labelPKP').textContent = t.labelPKP;
+            document.getElementById('labelTotalAnnualTax').textContent = t.labelTotalAnnualTax;
+            
+            // Guide Content
+            document.getElementById('guideTitle').textContent = t.guideTitle;
+            document.getElementById('guideContent').innerHTML = t.guideContent;
+
+            // Edukasi
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2').innerHTML = t.content2;
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3').textContent = t.content3;
+            document.getElementById('tip1').innerHTML = t.tip1;
+            document.getElementById('tip2').innerHTML = t.tip2;
+            document.getElementById('tip3').innerHTML = t.tip3;
+            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
+            document.getElementById('content4').textContent = t.content4;
+            
+            // Footer
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+            
+            // Refresh Calc if visible
+            if(document.getElementById('resultBox').classList.contains('visible')){
+                calculateTax({preventDefault:()=>{}});
+            }
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) setLanguage(newLang);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let defaultLang = 'en'; 
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('id')) defaultLang = 'id';
+            setLanguage(defaultLang); 
+        });
+    </script>
+</body>
+</html>

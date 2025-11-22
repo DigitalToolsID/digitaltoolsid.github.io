@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- STRUKTUR SEO OPTIMAL -->
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-target-tabungan/" />
+    <meta name="description" content="Kalkulator Target Tabungan membantu Anda merencanakan tujuan finansial spesifik. Hitung berapa yang harus ditabung bulanan untuk mencapai target (rumah, mobil, liburan) dalam jangka waktu yang ditetapkan, dengan memperhitungkan bunga." />
+    <title id="appTitle">Kalkulator Target Tabungan & Investasi</title>
+    <!-- Keyword potensial: kalkulator tabungan, tabungan tujuan, goal savings planner, uang muka rumah -->
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-target-tabungan/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-target-tabungan/index.html" />
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Kode Google Analytic dan Adsense (Ikuti template yang dilampirkan) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+
+    <!-- Konfigurasi Tailwind (Menggunakan warna yang sama) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50',
+                        'secondary': '#3498db',
+                        'primary-dark': '#1e3a8a',
+                        'finance-color': '#27ae60', // Hijau Keuangan
+                        'success-color': '#27ae60',
+                        'danger-color': '#e74c3c',
+                        'warning-color': '#f39c12',
+                        'goal-color': '#9b59b6', // Ungu untuk Tujuan
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 2000;
+            display: inline-flex;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 9999px;
+            padding: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px);
+            background-color: #1e3a8a;
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+
+        /* Gaya Hasil */
+        .result-box { transition: all 0.5s ease-in-out; transform-origin: top center; opacity: 0; max-height: 0; overflow: hidden; }
+        .result-box.visible { opacity: 1; max-height: 3000px; padding: 1.5rem; margin-top: 1.5rem; }
+
+        /* Gaya Tombol */
+        .calculate-button {
+            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e8449;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e8449;
+        }
+
+        /* Gaya untuk deskripsi input */
+        .input-description {
+            font-size: 0.75rem; /* text-xs */
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 0.25rem;
+        }
+        /* Gaya Bar Progress */
+        .progress-bar {
+            height: 20px;
+            border-radius: 9999px;
+            background-color: #e5e7eb; /* gray-200 */
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--tw-goal-color);
+            transition: width 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 9999px;
+        }
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Kembali ke Katalog Alat</span>
+            </a>
+            <div id="languageSwitcher" class="lang-toggle-container lang-id">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
+            </div>
+            </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Kalkulator Target Tabungan</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Hitung secara akurat berapa dana yang perlu Anda sisihkan setiap bulan untuk mencapai tujuan finansial besar, seperti uang muka rumah, biaya pernikahan, atau liburan impian.</p>
+
+            <!-- Formulir Kalkulator Tabungan -->
+            <form id="savingsGoalForm" onsubmit="calculateSavings(event)" class="space-y-6">
+
+                <!-- 1. Tujuan dan Target Dana -->
+                <div class="border-b pb-4 border-gray-200">
+                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionGoalHeader">1. Tujuan Finansial Anda</h2>
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <label for="goalAmount" class="block text-sm font-medium text-gray-700 mb-1" id="labelGoalAmount">Target Dana yang Dibutuhkan</label>
+                            <input type="text" id="goalAmount" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-goal-color focus:border-goal-color" placeholder="Contoh: 300.000.000" value="300000000">
+                            <p class="input-description" id="descGoalAmount">Total dana yang Anda butuhkan untuk mencapai tujuan (misalnya, Uang Muka).</p>
+                        </div>
+                        <div class="relative">
+                            <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentSavings">Dana yang Sudah Dimiliki Saat Ini</label>
+                            <input type="text" id="currentSavings" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 50.000.000" value="50000000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Jangka Waktu & Bunga -->
+                <div class="pb-4">
+                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionTimeInterestHeader">2. Jangka Waktu & Asumsi Bunga</h2>
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <label for="yearsToGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsToGoal">Jangka Waktu (Tahun)</label>
+                            <input type="number" id="yearsToGoal" inputmode="numeric" min="0.5" step="0.5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-goal-color focus:border-goal-color" placeholder="Contoh: 5" value="5">
+                        </div>
+                        <div class="relative">
+                            <label for="annualInterestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelAnnualInterestRate">Estimasi Imbal Hasil/Bunga Tahunan (%)</label>
+                            <input type="number" id="annualInterestRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color" placeholder="Contoh: 6" value="6">
+                            <p class="input-description" id="descAnnualInterestRate">Asumsi bunga atau imbal hasil rata-rata dari tempat Anda menabung/berinvestasi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full bg-goal-color text-white font-semibold py-3 rounded-xl hover:bg-purple-700 transition duration-300">
+                    Hitung Setoran Tabungan Bulanan
+                </button>
+            </form>
+
+            <!-- Error Alert -->
+            <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span id="errorText" class="block sm:inline"></span>
+            </div>
+
+            <!-- Result Box (Hasil Perhitungan) -->
+            <div id="resultBox" class="result-box bg-goal-color/5 border border-goal-color/30 rounded-xl shadow-lg">
+
+                <h3 id="resultTitle" class="text-2xl font-bold text-goal-color mb-4 border-b pb-2">Rencana Setoran Tabungan</h3>
+
+                <!-- Progress Bar Visual -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-gray-700 mb-2" id="visualHeader">Progress Proyeksi Target Dana</p>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+                        <div id="progressText" class="progress-text">0%</div>
+                    </div>
+                </div>
+
+                <!-- Teks Narasi Hasil -->
+                <div id="resultSummaryText" class="p-4 rounded-lg mb-4 bg-white border border-gray-200">
+                    <p class="text-lg font-bold mb-2" id="summaryTitle"></p>
+                    <p id="summaryText" class="text-gray-700 text-sm"></p>
+                </div>
+
+                <!-- Metrik Kunci -->
+                <h3 id="metricsHeader" class="text-xl font-bold text-primary mb-3 border-b pb-2">Detail Kontribusi</h3>
+                <div id="metricsContent" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Target Setoran Bulanan -->
+                    <div class="col-span-1 sm:col-span-2 p-4 rounded-lg border border-dashed border-goal-color bg-white">
+                        <p class="text-sm text-gray-600" id="resultMonthlyDeposit">Setoran Bulanan yang Diperlukan</p>
+                        <p class="text-3xl font-extrabold mt-1 text-goal-color" id="monthlyDepositResult">--</p>
+                    </div>
+
+                    <!-- Total Bunga/Imbal Hasil -->
+                    <div class="p-3 rounded-lg border border-gray-200">
+                        <p class="text-sm text-gray-600" id="resultTotalInterest">Total Bunga/Imbal Hasil</p>
+                        <p class="text-xl font-bold mt-1 text-finance-color" id="totalInterestResult">--</p>
+                    </div>
+
+                    <!-- Total Setoran Uang Anda -->
+                    <div class="p-3 rounded-lg border border-gray-200">
+                        <p class="text-sm text-gray-600" id="resultTotalDeposit">Total Uang yang Anda Setor</p>
+                        <p class="text-xl font-bold mt-1 text-primary" id="totalDepositResult">--</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Konten Edukasi -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Keuntungan Menabung dengan Target</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Menetapkan tujuan tabungan yang jelas mengubah proses menabung dari kewajiban menjadi misi yang terukur. Dengan mengetahui jumlah pasti yang harus disetor bulanan, Anda dapat mengintegrasikannya ke dalam anggaran (seperti 50/30/20) dan mengukur progres secara realistis, yang meningkatkan motivasi Anda untuk mencapainya tepat waktu.</p>
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Pilih Instrumen yang Tepat</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Untuk tujuan jangka pendek (di bawah 3 tahun), instrumen dengan risiko rendah seperti deposito, tabungan berjangka, atau reksa dana pasar uang seringkali ideal. Untuk tujuan jangka menengah (3-5 tahun), pertimbangkan reksa dana pendapatan tetap atau campuran untuk potensi imbal hasil yang lebih tinggi. Pastikan imbal hasil yang Anda masukkan di kalkulator sesuai dengan instrumen yang Anda pilih.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary">Kebijakan Privasi</a>
+                <span class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary">Ketentuan Layanan</a>
+                <span class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary">Tentang Kami</a>
+                <span class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary">Hubungi Kami</a>
+            </div>
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // **********************************************
+        // LOGIKA KALKULATOR TARGET TABUNGAN
+        // **********************************************
+
+        const translations = {
+            id: {
+                // UI TEXT
+                appTitle: "Kalkulator Target Tabungan & Investasi",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                headerTitle: "Kalkulator Target Tabungan",
+                toolSubtitle: "Hitung secara akurat berapa dana yang perlu Anda sisihkan setiap bulan untuk mencapai tujuan finansial besar, seperti uang muka rumah, biaya pernikahan, atau liburan impian.",
+                // LABELS INPUT
+                sectionGoalHeader: "1. Tujuan Finansial Anda",
+                labelGoalAmount: "Target Dana yang Dibutuhkan",
+                descGoalAmount: "Total dana yang Anda butuhkan untuk mencapai tujuan (misalnya, Uang Muka).",
+                labelCurrentSavings: "Dana yang Sudah Dimiliki Saat Ini",
+                sectionTimeInterestHeader: "2. Jangka Waktu & Asumsi Bunga",
+                labelYearsToGoal: "Jangka Waktu (Tahun)",
+                labelAnnualInterestRate: "Estimasi Imbal Hasil/Bunga Tahunan (%)",
+                descAnnualInterestRate: "Asumsi bunga atau imbal hasil rata-rata dari tempat Anda menabung/berinvestasi.",
+                calculateButton: "Hitung Setoran Tabungan Bulanan",
+                // HASIL
+                resultTitle: "Rencana Setoran Tabungan",
+                visualHeader: "Progress Proyeksi Target Dana",
+                metricsHeader: "Detail Kontribusi",
+                resultMonthlyDeposit: "Setoran Bulanan yang Diperlukan",
+                resultTotalInterest: "Total Bunga/Imbal Hasil",
+                resultTotalDeposit: "Total Uang yang Anda Setor",
+                // RINGKASAN NARASI
+                summaryTitle_OnTrack: "Status: Target Tercapai",
+                summaryTitle_TooHigh: "Peringatan: Setoran Bulanan Terlalu Tinggi",
+                summaryTitle_Impossible: "Peringatan: Target Tidak Tercapai",
+
+                summaryText_OnTrack: (monthlyDeposit, totalInterest, totalDeposit, goalAmount) => `Untuk mencapai target ${goalAmount} dalam jangka waktu yang ditetapkan, Anda perlu menyetor <strong>${monthlyDeposit} per bulan</strong>. Total bunga/imbal hasil yang Anda dapatkan adalah ${totalInterest}, dengan total uang yang Anda setorkan (termasuk dana awal) sebesar ${totalDeposit}.`,
+                summaryText_TooHigh: (monthlyDeposit) => `Perhatian: Jumlah setoran bulanan yang diperlukan sangat tinggi (${monthlyDeposit}). Pertimbangkan untuk memperpanjang jangka waktu atau mengurangi target dana Anda agar lebih realistis.`,
+                summaryText_Impossible: (goalAmount, totalAchieved) => `Maaf, dengan asumsi bunga dan jangka waktu saat ini, target ${goalAmount} <strong>tidak dapat tercapai</strong>. Maksimal dana yang dapat terkumpul adalah ${totalAchieved}. Silakan perpanjang jangka waktu atau tingkatkan setoran bulanan Anda.`,
+
+                errorInput: "Harap masukkan semua nilai yang valid. Pastikan Target Dana lebih besar dari Dana Saat Ini dan Jangka Waktu > 0.",
+                // KONTEN EDUKASI
+                sectionHeader1: "Keuntungan Menabung dengan Target",
+                content1: "Menetapkan tujuan tabungan yang jelas mengubah proses menabung dari kewajiban menjadi misi yang terukur. Dengan mengetahui jumlah pasti yang harus disetor bulanan, Anda dapat mengintegrasikannya ke dalam anggaran (seperti 50/30/20) dan mengukur progres secara realistis, yang meningkatkan motivasi Anda untuk mencapainya tepat waktu.",
+                sectionHeader2: "Pilih Instrumen yang Tepat",
+                content2: "Untuk tujuan jangka pendek (di bawah 3 tahun), instrumen dengan risiko rendah seperti deposito, tabungan berjangka, atau reksa dana pasar uang seringkali ideal. Untuk tujuan jangka menengah (3-5 tahun), pertimbangkan reksa dana pendapatan tetap atau campuran untuk potensi imbal hasil yang lebih tinggi. Pastikan imbal hasil yang Anda masukkan di kalkulator sesuai dengan instrumen yang Anda pilih.",
+                // FOOTER
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
+            },
+            en: {
+                // UI TEXT
+                appTitle: "Goal Savings & Investment Calculator",
+                backToCatalogText: "Back to Tools Catalog",
+                headerTitle: "Savings Goal Calculator",
+                toolSubtitle: "Accurately calculate how much fund you need to set aside monthly to achieve large financial goals, such as a down payment for a house, wedding costs, or a dream vacation.",
+                // LABELS INPUT
+                sectionGoalHeader: "1. Your Financial Goal",
+                labelGoalAmount: "Required Target Fund",
+                descGoalAmount: "The total fund you need to achieve the goal (e.g., Down Payment).",
+                labelCurrentSavings: "Current Savings Balance",
+                sectionTimeInterestHeader: "2. Timeline & Interest Assumption",
+                labelYearsToGoal: "Timeline (Years)",
+                labelAnnualInterestRate: "Estimated Annual Return/Interest (%)",
+                descAnnualInterestRate: "Assumed average interest or return from where you are saving/investing.",
+                calculateButton: "Calculate Monthly Savings Deposit",
+                // HASIL
+                resultTitle: "Savings Deposit Plan",
+                visualHeader: "Target Fund Projection Progress",
+                metricsHeader: "Contribution Details",
+                resultMonthlyDeposit: "Required Monthly Deposit",
+                resultTotalInterest: "Total Interest/Return",
+                resultTotalDeposit: "Total Money You Deposit",
+                // RINGKASAN NARASI
+                summaryTitle_OnTrack: "Status: Target Achieved",
+                summaryTitle_TooHigh: "Warning: Monthly Deposit Too High",
+                summaryTitle_Impossible: "Warning: Target Unachievable",
+
+                summaryText_OnTrack: (monthlyDeposit, totalInterest, totalDeposit, goalAmount) => `To reach the ${goalAmount} target within the set timeframe, you need to deposit <strong>${monthlyDeposit} monthly</strong>. The total interest/return you gain is ${totalInterest}, with your total deposited money (including initial fund) being ${totalDeposit}.`,
+                summaryText_TooHigh: (monthlyDeposit) => `Attention: The required monthly deposit is extremely high (${monthlyDeposit}). Consider extending the timeline or reducing your target fund to make it more realistic.`,
+                summaryText_Impossible: (goalAmount, totalAchieved) => `Sorry, with the current interest and timeline assumptions, the ${goalAmount} target is <strong>unachievable</strong>. The maximum fund that can be accumulated is ${totalAchieved}. Please extend the timeline or increase your monthly deposit.`,
+
+                errorInput: "Please enter all valid values. Ensure Goal Amount is greater than Current Savings and Timeline > 0.",
+                // KONTEN EDUKASI
+                sectionHeader1: "The Advantage of Goal-Based Savings",
+                content1: "Setting clear savings goals transforms saving from an obligation into a measurable mission. By knowing the exact amount to deposit monthly, you can integrate it into your budget (like 50/30/20) and measure progress realistically, which boosts your motivation to achieve it on time.",
+                sectionHeader2: "Choose the Right Instrument",
+                content2: "For short-term goals (under 3 years), low-risk instruments like deposits, fixed-term savings, or money market funds are often ideal. For mid-term goals (3-5 years), consider fixed-income or mixed mutual funds for higher potential returns. Ensure the return rate you enter in the calculator matches the instrument you choose.",
+                // FOOTER
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
+            }
+        };
+
+        let currentLang = 'id'; // Default Indonesia
+        const resultBox = document.getElementById('resultBox');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorText = document.getElementById('errorText');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        // **********************************************
+        // FUNGSI UTILITAS (FORMAT ANGKA)
+        // **********************************************
+
+        function cleanInput(formattedValue) {
+            if (typeof formattedValue !== 'string') return formattedValue;
+            let cleaned = formattedValue.replace(/\D/g, '');
+            return parseFloat(cleaned) || 0;
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).replace('IDR', 'Rp');
+        }
+
+        function formatInput(inputElement) {
+            let value = inputElement.value;
+            let numericValue = value.replace(/[^0-9]/g, '');
+            if (numericValue.length === 0) {
+                inputElement.value = '';
+                return;
+            }
+            let number = parseInt(numericValue, 10);
+            // Format number without currency symbol for input field
+            inputElement.value = number.toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0
+            });
+        }
+
+        // **********************************************
+        // FUNGSI UTAMA: MENGHITUNG TARGET TABUNGAN
+        // **********************************************
+
+        function calculateSavings(event) {
+            event.preventDefault();
+            const t = translations[currentLang];
+
+            // 1. Ambil Input
+            const goalAmount = cleanInput(document.getElementById('goalAmount').value);
+            const currentSavings = cleanInput(document.getElementById('currentSavings').value);
+            const yearsToGoal = parseFloat(document.getElementById('yearsToGoal').value);
+            const annualInterestRate = parseFloat(document.getElementById('annualInterestRate').value) / 100;
+
+            // 2. Validasi
+            if (goalAmount <= 0 || yearsToGoal <= 0 || annualInterestRate < 0 || goalAmount <= currentSavings || isNaN(goalAmount) || isNaN(currentSavings) || isNaN(yearsToGoal) || isNaN(annualInterestRate)) {
+                errorText.textContent = t.errorInput;
+                errorAlert.classList.remove('hidden');
+                resultBox.classList.remove('visible');
+                return;
+            }
+
+            errorAlert.classList.add('hidden');
+
+            // --- PARAMETER BULANAN ---
+            const nMonths = yearsToGoal * 12; // Total periode dalam bulan
+            const rateMonthly = annualInterestRate / 12; // Tingkat bunga per bulan
+            const targetNeeded = goalAmount - currentSavings; // Dana yang harus dikumpulkan dari sekarang
+
+            // --- PERHITUNGAN 1: NILAI AKAN DANA AWAL ---
+            // Future Value (FV) dari dana awal yang sudah dimiliki (Current Savings)
+            const fvCurrentSavings = currentSavings * Math.pow(1 + rateMonthly, nMonths);
+
+            // --- PERHITUNGAN 2: DANA YANG MASIH HARUS DIKUMPULKAN (Future Value Annuity) ---
+            const fvNeededFromDeposits = goalAmount - fvCurrentSavings;
+
+            let monthlyDeposit = 0;
+            let totalDeposit = 0;
+            let totalInterest = 0;
+            let goalAchievable = true;
+
+            if (fvNeededFromDeposits <= 0) {
+                // Kasus 1: Dana awal + bunga sudah melebihi target
+                monthlyDeposit = 0;
+                totalDeposit = currentSavings;
+                totalInterest = goalAmount - currentSavings;
+            } else {
+                // Kasus 2: Perlu setoran bulanan
+                // Formula PMT (Payment per period) untuk Future Value Annuity:
+                // PMT = FV * [ r / ((1 + r)^n - 1) ]
+                const factor = rateMonthly / (Math.pow(1 + rateMonthly, nMonths) - 1);
+
+                if (isNaN(factor) || !isFinite(factor)) {
+                    // Ini terjadi jika rateMonthly = 0, yang akan diatasi di bawah
+                    monthlyDeposit = fvNeededFromDeposits / nMonths; // Jika bunga 0
+                } else {
+                    monthlyDeposit = fvNeededFromDeposits * factor;
+                }
+
+                if (annualInterestRate === 0) {
+                    monthlyDeposit = fvNeededFromDeposits / nMonths;
+                }
+
+                // Total uang yang disetor (bulanan + dana awal)
+                const totalMonthlyDeposit = monthlyDeposit * nMonths;
+                totalDeposit = currentSavings + totalMonthlyDeposit;
+                
+                // Total Bunga/Imbal Hasil
+                totalInterest = goalAmount - totalDeposit;
+                
+                // Cek jika setoran bulanan terlalu tinggi (misalnya, lebih dari 20% dari pendapatan rata-rata yang diasumsikan)
+                // Karena kita tidak tahu pendapatan user, kita pakai heuristik: Setoran > 1/2 dana awal yang dibutuhkan * 1.5 per bulan = terlalu tinggi
+                if (monthlyDeposit > (goalAmount / nMonths) * 1.5) {
+                    // Setoran mungkin terlalu tinggi, tetapi biarkan perhitungan tetap berjalan
+                }
+
+                // Cek batas atas yang tidak realistis (misalnya setoran bulanan melebihi target dana tahunan)
+                if (monthlyDeposit * 12 > goalAmount * 0.75) {
+                    goalAchievable = false;
+                }
+
+                // Cek jika bunga sangat negatif sehingga target tidak mungkin tercapai (hanya jika bunga negatif, tetapi kita sudah validasi annualInterestRate >= 0)
+            }
+
+
+            // --- LOGIKA KESIMPULAN ---
+            let summaryTitleKey;
+            let summaryText;
+            let progressValue;
+            
+            const monthlyDepositFormatted = formatNumber(monthlyDeposit);
+            const totalInterestFormatted = formatNumber(totalInterest);
+            const totalDepositFormatted = formatNumber(totalDeposit);
+            const goalAmountFormatted = formatNumber(goalAmount);
+            
+            
+            if (!goalAchievable) {
+                // Kasus 3: Target terlalu ambisius untuk waktu yang diberikan
+                summaryTitleKey = 'summaryTitle_Impossible';
+                // Hitung maksimal dana yang bisa dikumpulkan jika user setor 100% dari targetNeeded/nMonths
+                const maxDepositRate = (goalAmount - currentSavings) / nMonths;
+                const fvMaxAchieved = fvCurrentSavings + (maxDepositRate * (Math.pow(1 + rateMonthly, nMonths) - 1) / rateMonthly);
+                const fvMaxAchievedFormatted = formatNumber(fvMaxAchieved);
+
+                summaryText = t.summaryText_Impossible(goalAmountFormatted, fvMaxAchievedFormatted);
+                progressValue = (fvMaxAchieved / goalAmount) * 100;
+
+            } else if (monthlyDeposit === 0 && fvNeededFromDeposits <= 0) {
+                 // Kasus 1: Sudah tercapai
+                summaryTitleKey = 'summaryTitle_OnTrack';
+                summaryText = t.summaryText_OnTrack(monthlyDepositFormatted, totalInterestFormatted, totalDepositFormatted, goalAmountFormatted);
+                progressValue = 100;
+            } else if (monthlyDeposit * 12 > goalAmount * 0.75) { 
+                // Kasus 2a: Tercapai, tapi setoran bulanan sangat besar
+                summaryTitleKey = 'summaryTitle_TooHigh';
+                summaryText = t.summaryText_TooHigh(monthlyDepositFormatted);
+                progressValue = 100;
+            } else {
+                // Kasus 2b: Tercapai dengan setoran yang wajar
+                summaryTitleKey = 'summaryTitle_OnTrack';
+                summaryText = t.summaryText_OnTrack(monthlyDepositFormatted, totalInterestFormatted, totalDepositFormatted, goalAmountFormatted);
+                progressValue = 100; 
+            }
+
+            // 3. Tampilkan Hasil
+            document.getElementById('summaryTitle').textContent = t[summaryTitleKey];
+            document.getElementById('summaryText').innerHTML = summaryText;
+
+            document.getElementById('monthlyDepositResult').textContent = monthlyDepositFormatted;
+            document.getElementById('totalInterestResult').textContent = totalInterestFormatted;
+            document.getElementById('totalDepositResult').textContent = totalDepositFormatted;
+
+            // Update Progress Bar
+            const clampedProgress = Math.min(100, Math.max(0, progressValue));
+            progressFill.style.width = `${clampedProgress}%`;
+            progressText.textContent = `${clampedProgress.toFixed(1)}%`;
+            progressText.style.color = (clampedProgress > 50) ? 'white' : '#2c3e50';
+
+
+            resultBox.classList.add('visible');
+        }
+
+
+        // **********************************************
+        // FUNGSI TRANSLATE & INISIALISASI
+        // **********************************************
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const languageSwitcher = document.getElementById('languageSwitcher');
+
+            languageSwitcher.classList.remove('lang-en', 'lang-id');
+            languageSwitcher.classList.add(`lang-${lang}`);
+            document.documentElement.lang = lang;
+
+            // Daftar ID elemen dan kunci terjemahan
+            const elements = [
+                'appTitle', 'backToCatalogText', 'headerTitle', 'toolSubtitle',
+                'sectionGoalHeader', 'labelGoalAmount', 'descGoalAmount', 'labelCurrentSavings',
+                'sectionTimeInterestHeader', 'labelYearsToGoal', 'labelAnnualInterestRate', 'descAnnualInterestRate',
+                'calculateButton',
+                'resultTitle', 'visualHeader', 'metricsHeader', 'resultMonthlyDeposit', 'resultTotalInterest', 'resultTotalDeposit',
+                'sectionHeader1', 'content1', 'sectionHeader2', 'content2',
+                'linkPrivacy', 'linkTerms', 'linkAbout', 'linkContact', 'footerCopyright'
+            ];
+
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === 'toolSubtitle') {
+                         el.innerHTML = t[id];
+                    } else {
+                        el.textContent = t[id];
+                    }
+                }
+            });
+
+            // Re-format input values based on new language settings
+            ['goalAmount', 'currentSavings'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input.value) {
+                    const cleanedValue = cleanInput(input.value);
+                    input.value = cleanedValue.toLocaleString(lang === 'id' ? 'id-ID' : 'en-US', {
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0
+                    });
+                }
+            });
+
+            // Sembunyikan hasil saat ganti bahasa
+            resultBox.classList.remove('visible');
+            errorAlert.classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inisialisasi input dengan format ribuan
+            ['goalAmount', 'currentSavings'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input.value) {
+                    input.value = cleanInput(input.value).toLocaleString('id-ID', {
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0
+                    });
+                }
+            });
+
+            // Logika Deteksi Bahasa Awal
+            let defaultLang = 'id';
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('en')) {
+                defaultLang = 'en';
+            }
+            setLanguage(defaultLang);
+        });
+
+        // Event listener untuk perubahan bahasa
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) {
+                    setLanguage(newLang);
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

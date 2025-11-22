@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="appTitle">Digital Tools ID - Katalog Alat Digital</title>
     
+    <!-- SEO & Verifikasi -->
     <meta name="google-site-verification" content="V9IvKqvDSwA_bFJ7p1i2uPbk6RjqaddkDa2xBWz8Wk8" />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <meta name="copyright" content="Digital Tools ID - Hak Cipta Dilindungi">
-    <link rel="author" href="https://digitaltoolsid.github.io">
     <meta name="robots" content="index, follow"> 
     <link rel="canonical" href="https://digitaltoolsid.github.io/" /> 
+    <link rel="author" href="https://digitaltoolsid.github.io">
 
+    <!-- Meta Keywords (Diperkaya) -->
+    <meta name="keywords" content="kalkulator keuangan, kalkulator kpr, kalkulator pajak pph, kalkulator investasi, kalkulator kesehatan, bmi calculator, simulasi kredit, perencanaan pensiun, kalkulator saham, digital tools id, manajemen utang, anggaran bulanan, biaya hidup" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tema -->
     <script>
         tailwind.config = {
             theme: {
@@ -22,19 +27,19 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        'primary': '#2c3e50', // Dark Blue/Slate for header
-                        'secondary': '#3498db', // Bright Blue for accents
-                        'accent': '#e74c3c', // Red for CTA/warning
-                        'health-color': '#3498db', // Warna baru untuk Kesehatan
-                        'finance-color': '#27ae60', // Warna baru untuk Keuangan
-                        'productivity-color': '#9b59b6', // Warna baru untuk Produktivitas
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'accent': '#e74c3c', 
+                        'health-color': '#3498db', 
+                        'finance-color': '#27ae60', 
+                        'productivity-color': '#9b59b6', 
                     }
                 }
             }
         }
     </script>
     
-    <!-- Kode Google Analytic dan Adsense yang telah Anda pasang -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -42,261 +47,170 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
          crossorigin="anonymous"></script>
          
     <style>
         body { font-family: 'Inter', sans-serif; }
+        
+        /* Animasi Kartu Aktif */
         .tool-card { 
             transition: all 0.2s ease-in-out; 
-            border-top: 4px solid; /* Tambahkan garis atas dinamis */
+            border-top: 4px solid; 
         }
         .tool-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
+
+        /* Kartu Non-Aktif (Coming Soon) */
+        .tool-card-disabled {
+            background-color: #f3f4f6; /* abu-abu muda */
+            border-color: #d1d5db;
+            color: #9ca3af;
+            cursor: default;
+            border-top: 4px solid #9ca3af;
+        }
+        .tool-card-disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        .tool-card-disabled h3, .tool-card-disabled h4 {
+            color: #6b7280;
+        }
         
-        /* Warna Garis untuk Kartu Alat */
+        /* Warna Kategori */
         .card-health { border-color: #3498db; }
         .card-finance { border-color: #27ae60; }
         .card-productivity { border-color: #9b59b6; }
         
-        /* CSS Toggle Bahasa DIPERBAIKI */
+        /* Toggle Bahasa */
         .lang-toggle-container {
             position: fixed; 
             top: 15px;
             right: 15px;
             z-index: 2000; 
-            background-color: rgba(255, 255, 255, 0.9); 
+            background-color: rgba(255, 255, 255, 0.95); 
             border-radius: 8px;
             padding: 4px;
             display: flex;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+            border: 1px solid #e5e7eb;
         }
         .lang-toggle-container button {
             transition: all 0.2s;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 500;
-            color: #2c3e50; 
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #64748b; 
         }
         .lang-toggle-container button.active {
-            font-weight: bold;
-            background-color: #3498db; 
+            background-color: #2c3e50; 
             color: white; 
         }
 
-        /* PENTING: Tambahkan margin-right di header pada mode mobile agar tidak tertutup toggle */
         @media (max-width: 640px) {
             .mobile-header-padding {
                 padding-right: 90px; 
             }
         }
-        /* CSS KHUSUS UNTUK KATEGORI YANG DINONAKTIFKAN */
-        /* Hapus atau nonaktifkan .disabled-category jika semua alat sudah aktif */
-        /*.disabled-category {
-            opacity: 0.5; 
-            pointer-events: none;
-        }*/
+        
+        /* Style Search Box */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: -2rem auto 2rem auto; 
+            z-index: 10;
+        }
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            border-radius: 50px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 10px 15px -3px rgba(52, 152, 219, 0.3);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
     </style>
 </head>
-<!-- Tambahkan kode pengaman di body untuk hindari konten di klaim oleh pihak lain. -->
-    <body class="bg-gray-50 flex flex-col min-h-screen">
 
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Tombol Bahasa -->
     <div id="languageSwitcher" class="lang-toggle-container">
         <button id="lang-en" onclick="setLanguage('en')">EN</button>
         <button id="lang-id" onclick="setLanguage('id')">ID</button>
     </div>
 
-    <header class="bg-primary text-white py-6 shadow-md relative">
-        <div class="text-center mobile-header-padding">
-            <h1 id="headerTitle" class="text-4xl font-extrabold tracking-tight">Digital Tools ID</h1>
-            <p id="headerSubtitle" class="text-lg mt-2 text-gray-300">Pusat Kalkulator & Utilitas Digital Akurat</p>
+    <!-- Header -->
+    <header class="bg-primary text-white pt-10 pb-16 shadow-md relative">
+        <div class="text-center mobile-header-padding px-4">
+            <h1 id="headerTitle" class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">Digital Tools ID</h1>
+            <p id="headerSubtitle" class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">Pusat Kalkulator & Utilitas Digital Akurat</p>
         </div>
     </header>
 
-    <div class="container max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-auto">
-        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-            <h2 id="sectionTitle" class="text-3xl font-bold text-gray-800 mb-6 border-b pb-3">Daftar Alat yang Tersedia</h2>
-            
-            <div class="space-y-10">
-                
-                <section>
-                    <h3 id="catHealthTitle" class="text-2xl font-semibold text-gray-700 mb-4 border-l-4 border-health-color pl-3">Kesehatan & Gaya Hidup</h3>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                        <!-- Alat Kesehatan 1: BMI & TDEE -->
-                        <a href="./BMI/index.html" class="tool-card card-health p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolBmiTitle" class="text-xl font-semibold text-health-color mb-2">Kalkulator Indeks Massa Tubuh (IMT) & TDEE</h3>
-                            <p id="toolBmiDesc" class="text-gray-600">Alat analisis kesehatan lengkap untuk menghitung IMT, BMR, dan Kebutuhan Kalori Harian (TDEE) Anda.</p>
-                        </a>
-                        
-                        <!-- Alat Kesehatan 2: Body Fat Percentage -->
-                        <a href="./body-fat-calculator/index.html" class="tool-card card-health p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolBfpTitle" class="text-xl font-semibold text-health-color mb-2">Kalkulator Persentase Lemak Tubuh</h3>
-                            <p id="toolBfpDesc" class="text-gray-600">Perkirakan komposisi tubuh Anda (Lemak vs. Otot) menggunakan metode ilmiah (US Navy Method).</p>
-                        </a>
-                        
-                        <!-- Alat Kesehatan 3: Kebutuhan Air Harian -->
-                        <a href="./kalkulator-air-harian/index.html" class="tool-card card-health p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolWaterTitle" class="text-xl font-semibold text-health-color mb-2">Kalkulator Kebutuhan Air Harian</h3>
-                            <p id="toolWaterDesc" class="text-gray-600">Hitung kebutuhan hidrasi minimum Anda berdasarkan berat badan, aktivitas, dan kondisi iklim.</p>
-                        </a>
-                        
-                        <!-- Alat Kesehatan 4: Kebutuhan Protein -->
-                        <a href="./kalkulator-kebutuhan-protein/index.html" class="tool-card card-health p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolProteinTitle" class="text-xl font-semibold text-health-color mb-2">Kalkulator Kebutuhan Protein</h3>
-                            <p id="toolProteinDesc" class="text-gray-600">Tentukan asupan protein ideal harian berdasarkan berat badan dan tujuan kebugaran Anda (membangun otot atau defisit kalori).</p>
-                        </a>
+    <!-- Konten Utama -->
+    <div class="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-auto">
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input type="text" id="toolSearch" class="search-input" placeholder="Cari alat (misal: Pajak, BMI, KPR...)" onkeyup="filterTools()">
+        </div>
 
-                         <!-- Alat Kesehatan 5: Target Denyut Jantung -->
-                         <a href="./kalkulator-denyut-jantung/index.html" class="tool-card card-health p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolHrTitle" class="text-xl font-semibold text-health-color mb-2">Kalkulator Target Denyut Jantung</h3>
-                            <p id="toolHrDesc" class="text-gray-600">Hitung zona Denyut Jantung optimal Anda (Fat Burn, Aerobik) menggunakan metode Karvonen yang akurat.</p>
-                        </a>
-                        
-                        <!-- Alat Kesehatan 6: Siklus Menstruasi/Ovulasi (BARU) -->
-                        <a href="./kalkulator-siklus-menstruasi/index.html" class="tool-card card-health p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolCycleTitle" class="text-xl font-semibold text-health-color mb-2">Kalkulator Siklus Menstruasi & Ovulasi</h3>
-                            <p id="toolCycleDesc" class="text-gray-600">Perkirakan tanggal periode berikutnya, jendela ovulasi, dan hari paling subur (fertilitas) Anda.</p>
-                        </a>
-                        
-                    </div>
-                    
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <h4 id="healthArticlesHeader" class="text-lg font-semibold text-gray-700 mb-3">Artikel Terkait (Kesehatan & Gaya Hidup):</h4>
-                        <!-- Kontainer ini akan diisi oleh JavaScript -->
-                        <ul id="healthArticlesList" class="space-y-1 text-sm">
-                            <!-- Artikel Kesehatan Diisi oleh JS -->
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Kategori Keuangan Diperbarui -->
-                <section> 
-                    <h3 id="catFinanceTitle" class="text-2xl font-semibold text-gray-700 mb-4 border-l-4 border-finance-color pl-3">Keuangan</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                        <!-- Alat Keuangan 1: KPR -->
-                        <a href="./kalkulator-kpr/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolKprTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Cicilan KPR</h3>
-                            <p id="toolKprDesc" class="text-gray-600">Hitung angsuran bulanan, total bunga, dan lihat jadwal amortisasi untuk pinjaman properti Anda.</p>
-                        </a>
-                        
-                        <!-- Alat Keuangan 2: Bunga Majemuk -->
-                        <a href="./kalkulator-bunga-majemuk/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolCompInterestTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Bunga Majemuk</h3>
-                            <p id="toolCompInterestDesc" class="text-gray-600">Hitung potensi pertumbuhan investasi Anda dari waktu ke waktu.</p>
-                        </a>
-                        
-                        <!-- Alat Keuangan 3: Bunga Efektif -->
-                        <a href="./kalkulator-bunga-efektif/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolEffectiveInterestTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Bunga Efektif</h3>
-                            <p id="toolEffectiveInterestDesc" class="text-gray-600">Analisis biaya pinjaman Anda (KPR, Mobil, dll.) dengan akurat menggunakan suku bunga efektif.</p>
-                        </a>
-                        
-                        <!-- Alat Keuangan 4: NPV, IRR, BEP -->
-                        <a href="./kalkulator-npv-irr-bep/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolNpvIrrBepTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator NPV, IRR, dan BEP</h3>
-                            <p id="toolNpvIrrBepDesc" class="text-gray-600">Alat analisis kelayakan investasi: Net Present Value, Internal Rate of Return, dan Break-Even Point.</p>
-                        </a>
-
-                        <!-- Alat Keuangan 5: Dana Darurat -->
-                        <a href="./kalkulator-dana-darurat/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolEmergencyFundTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Dana Darurat</h3>
-                            <p id="toolEmergencyFundDesc" class="text-gray-600">Tentukan jumlah ideal dana darurat yang harus Anda siapkan berdasarkan pengeluaran bulanan.</p>
-                        </a>
-
-                        <!-- Alat Keuangan 6: Net Worth -->
-                        <a href="./kalkulator-networth/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolNetWorthTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Net Worth (Kekayaan Bersih)</h3>
-                            <p id="toolNetWorthDesc" class="text-gray-600">Hitung total kekayaan bersih Anda (Aset dikurangi Kewajiban) untuk mengukur kesehatan finansial.</p>
-                        </a>
-
-                        <!-- Alat Keuangan 7: Pelunasan Utang -->
-                        <a href="./kalkulator-pelunasan-utang/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolDebtPayoffTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Prioritas Pelunasan Utang</h3>
-                            <p id="toolDebtPayoffDesc" class="text-gray-600">Bandingkan Strategi Snowball dan Avalanche untuk memilih jalur pelunasan utang tercepat dan termurah.</p>
-                        </a>
-
-                        <!-- Alat Keuangan 8: Pinjaman Multi Tujuan -->
-                        <a href="./kalkulator-pinjaman-multi-tujuan/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolMultiLoanTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator Pinjaman Multi-Tujuan</h3>
-                            <p id="toolMultiLoanDesc" class="text-gray-600">Simulasi cicilan bulanan dan total biaya bunga untuk berbagai jenis pinjaman (KTA, Kendaraan, dll.).</p>
-                        </a>
-
-                        <!-- Alat Keuangan 9: PPh -->
-                        <a href="./kalkulator-pph/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolPphTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator PPh (Pajak Penghasilan)</h3>
-                            <p id="toolPphDesc" class="text-gray-600">Hitung perkiraan PPh (Pasal 21, 23, 25/29) untuk perencanaan keuangan pribadi atau bisnis.</p>
-                        </a>
-
-                        <!-- ALAT BARU: DPP, PPN, dan PPh -->
-                        <a href="./kalkulator-dpp-ppn-pph/index.html" class="tool-card card-finance p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolDppPpnPphTitle" class="text-xl font-semibold text-finance-color mb-2">Kalkulator DPP, PPN, dan PPh</h3>
-                            <p id="toolDppPpnPphDesc" class="text-gray-600">Hitung Nilai DPP, PPN, dan PPh secara terpisah dari Total Harga (Termasuk Pajak) atau Total DPP.</p>
-                        </a>
-                        
-                    </div>
-                    
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <h4 id="financeArticlesHeader" class="text-lg font-semibold text-gray-700 mb-3">Artikel Terkait (Keuangan):</h4>
-                        <!-- Kontainer ini akan diisi oleh JavaScript -->
-                        <ul id="financeArticlesList" class="space-y-1 text-sm">
-                            <!-- Artikel Keuangan Diisi oleh JS -->
-                        </ul>
-                    </div>
-                </section>
-                
-                <!-- Kategori Produktivitas Masih Dinonaktifkan -->
-                <section class="disabled-category">
-                    <h3 id="catProductivityTitle" class="text-2xl font-semibold text-gray-700 mb-4 border-l-4 border-productivity-color pl-3">Produktivitas</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                        <!-- Alat Produktivitas 1: Konverter Universal -->
-                        <a href="./universal-convert/index.html" class="tool-card card-productivity p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolConvertTitle" class="text-xl font-semibold text-productivity-color mb-2">Konverter Universal</h3>
-                            <p id="toolConvertDesc" class="text-gray-600">Konverter unit serbaguna (Memasak, Metrik, Volume, Berat, dan lainnya). Ubah nilai dengan cepat di berbagai sistem unit.</p>
-                        </a>
-                        
-                        <!-- Alat Produktivitas 2: Pembangkit Kata Sandi (Placeholder) -->
-                        <a href="#" class="tool-card card-productivity p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolPla6Title" class="text-xl font-semibold text-gray-400 mb-2">Pembangkit Kata Sandi Aman</h3>
-                            <p id="toolPla6Desc" class="text-gray-400">Buat kata sandi yang kuat dan acak untuk meningkatkan keamanan Anda.</p>
-                        </a>
-
-                        <!-- Alat Produktivitas 3: Penghitung Kata (Placeholder) -->
-                        <a href="#" class="tool-card card-productivity p-6 border-gray-200 rounded-xl text-black block transition duration-200 ease-in-out bg-white shadow-sm hover:shadow-xl">
-                            <h3 id="toolPla7Title" class="text-xl font-semibold text-gray-400 mb-2">Penghitung Kata & Karakter</h3>
-                            <p id="toolPla7Desc" class="text-gray-400">Analisis teks Anda dengan cepat untuk batas karakter atau SEO.</p>
-                        </a>
-                        
-                    </div>
-                </section>
-                
+        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg min-h-[500px]">
+            <div class="flex justify-between items-center mb-6 border-b pb-3">
+                <h2 id="sectionTitle" class="text-2xl sm:text-3xl font-bold text-gray-800">Daftar Alat yang Tersedia</h2>
+                <span id="resultCount" class="text-sm text-gray-500 font-medium hidden"></span>
             </div>
             
-            <section class="mt-12 pt-6 border-t border-gray-200">
+            <!-- Container Alat (Akan diisi oleh JavaScript) -->
+            <div id="toolsContainer" class="space-y-12">
+                <!-- Kategori dan Kartu akan dirender di sini -->
+            </div>
+            
+            <!-- Pesan jika tidak ada hasil -->
+            <div id="noResults" class="hidden text-center py-12">
+                <p class="text-gray-500 text-lg">Tidak ada alat yang cocok dengan pencarian Anda.</p>
+                <button onclick="document.getElementById('toolSearch').value=''; filterTools();" class="mt-2 text-secondary font-semibold hover:underline">Reset Pencarian</button>
+            </div>
+
+            <!-- Tentang Kami -->
+            <section class="mt-16 pt-8 border-t border-gray-200">
                 <h3 id="aboutTitle" class="text-2xl font-semibold text-gray-800 mb-3">Tentang Digital Tools ID</h3>
-                <p id="aboutContent" class="text-gray-700 text-justify">Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan, kenyamanan, dan akurasi melalui serangkaian alat digital fungsional. Kami percaya bahwa mencapai tujuan Anda—baik dalam kesehatan, keuangan, atau produktivitas—seharusnya sederhana. Oleh karena itu, kami menyediakan utilitas yang cepat dan mudah digunakan, memastikan setiap kalkulasi dan konversi akurat tanpa kerumitan yang tidak perlu. Kami berdedikasi untuk terus memperluas pustaka alat kami untuk memenuhi kebutuhan Anda.</p>
+                <p id="aboutContent" class="text-gray-600 leading-relaxed text-justify">
+                    Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan, kenyamanan, dan akurasi melalui serangkaian alat digital fungsional. Kami menyediakan utilitas yang cepat dan mudah digunakan untuk kebutuhan Kesehatan, Keuangan, dan Produktivitas Anda.
+                </p>
             </section>
         </div>
     </div>
     
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+    <!-- Footer -->
+    <footer class="mt-12 py-8 border-t border-gray-200 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Kebijakan Privasi</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Ketentuan Layanan</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">Tentang Kami</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Hubungi Kami</a>
+            <div id="footerLinks" class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-gray-600">
+                <a href="privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition">Kebijakan Privasi</a>
+                <a href="terms-of-service.html" id="linkTerms" class="hover:text-secondary transition">Ketentuan Layanan</a>
+                <a href="about-us.html" id="linkAbout" class="hover:text-secondary transition">Tentang Kami</a>
+                <a href="contact-us.html" id="linkContact" class="hover:text-secondary transition">Hubungi Kami</a>
             </div>
-            
             <div class="mt-6 text-center text-xs text-gray-500">
                 <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics.</span>
             </div>
@@ -304,382 +218,626 @@
     </footer>
 
     <script>
+        // ====================================================================
+        // DATA ALAT & ARTIKEL (KEYWORDS DIPERKAYA DARI PDF)
+        // ====================================================================
         
-        // ====================================================================
-        // START: DATA DAN FUNGSI UTAMA 
-        // ====================================================================
+        const toolsData = [
+            // --- KATEGORI: KESEHATAN (HEALTH) ---
+            {
+                id: "bmi",
+                mainCategory: "health",
+                subCategory: "health_general",
+                active: true,
+                path: "./BMI/index.html",
+                title: { id: "Kalkulator Indeks Massa Tubuh (IMT) & TDEE", en: "Body Mass Index (BMI) & TDEE Calculator" },
+                desc: { id: "Hitung IMT, BMR, dan Kebutuhan Kalori Harian (TDEE) Anda.", en: "Calculate your BMI, BMR, and Total Daily Energy Expenditure (TDEE)." },
+                keywords: ["berat badan", "kurus", "gemuk", "diet", "weight", "fat", "calories", "kalori", "ideal", "obesitas"]
+            },
+            {
+                id: "bfp",
+                mainCategory: "health",
+                subCategory: "health_general",
+                active: true,
+                path: "./body-fat-calculator/index.html",
+                title: { id: "Kalkulator Persentase Lemak Tubuh", en: "Body Fat Percentage Calculator" },
+                desc: { id: "Perkirakan komposisi tubuh (Lemak vs Otot) metode US Navy.", en: "Estimate body composition using the US Navy Method." },
+                keywords: ["lemak", "fat", "us navy", "lean mass", "otot", "komposisi tubuh", "body composition"]
+            },
+            {
+                id: "water",
+                mainCategory: "health",
+                subCategory: "health_general",
+                active: true,
+                path: "./kalkulator-air-harian/index.html",
+                title: { id: "Kalkulator Kebutuhan Air Harian", en: "Daily Water Intake Calculator" },
+                desc: { id: "Hitung kebutuhan hidrasi minimum harian Anda.", en: "Calculate your minimum daily hydration needs." },
+                keywords: ["air", "minum", "hidrasi", "hydration", "drink", "sehat", "ginjal"]
+            },
+            {
+                id: "protein",
+                mainCategory: "health",
+                subCategory: "health_general",
+                active: true,
+                path: "./kalkulator-kebutuhan-protein/index.html",
+                title: { id: "Kalkulator Kebutuhan Protein", en: "Daily Protein Needs Calculator" },
+                desc: { id: "Tentukan asupan protein ideal untuk otot atau diet.", en: "Determine ideal protein intake for muscle building or diet." },
+                keywords: ["otot", "muscle", "gym", "fitness", "nutrisi", "nutrition", "diet", "makan"]
+            },
+            {
+                id: "heartrate",
+                mainCategory: "health",
+                subCategory: "health_general",
+                active: true,
+                path: "./kalkulator-denyut-jantung/index.html",
+                title: { id: "Kalkulator Target Denyut Jantung", en: "Target Heart Rate Calculator" },
+                desc: { id: "Hitung zona Fat Burn dan Aerobik metode Karvonen.", en: "Calculate Fat Burn and Aerobic zones using Karvonen method." },
+                keywords: ["jantung", "detak", "cardio", "aerobik", "fat burn", "olahraga", "sport", "lari", "sepeda"]
+            },
+            {
+                id: "cycle",
+                mainCategory: "health",
+                subCategory: "health_general",
+                active: true,
+                path: "./kalkulator-siklus-menstruasi/index.html",
+                title: { id: "Kalkulator Siklus Menstruasi & Ovulasi", en: "Menstrual & Ovulation Cycle Calculator" },
+                desc: { id: "Perkirakan masa subur dan haid berikutnya.", en: "Estimate your next period and fertile window." },
+                keywords: ["haid", "menstruasi", "ovulasi", "subur", "hamil", "pregnancy", "period", "fertility", "wanita"]
+            },
 
-        const translations = {
+            // --- KATEGORI: KEUANGAN (FINANCE) ---
+            // Sub: Anggaran & Kesehatan Keuangan
+            {
+                id: "budget",
+                mainCategory: "finance",
+                subCategory: "fin_budget",
+                active: true,
+                path: "./kalkulator-anggaran-bulanan/index.html",
+                title: { id: "Kalkulator Anggaran Bulanan", en: "Monthly Budget Calculator" },
+                desc: { id: "Kelola uang efektif dengan metode 50/30/20.", en: "Manage money effectively using the 50/30/20 method." },
+                keywords: ["anggaran", "hemat", "50/30/20", "saving", "tabungan", "uang", "money", "budgeting", "keuangan", "financial health", "kebutuhan", "keinginan", "investasi", "needs", "wants"]
+            },
+            {
+                id: "costofliving",
+                mainCategory: "finance",
+                subCategory: "fin_budget",
+                active: true,
+                path: "./kalkulator-biaya-hidup/index.html",
+                title: { id: "Kalkulator Biaya Hidup", en: "Cost of Living Calculator" },
+                desc: { id: "Bandingkan biaya hidup antar kota untuk relokasi.", en: "Compare cost of living between cities for relocation." },
+                keywords: ["biaya hidup", "pindah", "relokasi", "kota", "city", "relocation", "salary", "gaji", "mahal", "murah", "lifestyle", "sewa", "makanan", "transportasi", "rent", "food", "transport"]
+            },
+            {
+                id: "effective_rate",
+                mainCategory: "finance",
+                subCategory: "fin_budget",
+                active: true,
+                path: "./kalkulator-bunga-efektif/index.html",
+                title: { id: "Kalkulator Suku Bunga Efektif (APR/EIR)", en: "Effective Annual Interest Rate Calculator" },
+                desc: { id: "Ungkap biaya bunga asli pinjaman termasuk biaya admin.", en: "Unmask true loan costs including hidden fees." },
+                keywords: ["bunga", "flat", "efektif", "anuitas", "effective rate", "interest", "pinjaman", "loan", "apr", "eir", "bank", "biaya tersembunyi", "hidden fees", "kpr", "multiguna", "fixed installment"]
+            },
+            {
+                id: "emergency_fund",
+                mainCategory: "finance",
+                subCategory: "fin_budget",
+                active: true,
+                path: "./kalkulator-dana-darurat/index.html",
+                title: { id: "Kalkulator Dana Darurat", en: "Emergency Fund Calculator" },
+                desc: { id: "Hitung dana tunai minimum untuk kondisi darurat.", en: "Calculate minimum cash fund for emergencies." },
+                keywords: ["darurat", "dana", "emergency", "safety net", "phk", "sakit", "cash", "tunai", "minimum cash fund", "kondisi darurat"]
+            },
+            {
+                id: "hourly_salary",
+                mainCategory: "finance",
+                subCategory: "fin_budget",
+                active: true,
+                path: "./kalkulator-konversi-gaji/index.html",
+                title: { id: "Kalkulator Gaji Per Jam ke Bulanan", en: "Hourly to Salary Calculator" },
+                desc: { id: "Konversi upah per jam menjadi gaji bulanan/tahunan.", en: "Convert hourly wages into monthly or annual salary." },
+                keywords: ["gaji", "upah", "per jam", "hourly", "wage", "salary", "freelance", "umr", "income", "bulanan", "tahunan", "kontraktor", "pekerja lepas"]
+            },
+            {
+                id: "networth",
+                mainCategory: "finance",
+                subCategory: "fin_budget",
+                active: true,
+                path: "./kalkulator-networth/index.html",
+                title: { id: "Kalkulator Kekayaan Bersih (Net Worth)", en: "Personal Net Worth Calculator" },
+                desc: { id: "Ketahui nilai aset dikurangi kewajiban Anda.", en: "Know your total assets minus liabilities." },
+                keywords: ["kekayaan", "aset", "utang", "harta", "asset", "liability", "kaya", "miskin", "net worth", "kewajiban", "financial health", "kesehatan finansial", "adjustments"]
+            },
+
+            // Sub: Investasi & Pertumbuhan
+            {
+                id: "compound",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-bunga-majemuk/index.html",
+                title: { id: "Kalkulator Bunga Majemuk", en: "Compound Interest Calculator" },
+                desc: { id: "Hitung nilai masa depan investasi dengan compounding.", en: "Calculate future investment value with compounding." },
+                keywords: ["bunga majemuk", "investasi", "saham", "deposito", "investment", "growth", "compound", "lipat ganda", "future value", "nilai masa depan", "harness"]
+            },
+            {
+                id: "dpp_ppn",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-dpp-ppn-pph/index.html",
+                title: { id: "Kalkulator DPP, PPN, dan PPh", en: "DPP, VAT, and WHT Calculator" },
+                desc: { id: "Hitung pajak kontrak (PPN 11% & PPh) dengan akurat.", en: "Calculate contract taxes (11% VAT & WHT) accurately." },
+                keywords: ["pajak", "tax", "ppn", "pph", "vat", "wht", "invoice", "faktur", "potong pajak", "dpp", "kontrak", "contract payment", "11%"]
+            },
+            {
+                id: "stock_return",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-imbal-hasil-saham/index.html",
+                title: { id: "Kalkulator Imbal Hasil Saham", en: "Stock Return Calculator" },
+                desc: { id: "Hitung laba bersih saham setelah komisi broker dan pajak.", en: "Calculate net stock profit after broker fees and tax." },
+                keywords: ["saham", "stock", "profit", "gain", "loss", "broker", "fee", "investasi", "trading", "cuan", "imbal hasil", "net profit", "laba bersih", "komisi", "levies", "break even", "balik modal"]
+            },
+            {
+                id: "business_viability",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-npv-irr-bep/index.html",
+                title: { id: "Kalkulator Analisis Kelayakan Bisnis", en: "Business Viability Analyzer (NPV/IRR/BEP)" },
+                desc: { id: "Analisis kelayakan investasi (BEP, NPV, IRR).", en: "Analyze investment viability (BEP, NPV, IRR)." },
+                keywords: ["bisnis", "usaha", "npv", "irr", "bep", "modal", "capital", "roi", "layak", "untung", "kelayakan", "viability", "business plan", "rencana bisnis", "investasi toko"]
+            },
+            {
+                id: "capital_gains",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-pajak-keuntungan-modal/index.html",
+                title: { id: "Kalkulator Pajak Keuntungan Modal", en: "Capital Gains Tax Calculator" },
+                desc: { id: "Estimasi pajak atas keuntungan investasi aset.", en: "Estimate tax on investment asset gains." },
+                keywords: ["pajak", "keuntungan", "modal", "saham", "properti", "tax", "investment", "capital gain", "jual beli", "pajak final", "final tax", "emas", "gold", "foreign stocks", "saham asing"]
+            },
+            {
+                id: "pph_gross",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-pph/index.html",
+                title: { id: "Kalkulator PPh Tahunan (Bruto)", en: "Annual Income Tax Calculator (Gross)" },
+                desc: { id: "Pajak Penghasilan Pegawai/Pekerja Bebas basis Bruto.", en: "Income tax for Employees/Freelancers based on Gross." },
+                keywords: ["pajak", "penghasilan", "gaji", "bruto", "gross", "tax", "pph 21", "tahunan", "karyawan", "pegawai", "freelancer", "pekerja bebas", "income tax"]
+            },
+            {
+                id: "pph_net",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-pph-detil/index.html",
+                title: { id: "Kalkulator PPh Tahunan (Gaji Bulanan)", en: "Annual Income Tax Calculator (Monthly Salary)" },
+                desc: { id: "Hitung PPh 21 Pegawai berdasarkan gaji bersih & PTKP.", en: "Calculate Employee Income Tax based on salary & status." },
+                keywords: ["pajak", "gaji bersih", "bulanan", "ptkp", "netto", "tax", "potongan", "slip gaji", "npwp", "status pernikahan", "marital status", "tanggungan", "dependency"]
+            },
+            {
+                id: "roi_property",
+                mainCategory: "finance",
+                subCategory: "fin_invest",
+                active: true,
+                path: "./kalkulator-roi-properti-sewa/index.html",
+                title: { id: "Kalkulator ROI Properti Sewa", en: "Real Estate ROI Calculator" },
+                desc: { id: "Analisis arus kas dan keuntungan properti sewaan.", en: "Analyze cash flow and profit of rental properties." },
+                keywords: ["properti", "sewa", "rental", "rumah", "kost", "apartment", "investment", "roi", "cashflow", "arus kas", "income", "expense", "pendapatan pasif", "passive income", "real estate"]
+            },
+
+            // Sub: Pinjaman & Utang
+            {
+                id: "car_loan",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-cicilan-mobil/index.html",
+                title: { id: "Kalkulator Cicilan Mobil", en: "Car Payment Calculator" },
+                desc: { id: "Estimasi angsuran dan bunga pinjaman kendaraan.", en: "Estimate installment and interest for vehicle loans." },
+                keywords: ["mobil", "kendaraan", "cicilan", "kredit", "leasing", "down payment", "dp", "bunga", "angsuran", "total payment", "total interest", "car loan"]
+            },
+            {
+                id: "affordability",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-kapasitas-cicilan/index.html",
+                title: { id: "Kalkulator Kapasitas Cicilan", en: "Loan Affordability Calculator" },
+                desc: { id: "Tentukan batas maksimum cicilan yang aman (DSR).", en: "Determine safe maximum installment limit (DSR)." },
+                keywords: ["kemampuan", "beli rumah", "kpr", "cicilan", "gaji", "dsr", "maksimal", "bank", "debt service ratio", "kkb", "kta", "financial healthy", "sehat finansial", "batas aman"]
+            },
+            {
+                id: "mortgage",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-kpr/index.html",
+                title: { id: "Kalkulator KPR & Amortisasi", en: "Mortgage Loan & Amortization Calculator" },
+                desc: { id: "Hitung cicilan rumah dan jadwal amortisasi.", en: "Calculate home loan installments and amortization." },
+                keywords: ["rumah", "kpr", "simulasi", "bunga", "floating", "fixed", "amortisasi", "mortgage", "btn", "monthly installment", "total interest", "jadwal"]
+            },
+            {
+                id: "credit_card",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-pelunasan-kartu-kredit/index.html",
+                title: { id: "Kalkulator Pelunasan Kartu Kredit", en: "Credit Card Payoff Calculator" },
+                desc: { id: "Buat rencana lunas kartu kredit lebih cepat.", en: "Create a plan to pay off credit cards faster." },
+                keywords: ["kartu kredit", "utang", "lunas", "bunga", "cc", "credit card", "minimum payment", "pembayaran minimum", "payoff plan", "bebas utang", "debt-free"]
+            },
+            {
+                id: "debt_priority",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-pelunasan-utang/index.html",
+                title: { id: "Kalkulator Prioritas Pelunasan Utang", en: "Debt Payoff Priority Calculator" },
+                desc: { id: "Bandingkan strategi Snowball vs Avalanche.", en: "Compare Snowball vs Avalanche strategies." },
+                keywords: ["utang", "lunas", "snowball", "avalanche", "prioritas", "bebas utang", "strategi", "extra funds", "dana lebih", "prioritized"]
+            },
+            {
+                id: "personal_loan_compare",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-perbandingan-pinjaman-pribadi/index.html",
+                title: { id: "Kalkulator Perbandingan Pinjaman", en: "Personal Loan Comparison Calculator" },
+                desc: { id: "Bandingkan 2 opsi pinjaman untuk biaya termurah.", en: "Compare 2 loan options for the cheapest cost." },
+                keywords: ["bandingkan", "pinjaman", "kta", "bank", "bunga", "murah", "biaya", "comparison", "fintech", "personal loan", "scenarios", "skenario", "total cost"]
+            },
+            {
+                id: "multipurpose_loan",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-pinjaman-multi-tujuan/index.html",
+                title: { id: "Kalkulator Pinjaman Serbaguna", en: "Multi-Purpose Loan Calculator" },
+                desc: { id: "Hitung cicilan KTA atau pinjaman multiguna.", en: "Calculate installments for unsecured or multi-purpose loans." },
+                keywords: ["serbaguna", "kta", "agunan", "pinjaman", "cash", "multiguna", "dana", "financing", "pembiayaan", "personal loans", "car loans", "cicilan"]
+            },
+            {
+                id: "refinance",
+                mainCategory: "finance",
+                subCategory: "fin_loan",
+                active: true,
+                path: "./kalkulator-refinancing-pinjaman/index.html",
+                title: { id: "Kalkulator Refinancing Pinjaman", en: "Refinance Calculator" },
+                desc: { id: "Hitung penghematan dari pindah ke pinjaman baru.", en: "Calculate savings from switching to a new loan." },
+                keywords: ["pindah kpr", "take over", "bunga", "hemat", "refinancing", "top up", "bank", "break-even", "titik impas", "penghematan", "savings", "auto loan"]
+            },
+
+            // Sub: Perencanaan Pensiun
+            {
+                id: "inflation",
+                mainCategory: "finance",
+                subCategory: "fin_retirement",
+                active: true,
+                path: "./kalkulator-inflasi/index.html",
+                title: { id: "Kalkulator Inflasi", en: "Inflation Calculator" },
+                desc: { id: "Visualisasikan penurunan daya beli uang akibat inflasi.", en: "Visualize purchasing power loss due to inflation." },
+                keywords: ["inflasi", "daya beli", "harga", "masa depan", "purchasing power", "uang", "nilai", "silent thief", "pencuri senyap", "prices rise", "kenaikan harga", "menyusut"]
+            },
+            {
+                id: "withdrawal",
+                mainCategory: "finance",
+                subCategory: "fin_retirement",
+                active: true,
+                path: "./kalkulator-penarikan-dana-pensiun/index.html",
+                title: { id: "Kalkulator Penarikan Dana Pensiun", en: "Retirement Withdrawal Calculator" },
+                desc: { id: "Simulasi berapa lama tabungan pensiun akan bertahan.", en: "Simulate how long retirement savings will last." },
+                keywords: ["pensiun", "tarik dana", "4% rule", "hari tua", "withdrawal", "tabungan habis", "hidup", "lifespan", "savings", "umur simpanan", "biaya hidup", "investasi"]
+            },
+            {
+                id: "pensiun_planner",
+                mainCategory: "finance",
+                subCategory: "fin_retirement",
+                active: true,
+                path: "./kalkulator-pensiun/index.html",
+                title: { id: "Kalkulator Pensiun (Planner)", en: "Retirement Planner Calculator" },
+                desc: { id: "Hitung dana yang dibutuhkan untuk pensiun nyaman.", en: "Calculate funds needed for a comfortable retirement." },
+                keywords: ["pensiun", "hari tua", "tabungan", "investasi", "planner", "dana pensiun", "tua", "retirement fund", "monthly expenses", "biaya bulanan", "goal", "tujuan"]
+            },
+            {
+                id: "edu_save",
+                mainCategory: "finance",
+                subCategory: "fin_retirement",
+                active: true,
+                path: "./kalkulator-tabungan-pendidikan/index.html",
+                title: { id: "Kalkulator Tabungan Pendidikan", en: "Education Savings Calculator" },
+                desc: { id: "Rencanakan biaya kuliah anak dengan inflasi.", en: "Plan for children's college costs accounting for inflation." },
+                keywords: ["kuliah", "pendidikan", "anak", "sekolah", "university", "biaya", "tabungan", "college", "education", "funding", "pendanaan", "imbal hasil"]
+            },
+            {
+                id: "saving_goal",
+                mainCategory: "finance",
+                subCategory: "fin_retirement",
+                active: true,
+                path: "./kalkulator-target-tabungan/index.html",
+                title: { id: "Kalkulator Target Tabungan", en: "Saving Goal Calculator" },
+                desc: { id: "Hitung tabungan bulanan untuk tujuan besar (Rumah/Nikah).", en: "Calculate monthly savings for big goals (House/Wedding)." },
+                keywords: ["target", "tabungan", "nikah", "liburan", "beli barang", "goal", "impian", "nabung", "financial goals", "down payment", "uang muka", "wedding", "pernikahan", "vacation"]
+            },
+
+            // --- KATEGORI: PRODUKTIVITAS (PRODUCTIVITY) ---
+            {
+                id: "convert",
+                mainCategory: "productivity",
+                subCategory: "prod_general",
+                active: true,
+                path: "./universal-convert/index.html",
+                title: { id: "Konverter Universal", en: "Universal Converter" },
+                desc: { id: "Konversi unit serbaguna (Berat, Panjang, Suhu, dll).", en: "Versatile unit conversion (Weight, Length, Temp, etc)." },
+                keywords: ["konversi", "satuan", "unit", "berat", "panjang", "suhu", "converter", "kilo", "meter"]
+            },
+            {
+                id: "simple_calc",
+                mainCategory: "productivity",
+                subCategory: "prod_general",
+                active: true,
+                path: "./kalkulator-online/index.html",
+                title: { id: "Kalkulator Online Sederhana", en: "Simple Online Calculator" },
+                desc: { id: "Kalkulasi sederhana tanpa fungsi rumit.", en: "Simple calculations without complex features." },
+                keywords: ["kalkulator", "hitung", "tambah", "kurang", "kali", "bagi", "sederhana", "matematika", "calculator"]
+            },
+            // ALAT NON-AKTIF
+            {
+                id: "password",
+                mainCategory: "productivity",
+                subCategory: "prod_general",
+                active: false, 
+                path: "#",
+                title: { id: "Pembangkit Kata Sandi Aman (Coming Soon)", en: "Secure Password Generator (Coming Soon)" },
+                desc: { id: "Buat kata sandi kuat dan acak.", en: "Create strong, random passwords." },
+                keywords: ["password", "sandi", "aman", "security", "generator", "acak"]
+            },
+            {
+                id: "wordcount",
+                mainCategory: "productivity",
+                subCategory: "prod_general",
+                active: false, 
+                path: "#",
+                title: { id: "Penghitung Kata & Karakter (Coming Soon)", en: "Word & Character Counter (Coming Soon)" },
+                desc: { id: "Analisis teks cepat untuk SEO atau batas karakter.", en: "Quick text analysis for SEO or character limits." },
+                keywords: ["kata", "karakter", "word count", "menulis", "seo", "teks", "panjang"]
+            }
+        ];
+
+        // Data Artikel
+        const articleData = {
+            health: [
+                { path: "./articles/definisi_bmi_tdee.html", title: {id: "Memahami BMI dan TDEE: Kebutuhan Kalori Harian Anda", en: "Understanding BMI and TDEE: Your Daily Calorie Needs"} },
+                { path: "./articles/panduan_lingkar_pinggang.html", title: {id: "Panduan Lengkap Mengukur Lingkar Pinggang Ideal", en: "Complete Guide to Measuring Ideal Waist Circumference"} },
+                { path: "./articles/panduan-label-nutrisi.html", title: {id: "Panduan Lengkap: Cara Membaca Label Informasi Nilai Gizi", en: "The Complete Guide: How to Read a Nutrition Facts Label"} },
+                { path: "./articles/protein-penurunan-berat-badan.html", title: {id: "Peran Kritis Protein dalam Strategi Penurunan Berat Badan", en: "The Critical Role of Protein in Weight Loss Strategy"} },
+                { path: "./articles/strategi_menurunkan_berat_badan.html", title: {id: "5 Strategi Menurunkan Berat Badan yang Berkelanjutan", en: "5 Sustainable Weight Loss Strategies"} }
+            ],
+            finance: [
+                { path: "./articles/klausul-perpajakan-kontrak.html", title: {id: "Klausul Pembayaran Kontrak: Menghindari Sengketa PPN dan PPh", en: "Contract Payment Clauses: Avoiding VAT and WHT Disputes"} },
+                { path: "./articles/strategi-mempercepat-pelunasan-utang.html", title: {id: "Strategi Mempercepat Pelunasan Utang dan Menghemat Bunga", en: "Strategy for Accelerating Debt Payoff and Saving Interest"} }
+            ]
+        };
+
+        // Kategori Meta Data
+        const categories = {
+            health_general: { 
+                title: { id: "Kesehatan & Gaya Hidup", en: "Health & Lifestyle" },
+                color: "border-health-color",
+                textColor: "text-health-color",
+                articleKey: "health" 
+            },
+            fin_budget: {
+                title: { id: "Anggaran & Kesehatan Keuangan", en: "Budgeting & Financial Health" },
+                color: "border-finance-color",
+                textColor: "text-finance-color"
+            },
+            fin_invest: {
+                title: { id: "Investasi & Pertumbuhan", en: "Investment & Growth" },
+                color: "border-finance-color",
+                textColor: "text-finance-color"
+            },
+            fin_loan: {
+                title: { id: "Pinjaman & Utang", en: "Loans & Debt" },
+                color: "border-finance-color",
+                textColor: "text-finance-color"
+            },
+            fin_retirement: {
+                title: { id: "Perencanaan Pensiun & Jangka Panjang", en: "Retirement & Long-Term Planning" },
+                color: "border-finance-color",
+                textColor: "text-finance-color",
+                articleKey: "finance" 
+            },
+            prod_general: {
+                title: { id: "Produktivitas", en: "Productivity" },
+                color: "border-productivity-color",
+                textColor: "text-productivity-color"
+            }
+        };
+
+        // Teks UI Statis
+        const uiText = {
             id: {
-                appTitle: "Digital Tools ID - Katalog Alat Digital",
                 headerSubtitle: "Pusat Kalkulator & Utilitas Digital Akurat",
                 sectionTitle: "Daftar Alat yang Tersedia",
-                // Kategori 
-                catHealthTitle: "Kesehatan & Gaya Hidup",
-                catFinanceTitle: "Keuangan",
-                catProductivityTitle: "Produktivitas",
-                // Alat Kesehatan 
-                toolBmiTitle: "Kalkulator Indeks Massa Tubuh (IMT) & TDEE",
-                toolBmiDesc: "Alat analisis kesehatan lengkap untuk menghitung IMT, BMR, dan Kebutuhan Kalori Harian (TDEE) Anda.",
-                toolBfpTitle: "Kalkulator Persentase Lemak Tubuh",
-                toolBfpDesc: "Perkirakan komposisi tubuh Anda (Lemak vs. Otot) menggunakan metode ilmiah (US Navy Method).",
-                toolWaterTitle: "Kalkulator Kebutuhan Air Harian",
-                toolWaterDesc: "Hitung kebutuhan hidrasi minimum Anda berdasarkan berat badan, aktivitas, dan kondisi iklim.",
-                toolProteinTitle: "Kalkulator Kebutuhan Protein",
-                toolProteinDesc: "Tentukan asupan protein ideal harian berdasarkan berat badan dan tujuan kebugaran Anda (membangun otot atau defisit kalori).",
-                toolHrTitle: "Kalkulator Target Denyut Jantung",
-                toolHrDesc: "Hitung zona Denyut Jantung optimal Anda (Fat Burn, Aerobik) menggunakan metode Karvonen yang akurat.",
-                toolCycleTitle: "Kalkulator Siklus Menstruasi & Ovulasi", 
-                toolCycleDesc: "Perkirakan tanggal periode berikutnya, jendela ovulasi, dan hari paling subur (fertilitas) Anda.", 
-                
-                // Alat Keuangan BARU & Diperbarui
-                toolKprTitle: "Kalkulator Cicilan KPR",
-                toolKprDesc: "Hitung angsuran bulanan, total bunga, dan lihat jadwal amortisasi untuk pinjaman properti Anda.",
-                toolCompInterestTitle: "Kalkulator Bunga Majemuk", 
-                toolCompInterestDesc: "Hitung potensi pertumbuhan investasi Anda dari waktu ke waktu.", 
-                toolEffectiveInterestTitle: "Kalkulator Bunga Efektif", 
-                toolEffectiveInterestDesc: "Analisis biaya pinjaman Anda (KPR, Mobil, dll.) dengan akurat menggunakan suku bunga efektif.", 
-                toolNpvIrrBepTitle: "Kalkulator NPV, IRR, dan BEP", 
-                toolNpvIrrBepDesc: "Alat analisis kelayakan investasi: Net Present Value, Internal Rate of Return, dan Break-Even Point.", 
-                
-                // 5 ALAT BARU TAMBAHAN
-                toolEmergencyFundTitle: "Kalkulator Dana Darurat", // kalkulator-dana-darurat
-                toolEmergencyFundDesc: "Tentukan jumlah ideal dana darurat yang harus Anda siapkan berdasarkan pengeluaran bulanan.",
-                toolNetWorthTitle: "Kalkulator Net Worth (Kekayaan Bersih)", // kalkulator-networth
-                toolNetWorthDesc: "Hitung total kekayaan bersih Anda (Aset dikurangi Kewajiban) untuk mengukur kesehatan finansial.",
-                toolDebtPayoffTitle: "Kalkulator Prioritas Pelunasan Utang", // kalkulator-pelunasan-utang
-                toolDebtPayoffDesc: "Bandingkan Strategi Snowball dan Avalanche untuk memilih jalur pelunasan utang tercepat dan termurah.",
-                toolMultiLoanTitle: "Kalkulator Pinjaman Multi-Tujuan", // kalkulator-pinjaman-multi-tujuan
-                toolMultiLoanDesc: "Simulasi cicilan bulanan dan total biaya bunga untuk berbagai jenis pinjaman (KTA, Kendaraan, dll.).",
-                toolPphTitle: "Kalkulator PPh (Pajak Penghasilan)", // kalkulator-pph
-                toolPphDesc: "Hitung perkiraan PPh (Pasal 21, 23, 25/29) untuk perencanaan keuangan pribadi atau bisnis.",
-                
-                // ALAT BARU (DPP, PPN, PPh)
-                toolDppPpnPphTitle: "Kalkulator DPP, PPN, dan PPh", 
-                toolDppPpnPphDesc: "Hitung Nilai DPP, PPN, dan PPh secara terpisah dari Total Harga (Termasuk Pajak) atau Total DPP.",
-
-                // Alat Produktivitas
-                toolConvertTitle: "Konverter Universal",
-                toolConvertDesc: "Konverter unit serbaguna (Memasak, Metrik, Volume, Berat, dan lainnya). Ubah nilai dengan cepat di berbagai sistem unit.",
-                toolPla6Title: "Pembangkit Kata Sandi Aman",
-                toolPla6Desc: "Buat kata sandi yang kuat dan acak untuk meningkatkan keamanan Anda.",
-                toolPla7Title: "Penghitung Kata & Karakter",
-                toolPla7Desc: "Analisis teks Anda dengan cepat untuk batas karakter atau SEO.",
-                // Artikel Headers
-                healthArticlesHeader: "Artikel Terkait (Kesehatan & Gaya Hidup):",
-                financeArticlesHeader: "Artikel Terkait (Keuangan):", 
-                productivityArticlesHeader: "Artikel Terkait (Produktivitas):",
-                // Artikel Kesehatan 
-                linkBmiArticleTitle: "Memahami BMI dan TDEE: Kebutuhan Kalori Harian Anda",
-                linkWaistArticleTitle: "Panduan Lengkap Mengukur Lingkar Pinggang Ideal untuk Kesehatan Optimal",
-                linkLabelArticleTitle: "Panduan Lengkap: Cara Membaca Label Informasi Nilai Gizi",
-                linkProteinArticleTitle: "Peran Kritis Protein dalam Strategi Penurunan Berat Badan",
-                linkStrategyArticleTitle: "5 Strategi Menurunkan Berat Badan yang Berkelanjutan",
-                // Artikel Keuangan BARU
-                linkKlausulPajakArticleTitle: "Klausul Pembayaran Kontrak: Menghindari Sengketa PPN dan PPh", // klausul-perpajakan-kontrak.html
-                linkDebtStrategyArticleTitle: "Strategi Mempercepat Pelunasan Utang dan Menghemat Bunga", // strategi-mempercepat-pelunasan-utang.html
-                // Tentang Kami & Footer
+                searchPlaceholder: "Cari alat (misal: Pajak, KPR, Pensiun...)",
+                noResults: "Tidak ada alat yang cocok dengan pencarian Anda.",
+                resetSearch: "Reset Pencarian",
+                articleTitle: "Artikel Terkait:",
                 aboutTitle: "Tentang Digital Tools ID",
-                aboutContent: "Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan, kenyamanan, dan akurasi melalui serangkaian alat digital fungsional. Kami percaya bahwa mencapai tujuan Anda—baik dalam kesehatan, keuangan, atau produktivitas—seharusnya sederhana. Oleh karena itu, kami menyediakan utilitas yang cepat dan mudah digunakan, memastikan setiap kalkulasi dan konversi akurat tanpa kerumitan yang tidak perlu. Kami berdedikasi untuk terus memperluas pustaka alat kami untuk memenuhi kebutuhan Anda.",
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                aboutContent: "Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan, kenyamanan, dan akurasi melalui serangkaian alat digital fungsional. Kami menyediakan utilitas yang cepat dan mudah digunakan untuk kebutuhan Kesehatan, Keuangan, dan Produktivitas Anda.",
+                linkPrivacy: "Kebijakan Privasi", linkTerms: "Ketentuan Layanan", linkAbout: "Tentang Kami", linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
             },
             en: {
-                appTitle: "Digital Tools ID - Digital Tools Catalog",
                 headerSubtitle: "Your Hub for Accurate Digital Calculators & Utilities",
                 sectionTitle: "List of Available Tools",
-                // Kategori
-                catHealthTitle: "Health & Lifestyle",
-                catFinanceTitle: "Finance",
-                catProductivityTitle: "Productivity",
-                // Alat Kesehatan
-                toolBmiTitle: "Body Mass Index (BMI) & TDEE Calculator",
-                toolBmiDesc: "A complete health analysis tool to calculate your BMI, BMR, and Total Daily Energy Expenditure (TDEE).",
-                toolBfpTitle: "Body Fat Percentage Calculator",
-                toolBfpDesc: "Estimate your body composition (Fat vs. Muscle) using the scientific US Navy Method.",
-                toolWaterTitle: "Daily Water Intake Calculator",
-                toolWaterDesc: "Calculate your minimum hydration needs based on your body weight, activity, and climate conditions.",
-                toolProteinTitle: "Daily Protein Needs Calculator",
-                toolProteinDesc: "Determine your ideal daily protein intake based on your body weight and fitness goals (muscle building or calorie deficit).",
-                toolHrTitle: "Target Heart Rate Calculator",
-                toolHrDesc: "Calculate your optimal Heart Rate zones (Fat Burn, Aerobic) using the accurate Karvonen method.",
-                toolCycleTitle: "Menstrual & Ovulation Cycle Calculator", 
-                toolCycleDesc: "Estimate your next period date, ovulation window, and most fertile days.", 
-
-                // Alat Keuangan BARU & Diperbarui
-                toolKprTitle: "Mortgage Loan Calculator (KPR)",
-                toolKprDesc: "Calculate your monthly installment, total interest, and view the amortization schedule for your property loan.",
-                toolCompInterestTitle: "Compound Interest Calculator", 
-                toolCompInterestDesc: "Calculate the potential growth of your investments over time.", 
-                toolEffectiveInterestTitle: "Effective Interest Rate Calculator", 
-                toolEffectiveInterestDesc: "Accurately analyze your loan costs (Mortgage, Car, etc.) using the effective interest rate.", 
-                toolNpvIrrBepTitle: "NPV, IRR, and BEP Calculator", 
-                toolNpvIrrBepDesc: "Investment feasibility analysis tool: Net Present Value, Internal Rate of Return, and Break-Even Point.", 
-                
-                // 5 ALAT BARU TAMBAHAN
-                toolEmergencyFundTitle: "Emergency Fund Calculator", 
-                toolEmergencyFundDesc: "Determine the ideal amount of emergency funds you should save based on monthly expenses.",
-                toolNetWorthTitle: "Net Worth Calculator", 
-                toolNetWorthDesc: "Calculate your total net worth (Assets minus Liabilities) to measure financial health.",
-                toolDebtPayoffTitle: "Debt Payoff Priority Calculator", 
-                toolDebtPayoffDesc: "Compare Snowball and Avalanche Strategies to choose the fastest and cheapest debt payoff path.",
-                toolMultiLoanTitle: "Multi-Purpose Loan Calculator", 
-                toolMultiLoanDesc: "Simulate monthly installments and total interest cost for various types of loans (Unsecured Loans, Vehicle, etc.).",
-                toolPphTitle: "WHT Calculator (Income Tax)", 
-                toolPphDesc: "Calculate estimated WHT (Article 21, 23, 25/29) for personal or business financial planning.",
-                
-                // ALAT BARU (DPP, PPN, PPh)
-                toolDppPpnPphTitle: "DPP, VAT, and WHT Calculator", 
-                toolDppPpnPphDesc: "Calculate the value of DPP, VAT (PPN), and WHT (PPh) separately from the Total Price (Tax Inclusive) or Total DPP.",
-
-                // Alat Produktivitas
-                toolConvertTitle: "Universal Converter",
-                toolConvertDesc: "Versatile unit converter (Cooking, Metric, Volume, Weight, and more). Quickly transform values across different unit systems.",
-                toolPla6Title: "Secure Password Generator",
-                toolPla6Desc: "Create strong, random passwords to enhance your security.",
-                toolPla7Title: "Word & Character Counter",
-                toolPla7Desc: "Quickly analyze your text for character limits or SEO.",
-                // Artikel Headers
-                healthArticlesHeader: "Related Articles (Health & Lifestyle):",
-                financeArticlesHeader: "Related Articles (Finance):", 
-                productivityArticlesHeader: "Related Articles (Productivity):",
-                // Artikel Kesehatan
-                linkBmiArticleTitle: "Understanding BMI and TDEE: Your Daily Calorie Needs",
-                linkWaistArticleTitle: "Complete Guide to Measuring Ideal Waist Circumference for Optimal Health",
-                linkLabelArticleTitle: "The Complete Guide: How to Read a Nutrition Facts Label",
-                linkProteinArticleTitle: "The Critical Role of Protein in Weight Loss Strategy",
-                linkStrategyArticleTitle: "5 Sustainable Weight Loss Strategies",
-                // Artikel Keuangan BARU
-                linkKlausulPajakArticleTitle: "Contract Payment Clauses: Avoiding VAT and WHT Disputes",
-                linkDebtStrategyArticleTitle: "Strategy for Accelerating Debt Payoff and Saving Interest",
-                // Tentang Kami & Footer
+                searchPlaceholder: "Search tools (e.g., Tax, Mortgage, Health...)",
+                noResults: "No tools found matching your search.",
+                resetSearch: "Reset Search",
+                articleTitle: "Related Articles:",
                 aboutTitle: "About Digital Tools ID",
-                aboutContent: "Digital Tools ID is a platform committed to delivering ease, convenience, and accuracy through a suite of functional digital tools. We believe that achieving your goals—whether in health, finance, or productivity—should be simple. Therefore, we provide fast, easy-to-use utilities, ensuring every calculation and conversion is accurate without unnecessary complexity. We are dedicated to continually expanding our library of tools to meet your needs.",
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
-            }
-        };
-        
-        // Data link alat dan artikel
-        const toolAndArticleData = {
-            health: {
-                articleListId: 'healthArticlesList',
-                articleColor: 'text-health-color',
-                articles: [
-                    { id: "linkBmiArticle", path: "./articles/definisi_bmi_tdee.html", titleKey: "linkBmiArticleTitle" },
-                    { id: "linkWaistArticle", path: "./articles/panduan_lingkar_pinggang.html", titleKey: "linkWaistArticleTitle" },
-                    { id: "linkLabelArticle", path: "./articles/panduan-label-nutrisi.html", titleKey: "linkLabelArticleTitle" },
-                    { id: "linkProteinArticle", path: "./articles/protein-penurunan-berat-badan.html", titleKey: "linkProteinArticleTitle" },
-                    { id: "linkStrategyArticle", path: "./articles/strategi_menurunkan_berat_badan.html", titleKey: "linkStrategyArticleTitle" }
-                ]
-            },
-            finance: {
-                articleListId: 'financeArticlesList',
-                articleColor: 'text-finance-color',
-                articles: [
-                    // ARTIKEL BARU DARI SCREENSHOT
-                    { id: "linkKlausulPajakArticle", path: "./articles/klausul-perpajakan-kontrak.html", titleKey: "linkKlausulPajakArticleTitle" },
-                    { id: "linkDebtStrategyArticle", path: "./articles/strategi-mempercepat-pelunasan-utang.html", titleKey: "linkDebtStrategyArticleTitle" },
-                ]
+                aboutContent: "Digital Tools ID is a platform committed to delivering ease, convenience, and accuracy through a suite of functional digital tools. We provide fast, easy-to-use utilities for your Health, Finance, and Productivity needs.",
+                linkPrivacy: "Privacy Policy", linkTerms: "Terms of Service", linkAbout: "About Us", linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
             }
         };
 
-        let currentLang = 'id'; 
-        
-        // FUNGSI INTI UNTUK MERENDER ARTIKEL
-        function renderArticles(lang) {
-            const t = translations[lang];
+        let currentLang = 'id';
 
-            // Render artikel Kesehatan
-            const healthContainer = document.getElementById(toolAndArticleData.health.articleListId);
-            if (healthContainer) {
-                healthContainer.innerHTML = '';
-                toolAndArticleData.health.articles.forEach(article => {
-                    const li = document.createElement('li');
-                    li.className = 'hover:text-secondary transition duration-150';
-                    const a = document.createElement('a');
-                    a.href = article.path;
-                    a.className = toolAndArticleData.health.articleColor + ' hover:text-blue-800 underline';
-                    a.id = article.id;
-                    a.textContent = (t[article.titleKey] || 'Judul Artikel Hilang') + ' →';
-                    li.appendChild(a);
-                    healthContainer.appendChild(li);
-                });
-            }
+        // ====================================================================
+        // FUNGSI RENDER & LOGIKA
+        // ====================================================================
+
+        function renderTools(lang, filterKeyword = "") {
+            const container = document.getElementById('toolsContainer');
+            container.innerHTML = "";
             
-            // Render artikel Keuangan (BARU)
-            const financeContainer = document.getElementById(toolAndArticleData.finance.articleListId);
-            if (financeContainer) {
-                financeContainer.innerHTML = '';
-                toolAndArticleData.finance.articles.forEach(article => {
-                    const li = document.createElement('li');
-                    li.className = 'hover:text-secondary transition duration-150';
-                    const a = document.createElement('a');
-                    a.href = article.path;
-                    a.className = toolAndArticleData.finance.articleColor + ' hover:text-green-800 underline';
-                    a.id = article.id;
-                    a.textContent = (t[article.titleKey] || 'Judul Artikel Hilang') + ' →';
-                    li.appendChild(a);
-                    financeContainer.appendChild(li);
-                });
+            let totalVisible = 0;
+            const keyword = filterKeyword.toLowerCase();
+
+            const groupedTools = {};
+            const catOrder = ['health_general', 'fin_budget', 'fin_invest', 'fin_loan', 'fin_retirement', 'prod_general'];
+
+            toolsData.forEach(tool => {
+                const tTitle = tool.title[lang].toLowerCase();
+                const tDesc = tool.desc[lang].toLowerCase();
+                
+                // LOGIKA PENCARIAN: Cek Judul, Deskripsi, DAN Keyword Tersembunyi
+                const tKeywords = tool.keywords ? tool.keywords.join(" ").toLowerCase() : "";
+                
+                const match = tTitle.includes(keyword) || tDesc.includes(keyword) || tKeywords.includes(keyword);
+
+                if (match) {
+                    if (!groupedTools[tool.subCategory]) groupedTools[tool.subCategory] = [];
+                    groupedTools[tool.subCategory].push(tool);
+                    totalVisible++;
+                }
+            });
+
+            catOrder.forEach(subCatKey => {
+                if (groupedTools[subCatKey] && groupedTools[subCatKey].length > 0) {
+                    const catMeta = categories[subCatKey];
+                    
+                    const section = document.createElement('section');
+                    section.className = "animate-fade-in mb-10";
+                    
+                    let sectionHTML = `
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4 border-l-4 ${catMeta.color} pl-3">
+                            ${catMeta.title[lang]}
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 card-grid"></div>
+                    `;
+                    section.innerHTML = sectionHTML;
+                    
+                    const grid = section.querySelector('.card-grid');
+                    groupedTools[subCatKey].forEach(tool => {
+                        const card = document.createElement('a');
+                        
+                        if (tool.active) {
+                            card.href = tool.path;
+                            card.className = `tool-card ${catMeta.color} p-6 border-gray-200 rounded-xl text-black block bg-white shadow-sm hover:shadow-xl h-full flex flex-col`;
+                        } else {
+                            card.removeAttribute('href');
+                            card.className = `tool-card-disabled p-6 rounded-xl block h-full flex flex-col border border-gray-300`;
+                        }
+
+                        card.innerHTML = `
+                            <h4 class="text-lg font-bold ${tool.active ? catMeta.textColor : 'text-gray-500'} mb-2 leading-tight">${tool.title[lang]}</h4>
+                            <p class="text-sm ${tool.active ? 'text-gray-600' : 'text-gray-400'} leading-relaxed flex-grow">${tool.desc[lang]}</p>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    if (catMeta.articleKey && articleData[catMeta.articleKey]) {
+                        const artDiv = document.createElement('div');
+                        artDiv.className = "mt-6 pt-4 border-t border-gray-100";
+                        artDiv.innerHTML = `<h4 class="text-lg font-semibold text-gray-700 mb-3">${uiText[lang].articleTitle}</h4>`;
+                        
+                        const ul = document.createElement('ul');
+                        ul.className = "space-y-1 text-sm";
+                        
+                        articleData[catMeta.articleKey].forEach(art => {
+                            const li = document.createElement('li');
+                            const linkColor = catMeta.textColor === 'text-health-color' ? 'hover:text-blue-800' : 'hover:text-green-800';
+                            
+                            li.innerHTML = `
+                                <a href="${art.path}" class="${catMeta.textColor} ${linkColor} underline hover:opacity-80 transition duration-150">
+                                    ${art.title[lang]} →
+                                </a>
+                            `;
+                            ul.appendChild(li);
+                        });
+                        artDiv.appendChild(ul);
+                        section.appendChild(artDiv);
+                    }
+
+                    container.appendChild(section);
+                }
+            });
+
+            const noResEl = document.getElementById('noResults');
+            const countEl = document.getElementById('resultCount');
+            
+            if (totalVisible === 0) noResEl.classList.remove('hidden');
+            else noResEl.classList.add('hidden');
+            
+            if (filterKeyword) {
+                countEl.textContent = `${totalVisible} Result(s)`;
+                countEl.classList.remove('hidden');
+            } else {
+                countEl.classList.add('hidden');
             }
         }
 
-        // FUNGSI INTI UNTUK MENGATUR BAHASA
+        function filterTools() {
+            const input = document.getElementById('toolSearch');
+            renderTools(currentLang, input.value);
+        }
+
         function setLanguage(lang) {
             currentLang = lang;
-            const t = translations[lang];
+            document.documentElement.lang = lang;
             
-            // Update HTML lang attribute
-            document.documentElement.lang = lang; 
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
 
-            // Update status tombol toggle
-            document.getElementById('lang-en').classList.remove('active');
-            document.getElementById('lang-id').classList.remove('active');
-            document.getElementById(`lang-${lang}`).classList.add('active');
-
-            // Array pasangan ID elemen dan key terjemahan
-            const elementsToTranslate = [
-                // Umum & Header
-                { id: 'appTitle', key: 'appTitle' },
-                { id: 'headerSubtitle', key: 'headerSubtitle' },
-                { id: 'sectionTitle', key: 'sectionTitle' },
-                // Kategori
-                { id: 'catHealthTitle', key: 'catHealthTitle' },
-                { id: 'catFinanceTitle', key: 'catFinanceTitle' },
-                { id: 'catProductivityTitle', key: 'catProductivityTitle' },
-                // Alat Kesehatan 
-                { id: 'toolBmiTitle', key: 'toolBmiTitle' },
-                { id: 'toolBmiDesc', key: 'toolBmiDesc' },
-                { id: 'toolBfpTitle', key: 'toolBfpTitle' },
-                { id: 'toolBfpDesc', key: 'toolBfpDesc' },
-                { id: 'toolWaterTitle', key: 'toolWaterTitle' },
-                { id: 'toolWaterDesc', key: 'toolWaterDesc' },
-                { id: 'toolProteinTitle', key: 'toolProteinTitle' },
-                { id: 'toolProteinDesc', key: 'toolProteinDesc' },
-                { id: 'toolHrTitle', key: 'toolHrTitle' },
-                { id: 'toolHrDesc', key: 'toolHrDesc' },
-                { id: 'toolCycleTitle', key: 'toolCycleTitle' },
-                { id: 'toolCycleDesc', key: 'toolCycleDesc' },
-                // Alat Keuangan (Termasuk yang BARU)
-                { id: 'toolKprTitle', key: 'toolKprTitle' },
-                { id: 'toolKprDesc', key: 'toolKprDesc' },
-                { id: 'toolCompInterestTitle', key: 'toolCompInterestTitle' }, 
-                { id: 'toolCompInterestDesc', key: 'toolCompInterestDesc' }, 
-                { id: 'toolEffectiveInterestTitle', key: 'toolEffectiveInterestTitle' }, 
-                { id: 'toolEffectiveInterestDesc', key: 'toolEffectiveInterestDesc' }, 
-                { id: 'toolNpvIrrBepTitle', key: 'toolNpvIrrBepTitle' }, 
-                { id: 'toolNpvIrrBepDesc', key: 'toolNpvIrrBepDesc' }, 
-                // 5 ALAT BARU TAMBAHAN
-                { id: 'toolEmergencyFundTitle', key: 'toolEmergencyFundTitle' },
-                { id: 'toolEmergencyFundDesc', key: 'toolEmergencyFundDesc' },
-                { id: 'toolNetWorthTitle', key: 'toolNetWorthTitle' },
-                { id: 'toolNetWorthDesc', key: 'toolNetWorthDesc' },
-                { id: 'toolDebtPayoffTitle', key: 'toolDebtPayoffTitle' },
-                { id: 'toolDebtPayoffDesc', key: 'toolDebtPayoffDesc' },
-                { id: 'toolMultiLoanTitle', key: 'toolMultiLoanTitle' },
-                { id: 'toolMultiLoanDesc', key: 'toolMultiLoanDesc' },
-                { id: 'toolPphTitle', key: 'toolPphTitle' },
-                { id: 'toolPphDesc', key: 'toolPphDesc' },
-                
-                // ALAT BARU TAMBAHAN
-                { id: 'toolDppPpnPphTitle', key: 'toolDppPpnPphTitle' },
-                { id: 'toolDppPpnPphDesc', key: 'toolDppPpnPphDesc' },
-
-                // Alat Produktivitas
-                { id: 'toolConvertTitle', key: 'toolConvertTitle' },
-                { id: 'toolConvertDesc', key: 'toolConvertDesc' },
-                { id: 'toolPla6Title', key: 'toolPla6Title' },
-                { id: 'toolPla6Desc', key: 'toolPla6Desc' },
-                { id: 'toolPla7Title', key: 'toolPla7Title' },
-                { id: 'toolPla7Desc', key: 'toolPla7Desc' },
-                // Artikel Headers
-                { id: 'healthArticlesHeader', key: 'healthArticlesHeader' },
-                { id: 'financeArticlesHeader', key: 'financeArticlesHeader' }, 
-                // Tentang Kami & Footer
-                { id: 'aboutTitle', key: 'aboutTitle' },
-                { id: 'aboutContent', key: 'aboutContent' }, 
-                { id: 'linkPrivacy', key: 'linkPrivacy' },
-                { id: 'linkTerms', key: 'linkTerms' },
-                { id: 'linkAbout', key: 'linkAbout' },
-                { id: 'linkContact', key: 'linkContact' },
-                { id: 'footerCopyright', key: 'footerCopyright' },
-            ];
-
-            elementsToTranslate.forEach(item => {
-                const element = document.getElementById(item.id);
-                if (element) {
-                    if (item.id === 'footerCopyright' || item.id === 'aboutContent') {
-                        element.innerHTML = t[item.key];
-                    } else {
-                        element.textContent = t[item.key];
-                    }
-                }
-            });
+            const t = uiText[lang];
+            document.getElementById('headerSubtitle').textContent = t.headerSubtitle;
+            document.getElementById('sectionTitle').textContent = t.sectionTitle;
+            document.getElementById('toolSearch').placeholder = t.searchPlaceholder;
+            document.querySelector('#noResults p').textContent = t.noResults;
+            document.querySelector('#noResults button').textContent = t.resetSearch;
             
-            // Panggil renderArticles secara eksplisit setiap kali bahasa diubah
-            renderArticles(lang);
+            document.getElementById('aboutTitle').textContent = t.aboutTitle;
+            document.getElementById('aboutContent').textContent = t.aboutContent;
+            
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+
+            const currentSearch = document.getElementById('toolSearch').value;
+            renderTools(lang, currentSearch);
         }
-        // ====================================================================
-        // END: DATA DAN FUNGSI UTAMA
-        // ====================================================================
 
-
-        // FUNGSI PROTEKSI HAK CIPTA SISI KLIEN DAN INISIALISASI
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // =========================================================
-            // *** LOGIKA DETEKSI BAHASA DIMULAI DI SINI ***
-            // =========================================================
-            let defaultLang = 'en'; 
-
+            let defaultLang = 'en';
             const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('id')) defaultLang = 'id';
+            
+            setLanguage(defaultLang);
 
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-
-            setLanguage(defaultLang); 
-            // =========================================================
-            // *** LOGIKA DETEKSI BAHASA SELESAI DI SINI ***
-            // =========================================================
-
-
-            // 1. Menonaktifkan Klik Kanan (Context Menu)
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                console.warn("Aksi Klik Kanan dinonaktifkan untuk melindungi konten ini.");
-            });
-
-            // 2. Menonaktifkan Copy (Ctrl+C atau Cmd+C)
-            document.addEventListener('copy', function(e) {
-                e.preventDefault();
-                console.warn("Penyalinan konten dinonaktifkan untuk melindungi hak cipta.");
-            });
-
-            // 3. Menonaktifkan Cut (Ctrl+X atau Cmd+X)
-            document.addEventListener('cut', function(e) {
-                e.preventDefault();
-                console.warn("Memotong konten dinonaktifkan untuk melindungi hak cipta.");
-            });
+            document.addEventListener('contextmenu', e => { e.preventDefault(); });
+            document.addEventListener('copy', e => { e.preventDefault(); });
+            document.addEventListener('cut', e => { e.preventDefault(); });
         });
-        
-        // Event listener untuk tombol toggle
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                }
-            }
-        });
+
     </script>
-
 </body>
 </html>

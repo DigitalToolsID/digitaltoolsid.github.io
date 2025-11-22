@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-konversi-gaji/" />
+    <!-- Judul akan di-set oleh JS -->
+ 
+    <meta name="description" content="Kalkulator Konversi Gaji. Hitung gaji per jam menjadi gaji bulanan atau tahunan, dan sebaliknya. Alat mudah untuk freelancer dan karyawan." />
+ 
+    <title id="appTitle">Hourly to Salary Calculator</title>
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/hourly-to-salary-calculator/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/hourly-to-salary-calculator/index.html" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Kode Google Analytic dan Adsense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Hijau untuk Keuangan
+                        'salary-color': '#2980b9', // Biru tenang untuk Gaji
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya kustom untuk tampilan hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 3000px; 
+            padding: 1.5rem; 
+        }
+        
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya kustom untuk input dan tombol */
+        .calculate-button {
+            box-shadow: 0 4px #1a5276; /* Warna biru gelap */
+            background-color: #2980b9; /* salary-color */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1a5276;
+            background-color: #3498db;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1a5276;
+        }
+
+        /* Gaya untuk deskripsi input */
+        .input-description {
+            font-size: 0.75rem; /* text-xs */
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 0.25rem;
+        }
+
+        /* Gaya Kartu Hasil Utama */
+        .result-card-main {
+            background-color: #eaf2f8; /* Blue 50 */
+            border: 2px solid #a9cce3; /* Blue 200 */
+        }
+        
+        /* Section Header */
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Hourly to Salary Calculator</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+               <!-- Konten Subtitle akan diisi oleh JS -->
+            </p>
+            
+            <!-- Form Input -->
+            <form id="salaryForm" onsubmit="calculateSalary(event)" class="space-y-6">
+                
+                <!-- Mode Kalkulasi -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title" id="headerCalculation">1. Calculation Mode</h2>
+                    <div class="relative">
+                        <label for="calcMode" class="block text-sm font-medium text-gray-700 mb-1" id="labelCalcMode">I want to convert...</label>
+                        <select id="calcMode" onchange="toggleInputMode()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color bg-white">
+                            <option value="hourly">Hourly Wage to Salary</option>
+                            <option value="salary">Annual/Monthly Salary to Hourly</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Detail Input -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title" id="headerDetails">2. Income Details</h2>
+                    
+                    <!-- Input: Hourly Rate -->
+                    <div id="inputHourlyBox" class="relative mb-4">
+                        <label for="hourlyRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelHourlyRate">Hourly Rate</label>
+                        <input type="text" id="hourlyRate" inputmode="numeric" value="50.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color">
+                        <p class="input-description" id="descHourlyRate">Upah per jam Anda.</p>
+                    </div>
+
+                    <!-- Input: Salary Amount -->
+                    <div id="inputSalaryBox" class="relative mb-4 hidden">
+                        <label for="salaryAmount" class="block text-sm font-medium text-gray-700 mb-1" id="labelSalaryAmount">Salary Amount</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="salaryAmount" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color">
+                            <select id="salaryPeriod" class="p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color bg-white text-sm">
+                                <option value="year">Per Year</option>
+                                <option value="month" selected>Per Month</option>
+                            </select>
+                        </div>
+                        <p class="input-description" id="descSalaryAmount">Masukkan jumlah gaji dan periode pembayarannya.</p>
+                    </div>
+                    
+                    <!-- Jam Kerja -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <label for="hoursPerWeek" class="block text-sm font-medium text-gray-700 mb-1" id="labelHoursPerWeek">Hours per Week</label>
+                            <input type="number" id="hoursPerWeek" min="1" max="168" value="40" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color" required>
+                            <p class="input-description" id="descHoursPerWeek">Jam kerja standar per minggu (biasanya 40 jam).</p>
+                        </div>
+                        <div class="relative">
+                            <label for="weeksPerYear" class="block text-sm font-medium text-gray-700 mb-1" id="labelWeeksPerYear">Weeks per Year</label>
+                            <input type="number" id="weeksPerYear" min="1" max="52" value="52" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color" required>
+                            <p class="input-description" id="descWeeksPerYear">Jumlah minggu kerja per tahun (biasanya 52 minggu).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-blue-600 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50">
+                    Calculate
+                </button>
+                
+                <!-- Error Alert -->
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
+                
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-blue-300">Conversion Result</h3>
+                
+                <!-- Hasil Utama -->
+                <div class="text-center mb-8">
+                    <p id="labelMainResult" class="text-lg font-bold text-gray-700 mb-1">Equivalent Annual Salary</p>
+                    <p id="resultMain" class="text-4xl font-extrabold text-salary-color">0</p>
+                </div>
+
+                <!-- Breakdown Table -->
+                <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Income Breakdown</h4>
+                <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
+                    <div class="grid grid-cols-2 bg-gray-100 p-3 font-bold border-b text-gray-700">
+                        <div id="colFrequency">Frequency</div>
+                        <div class="text-right" id="colAmount">Gross Income</div>
+                    </div>
+                    
+                    <div class="p-3 grid grid-cols-2 border-b">
+                        <div id="rowAnnual">Annual</div>
+                        <div class="text-right font-bold" id="valAnnual">0</div>
+                    </div>
+                    <div class="p-3 grid grid-cols-2 border-b bg-blue-50">
+                        <div id="rowMonthly">Monthly</div>
+                        <div class="text-right font-bold text-salary-color" id="valMonthly">0</div>
+                    </div>
+                    <div class="p-3 grid grid-cols-2 border-b">
+                        <div id="rowBiWeekly">Bi-Weekly (2 Weeks)</div>
+                        <div class="text-right" id="valBiWeekly">0</div>
+                    </div>
+                    <div class="p-3 grid grid-cols-2 border-b">
+                        <div id="rowWeekly">Weekly</div>
+                        <div class="text-right" id="valWeekly">0</div>
+                    </div>
+                    <div class="p-3 grid grid-cols-2 border-b">
+                        <div id="rowDaily">Daily</div>
+                        <div class="text-right" id="valDaily">0</div>
+                    </div>
+                     <div class="p-3 grid grid-cols-2">
+                        <div id="rowHourly">Hourly</div>
+                        <div class="text-right font-mono" id="valHourly">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Konten Edukasi -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Hourly vs. Salary: What's the Difference?</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Hidden Benefits of Salary</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Negotiation Tips</h3>
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
+                <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
+                    <li id="tip1"></li>
+                    <li id="tip2"></li>
+                    <li id="tip3"></li>
+                </ul>
+
+                <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // LOGIKA KALKULATOR HOURLY TO SALARY
+        // **********************************************
+
+        const translations = {
+            id: {
+                appTitle: "Kalkulator Konversi Gaji",
+                headerTitle: "Kalkulator Gaji Per Jam ke Bulanan/Tahunan",
+                toolSubtitle: "Alat ini membantu Anda mengonversi upah per jam menjadi gaji bulanan atau tahunan, dan sebaliknya. Sangat berguna untuk freelancer, pekerja kontrak, atau karyawan yang ingin mengetahui nilai waktu mereka secara detail.",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                // Input
+                headerCalculation: "1. Mode Kalkulasi",
+                labelCalcMode: "Saya ingin mengonversi...",
+                optHourly: "Upah Per Jam ke Gaji",
+                optSalary: "Gaji Tahunan/Bulanan ke Upah Per Jam",
+                
+                headerDetails: "2. Detail Penghasilan",
+                labelHourlyRate: "Upah Per Jam",
+                descHourlyRate: "Tarif bayaran Anda per satu jam kerja.",
+                labelSalaryAmount: "Jumlah Gaji",
+                optPeriodYear: "Per Tahun",
+                optPeriodMonth: "Per Bulan",
+                descSalaryAmount: "Masukkan total gaji kotor Anda.",
+                
+                labelHoursPerWeek: "Jam Kerja per Minggu",
+                descHoursPerWeek: "Standar kerja penuh waktu adalah 40 jam (8 jam x 5 hari).",
+                labelWeeksPerYear: "Minggu Kerja per Tahun",
+                descWeeksPerYear: "Satu tahun memiliki 52 minggu. Kurangi jika ada cuti tak berbayar.",
+                
+                calculateButton: "Hitung Konversi",
+                inputError: "Mohon masukkan nilai yang valid.",
+                
+                // Result
+                resultHeader: "Hasil Konversi",
+                labelMainResultHourly: "Estimasi Upah Per Jam:",
+                labelMainResultSalary: "Estimasi Gaji Tahunan:",
+                
+                detailHeader: "Rincian Penghasilan",
+                colFrequency: "Frekuensi",
+                colAmount: "Penghasilan Kotor",
+                rowAnnual: "Tahunan (1 Tahun)",
+                rowMonthly: "Bulanan (12x)",
+                rowBiWeekly: "Dwi-Mingguan (26x)",
+                rowWeekly: "Mingguan (52x)",
+                rowDaily: "Harian (5 Hari/Minggu)",
+                rowHourly: "Per Jam",
+                
+                // Edukasi
+                sectionHeader1: "Gaji Per Jam vs. Gaji Tetap",
+                content1: "Pekerja dengan gaji per jam (hourly) biasanya dibayar berdasarkan waktu kerja aktual, seringkali dengan potensi lembur (overtime). Sedangkan pekerja gaji tetap (salary) menerima jumlah yang sama setiap bulan terlepas dari fluktuasi jam kerja, namun seringkali mencakup tunjangan seperti asuransi dan cuti berbayar.",
+                sectionHeader2: "Manfaat Tersembunyi Gaji Tetap",
+                content2: "Saat membandingkan tawaran freelance (per jam) dengan pekerjaan tetap, jangan hanya melihat nominal. Pekerjaan tetap sering menyertakan tunjangan senilai 20%-30% dari gaji pokok (BPJS, THR, Bonus). Jadi, tarif freelance Anda idealnya harus lebih tinggi untuk mengkompensasi hilangnya tunjangan ini.",
+                sectionHeader3: "Tips Negosiasi Gaji",
+                content3: "Gunakan angka konversi ini saat negosiasi:",
+                tip1: "<b>Ketahui Nilai Anda:</b> Jika Anda tahu gaji pasar bulanan adalah Rp 10 Juta, Anda bisa menghitung bahwa tarif per jam Anda minimal harus sekitar Rp 57.000.",
+                tip2: "<b>Faktor Lembur:</b> Jika pekerjaan menuntut banyak lembur, pastikan tarif per jam Anda sepadan, atau negosiasikan kompensasi tambahan.",
+                tip3: "<b>Biaya Operasional:</b> Untuk freelancer, ingat bahwa tarif per jam harus menutupi biaya listrik, internet, dan peralatan Anda sendiri.",
+                sectionHeader4: "Disclaimer",
+                content4: "Hasil perhitungan ini adalah estimasi kasar berdasarkan jam kerja standar (biasanya 40 jam/minggu dan 52 minggu/tahun). Perhitungan tidak memperhitungkan pajak, potongan asuransi, atau hari libur nasional secara spesifik.",
+
+                // Footer
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            },
+            en: {
+                appTitle: "Hourly to Salary Calculator",
+                headerTitle: "Hourly to Salary Calculator",
+                toolSubtitle: "This tool helps you convert hourly wages into monthly or annual salaries, and vice versa. Useful for freelancers, contractors, or employees who want to know the detailed value of their time.",
+                backToCatalogText: "Back to Tools Catalog",
+                // Input
+                headerCalculation: "1. Calculation Mode",
+                labelCalcMode: "I want to convert...",
+                optHourly: "Hourly Wage to Salary",
+                optSalary: "Annual/Monthly Salary to Hourly Wage",
+                
+                headerDetails: "2. Income Details",
+                labelHourlyRate: "Hourly Rate",
+                descHourlyRate: "Your pay rate for one hour of work.",
+                labelSalaryAmount: "Salary Amount",
+                optPeriodYear: "Per Year",
+                optPeriodMonth: "Per Month",
+                descSalaryAmount: "Enter your gross salary amount.",
+                
+                labelHoursPerWeek: "Hours per Week",
+                descHoursPerWeek: "Standard full-time work is 40 hours (8 hours x 5 days).",
+                labelWeeksPerYear: "Weeks per Year",
+                descWeeksPerYear: "There are 52 weeks in a year. Reduce this for unpaid leave.",
+                
+                calculateButton: "Calculate Conversion",
+                inputError: "Please enter valid numeric values.",
+                
+                // Result
+                resultHeader: "Conversion Result",
+                labelMainResultHourly: "Estimated Hourly Rate:",
+                labelMainResultSalary: "Estimated Annual Salary:",
+                
+                detailHeader: "Income Breakdown",
+                colFrequency: "Frequency",
+                colAmount: "Gross Income",
+                rowAnnual: "Annual (1 Year)",
+                rowMonthly: "Monthly (12x)",
+                rowBiWeekly: "Bi-Weekly (26x)",
+                rowWeekly: "Weekly (52x)",
+                rowDaily: "Daily (5 Days/Week)",
+                rowHourly: "Hourly",
+                
+                // Edukasi
+                sectionHeader1: "Hourly Wage vs. Salary",
+                content1: "Hourly workers are typically paid for actual time worked, often with overtime potential. Salaried workers receive a fixed amount each pay period regardless of hours fluctuation, but often receive benefits like insurance and paid time off.",
+                sectionHeader2: "Hidden Benefits of Salary",
+                content2: "When comparing a freelance offer (hourly) with a permanent job, don't just look at the nominal value. Permanent jobs often include benefits worth 20%-30% of the base salary (Health Insurance, Bonuses). Therefore, your freelance rate should ideally be higher to compensate for these missing benefits.",
+                sectionHeader3: "Negotiation Tips",
+                content3: "Use these conversion figures during negotiation:",
+                tip1: "<b>Know Your Worth:</b> If you know the market monthly salary is $5,000, you can calculate that your hourly rate should be at least around $29.",
+                tip2: "<b>Overtime Factor:</b> If the job requires significant overtime, ensure your hourly rate is worth it, or negotiate additional compensation.",
+                tip3: "<b>Overhead Costs:</b> For freelancers, remember that your hourly rate must cover your own electricity, internet, and equipment costs.",
+                sectionHeader4: "Disclaimer",
+                content4: "This calculation is a rough estimate based on standard working hours (typically 40 hours/week and 52 weeks/year). The calculation does not account for taxes, insurance deductions, or specific national holidays.",
+
+                // Footer
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        function formatNumber(amount, decimalPlaces = 0) {
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: decimalPlaces,
+                maximumFractionDigits: decimalPlaces,
+            }).format(amount);
+        }
+
+        function formatInput(inputElement) {
+            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            if (rawValue) {
+                const numericValue = parseInt(rawValue, 10);
+                inputElement.value = formatNumber(numericValue);
+            } else {
+                inputElement.value = ''; 
+            }
+        }
+        
+        function cleanInput(formattedValue) {
+            return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
+        }
+
+        function toggleInputMode() {
+            const mode = document.getElementById('calcMode').value;
+            if (mode === 'hourly') {
+                document.getElementById('inputHourlyBox').classList.remove('hidden');
+                document.getElementById('inputSalaryBox').classList.add('hidden');
+            } else {
+                document.getElementById('inputHourlyBox').classList.add('hidden');
+                document.getElementById('inputSalaryBox').classList.remove('hidden');
+            }
+            document.getElementById('resultBox').classList.remove('visible');
+        }
+
+        function calculateSalary(event) {
+            event.preventDefault();
+
+            const mode = document.getElementById('calcMode').value;
+            const hoursPerWeek = parseFloat(document.getElementById('hoursPerWeek').value);
+            const weeksPerYear = parseFloat(document.getElementById('weeksPerYear').value);
+            
+            if (hoursPerWeek <= 0 || weeksPerYear <= 0) {
+                 document.getElementById('errorAlert').classList.remove('hidden');
+                 document.getElementById('errorText').textContent = translations[currentLang].inputError;
+                 return;
+            }
+            document.getElementById('errorAlert').classList.add('hidden');
+
+            let hourlyRate = 0;
+            let annualSalary = 0;
+
+            // Hitung Total Jam Kerja Setahun
+            const totalHoursYear = hoursPerWeek * weeksPerYear;
+
+            if (mode === 'hourly') {
+                hourlyRate = cleanInput(document.getElementById('hourlyRate').value);
+                annualSalary = hourlyRate * totalHoursYear;
+            } else {
+                const salaryAmount = cleanInput(document.getElementById('salaryAmount').value);
+                const period = document.getElementById('salaryPeriod').value;
+                
+                if (period === 'year') {
+                    annualSalary = salaryAmount;
+                } else {
+                    // Jika input bulanan, asumsikan setahun 12 bulan (standar gaji)
+                    annualSalary = salaryAmount * 12;
+                }
+                hourlyRate = annualSalary / totalHoursYear;
+            }
+            
+            // Hitung Turunan
+            const monthlySalary = annualSalary / 12;
+            const weeklySalary = annualSalary / weeksPerYear;
+            const biWeeklySalary = weeklySalary * 2;
+            const dailySalary = weeklySalary / 5; // Asumsi 5 hari kerja
+
+            // Tampilkan Hasil
+            const t = translations[currentLang];
+            const resultMainLabel = document.getElementById('labelMainResult');
+            const resultMainVal = document.getElementById('resultMain');
+
+            if (mode === 'hourly') {
+                resultMainLabel.textContent = t.labelMainResultSalary;
+                resultMainVal.textContent = formatNumber(Math.round(annualSalary));
+            } else {
+                resultMainLabel.textContent = t.labelMainResultHourly;
+                resultMainVal.textContent = formatNumber(Math.round(hourlyRate));
+            }
+
+            document.getElementById('valAnnual').textContent = formatNumber(Math.round(annualSalary));
+            document.getElementById('valMonthly').textContent = formatNumber(Math.round(monthlySalary));
+            document.getElementById('valBiWeekly').textContent = formatNumber(Math.round(biWeeklySalary));
+            document.getElementById('valWeekly').textContent = formatNumber(Math.round(weeklySalary));
+            document.getElementById('valDaily').textContent = formatNumber(Math.round(dailySalary));
+            document.getElementById('valHourly').textContent = formatNumber(Math.round(hourlyRate));
+
+            document.getElementById('resultBox').classList.add('visible');
+        }
+
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            const switcher = document.getElementById('languageSwitcher');
+            switcher.classList.remove('lang-en', 'lang-id');
+            switcher.classList.add(`lang-${lang}`);
+
+            // Get values
+            const hourlyVal = document.getElementById('hourlyRate').value;
+            const salaryVal = document.getElementById('salaryAmount').value;
+
+            // Update Text
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            
+            document.getElementById('headerCalculation').textContent = t.headerCalculation;
+            document.getElementById('labelCalcMode').textContent = t.labelCalcMode;
+            
+            // Select Options update
+            const modeSelect = document.getElementById('calcMode');
+            // Preserve value, update text
+            modeSelect.options[0].text = t.optHourly;
+            modeSelect.options[1].text = t.optSalary;
+            
+            document.getElementById('headerDetails').textContent = t.headerDetails;
+            document.getElementById('labelHourlyRate').textContent = t.labelHourlyRate;
+            document.getElementById('descHourlyRate').textContent = t.descHourlyRate;
+            document.getElementById('labelSalaryAmount').textContent = t.labelSalaryAmount;
+            document.getElementById('descSalaryAmount').textContent = t.descSalaryAmount;
+            
+            const periodSelect = document.getElementById('salaryPeriod');
+            periodSelect.options[0].text = t.optPeriodYear;
+            periodSelect.options[1].text = t.optPeriodMonth;
+
+            document.getElementById('labelHoursPerWeek').textContent = t.labelHoursPerWeek;
+            document.getElementById('descHoursPerWeek').textContent = t.descHoursPerWeek;
+            document.getElementById('labelWeeksPerYear').textContent = t.labelWeeksPerYear;
+            document.getElementById('descWeeksPerYear').textContent = t.descWeeksPerYear;
+            
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            
+            // Re-format Inputs
+            document.getElementById('hourlyRate').value = formatNumber(cleanInput(hourlyVal));
+            document.getElementById('salaryAmount').value = formatNumber(cleanInput(salaryVal));
+            
+            // Results
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            
+            // Main label logic re-applied based on current selection
+            const currentMode = document.getElementById('calcMode').value;
+             if (currentMode === 'hourly') {
+                document.getElementById('labelMainResult').textContent = t.labelMainResultSalary;
+            } else {
+                document.getElementById('labelMainResult').textContent = t.labelMainResultHourly;
+            }
+
+            document.getElementById('detailHeader').textContent = t.detailHeader;
+            document.getElementById('colFrequency').textContent = t.colFrequency;
+            document.getElementById('colAmount').textContent = t.colAmount;
+            
+            document.getElementById('rowAnnual').textContent = t.rowAnnual;
+            document.getElementById('rowMonthly').textContent = t.rowMonthly;
+            document.getElementById('rowBiWeekly').textContent = t.rowBiWeekly;
+            document.getElementById('rowWeekly').textContent = t.rowWeekly;
+            document.getElementById('rowDaily').textContent = t.rowDaily;
+            document.getElementById('rowHourly').textContent = t.rowHourly;
+            
+            // Edukasi
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2').innerHTML = t.content2;
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3').innerHTML = t.content3;
+            document.getElementById('tip1').innerHTML = t.tip1;
+            document.getElementById('tip2').innerHTML = t.tip2;
+            document.getElementById('tip3').innerHTML = t.tip3;
+            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
+            document.getElementById('content4').textContent = t.content4;
+            
+            // Footer
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+            
+            // Refresh Calc if visible
+            if(document.getElementById('resultBox').classList.contains('visible')){
+                calculateSalary({preventDefault:()=>{}});
+            }
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) setLanguage(newLang);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let defaultLang = 'en'; 
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('id')) defaultLang = 'id';
+            setLanguage(defaultLang); 
+            toggleInputMode();
+        });
+    </script>
+</body>
+</html>

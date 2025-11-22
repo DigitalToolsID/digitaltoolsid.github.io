@@ -8,11 +8,12 @@
     <meta name="description" content="Simple Calculator Online: Fast, reliable, and free from clutter. Perform basic arithmetic (add, subtract, multiply, divide) with high-contrast design and a 'COPY' function." />
  
     <title>Simple Calculator Online - Digital Tools ID</title>
+    <!-- Tag hreflang untuk memberi tahu Google bahwa ini adalah halaman multi-bahasa -->
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
+    <link rel="alternate" hreflang="x-default" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
 
-    
-    <!-- Load Tailwind CSS untuk styling modern dan responsif -->
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Konfigurasi Tailwind -->
@@ -24,15 +25,15 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        'primary': '#2c3e50', // Dark Blue/Slate for header/footer
-                        'secondary': '#3498db', // Bright Blue for accents
+                        'primary': '#1e3a8a', 
+                        'secondary': '#3498db',
                     }
                 }
             }
         }
     </script>
 
-    <!-- Script Google Analytics dan AdSense (Pastikan ini sesuai dengan kode Anda) -->
+    <!-- Script Google Analytics dan AdSense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -45,6 +46,37 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f4f4f4; }
+        
+        /* Header Toggle Switch Style */
+        .lang-toggle {
+            background-color: #e5e7eb; /* Gray-200 */
+            border-radius: 9999px;
+            padding: 2px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .lang-btn {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            outline: none;
+        }
+        .lang-btn.active {
+            background-color: #1e3a8a; /* Primary Blue */
+            color: white;
+        }
+        .lang-btn.inactive {
+            background-color: transparent;
+            color: #6b7280; /* Gray-500 */
+        }
+        .lang-btn.inactive:hover {
+            color: #111827;
+        }
+
         .calculator-container {
             display: flex;
             justify-content: center;
@@ -55,15 +87,16 @@
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
+
         #calculator {
-            /* Badan Kalkulator SANGAT GELAP */
             background-color: #181a1c; 
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            width: 300px; /* Lebar default Desktop */
+            width: 300px;
             margin-bottom: 30px;
         }
+
         #display {
             width: 100%;
             height: 60px;
@@ -77,77 +110,92 @@
             margin-bottom: 10px;
             border-radius: 5px;
         }
+
         #keys {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
-        button {
+
+        button.calc-btn {
             height: 50px;
             font-size: 1.2em;
-            
-            /* Hapus Box Shadow, Ganti dengan Border Ringan */
-            border: 1px solid #7f8f9e; /* Border Abu-abu Ringan */
+            border: 1px solid #7f8f9e;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.1s;
-            
-            /* STYLING TOMBOL ANGKA (DEFAULT) */
-            background-color: #333f48; /* Warna Abu-abu Sedang */
-            color: white !important; /* Teks PUTIH DIPAKSA */
-        }
-        button:active {
-             transform: translateY(1px);
-             box-shadow: none; /* Hilangkan shadow saat ditekan */
+            background-color: #333f48;
+            color: white !important;
         }
 
-        /* Operator buttons (Orange, Blue, Red, Green) */
-        
-        /* Tombol C dan / * - + */
+        button.calc-btn:active {
+             transform: translateY(1px);
+             box-shadow: none;
+        }
+
+        /* Operator buttons */
         .operator { 
-            background-color: #ff9800 !important; /* Orange */
+            background-color: #ff9800 !important; 
             color: white !important;
         }
         .operator:hover { background-color: #f57c00 !important; }
         
-        /* Tombol DEL */
         .del-btn { 
-            background-color: #e74c3c !important; /* Red */
+            background-color: #e74c3c !important;
             color: white !important;
         }
         .del-btn:hover { background-color: #c0392b !important; }
         
-        /* Tombol COPY */
         .copy-btn { 
-            background-color: #3498db !important; /* Blue */
+            background-color: #3498db !important;
             color: white !important;
         }
         .copy-btn:hover { background-color: #2980b9 !important; }
 
-        /* Tombol Equal (=) */
         #calculate-btn { 
             grid-column: span 2; 
-            background-color: #4CAF50 !important; /* Green */
+            background-color: #4CAF50 !important;
             color: white !important;
         }
         #calculate-btn:hover { background-color: #45a049 !important; }
         
-        /* Pastikan elemen non-tombol kalkulator tetap terlihat baik */
+        .text-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
         .text-content p {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             text-align: justify;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        .text-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        .text-content li {
+            margin-bottom: 0.5rem;
         }
         
-        /* ======================================================
-           MEDIA QUERY untuk Responsif Seluler 
-           ====================================================== */
+        /* Helper class for hiding content */
+        .hidden { display: none; }
+
         @media (max-width: 450px) {
             #calculator {
                 width: 90vw; 
                 max-width: none;
                 padding: 15px; 
             }
-            button {
+            button.calc-btn {
                 height: 70px;
                 font-size: 1.4em;
             }
@@ -163,8 +211,16 @@
     <!-- Header / Navigasi -->
     <header class="bg-primary text-white py-4 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-xl font-bold tracking-tight">Digital Tools ID</a>
-            <a href="../index.html" class="text-sm text-gray-300 hover:text-white transition duration-150">&larr; Back to Tools Catalog</a>
+            <!-- Sisi Kiri: Back Link -->
+            <a href="../index.html" class="flex items-center text-sm sm:text-base font-medium text-white hover:text-gray-200 transition duration-150">
+                <span class="mr-2 text-lg">&larr;</span> Back to Tools Catalog
+            </a>
+
+            <!-- Sisi Kanan: Language Toggle (Berfungsi) -->
+            <div class="lang-toggle">
+                <button onclick="switchLanguage('en')" id="btn-en" class="lang-btn active">EN</button>
+                <button onclick="switchLanguage('id')" id="btn-id" class="lang-btn inactive">ID</button>
+            </div>
         </div>
     </header>
 
@@ -173,68 +229,89 @@
         
         <div class="calculator-container mx-auto max-w-2xl"> 
             
-            <h1 class="text-3xl font-extrabold text-secondary mb-6 text-center">Simple Calculator Online</h1>
+            <!-- Judul Halaman (Dinamis) -->
+            <h1 id="page-title" class="text-3xl font-extrabold text-secondary mb-6 text-center">Simple Calculator Online</h1>
 
-            <!-- Kalkulator UI -->
+            <!-- Kalkulator UI (Tetap Sama untuk kedua bahasa) -->
             <div id="calculator"> 
                 <input type="text" id="display" readonly value="0">
                 
                 <div id="keys">
-                    <!-- Tombol C dan Operator -->
-                    <button class="operator" onclick="clearDisplay()">C</button>
-                    <button class="operator" onclick="appendToDisplay('/')">/</button>
-                    <button class="operator" onclick="appendToDisplay('*')">*</button>
-                    <button class="copy-btn" onclick="copyResult()">COPY</button>
+                    <button class="calc-btn operator" onclick="clearDisplay()">C</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('/')">/</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('*')">*</button>
+                    <button class="calc-btn copy-btn" onclick="copyResult()">COPY</button>
 
-                    <!-- Baris 7, 8, 9 -->
-                    <button onclick="appendToDisplay('7')">7</button>
-                    <button onclick="appendToDisplay('8')">8</button>
-                    <button onclick="appendToDisplay('9')">9</button>
-                    <button class="operator" onclick="appendToDisplay('-')">-</button>
+                    <button class="calc-btn" onclick="appendToDisplay('7')">7</button>
+                    <button class="calc-btn" onclick="appendToDisplay('8')">8</button>
+                    <button class="calc-btn" onclick="appendToDisplay('9')">9</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('-')">-</button>
 
-                    <!-- Baris 4, 5, 6 -->
-                    <button onclick="appendToDisplay('4')">4</button>
-                    <button onclick="appendToDisplay('5')">5</button>
-                    <button onclick="appendToDisplay('6')">6</button>
-                    <button class="operator" onclick="appendToDisplay('+')">+</button>
+                    <button class="calc-btn" onclick="appendToDisplay('4')">4</button>
+                    <button class="calc-btn" onclick="appendToDisplay('5')">5</button>
+                    <button class="calc-btn" onclick="appendToDisplay('6')">6</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
 
-                    <!-- Baris 1, 2, 3 -->
-                    <button onclick="appendToDisplay('1')">1</button>
-                    <button onclick="appendToDisplay('2')">2</button>
-                    <button onclick="appendToDisplay('3')">3</button>
-                    <button class="del-btn" onclick="deleteLast()">DEL</button> 
+                    <button class="calc-btn" onclick="appendToDisplay('1')">1</button>
+                    <button class="calc-btn" onclick="appendToDisplay('2')">2</button>
+                    <button class="calc-btn" onclick="appendToDisplay('3')">3</button>
+                    <button class="calc-btn del-btn" onclick="deleteLast()">DEL</button> 
 
-                    <!-- Baris 0 dan Equal -->
-                    <button onclick="appendToDisplay('0')">0</button>
-                    <button onclick="appendToDisplay('.')">.</button>
-                    <button id="calculate-btn" onclick="calculate()">=</button>
+                    <button class="calc-btn" onclick="appendToDisplay('0')">0</button>
+                    <button class="calc-btn" onclick="appendToDisplay('.')">.</button>
+                    <button class="calc-btn" id="calculate-btn" onclick="calculate()">=</button>
                 </div>
             </div>
 
-            <!-- AdSense Placeholder di Bawah Kalkulator -->
-            <div class="w-full max-w-xs sm:max-w-md p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-gray-700 text-center mb-10">
-                <p class="font-bold mb-2">AdSense Placeholder (Display Ad)</p>
-                <div class="w-full h-24 bg-gray-300 flex items-center justify-center text-xs text-gray-600 rounded">
-                    [Your Ad Unit Here]
-                </div>
-            </div>
-
-            <!-- Konten Teks Editorial (Kunci untuk AdSense Approval) -->
+            <!-- Bagian Konten Editorial -->
             <section class="mt-8 pt-8 border-t border-gray-100 text-content max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">The Power of Simplicity: Why a Fast, Reliable Online Calculator is Essential for Daily Life</h2>
                 
-                <p>In the age of complex software and scientific instruments, the fundamental need for quick, accurate arithmetic remains constant. While powerful financial and scientific calculators are necessary for specialized tasks, the average user primarily requires a tool that is fast, highly reliable, and free from unnecessary complexity. The Digital Tools ID Simple Calculator is engineered precisely for this purpose: to deliver instant, ad-friendly solutions for basic arithmetic that support daily tasks, from budget planning and quick estimates to educational support.</p>
+                <!-- CONTENT: ENGLISH (Translated from PDF) -->
+                <div id="content-en">
+                    <h2>Purpose and Key Benefits</h2>
+                    
+                    <p>Although many complex software options are available, the Simple Calculator is designed specifically to meet the basic need for fast, accurate, and clutter-free calculations. Its main goal is to prioritize ease and speed for those who only need basic calculations for daily tasks.</p>
 
-                <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Beyond the Basics: The Importance of a Focused Tool</h3>
-                <p>Many modern calculators are bogged down by advanced functions, leading to cluttered interfaces and slower operation. Our Simple Calculator philosophy centers on *functional minimalism*. By focusing exclusively on addition, subtraction, multiplication, and division, we guarantee exceptional speed and prevent user errors caused by complex input modes. This specialized focus ensures that when speed and accuracy for everyday numbers matter most—whether you are splitting a bill, calculating percentages, or verifying quick sums—the DTID calculator performs optimally.</p>
+                    <p>This calculator provides a highly reliable solution to support simple tasks. It covers various needs, from budget planning and quick estimates to educational support. The interface itself uses a clean high-contrast design, making it very easy to read even when accessed from a mobile device. This attention to your needs transforms a basic utility into a high-value daily asset.</p>
 
-                <p>Developed by **DTID Analytics**, our Simple Calculator adheres to rigorous testing standards. We ensure the mathematical logic operates consistently across all devices, guaranteeing that the results you receive are trustworthy. Our commitment to maintaining this tool means it remains free from bugs and delivers the reliability expected by professionals and students alike. This emphasis on foundational reliability, supported by our technical assurance, builds the *Expertise* and *Trust* that defines Digital Tools ID.</p>
+                    <h2>Ease of Transferring Results (Copy)</h2>
+                    <p>To ensure a productive workflow, a 'COPY' feature has been added. This feature makes it easy for you to use calculation results for any purpose needed. Calculation results can be transferred quickly and seamlessly. You can insert them into spreadsheets, send them directly in messaging app chats, or copy them to other documents without the need for manual transcription.</p>
 
-                <h3 class="2xl font-semibold text-gray-700 mt-6 mb-3">Integrating Speed and User Experience (UX)</h3>
-                <p>The Simple Calculator is designed to integrate seamlessly into a productive workflow. Features like the 'COPY' function are implemented to save users time, allowing results to be quickly transferred to spreadsheets or documents without manual transcription. The interface utilizes a clean, high-contrast design, making it highly legible even on mobile devices. This attention to UX is paramount, turning a basic utility into a high-value daily asset.</p>
+                    <h2>Advantages of Online-Based Calculator</h2>
+                    <p>Using this online-based calculator offers several advantages compared to applications that need to be installed.</p>
+                    <ul>
+                        <li>You do not need to bother installing any software.</li>
+                        <li>It directly reduces the burden on your mobile device's internal memory.</li>
+                        <li>Additionally, because all calculations are processed securely and do not require deep device data access permissions, this calculator is also very safe with minimal risk.</li>
+                    </ul>
 
-                <h3 class="2xl font-semibold text-gray-700 mt-6 mb-3">A Foundational Tool for Future Growth</h3>
-                <p>The Simple Calculator serves as the foundational utility within the broader Digital Tools ID ecosystem. We are committed to continuous development, with plans to introduce related **PRO** features (such as advanced graphing or specialized financial modules) in the future. By maintaining the core simplicity of this tool, we ensure that our users always have a quick, reliable starting point, demonstrating our long-term commitment to providing diverse and high-value utilities for global users.</p>
+                    <h2>Quick Access Tips</h2>
+                    <p>So that you can access this calculator tool easily and quickly whenever needed, we recommend saving this URL to your mobile device's Home Screen. On most browsers like Chrome or Safari, you simply tap the three-dot menu (or Share icon on iOS) and select the "Add to Home Screen" option. In this way, the calculator will appear as an app icon that allows you to open the calculation tool without needing to retype the address in the future.</p>
+                </div>
+
+                <!-- CONTENT: INDONESIAN (Hidden by default, Original from PDF) -->
+                <div id="content-id" class="hidden">
+                    <h2>Tujuan dan Manfaat Utama</h2>
+                    
+                    <p>Meskipun banyak perangkat lunak yang kompleks tersedia, Kalkulator Sederhana dirancang khusus untuk memenuhi kebutuhan dasar akan perhitungan yang cepat, akurat, dan bebas dari kerumitan yang tidak perlu. Tujuan utamanya adalah mengutamakan kemudahan dan kecepatan bagi Anda yang hanya membutuhkan kalkulasi dasar untuk tugas sehari-hari.</p>
+
+                    <p>Kalkulator ini menyediakan solusi yang sangat andal untuk mendukung tugas sederhana. Ini mencakup berbagai kebutuhan, mulai dari perencanaan anggaran dan estimasi cepat hingga dukungan untuk pendidikan. Antarmukanya sendiri menggunakan desain kontras tinggi yang bersih, membuatnya sangat mudah dibaca bahkan saat Anda mengaksesnya dari perangkat seluler. Perhatian terhadap kebutuhan Anda ini mengubah utilitas dasar menjadi aset harian yang bernilai tinggi.</p>
+
+                    <h2>Kemudahan Transfer Hasil (Copy)</h2>
+                    <p>Untuk memastikan alur kerja yang produktif, fitur 'COPY' ditambahkan. Fitur ini memudahkan Anda menggunakan hasil kalkulasi untuk keperluan apa pun yang dibutuhkan. Hasil perhitungan dapat ditransfer dengan cepat dan mulus. Anda bisa memasukkannya ke dalam spreadsheet, mengirimkannya langsung di kolom chat aplikasi perpesanan, atau menyalinnya ke dokumen lain tanpa perlu transkripsi manual.</p>
+
+                    <h2>Keunggulan Kalkulator Berbasis Online</h2>
+                    <p>Menggunakan kalkulator berbasis online ini memberikan beberapa keunggulan dibandingkan aplikasi yang perlu diinstal.</p>
+                    <ul>
+                        <li>Anda tidak perlu repot melakukan instalasi perangkat lunak apa pun.</li>
+                        <li>Ini secara langsung mengurangi beban memori internal perangkat seluler Anda.</li>
+                        <li>Selain itu, karena seluruh perhitungan diproses di server yang aman dan tidak memerlukan izin akses data perangkat yang mendalam, kalkulator ini juga sangat aman dan minim risiko.</li>
+                    </ul>
+
+                    <h2>Tips Akses Cepat</h2>
+                    <p>Agar Anda dapat mengakses alat kalkulator ini dengan mudah dan cepat kapan pun dibutuhkan, kami sarankan untuk menyimpan alamat URL ini di layar utama (Home Screen) perangkat seluler Anda. Pada sebagian besar peramban seperti Chrome atau Safari, Anda cukup mengetuk menu tiga titik (atau ikon Share di iOS) dan memilih opsi "Tambahkan ke Layar Utama" atau "Add to Home Screen". Dengan cara ini, kalkulator akan muncul sebagai ikon aplikasi yang memungkinkan Anda membuka alat perhitungan tanpa perlu mengetik ulang alamat di masa mendatang.</p>
+                </div>
+
             </section>
 
         </div>
@@ -259,28 +336,74 @@
         </div>
     </footer>
 
-    <!-- Bagian PENTING: JavaScript Kalkulator (Final) -->
+    <!-- JavaScript Gabungan: Kalkulator + Toggle Bahasa -->
     <script>
-        // Mendapatkan elemen display
-        const display = document.getElementById('display');
+        // ==========================================
+        // BAGIAN 1: LOGIKA TOGGLE BAHASA
+        // ==========================================
+        function switchLanguage(lang) {
+            const contentEn = document.getElementById('content-en');
+            const contentId = document.getElementById('content-id');
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+            const pageTitle = document.getElementById('page-title');
 
-        // Variabel untuk menyimpan perhitungan
-        let currentInput = '0';
-        let operator = null;
-        let previousInput = null;
+            if (lang === 'en') {
+                // Tampilkan Inggris
+                contentEn.classList.remove('hidden');
+                contentId.classList.add('hidden');
+                
+                // Update Tombol
+                btnEn.classList.add('active');
+                btnEn.classList.remove('inactive');
+                btnId.classList.add('inactive');
+                btnId.classList.remove('active');
 
-        // Memastikan display selalu diperbarui
-        function updateDisplay() {
-            display.value = currentInput;
+                // Update Judul Halaman
+                pageTitle.innerText = "Simple Calculator Online";
+                document.documentElement.lang = "en";
+
+            } else if (lang === 'id') {
+                // Tampilkan Indonesia
+                contentId.classList.remove('hidden');
+                contentEn.classList.add('hidden');
+
+                // Update Tombol
+                btnId.classList.add('active');
+                btnId.classList.remove('inactive');
+                btnEn.classList.add('inactive');
+                btnEn.classList.remove('active');
+
+                // Update Judul Halaman
+                pageTitle.innerText = "Kalkulator Online Sederhana";
+                document.documentElement.lang = "id";
+            }
         }
 
-        // 1. Fungsi untuk menambahkan nilai ke display
+        // ==========================================
+        // BAGIAN 2: LOGIKA KALKULATOR
+        // ==========================================
+        const display = document.getElementById('display');
+        let currentInput = '0';
+
+        // Fungsi Helper: Memformat angka dengan pemisah ribuan (Koma)
+        function formatNumberString(str) {
+            if (!str || str === 'Error') return str;
+            // Regex mengganti setiap digit (tanpa desimal) dengan format koma
+            return str.replace(/(\d+)(\.\d+)?/g, function(match, integerPart, decimalPart) {
+                let formattedInteger = parseInt(integerPart).toLocaleString('en-US');
+                return formattedInteger + (decimalPart ? decimalPart : '');
+            });
+        }
+
+        function updateDisplay() {
+            display.value = formatNumberString(currentInput);
+        }
+
         function appendToDisplay(value) {
-            // Memastikan input pertama setelah '0' menggantikan '0'
             if (currentInput === '0' && value !== '.') {
                 currentInput = value;
-            } else if (value === '.' && currentInput.includes('.')) {
-                // Mencegah dua titik desimal
+            } else if (value === '.' && checkLastNumberHasDecimal(currentInput)) {
                 return;
             } else {
                 currentInput += value;
@@ -288,15 +411,17 @@
             updateDisplay();
         }
 
-        // 2. Fungsi untuk menghapus display (C)
+        function checkLastNumberHasDecimal(input) {
+            let parts = input.split(/[\+\-\*\/]/);
+            let lastPart = parts[parts.length - 1];
+            return lastPart.includes('.');
+        }
+
         function clearDisplay() {
             currentInput = '0';
-            operator = null;
-            previousInput = null;
             updateDisplay();
         }
 
-        // 3. Fungsi untuk menghapus karakter terakhir (DEL)
         function deleteLast() {
             if (currentInput.length > 1) {
                 currentInput = currentInput.slice(0, -1);
@@ -306,43 +431,32 @@
             updateDisplay();
         }
 
-        // 4. Fungsi untuk melakukan perhitungan
         function calculate() {
             try {
-                // Membersihkan string input: memastikan operator dan titik desimal tidak ganda/di akhir
                 let expression = currentInput.replace(/--/g, '+');
-                
-                // Menggunakan eval() untuk perhitungan sederhana
                 let result = eval(expression);
                 
-                // Memformat hasil
+                if (!Number.isInteger(result)) {
+                     result = parseFloat(result.toFixed(8)); 
+                     result = parseFloat(result); 
+                }
                 currentInput = result.toString();
-                
             } catch (e) {
                 currentInput = "Error";
             }
             updateDisplay();
         }
 
-        // 5. FINAL FIX: Fungsi untuk menyalin hasil ke clipboard (COPY)
         function copyResult() {
             const displayElement = document.getElementById('display');
-            
-            // Perbaikan: Paksa elemen display menjadi dapat dipilih (select)
             displayElement.select();
-            
-            // Coba metode execCommand yang paling sering bekerja di lingkungan lokal/iFrame
             try {
-                const successful = document.execCommand('copy');
-                // Optional: Feedback visual if successful is not needed here, 
-                // but if using alert/modal, this is where you'd confirm.
+                document.execCommand('copy');
             } catch (err) {
-                // Fallback jika gagal (misalnya, jika select() di input readonly gagal)
                 fallbackCopyTextToClipboard(displayElement.value);
             }
         }
         
-        // Fungsi Fallback untuk iFrame/legacy browser (jika select() gagal)
         function fallbackCopyTextToClipboard(text) {
             const tempInput = document.createElement('input');
             tempInput.value = text;
@@ -352,8 +466,6 @@
             document.body.removeChild(tempInput);
         }
 
-
-        // Inisialisasi display saat halaman dimuat
         document.addEventListener('DOMContentLoaded', updateDisplay);
 
     </script>

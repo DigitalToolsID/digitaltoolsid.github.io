@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pajak-keuntungan-modal/" />
+    <!-- Judul akan di-set oleh JS -->
+ 
+    <meta name="description" content="Kalkulator Pajak Keuntungan Modal (Capital Gains Tax) Indonesia. Hitung estimasi pajak atas keuntungan investasi saham, kripto, properti, dan aset lainnya secara akurat." />
+ 
+    <title id="appTitle">Capital Gains Tax Calculator</title>
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/capital-gains-tax-calculator/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/capital-gains-tax-calculator/index.html" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Kode Google Analytic dan Adsense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M8E7QRYNY');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
+         crossorigin="anonymous"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2c3e50', 
+                        'secondary': '#3498db', 
+                        'primary-dark': '#1e3a8a', 
+                        'finance-color': '#27ae60', // Hijau untuk Keuangan
+                        'tax-color': '#c0392b', // Merah bata untuk Pajak
+                        'invest-color': '#8e44ad', // Ungu untuk Investasi
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Gaya kustom untuk tampilan hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 3000px; 
+            padding: 1.5rem; 
+        }
+        
+        /* Gaya Toggle Bahasa */
+        .lang-toggle-container {
+            position: relative;
+            display: inline-flex;
+            background-color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 4px;
+        }
+        .lang-toggle-btn {
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            color: #6b7280; 
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .lang-toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            width: calc(50% - 4px); 
+            background-color: #1e3a8a; /* Primary-dark */
+            border-radius: 9999px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+        .lang-toggle-container.lang-en #lang-en { color: white; }
+        .lang-toggle-container.lang-id #lang-id { color: white; }
+        
+        /* Gaya kustom untuk input dan tombol */
+        .calculate-button {
+            box-shadow: 0 4px #922b21; /* Warna merah gelap */
+            background-color: #c0392b; /* tax-color */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #922b21;
+            background-color: #e74c3c;
+        }
+        .calculate-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #922b21;
+        }
+
+        /* Gaya untuk deskripsi input */
+        .input-description {
+            font-size: 0.75rem; /* text-xs */
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 0.25rem;
+        }
+
+        /* Gaya Kartu Hasil Utama */
+        .result-card-main {
+            background-color: #fef2f2; /* Red 50 */
+            border: 2px solid #fecaca; /* Red 200 */
+        }
+        
+        /* Section Header */
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+    <!-- Header -->
+    <header class="bg-primary-dark text-white py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
+                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
+            </a>
+            <div id="languageSwitcher" class="lang-toggle-container lang-en">
+                <div id="langToggleSlider" class="lang-toggle-slider"></div>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
+                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Capital Gains Tax Calculator</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+               <!-- Konten Subtitle akan diisi oleh JS -->
+            </p>
+            
+            <!-- Form Input -->
+            <form id="taxForm" onsubmit="calculateTax(event)" class="space-y-6">
+                
+                <!-- Jenis Aset -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title" id="headerAsset">1. Asset Type & Transaction</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative md:col-span-2">
+                            <label for="assetType" class="block text-sm font-medium text-gray-700 mb-1" id="labelAssetType">Type of Investment Asset</label>
+                            <select id="assetType" onchange="updateTaxRateInfo()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-invest-color focus:border-invest-color bg-white">
+                                <option value="stock">Stocks (Saham Bursa Efek) - Final 0.1%</option>
+                                <option value="crypto">Crypto (Kripto - Terdaftar Bappebti) - Final 0.1%</option>
+                                <option value="property">Property (Tanah/Bangunan) - Final 2.5%</option>
+                                <option value="mutualFund">Mutual Fund (Reksa Dana) - Tax Free</option>
+                                <option value="bonds">Bonds (Obligasi/SBN) - Final 10%</option>
+                                <option value="other">Other Assets (Emas/Saham Luar) - Progressive</option>
+                            </select>
+                            <p class="input-description" id="descAssetType">Pilih jenis aset untuk menentukan tarif pajak yang berlaku di Indonesia.</p>
+                        </div>
+                        
+                        <div class="relative">
+                            <label for="buyPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelBuyPrice">Total Buy Price / Capital</label>
+                            <input type="text" id="buyPrice" inputmode="numeric" value="100.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-invest-color focus:border-invest-color" required>
+                            <p class="input-description" id="descBuyPrice">Total modal awal atau harga pembelian aset.</p>
+                        </div>
+                        
+                        <div class="relative">
+                            <label for="sellPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelSellPrice">Total Sell Price / Revenue</label>
+                            <input type="text" id="sellPrice" inputmode="numeric" value="150.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-invest-color focus:border-invest-color" required>
+                            <p class="input-description" id="descSellPrice">Total nilai penjualan atau harga pasar saat ini.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Info Tarif Pajak -->
+                <div id="taxRateInfoBox" class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded" role="alert">
+                    <p class="font-bold" id="taxRateTitle">Tax Rate Information</p>
+                    <p class="text-sm" id="taxRateDesc">...</p>
+                </div>
+
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-red-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
+                    Calculate Tax
+                </button>
+                
+                <!-- Error Alert -->
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
+                
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-red-300">Calculation Result</h3>
+                
+                <!-- Hasil Utama -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-center">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <p id="labelCapitalGain" class="text-sm font-bold text-gray-600 uppercase tracking-wider">Gross Capital Gain</p>
+                        <p id="resultCapitalGain" class="text-3xl font-extrabold text-finance-color mt-2">0</p>
+                        <p class="text-xs text-gray-500 mt-1" id="descCapitalGain">Profit before tax</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-red-200">
+                        <p id="labelEstimatedTax" class="text-sm font-bold text-gray-600 uppercase tracking-wider">Estimated Tax Due</p>
+                        <p id="resultEstimatedTax" class="text-3xl font-extrabold text-tax-color mt-2">0</p>
+                        <p class="text-xs text-gray-500 mt-1" id="descEstimatedTax">Tax amount to be paid</p>
+                    </div>
+                </div>
+
+                <!-- Net Profit -->
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200 text-center mb-6">
+                    <p id="labelNetProfit" class="text-lg font-bold text-green-800 mb-1">Net Profit After Tax</p>
+                    <p id="resultNetProfit" class="text-4xl font-extrabold text-green-700">0</p>
+                </div>
+
+                <!-- Interpretasi Hasil -->
+                <div class="mb-8 bg-white p-4 rounded-lg border border-gray-200">
+                    <h4 id="headerInterpretation" class="text-md font-bold text-primary mb-2">Analysis</h4>
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
+                        <!-- Teks interpretasi dinamis -->
+                    </p>
+                </div>
+                
+                <!-- Detail Breakdown -->
+                <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Calculation Details</h4>
+                <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
+                        <div class="text-gray-600" id="labelTaxBase">Tax Base (Dasar Pengenaan Pajak)</div>
+                        <div class="text-right font-semibold" id="valTaxBase">0</div>
+                    </div>
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
+                         <div class="text-gray-600" id="labelAppliedRate">Applied Tax Rate</div>
+                        <div class="text-right font-semibold text-blue-600" id="valAppliedRate">0%</div>
+                    </div>
+                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 font-bold bg-red-50">
+                        <div class="text-tax-color" id="labelFinalTax">Tax Liability</div>
+                        <div class="text-right text-tax-color" id="valFinalTax">0</div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Konten Edukasi -->
+            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding Capital Gains Tax in Indonesia</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Final vs. Non-Final Tax</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Tax Reporting Tips</h3>
+                
+                <!-- Perbaikan: Paragraf Pengantar dipisah dari UL -->
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
+                
+                <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
+                    <li id="tip1"></li>
+                    <li id="tip2"></li>
+                    <li id="tip3"></li>
+                </ul>
+
+                <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
+                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+                <span aria-hidden="true" class="hidden sm:inline">|</span>
+                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            </div>
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // **********************************************
+        // LOGIKA KALKULATOR PAJAK KEUNTUNGAN MODAL
+        // **********************************************
+
+        const translations = {
+            id: {
+                appTitle: "Kalkulator Pajak Modal",
+                headerTitle: "Kalkulator Pajak Keuntungan Modal",
+                toolSubtitle: "Berapa pajak yang harus Anda bayar dari keuntungan investasi? Di Indonesia, aturan pajak berbeda untuk setiap jenis aset. Saham dan properti dikenakan Pajak Final dari nilai transaksi (bukan dari keuntungan), sementara aset lain seperti Emas atau Saham Luar Negeri dihitung dari keuntungan bersih. Gunakan alat ini untuk estimasi yang akurat.",
+                backToCatalogText: "Kembali ke Katalog Alat",
+                // Input
+                headerAsset: "1. Jenis Aset & Transaksi",
+                labelAssetType: "Jenis Aset Investasi",
+                descAssetType: "Pilih jenis aset untuk menentukan tarif pajak yang berlaku di Indonesia.",
+                labelBuyPrice: "Total Modal / Harga Beli",
+                descBuyPrice: "Total uang yang Anda keluarkan untuk membeli aset.",
+                labelSellPrice: "Total Penjualan / Harga Jual",
+                descSellPrice: "Total uang yang Anda terima saat menjual aset.",
+                
+                // Tax Rate Info Strings (Dynamic)
+                taxInfoStock: "<b>Saham (Bursa Efek Indonesia):</b> Dikenakan PPh Final 0,1% dari Nilai Transaksi Penjualan (bukan dari keuntungan).",
+                taxInfoCrypto: "<b>Kripto (Exchanger Terdaftar):</b> Dikenakan PPh Final 0,1% dari Nilai Transaksi Penjualan (PPh 22).",
+                taxInfoProperty: "<b>Properti:</b> Dikenakan PPh Final 2,5% dari Nilai Transaksi Penjualan (bukan dari keuntungan).",
+                taxInfoMutualFund: "<b>Reksa Dana:</b> Bukan objek pajak. Keuntungan yang dicairkan tidak dikenakan pajak lagi (Tax Free).",
+                taxInfoBonds: "<b>Obligasi/SBN:</b> Dikenakan PPh Final 10% dari keuntungan (Capital Gain) atau Kupon.",
+                taxInfoOther: "<b>Aset Lain (Emas/Saham Luar):</b> Keuntungan dianggap sebagai penghasilan biasa dan dikenakan tarif progresif PPh 17 (5% - 35%) dalam SPT Tahunan.",
+                taxRateTitle: "Informasi Tarif Pajak",
+
+                calculateButton: "Hitung Pajak",
+                inputError: "Mohon masukkan nilai yang valid.",
+                
+                // Result
+                resultHeader: "Hasil Perhitungan",
+                labelCapitalGain: "Keuntungan Kotor (Capital Gain)",
+                descCapitalGain: "Selisih Jual - Beli (Sebelum Pajak)",
+                labelEstimatedTax: "Estimasi Pajak Terutang",
+                descEstimatedTax: "Total pajak yang harus dibayar/dipotong",
+                labelNetProfit: "Keuntungan Bersih (Setelah Pajak)",
+                
+                headerInterpretation: "Analisis",
+                interpFinal: "<b>Pajak Final:</b> Pajak untuk aset ini dihitung berdasarkan <b>Nilai Total Penjualan</b> (Omzet), bukan keuntungan. Artinya, meskipun Anda rugi (Jual < Beli), Anda tetap harus membayar pajak ini saat transaksi penjualan.",
+                interpGain: "<b>Pajak atas Keuntungan:</b> Pajak untuk aset ini dihitung hanya dari <b>Keuntungan Bersih (Gain)</b>. Jika Anda rugi, tidak ada pajak yang harus dibayar.",
+                interpExempt: "<b>Bebas Pajak:</b> Aset ini bukan merupakan objek pajak penghasilan. Seluruh keuntungan menjadi milik Anda sepenuhnya.",
+                
+                detailHeader: "Rincian Perhitungan",
+                labelTaxBase: "Dasar Pengenaan Pajak (DPP)",
+                labelAppliedRate: "Tarif Pajak yang Berlaku",
+                labelFinalTax: "Kewajiban Pajak",
+                
+                // Edukasi
+                sectionHeader1: "Memahami Pajak Investasi di Indonesia",
+                content1: "Indonesia menganut sistem perpajakan yang unik untuk investasi. Sebagian besar aset pasar modal (Saham, Obligasi) dan Properti menggunakan skema <b>PPh Final</b>. Artinya, pajak dipotong langsung saat transaksi atau saat menerima bunga, dan kewajiban pajaknya dianggap 'selesai'. Anda tidak perlu menghitung ulang di SPT Tahunan, cukup melaporkannya saja.",
+                sectionHeader2: "Pajak Final vs. Non-Final",
+                content2: "Perbedaan utamanya adalah pada basis perhitungan. <b>Pajak Final</b> (seperti Saham 0,1% atau Properti 2,5%) dihitung dari <i>Nilai Bruto Transaksi</i>. Ini sederhana tapi bisa merugikan jika Anda mengalami kerugian investasi (karena tetap bayar pajak). Sebaliknya, aset Non-Final (seperti Emas atau Crypto di exchanger luar negeri) pajaknya dihitung dari <i>Keuntungan Bersih</i> dan digabung dengan penghasilan lain di SPT.",
+                sectionHeader3: "Tips Pelaporan Pajak",
+                content3: "Agar terhindar dari masalah di kemudian hari:",
+                tip1: "<b>Simpan Bukti Potong:</b> Untuk aset dengan PPh Final (Saham/Obligasi), sekuritas akan memberikan bukti potong. Simpan ini untuk arsip.",
+                tip2: "<b>Lapor di Kolom yang Tepat:</b> Di SPT Tahunan, pastikan Anda memasukkan harta investasi di kolom 'Harta' dan keuntungan di kolom 'Penghasilan yang Dikenakan PPh Final' atau 'Penghasilan Lainnya' sesuai jenis asetnya.",
+                tip3: "<b>Reksa Dana:</b> Meskipun bukan objek pajak, tetap harus dilaporkan dalam daftar harta SPT Tahunan.",
+                sectionHeader4: "Disclaimer",
+                content4: "Kalkulator ini menggunakan tarif pajak yang berlaku di Indonesia per tahun 2025 (UU HPP). Perhitungan untuk 'Aset Lainnya' menggunakan asumsi tarif pajak rata-rata 15% untuk estimasi, namun realisasinya bergantung pada total penghasilan tahunan Anda (Tarif Progresif). Selalu konsultasikan dengan konsultan pajak.",
+
+                // Footer
+                linkPrivacy: "Kebijakan Privasi",
+                linkTerms: "Ketentuan Layanan",
+                linkAbout: "Tentang Kami",
+                linkContact: "Hubungi Kami",
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+            },
+            en: {
+                appTitle: "Capital Gains Tax Calculator",
+                headerTitle: "Capital Gains Tax Calculator",
+                toolSubtitle: "How much tax do you owe on your investment profits? In Indonesia, tax rules vary by asset type. Stocks and property are subject to a Final Tax on the transaction value (not profit), while other assets like Gold or Foreign Stocks are taxed on net gains. Use this tool for an accurate estimate.",
+                backToCatalogText: "Back to Tools Catalog",
+                // Input
+                headerAsset: "1. Asset Type & Transaction",
+                labelAssetType: "Investment Asset Type",
+                descAssetType: "Select asset type to determine the applicable Indonesian tax rate.",
+                labelBuyPrice: "Total Capital / Buy Price",
+                descBuyPrice: "Total amount spent to acquire the asset.",
+                labelSellPrice: "Total Revenue / Sell Price",
+                descSellPrice: "Total amount received when selling the asset.",
+                
+                // Tax Rate Info Strings (Dynamic)
+                taxInfoStock: "<b>Stocks (IDX):</b> Subject to 0.1% Final Tax on the Gross Sales Value (not on profit).",
+                taxInfoCrypto: "<b>Crypto (Registered Exchanger):</b> Subject to 0.1% Final Tax on Gross Sales Value (PPh 22).",
+                taxInfoProperty: "<b>Property:</b> Subject to 2.5% Final Tax on Gross Sales Value (not on profit).",
+                taxInfoMutualFund: "<b>Mutual Funds:</b> Not a tax object. Profits realized are Tax-Free.",
+                taxInfoBonds: "<b>Bonds/SBN:</b> Subject to 10% Final Tax on Capital Gains or Coupons.",
+                taxInfoOther: "<b>Other Assets (Gold/Foreign Stocks):</b> Profits are treated as regular income and subject to progressive tax rates (5% - 35%) in the Annual Tax Return.",
+                taxRateTitle: "Tax Rate Information",
+
+                calculateButton: "Calculate Tax",
+                inputError: "Please enter valid numeric values.",
+                
+                // Result
+                resultHeader: "Calculation Result",
+                labelCapitalGain: "Gross Capital Gain",
+                descCapitalGain: "Sell Price - Buy Price (Pre-Tax)",
+                labelEstimatedTax: "Estimated Tax Due",
+                descEstimatedTax: "Total tax to be paid/withheld",
+                labelNetProfit: "Net Profit (After Tax)",
+                
+                headerInterpretation: "Analysis",
+                interpFinal: "<b>Final Tax:</b> Tax for this asset is calculated based on the <b>Total Sales Value</b> (Revenue), not the profit. This means even if you sell at a loss, you still have to pay this tax upon transaction.",
+                interpGain: "<b>Tax on Gain:</b> Tax for this asset is calculated only on the <b>Net Profit (Gain)</b>. If you sell at a loss, no tax is due.",
+                interpExempt: "<b>Tax Exempt:</b> This asset is not a subject of income tax. The entire profit belongs to you.",
+                
+                detailHeader: "Calculation Details",
+                labelTaxBase: "Tax Base (DPP)",
+                labelAppliedRate: "Applied Tax Rate",
+                labelFinalTax: "Tax Liability",
+                
+                // Edukasi
+                sectionHeader1: "Understanding Investment Taxes in Indonesia",
+                content1: "Indonesia has a unique tax system for investments. Most capital market assets (Stocks, Bonds) and Property use a <b>Final Tax</b> scheme. This means the tax is withheld immediately upon transaction or payout, and the tax obligation is considered 'final'. You don't need to recalculate it in your Annual Tax Return, just report it.",
+                sectionHeader2: "Final vs. Non-Final Tax",
+                content2: "The main difference lies in the calculation basis. <b>Final Tax</b> (like Stock 0.1% or Property 2.5%) is calculated from the <i>Gross Transaction Value</i>. This is simple but can be disadvantageous if you sell at a loss (as you still pay tax). Conversely, Non-Final assets (like Gold or Crypto on foreign exchanges) are taxed on <i>Net Profit</i> and combined with other income in your tax return.",
+                sectionHeader3: "Tax Reporting Tips",
+                content3: "To avoid future issues:",
+                tip1: "<b>Keep Withholding Slips:</b> For Final Tax assets (Stocks/Bonds), the securities firm will provide a withholding slip. Keep this for your records.",
+                tip2: "<b>Report Correctly:</b> In your Annual Tax Return, ensure you list investment assets under 'Assets' and profits under 'Income Subject to Final Tax' or 'Other Income' depending on the asset type.",
+                tip3: "<b>Mutual Funds:</b> Even though tax-free, they must still be reported in the Assets list of your tax return.",
+                sectionHeader4: "Disclaimer",
+                content4: "This calculator uses Indonesian tax rates effective as of 2025 (UU HPP). Calculations for 'Other Assets' use an assumed average tax rate of 15% for estimation, but actual liability depends on your total annual income (Progressive Rate). Always consult a tax consultant.",
+
+                // Footer
+                linkPrivacy: "Privacy Policy",
+                linkTerms: "Terms of Service",
+                linkAbout: "About Us",
+                linkContact: "Contact Us",
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        // Tax Configuration
+        const TaxConfig = {
+            stock: { type: 'final_revenue', rate: 0.001 }, // 0.1% dari Nilai Jual
+            crypto: { type: 'final_revenue', rate: 0.001 }, // 0.1% dari Nilai Jual (PPh 22)
+            property: { type: 'final_revenue', rate: 0.025 }, // 2.5% dari Nilai Jual
+            mutualFund: { type: 'exempt', rate: 0 }, // Bebas Pajak
+            bonds: { type: 'final_gain', rate: 0.10 }, // 10% dari Keuntungan
+            other: { type: 'progressive_gain', rate: 0.15 } // Asumsi 15% dari Keuntungan (Progressive placeholder)
+        };
+
+        function formatNumber(amount, decimalPlaces = 0) {
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            return new Intl.NumberFormat(locale, {
+                minimumFractionDigits: decimalPlaces,
+                maximumFractionDigits: decimalPlaces,
+            }).format(amount);
+        }
+
+        function formatInput(inputElement) {
+            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            if (rawValue) {
+                const numericValue = parseInt(rawValue, 10);
+                inputElement.value = formatNumber(numericValue);
+            } else {
+                inputElement.value = ''; 
+            }
+        }
+        
+        function cleanInput(formattedValue) {
+            return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
+        }
+
+        function updateTaxRateInfo() {
+            const assetType = document.getElementById('assetType').value;
+            const infoBox = document.getElementById('taxRateDesc');
+            const t = translations[currentLang];
+            
+            let infoKey = 'taxInfo' + assetType.charAt(0).toUpperCase() + assetType.slice(1);
+            // Handle special case for mutualFund -> taxInfoMutualFund
+            
+            if (t[infoKey]) {
+                infoBox.innerHTML = t[infoKey];
+            }
+            
+            // Refresh calc if visible
+            if(document.getElementById('resultBox').classList.contains('visible')){
+                calculateTax({preventDefault:()=>{}});
+            }
+        }
+
+        function calculateTax(event) {
+            event.preventDefault();
+
+            // 1. Inputs
+            const assetType = document.getElementById('assetType').value;
+            const buyPrice = cleanInput(document.getElementById('buyPrice').value);
+            const sellPrice = cleanInput(document.getElementById('sellPrice').value);
+
+            // 2. Validasi
+            if (buyPrice < 0 || sellPrice < 0) {
+                document.getElementById('errorAlert').classList.remove('hidden');
+                document.getElementById('errorText').textContent = translations[currentLang].inputError;
+                return;
+            }
+            document.getElementById('errorAlert').classList.add('hidden');
+
+            // 3. Perhitungan
+            const capitalGain = sellPrice - buyPrice;
+            const config = TaxConfig[assetType];
+            let taxAmount = 0;
+            let taxBase = 0;
+            let interpretationType = '';
+
+            if (config.type === 'final_revenue') {
+                // Pajak dari Nilai Jual (Stock, Crypto, Property)
+                // Tetap bayar pajak walaupun rugi
+                taxBase = sellPrice;
+                taxAmount = sellPrice * config.rate;
+                interpretationType = 'interpFinal';
+            } else if (config.type === 'final_gain' || config.type === 'progressive_gain') {
+                // Pajak dari Keuntungan (Bonds, Other)
+                // Jika rugi, pajak 0
+                taxBase = Math.max(0, capitalGain);
+                taxAmount = taxBase * config.rate;
+                interpretationType = 'interpGain';
+            } else if (config.type === 'exempt') {
+                // Bebas Pajak
+                taxBase = 0;
+                taxAmount = 0;
+                interpretationType = 'interpExempt';
+            }
+            
+            const netProfit = capitalGain - taxAmount;
+
+            // 4. Tampilkan Hasil
+            document.getElementById('resultCapitalGain').textContent = formatNumber(Math.round(capitalGain));
+            document.getElementById('resultEstimatedTax').textContent = formatNumber(Math.round(taxAmount));
+            document.getElementById('resultNetProfit').textContent = formatNumber(Math.round(netProfit));
+            
+            // Details
+            document.getElementById('valTaxBase').textContent = formatNumber(Math.round(taxBase));
+            document.getElementById('valAppliedRate').textContent = (config.rate * 100).toFixed(1) + "%";
+            document.getElementById('valFinalTax').textContent = formatNumber(Math.round(taxAmount));
+            
+            // Interpretation
+            document.getElementById('textInterpretation').innerHTML = translations[currentLang][interpretationType];
+
+            // Styling for Gain/Loss
+            const gainElem = document.getElementById('resultCapitalGain');
+            if (capitalGain >= 0) {
+                gainElem.classList.remove('text-red-600');
+                gainElem.classList.add('text-finance-color');
+            } else {
+                gainElem.classList.remove('text-finance-color');
+                gainElem.classList.add('text-red-600');
+            }
+
+            document.getElementById('resultBox').classList.add('visible');
+        }
+
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            const switcher = document.getElementById('languageSwitcher');
+            switcher.classList.remove('lang-en', 'lang-id');
+            switcher.classList.add(`lang-${lang}`);
+
+            // Get values
+            const buyVal = document.getElementById('buyPrice').value;
+            const sellVal = document.getElementById('sellPrice').value;
+
+            // Update Text
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
+            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
+            
+            document.getElementById('headerAsset').textContent = t.headerAsset;
+            document.getElementById('labelAssetType').textContent = t.labelAssetType;
+            document.getElementById('descAssetType').textContent = t.descAssetType;
+            document.getElementById('labelBuyPrice').textContent = t.labelBuyPrice;
+            document.getElementById('descBuyPrice').textContent = t.descBuyPrice;
+            document.getElementById('labelSellPrice').textContent = t.labelSellPrice;
+            document.getElementById('descSellPrice').textContent = t.descSellPrice;
+            document.getElementById('taxRateTitle').textContent = t.taxRateTitle;
+            
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            
+            // Re-format Inputs
+            document.getElementById('buyPrice').value = formatNumber(cleanInput(buyVal));
+            document.getElementById('sellPrice').value = formatNumber(cleanInput(sellVal));
+            
+            // Update Info Box Content
+            updateTaxRateInfo();
+
+            // Results
+            document.getElementById('resultHeader').textContent = t.resultHeader;
+            document.getElementById('labelCapitalGain').textContent = t.labelCapitalGain;
+            document.getElementById('descCapitalGain').textContent = t.descCapitalGain;
+            document.getElementById('labelEstimatedTax').textContent = t.labelEstimatedTax;
+            document.getElementById('descEstimatedTax').textContent = t.descEstimatedTax;
+            document.getElementById('labelNetProfit').textContent = t.labelNetProfit;
+            
+            document.getElementById('headerInterpretation').textContent = t.headerInterpretation;
+            
+            document.getElementById('detailHeader').textContent = t.detailHeader;
+            document.getElementById('labelTaxBase').textContent = t.labelTaxBase;
+            document.getElementById('labelAppliedRate').textContent = t.labelAppliedRate;
+            document.getElementById('labelFinalTax').textContent = t.labelFinalTax;
+            
+            // Edukasi
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2').innerHTML = t.content2;
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3').textContent = t.content3; // list header
+            document.getElementById('tip1').innerHTML = t.tip1;
+            document.getElementById('tip2').innerHTML = t.tip2;
+            document.getElementById('tip3').innerHTML = t.tip3;
+            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
+            document.getElementById('content4').textContent = t.content4;
+            
+            // Footer
+            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
+            document.getElementById('linkTerms').textContent = t.linkTerms;
+            document.getElementById('linkAbout').textContent = t.linkAbout;
+            document.getElementById('linkContact').textContent = t.linkContact;
+            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+            
+            // Refresh Calc if visible
+            if(document.getElementById('resultBox').classList.contains('visible')){
+                calculateTax({preventDefault:()=>{}});
+            }
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
+                if (newLang !== currentLang) setLanguage(newLang);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let defaultLang = 'en'; 
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            if (browserLang.startsWith('id')) defaultLang = 'id';
+            setLanguage(defaultLang); 
+            // Set initial info box
+            updateTaxRateInfo();
+        });
+    </script>
+</body>
+</html>
