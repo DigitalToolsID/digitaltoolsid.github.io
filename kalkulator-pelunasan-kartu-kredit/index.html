@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pelunasan-kartu-kredit/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Pelunasan Kartu Kredit. Hitung berapa lama utang kartu kredit Anda akan lunas atau berapa yang harus dibayar bulanan untuk bebas utang lebih cepat." />
  
     <title id="appTitle">Credit Card Payoff Calculator</title>
@@ -13,7 +11,6 @@
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/credit-card-payoff-calculator/index.html" />
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Kode Google Analytic dan Adsense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -24,7 +21,6 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
          crossorigin="anonymous"></script>
     
-    <!-- Konfigurasi Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -134,13 +130,20 @@
             color: #2c3e50;
         }
 
+        /* Related Tools Card Style */
+        .related-tool-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .related-tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
+    <header class="bg-primary-dark text-white py-4 shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
                 &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
@@ -153,19 +156,15 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
         <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Credit Card Payoff Calculator</h1>
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               <!-- Konten Subtitle akan diisi oleh JS -->
-            </p>
+                </p>
             
-            <!-- Form Input -->
             <form id="payoffForm" onsubmit="calculatePayoff(event)" class="space-y-6">
                 
-                <!-- Detail Kartu -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                     <h2 class="section-title" id="headerDetails">1. Credit Card Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -183,7 +182,6 @@
                     </div>
                 </div>
 
-                <!-- Strategi Pembayaran -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                     <h2 class="section-title" id="headerStrategy">2. Payment Strategy</h2>
                     <div class="relative mb-4">
@@ -194,14 +192,12 @@
                         </select>
                     </div>
 
-                    <!-- Input Dinamis: Monthly Payment -->
                     <div class="relative" id="inputMonthlyPaymentBox">
                         <label for="monthlyPayment" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyPayment">Fixed Monthly Payment</label>
                         <input type="text" id="monthlyPayment" inputmode="numeric" value="500.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-debt-color focus:border-debt-color">
                         <p class="input-description" id="descMonthlyPayment">Berapa yang sanggup Anda bayar setiap bulan.</p>
                     </div>
 
-                    <!-- Input Dinamis: Months to Payoff -->
                     <div class="relative hidden" id="inputMonthsBox">
                         <label for="monthsGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthsGoal">Desired Payoff Time (Months)</label>
                         <input type="number" id="monthsGoal" min="1" step="1" value="12" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-debt-color focus:border-debt-color">
@@ -213,39 +209,32 @@
                     Calculate Payoff
                 </button>
                 
-                <!-- Warning Alert (Minimum Payment) -->
                 <div id="minPaymentWarning" class="hidden mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
                     <p class="font-bold">Warning!</p>
                     <p id="warningText">Your payment is too low. It covers less than the interest accrued. You will never pay off this debt.</p>
                 </div>
 
-                <!-- Error Alert -->
                 <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
             <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
                 
                 <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-red-300">Payoff Plan Result</h3>
                 
-                <!-- Hasil Utama -->
                 <div class="text-center mb-8">
                     <p id="labelMainResult" class="text-lg font-bold text-gray-700 mb-1">You will be debt-free in:</p>
                     <p id="resultMain" class="text-4xl font-extrabold text-debt-color">0 Months</p>
                     <p id="subResult" class="text-sm text-gray-600 mt-2 hidden"></p>
                 </div>
 
-                <!-- Interpretasi Hasil -->
                 <div class="mb-8 bg-white p-4 rounded-lg border border-red-200">
                     <h4 id="headerInterpretation" class="text-md font-bold text-primary mb-2">Financial Impact</h4>
                     <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
-                        <!-- Teks interpretasi dinamis -->
-                    </p>
+                        </p>
                 </div>
                 
-                <!-- Detail Breakdown -->
                 <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Total Cost Breakdown</h4>
                 <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
@@ -256,7 +245,7 @@
                          <div class="text-gray-600" id="labelTotalInterest">Total Interest Paid</div>
                         <div class="text-right font-semibold text-red-600" id="valTotalInterest">0</div>
                     </div>
-                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 font-bold">
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 font-bold">
                         <div class="text-debt-color" id="labelTotalPaid">Total Amount Paid</div>
                         <div class="text-right text-debt-color" id="valTotalPaid">0</div>
                     </div>
@@ -264,7 +253,6 @@
 
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">The Trap of Minimum Payments</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -273,9 +261,7 @@
                 <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
                 <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Tips to Get Out of Debt</h3>
-                
                 <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
-                
                 <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
                     <li id="tip1"></li>
                     <li id="tip2"></li>
@@ -287,10 +273,52 @@
             </section>
 
         </div>
+
+        <div class="w-full max-w-4xl mt-12">
+            <h3 id="relatedToolsHeader" class="text-xl font-bold text-primary mb-4 border-l-4 border-secondary pl-3">Alat Terkait (Related Tools)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                <a href="../kalkulator-pelunasan-utang/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle1" class="font-bold text-primary text-sm mb-1">Debt Payoff Priority Calculator</h4>
+                    <p id="rtDesc1" class="text-xs text-gray-500">Compare Snowball vs Avalanche strategies.</p>
+                </a>
+
+                <a href="../kalkulator-kapasitas-cicilan/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle2" class="font-bold text-primary text-sm mb-1">Loan Affordability Calculator</h4>
+                    <p id="rtDesc2" class="text-xs text-gray-500">Determine safe maximum installment limit (DSR).</p>
+                </a>
+
+                <a href="../kalkulator-perbandingan-pinjaman-pribadi/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle3" class="font-bold text-primary text-sm mb-1">Personal Loan Comparison Calculator</h4>
+                    <p id="rtDesc3" class="text-xs text-gray-500">Compare 2 loan options for the cheapest cost.</p>
+                </a>
+
+                <a href="../kalkulator-refinancing-pinjaman/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle4" class="font-bold text-primary text-sm mb-1">Refinance Calculator</h4>
+                    <p id="rtDesc4" class="text-xs text-gray-500">Calculate savings from switching to a new loan.</p>
+                </a>
+
+                <a href="../kalkulator-pinjaman-multi-tujuan/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle5" class="font-bold text-primary text-sm mb-1">Multi-Purpose Loan Calculator</h4>
+                    <p id="rtDesc5" class="text-xs text-gray-500">Calculate installments for unsecured or multi-purpose loans.</p>
+                </a>
+
+                <a href="../kalkulator-cicilan-mobil/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle6" class="font-bold text-primary text-sm mb-1">Car Payment Calculator</h4>
+                    <p id="rtDesc6" class="text-xs text-gray-500">Estimate installment and interest for vehicle loans.</p>
+                </a>
+
+                <a href="../kalkulator-kpr/index.html" class="related-tool-card bg-white p-4 rounded-lg shadow border border-gray-200 block hover:border-secondary">
+                    <h4 id="rtTitle7" class="font-bold text-primary text-sm mb-1">Mortgage Loan & Amortization Calculator</h4>
+                    <p id="rtDesc7" class="text-xs text-gray-500">Calculate home loan installments and amortization.</p>
+                </a>
+
+            </div>
+        </div>
+
     </main>
     
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
+    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
                 <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
@@ -371,7 +399,24 @@
                 linkTerms: "Ketentuan Layanan",
                 linkAbout: "Tentang Kami",
                 linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics.",
+                relatedToolsHeader: "Alat Terkait",
+
+                // Related Tools Translation (Accurate per Catalog)
+                rtTitle1: "Kalkulator Prioritas Pelunasan Utang",
+                rtDesc1: "Bandingkan strategi Snowball vs Avalanche.",
+                rtTitle2: "Kalkulator Kapasitas Cicilan",
+                rtDesc2: "Tentukan batas maksimum cicilan yang aman (DSR).",
+                rtTitle3: "Kalkulator Perbandingan Pinjaman",
+                rtDesc3: "Bandingkan 2 opsi pinjaman untuk biaya termurah.",
+                rtTitle4: "Kalkulator Refinancing Pinjaman",
+                rtDesc4: "Hitung penghematan dari pindah ke pinjaman baru.",
+                rtTitle5: "Kalkulator Pinjaman Serbaguna",
+                rtDesc5: "Hitung cicilan KTA atau pinjaman multiguna.",
+                rtTitle6: "Kalkulator Cicilan Mobil",
+                rtDesc6: "Estimasi angsuran dan bunga pinjaman kendaraan.",
+                rtTitle7: "Kalkulator KPR & Amortisasi",
+                rtDesc7: "Hitung cicilan rumah dan jadwal amortisasi.",
             },
             en: {
                 appTitle: "Credit Card Payoff Calculator",
@@ -431,7 +476,24 @@
                 linkTerms: "Terms of Service",
                 linkAbout: "About Us",
                 linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.",
+                relatedToolsHeader: "Related Tools",
+
+                // Related Tools Translation (Accurate per Catalog)
+                rtTitle1: "Debt Payoff Priority Calculator",
+                rtDesc1: "Compare Snowball vs Avalanche strategies.",
+                rtTitle2: "Loan Affordability Calculator",
+                rtDesc2: "Determine safe maximum installment limit (DSR).",
+                rtTitle3: "Personal Loan Comparison Calculator",
+                rtDesc3: "Compare 2 loan options for the cheapest cost.",
+                rtTitle4: "Refinance Calculator",
+                rtDesc4: "Calculate savings from switching to a new loan.",
+                rtTitle5: "Multi-Purpose Loan Calculator",
+                rtDesc5: "Calculate installments for unsecured or multi-purpose loans.",
+                rtTitle6: "Car Payment Calculator",
+                rtDesc6: "Estimate installment and interest for vehicle loans.",
+                rtTitle7: "Mortgage Loan & Amortization Calculator",
+                rtDesc7: "Calculate home loan installments and amortization.",
             }
         };
 
@@ -477,17 +539,15 @@
 
         function calculatePayoff(event) {
             event.preventDefault();
-
             const mode = document.getElementById('calcMode').value;
             const balance = cleanInput(document.getElementById('cardBalance').value);
             const annualRate = parseFloat(document.getElementById('interestRate').value) / 100;
             const monthlyRate = annualRate / 12;
-            
             const errorAlert = document.getElementById('errorAlert');
             const warningBox = document.getElementById('minPaymentWarning');
             const resultBox = document.getElementById('resultBox');
             const t = translations[currentLang];
-
+            
             // Validation
             if (balance <= 0 || annualRate < 0) {
                 errorAlert.classList.remove('hidden');
@@ -502,9 +562,13 @@
             let monthlyPayment = 0;
             let totalInterest = 0;
             let totalPaid = 0;
+            let displayMonthlyPayment = 0; 
 
             if (mode === 'time') {
-                monthlyPayment = cleanInput(document.getElementById('monthlyPayment').value);
+                // Get User Input
+                const userPaymentInput = cleanInput(document.getElementById('monthlyPayment').value);
+                monthlyPayment = userPaymentInput; // Used for calculation (will change in loop)
+                displayMonthlyPayment = userPaymentInput; // Used for Display (Will not change)
                 
                 // Cek jika pembayaran cukup menutupi bunga bulanan pertama
                 const firstMonthInterest = balance * monthlyRate;
@@ -516,21 +580,19 @@
                 }
 
                 // Rumus N = -log(1 - (i * B) / P) / log(1 + i)
-                // i = monthly rate, B = balance, P = payment
                 const numerator = -Math.log(1 - (monthlyRate * balance) / monthlyPayment);
                 const denominator = Math.log(1 + monthlyRate);
                 months = Math.ceil(numerator / denominator);
-                
+
                 // Recalculate exact totals based on integer months
-                // Simple iteration for accuracy with rounding
                 let tempBalance = balance;
                 totalPaid = 0;
                 for(let i=0; i<months; i++){
                     let interest = tempBalance * monthlyRate;
                     let principal = monthlyPayment - interest;
                     if (tempBalance < principal) {
-                        // Last month adjustment
-                        monthlyPayment = tempBalance + interest;
+                        // Last month adjustment (Payment is less)
+                        monthlyPayment = tempBalance + interest; 
                         principal = tempBalance;
                     }
                     totalPaid += monthlyPayment;
@@ -552,9 +614,9 @@
                 
                 // Rumus P = (i * B) / (1 - (1 + i)^-N)
                 monthlyPayment = (monthlyRate * balance) / (1 - Math.pow(1 + monthlyRate, -months));
-                
                 totalPaid = monthlyPayment * months;
                 totalInterest = totalPaid - balance;
+                displayMonthlyPayment = Math.ceil(monthlyPayment); // For display
 
                 // Set Result Label
                 document.getElementById('labelMainResult').textContent = t.labelMainResultPay;
@@ -569,18 +631,17 @@
             let interpText = "";
             if (mode === 'time') {
                  interpText = t.interpTime
-                    .replace('[PAYMENT]', formatNumber(Math.ceil(monthlyPayment)))
+                    .replace('[PAYMENT]', formatNumber(displayMonthlyPayment)) 
                     .replace('[BALANCE]', formatNumber(balance))
                     .replace('[MONTHS]', months)
                     .replace('[YEARS]', years);
             } else {
                  interpText = t.interpPay
-                    .replace('[PAYMENT]', formatNumber(Math.ceil(monthlyPayment)))
+                    .replace('[PAYMENT]', formatNumber(displayMonthlyPayment))
                     .replace('[BALANCE]', formatNumber(balance))
                     .replace('[MONTHS]', months);
             }
             interpText += "<br><br>" + t.interpInterest.replace('[PERCENT]', interestPercent);
-            
             document.getElementById('textInterpretation').innerHTML = interpText;
             
             // Breakdown
@@ -641,7 +702,6 @@
             document.getElementById('labelPrincipal').textContent = t.labelPrincipal;
             document.getElementById('labelTotalInterest').textContent = t.labelTotalInterest;
             document.getElementById('labelTotalPaid').textContent = t.labelTotalPaid;
-
             // Edukasi
             document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
             document.getElementById('content1').innerHTML = t.content1;
@@ -661,7 +721,24 @@
             document.getElementById('linkAbout').textContent = t.linkAbout;
             document.getElementById('linkContact').textContent = t.linkContact;
             document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-            
+            document.getElementById('relatedToolsHeader').textContent = t.relatedToolsHeader;
+
+            // Related Tools Update
+            document.getElementById('rtTitle1').textContent = t.rtTitle1;
+            document.getElementById('rtDesc1').textContent = t.rtDesc1;
+            document.getElementById('rtTitle2').textContent = t.rtTitle2;
+            document.getElementById('rtDesc2').textContent = t.rtDesc2;
+            document.getElementById('rtTitle3').textContent = t.rtTitle3;
+            document.getElementById('rtDesc3').textContent = t.rtDesc3;
+            document.getElementById('rtTitle4').textContent = t.rtTitle4;
+            document.getElementById('rtDesc4').textContent = t.rtDesc4;
+            document.getElementById('rtTitle5').textContent = t.rtTitle5;
+            document.getElementById('rtDesc5').textContent = t.rtDesc5;
+            document.getElementById('rtTitle6').textContent = t.rtTitle6;
+            document.getElementById('rtDesc6').textContent = t.rtDesc6;
+            document.getElementById('rtTitle7').textContent = t.rtTitle7;
+            document.getElementById('rtDesc7').textContent = t.rtDesc7;
+
             if(document.getElementById('resultBox').classList.contains('visible')){
                 calculatePayoff({preventDefault:()=>{}});
             }
