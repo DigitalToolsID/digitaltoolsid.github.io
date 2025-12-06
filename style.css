@@ -1,0 +1,78 @@
+/* --- style.css --- */
+
+/* 1. Header Sticky Standard */
+
+/* Update: Menambahkan #global-header-container agar wrapper HTML ikut sticky */
+.app-header, #global-header-container {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background-color: white; /* Opsional: Mencegah konten di bawahnya terlihat tembus saat di-scroll */
+}
+
+/* 2. Style Tombol Bahasa (Toggle Switch) */
+.lang-toggle-container {
+    position: relative;
+    display: inline-flex;
+    background-color: #e5e7eb; /* Gray-200 */
+    border-radius: 9999px;
+    padding: 4px;
+    vertical-align: middle;
+}
+
+.lang-toggle-btn {
+    padding: 6px 14px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 10;
+    color: #6b7280; /* Gray-500 */
+    transition: color 0.3s ease;
+    position: relative;
+    background: transparent;
+    border: none;
+}
+
+.lang-toggle-slider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    width: calc(50% - 4px);
+    background-color: #1e3a8a; /* Primary Dark Blue */
+    border-radius: 9999px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Logika Animasi Toggle */
+.lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
+.lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
+.lang-toggle-container.lang-en #lang-en { color: white; }
+.lang-toggle-container.lang-id #lang-id { color: white; }
+
+/* --- Tambahkan ini di bagian bawah style.css --- */
+
+/* 3. Footer Standard */
+#global-footer-container {
+    margin-top: 3rem;           /* Setara mt-12 */
+    padding-top: 1.5rem;        /* Setara py-6 */
+    padding-bottom: 1.5rem;
+    border-top: 1px solid #e5e7eb; /* Setara border-gray-200 */
+    background-color: #f3f4f6;  /* Setara bg-gray-100 */
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Memastikan link di footer rapi */
+#global-footer-container a {
+    color: #4b5563; /* Gray-600 */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+#global-footer-container a:hover {
+    color: #3498db; /* Secondary Blue */
+}

@@ -5,20 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="appTitle">Digital Tools ID - Katalog Alat Digital</title>
     
-    <!-- SEO & Verifikasi -->
     <meta name="google-site-verification" content="V9IvKqvDSwA_bFJ7p1i2uPbk6RjqaddkDa2xBWz8Wk8" />
     <meta name="copyright" content="Digital Tools ID - Hak Cipta Dilindungi">
     <meta name="robots" content="index, follow"> 
     <link rel="canonical" href="https://digitaltoolsid.github.io/" /> 
     <link rel="author" href="https://digitaltoolsid.github.io">
 
-    <!-- Meta Keywords (Diperkaya) -->
     <meta name="keywords" content="kalkulator keuangan, kalkulator kpr, kalkulator pajak pph, kalkulator investasi, kalkulator kesehatan, bmi calculator, simulasi kredit, perencanaan pensiun, kalkulator saham, digital tools id, manajemen utang, anggaran bulanan, biaya hidup" />
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Konfigurasi Tema -->
     <script>
         tailwind.config = {
             theme: {
@@ -39,7 +35,6 @@
         }
     </script>
     
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -48,16 +43,14 @@
       gtag('config', 'G-7M8E7QRYNY');
     </script>
 
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
          
     <style>
         body { font-family: 'Inter', sans-serif; }
         
         /* Animasi Kartu Aktif */
         .tool-card { 
-            transition: all 0.2s ease-in-out; 
+            transition: all 0.2s ease-in-out;
             border-top: 4px solid; 
         }
         .tool-card:hover {
@@ -67,7 +60,7 @@
 
         /* Kartu Non-Aktif (Coming Soon) */
         .tool-card-disabled {
-            background-color: #f3f4f6; /* abu-abu muda */
+            background-color: #f3f4f6;
             border-color: #d1d5db;
             color: #9ca3af;
             cursor: default;
@@ -77,132 +70,79 @@
             transform: none;
             box-shadow: none;
         }
-        .tool-card-disabled h3, .tool-card-disabled h4 {
-            color: #6b7280;
-        }
         
         /* Warna Kategori */
         .card-health { border-color: #3498db; }
         .card-finance { border-color: #27ae60; }
         .card-productivity { border-color: #9b59b6; }
-        
-        /* Toggle Bahasa */
-        .lang-toggle-container {
-            position: fixed; 
-            top: 15px;
-            right: 15px;
-            z-index: 2000; 
-            background-color: rgba(255, 255, 255, 0.95); 
-            border-radius: 8px;
-            padding: 4px;
-            display: flex;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-            border: 1px solid #e5e7eb;
-        }
-        .lang-toggle-container button {
-            transition: all 0.2s;
-            padding: 4px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.875rem;
-            color: #64748b; 
-        }
-        .lang-toggle-container button.active {
-            background-color: #2c3e50; 
-            color: white; 
-        }
-
-        @media (max-width: 640px) {
-            .mobile-header-padding {
-                padding-right: 90px; 
-            }
-        }
-        
-        /* Style Search Box */
-        .search-container {
-            position: relative;
-            max-width: 600px;
-            margin: -2rem auto 2rem auto; 
-            z-index: 10;
-        }
-        .search-input {
-            width: 100%;
-            padding: 1rem 1.5rem 1rem 3rem;
-            border-radius: 50px;
-            border: 2px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            font-size: 1rem;
-        }
-        .search-input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 10px 15px -3px rgba(52, 152, 219, 0.3);
-        }
-        .search-icon {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-        }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen">
 
-    <!-- Tombol Bahasa -->
-    <div id="languageSwitcher" class="lang-toggle-container">
-        <button id="lang-en" onclick="setLanguage('en')">EN</button>
-        <button id="lang-id" onclick="setLanguage('id')">ID</button>
+    <div class="relative bg-[#1e3a8a] text-white pb-16 rounded-b-[2.5rem] shadow-xl overflow-hidden">
+        
+        <div id="languageSwitcher" class="fixed top-6 right-6 z-50 flex bg-white rounded-full p-1 shadow-sm cursor-pointer select-none w-24 h-9">
+        <div id="langToggleSlider" class="absolute top-1 left-1 bottom-1 w-[calc(50%-4px)] bg-[#1e3a8a] rounded-full transition-all duration-300 ease-in-out z-0"></div>
+    
+        <button id="lang-en" onclick="setLanguage('en')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-white">
+        EN
+        </button>
+    
+        <button id="lang-id" onclick="setLanguage('id')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-gray-700">
+        ID
+        </button>
+        </div>
+
+    
+        <div class="max-w-4xl mx-auto px-4 pt-20 sm:pt-24 text-center relative z-10">
+            
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                Digital Tools ID
+            </h1>
+            
+            <p id="headerSubtitle" class="text-lg sm:text-xl text-blue-100 font-medium max-w-2xl mx-auto leading-relaxed px-4">
+                Pusat Utilitas Digital untuk Estimasi Cepat & Kemudahan Sehari-hari
+            </p>
+    
+            <div class="mt-8 max-w-lg mx-auto relative px-4">
+                <div class="absolute inset-y-0 left-4 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <input type="text" id="toolSearch" onkeyup="filterTools()" 
+                    class="block w-full pl-12 pr-4 py-4 border-none rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-500/50 shadow-lg text-sm sm:text-base" 
+                    placeholder="Cari alat (misal: Pajak, KPR, BMI...)">
+            </div>
+        </div>
     </div>
 
-    <!-- Header -->
-    <header class="bg-primary text-white pt-10 pb-16 shadow-md relative">
-        <div class="text-center mobile-header-padding px-4">
-            <h1 id="headerTitle" class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">Digital Tools ID</h1>
-            <p id="headerSubtitle" class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">Pusat Kalkulator & Utilitas Digital Akurat</p>
-        </div>
-    </header>
-
-    <!-- Konten Utama -->
-    <div class="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-auto">
+    <div class="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-auto -mt-8 relative z-10">
         
-        <!-- Search Bar -->
-        <div class="search-container">
-            <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            <input type="text" id="toolSearch" class="search-input" placeholder="Cari alat (misal: Pajak, BMI, KPR...)" onkeyup="filterTools()">
-        </div>
-
         <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg min-h-[500px]">
             <div class="flex justify-between items-center mb-6 border-b pb-3">
                 <h2 id="sectionTitle" class="text-2xl sm:text-3xl font-bold text-gray-800">Daftar Alat yang Tersedia</h2>
                 <span id="resultCount" class="text-sm text-gray-500 font-medium hidden"></span>
             </div>
             
-            <!-- Container Alat (Akan diisi oleh JavaScript) -->
             <div id="toolsContainer" class="space-y-12">
-                <!-- Kategori dan Kartu akan dirender di sini -->
-            </div>
+                </div>
             
-            <!-- Pesan jika tidak ada hasil -->
             <div id="noResults" class="hidden text-center py-12">
                 <p class="text-gray-500 text-lg">Tidak ada alat yang cocok dengan pencarian Anda.</p>
                 <button onclick="document.getElementById('toolSearch').value=''; filterTools();" class="mt-2 text-secondary font-semibold hover:underline">Reset Pencarian</button>
             </div>
 
-            <!-- Tentang Kami -->
             <section class="mt-16 pt-8 border-t border-gray-200">
                 <h3 id="aboutTitle" class="text-2xl font-semibold text-gray-800 mb-3">Tentang Digital Tools ID</h3>
                 <p id="aboutContent" class="text-gray-600 leading-relaxed text-justify">
-                    Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan, kenyamanan, dan akurasi melalui serangkaian alat digital fungsional. Kami menyediakan utilitas yang cepat dan mudah digunakan untuk kebutuhan Kesehatan, Keuangan, dan Produktivitas Anda.
+                     Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan dan utilitas praktis melalui serangkaian alat digital fungsional. Kami menyediakan solusi cepat untuk kebutuhan Kesehatan, Keuangan, dan Produktivitas Anda.
                 </p>
             </section>
         </div>
     </div>
     
-    <!-- Footer -->
     <footer class="mt-12 py-8 border-t border-gray-200 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="footerLinks" class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-gray-600">
@@ -219,7 +159,7 @@
 
     <script>
         // ====================================================================
-        // DATA ALAT & ARTIKEL (KEYWORDS DIPERKAYA DARI PDF)
+        // DATA ALAT & ARTIKEL (TIDAK BERUBAH - SESUAI FILE ASLI)
         // ====================================================================
         
         const toolsData = [
@@ -607,7 +547,7 @@
                 keywords: ["kata", "karakter", "word count", "menulis", "seo", "teks", "panjang"]
             }
         ];
-
+        
         // Data Artikel
         const articleData = {
             health: [
@@ -659,31 +599,33 @@
             }
         };
 
-        // Teks UI Statis
+        // TEKS UI YANG DISESUAIKAN (Perbaikan Copywriting)
         const uiText = {
             id: {
-                headerSubtitle: "Pusat Kalkulator & Utilitas Digital Akurat",
+                headerSubtitle: "Pusat Utilitas Digital untuk Estimasi Cepat & Kemudahan Sehari-hari",
                 sectionTitle: "Daftar Alat yang Tersedia",
                 searchPlaceholder: "Cari alat (misal: Pajak, KPR, Pensiun...)",
                 noResults: "Tidak ada alat yang cocok dengan pencarian Anda.",
                 resetSearch: "Reset Pencarian",
                 articleTitle: "Artikel Terkait:",
                 aboutTitle: "Tentang Digital Tools ID",
-                aboutContent: "Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan, kenyamanan, dan akurasi melalui serangkaian alat digital fungsional. Kami menyediakan utilitas yang cepat dan mudah digunakan untuk kebutuhan Kesehatan, Keuangan, dan Produktivitas Anda.",
+                // Revisi Teks Tentang Kami agar selaras:
+                aboutContent: "Digital Tools ID adalah platform yang berkomitmen untuk memberikan kemudahan dan utilitas praktis melalui serangkaian alat digital fungsional. Kami menyediakan solusi cepat untuk kebutuhan Kesehatan, Keuangan, dan Produktivitas Anda.",
                 linkPrivacy: "Kebijakan Privasi", linkTerms: "Ketentuan Layanan", linkAbout: "Tentang Kami", linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
+                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
             },
             en: {
-                headerSubtitle: "Your Hub for Accurate Digital Calculators & Utilities",
+                headerSubtitle: "Your Hub for Quick & Convenient Digital Utilities",
                 sectionTitle: "List of Available Tools",
                 searchPlaceholder: "Search tools (e.g., Tax, Mortgage, Health...)",
                 noResults: "No tools found matching your search.",
                 resetSearch: "Reset Search",
                 articleTitle: "Related Articles:",
                 aboutTitle: "About Digital Tools ID",
-                aboutContent: "Digital Tools ID is a platform committed to delivering ease, convenience, and accuracy through a suite of functional digital tools. We provide fast, easy-to-use utilities for your Health, Finance, and Productivity needs.",
+                // Revisi Teks About Us agar selaras:
+                aboutContent: "Digital Tools ID is a platform committed to delivering ease and practical utility through a suite of functional digital tools. We provide quick solutions for your Health, Finance, and Productivity needs.",
                 linkPrivacy: "Privacy Policy", linkTerms: "Terms of Service", linkAbout: "About Us", linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
+                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
             }
         };
 
@@ -706,12 +648,9 @@
             toolsData.forEach(tool => {
                 const tTitle = tool.title[lang].toLowerCase();
                 const tDesc = tool.desc[lang].toLowerCase();
-                
-                // LOGIKA PENCARIAN: Cek Judul, Deskripsi, DAN Keyword Tersembunyi
                 const tKeywords = tool.keywords ? tool.keywords.join(" ").toLowerCase() : "";
                 
                 const match = tTitle.includes(keyword) || tDesc.includes(keyword) || tKeywords.includes(keyword);
-
                 if (match) {
                     if (!groupedTools[tool.subCategory]) groupedTools[tool.subCategory] = [];
                     groupedTools[tool.subCategory].push(tool);
@@ -803,8 +742,32 @@
             currentLang = lang;
             document.documentElement.lang = lang;
             
-            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            // Logic Tombol Bahasa Baru (Slider)
+            const slider = document.getElementById('langToggleSlider');
+            const btnEn = document.getElementById('lang-en');
+            const btnId = document.getElementById('lang-id');
+
+
+    if (lang === 'id') {
+           // Geser slider ke sisi kanan setengah kapsul
+           slider.style.left = 'calc(50% + 1px)';
+
+           // Warna teks: ID aktif (putih), EN non-aktif (abu)
+           btnId.classList.remove('text-gray-700');
+           btnId.classList.add('text-white');
+           btnEn.classList.remove('text-white');
+           btnEn.classList.add('text-gray-700');
+    } else {
+           // Geser slider ke sisi kiri (EN aktif)
+           slider.style.left = '1px';
+
+           // Warna teks: EN aktif (putih), ID non-aktif (abu)
+           btnEn.classList.remove('text-gray-700');
+           btnEn.classList.add('text-white');
+           btnId.classList.remove('text-white');
+           btnId.classList.add('text-gray-700');
+    }
+
 
             const t = uiText[lang];
             document.getElementById('headerSubtitle').textContent = t.headerSubtitle;
@@ -815,7 +778,6 @@
             
             document.getElementById('aboutTitle').textContent = t.aboutTitle;
             document.getElementById('aboutContent').textContent = t.aboutContent;
-            
             document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
             document.getElementById('linkTerms').textContent = t.linkTerms;
             document.getElementById('linkAbout').textContent = t.linkAbout;
@@ -837,7 +799,6 @@
             document.addEventListener('copy', e => { e.preventDefault(); });
             document.addEventListener('cut', e => { e.preventDefault(); });
         });
-
     </script>
 </body>
 </html>

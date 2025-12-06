@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-npv-irr-bep/" />
-
     <meta name="description" content="Kalkulator Kelayakan Bisnis. Hitung BEP, NPV, dan IRR sekaligus. Dapatkan Laporan Manajemen yang mengungkap risiko dan potensi Nilai Masa Depan investasi Anda." />
 
     <title id="appTitle">Kalkulator Analisis Kelayakan Bisnis (BEP, NPV, IRR)</title>
@@ -44,7 +45,7 @@
     </script>
     
     <style>
-        /* Gaya Tambahan Minimal */
+        /* Gaya Tambahan Minimal (Lokal untuk kalkulator ini) */
         
         /* Input khusus untuk Arus Kas */
         .cashflow-input {
@@ -92,23 +93,7 @@
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
 
-    <header class="sticky top-0 z-50 bg-primary-dark text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
-            
-            <a href="../index.html" class="flex items-center text-gray-200 hover:text-white transition duration-150 group">
-                <span class="mr-2 text-xl group-hover:-translate-x-1 transition-transform duration-200">&larr;</span>
-                <span id="backToCatalogText" class="font-medium">Back to Tools Catalog</span>
-            </a>
-            
-            <div id="languageSwitcher" class="relative flex bg-white rounded-full p-1 shadow-sm cursor-pointer select-none w-24 h-9">
-                <div id="langToggleSlider" class="absolute top-1 left-1 bottom-1 w-[calc(50%-4px)] bg-primary-dark rounded-full transition-all duration-300 ease-in-out z-0"></div>
-                
-                <button id="lang-en" onclick="setLanguage('en')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-white">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-gray-700">ID</button>
-            </div>
-
-        </div>
-    </header>
+    <div id="global-header-container" class="app-header"></div>
 
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
         <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8 mt-4">
@@ -152,6 +137,7 @@
 
                     <div class="space-y-2">
                         <p class="block text-sm font-medium text-gray-700" id="labelCashFlows">Proyeksi Arus Kas Bersih (Per Tahun)</p>
+                        
                         <div class="cashflow-input">
                             <label for="cf1" id="labelCF1">Tahun 1</label>
                             <input type="text" id="cf1" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="150.000.000" value="150000000">
@@ -236,26 +222,18 @@
         </div>
     </main>
     
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary">Privacy Policy</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary">Terms of Service</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary">About Us</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary">Contact Us</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
-        </div>
-    </footer>
+    <div id="global-footer-container"></div>
     
     <script>
+    window.headerCategory = 'finance'; // INI KUNCINYA: Mengubah Header jadi HIJAU
+    </script>
+
+    
+    <script src="../components.js"></script>
+
+    <script>
         // **********************************************
-        // LOGIKA UTAMA (Sama seperti sebelumnya)
+        // LOGIKA UTAMA
         // **********************************************
 
         const translations = {
@@ -419,6 +397,7 @@
 
             // Validasi
             const contributionMargin = salePrice - variableCost;
+
             if (fixedCosts <= 0 || variableCost < 0 || salePrice <= 0 || initialInvestment <= 0 || discountRate <= 0 || contributionMargin <= 0 || cashFlowsInputs.every(cf => cf <= 0)) {
                 document.getElementById('errorText').textContent = t.errorInput;
                 errorAlert.classList.remove('hidden');
@@ -430,7 +409,7 @@
             // Hitung BEP
             const bepUnits = fixedCosts / contributionMargin;
             const bepRevenue = bepUnits * salePrice;
-            const minCashFlow = Math.min(...cashFlowsInputs.filter(cf => cf > 0)); 
+            const minCashFlow = Math.min(...cashFlowsInputs.filter(cf => cf > 0));
             const isHighBEPRisk = bepUnits > ((minCashFlow / salePrice) * 2);
 
             // Hitung NPV
@@ -447,7 +426,8 @@
                     let guess = (low + high) / 2;
                     let npv_val = calculateNPV_for_IRR(guess, cfs_irr);
                     if (Math.abs(npv_val) < 0.0001) { irr = guess; break; }
-                    if (npv_val > 0) low = guess; else high = guess;
+                    if (npv_val > 0) low = guess;
+                    else high = guess;
                     iter++;
                 }
             }
@@ -478,7 +458,7 @@
             document.getElementById('summaryTitle').textContent = t[summaryTitleKey];
             document.getElementById('summaryText').innerHTML = summaryText + '<br><br><strong>Analisis Operasional (BEP):</strong> ' + bepSummaryText;
             document.getElementById('executiveSummary').className = `p-4 rounded-lg mb-4 border ${summaryBgClass}`;
-            
+
             // Isi Metrik Angka
             const npvEl = document.getElementById('npvResult');
             const irrEl = document.getElementById('irrResult');
@@ -492,27 +472,18 @@
             resultBox.classList.add('visible');
         }
 
-        // Fungsi Ganti Bahasa & Slider
+        // Fungsi Ganti Bahasa & Slider (DIMODIFIKASI UNTUK MODULAR)
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
             document.documentElement.lang = lang; 
 
-            // LOGIKA SLIDER & WARNA TOMBOL
-            const slider = document.getElementById('langToggleSlider');
-            const btnEn = document.getElementById('lang-en');
-            const btnId = document.getElementById('lang-id');
-
-            if (lang === 'id') {
-                // Geser Kanan (ID Aktif)
-                slider.classList.add('translate-x-full'); 
-                btnId.classList.replace('text-gray-700', 'text-white');
-                btnEn.classList.replace('text-white', 'text-gray-700');
-            } else {
-                // Geser Kiri (EN Aktif)
-                slider.classList.remove('translate-x-full');
-                btnEn.classList.replace('text-gray-700', 'text-white');
-                btnId.classList.replace('text-white', 'text-gray-700');
+            // MODIFIKASI: Menghapus logika animasi slider lama yang error 
+            // dan menggantinya dengan logika sinkronisasi dengan components.js
+            const languageSwitcher = document.getElementById('languageSwitcher');
+            if(languageSwitcher) {
+                languageSwitcher.classList.remove('lang-en', 'lang-id');
+                languageSwitcher.classList.add(`lang-${lang}`);
             }
 
             // Ganti Teks Halaman

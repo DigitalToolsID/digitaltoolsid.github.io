@@ -6,6 +6,7 @@
     <title id="pageTitle">Hubungi Kami - Digital Tools ID</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css"> 
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -14,8 +15,7 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <meta name="copyright" content="Digital Tools ID - Hak Cipta Dilindungi">
     <link rel="author" href="https://digitaltoolsid.github.io">
@@ -24,110 +24,74 @@
     <link rel="canonical" href="https://digitaltoolsid.github.io/contact-us.html" />
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; }
-        .content-box { max-width: 800px; margin: auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        h1 { color: #1e3a8a; }
-        h2 { color: #2c3e50; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-top: 1.5rem; }
-        .policy-content p { margin-bottom: 15px; text-align: justify; }
-        .contact-detail { font-size: 1.1em; margin-bottom: 25px; }
-        .email-link { color: #3498db; text-decoration: none; font-weight: bold; }
-        .email-link:hover { text-decoration: underline; }
-
-        /* CSS Toggle Bahasa (Diposisikan tetap di sudut) */
-        .lang-toggle-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 4px;
-            display: flex;
-        }
-        .lang-toggle-container button {
-            transition: all 0.2s;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            color: #4b5563; 
-        }
-        .lang-toggle-container button.active {
-            font-weight: bold;
-            background-color: #dbeafe; 
-            color: #1e3a8a; 
-        }
+        /* Standarisasi Tipografi Dokumen */
+        body { font-family: 'Inter', sans-serif; }
+        .email-link { color: #2563eb; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .email-link:hover { color: #1e40af; text-decoration: underline; }
     </style>
 </head>
-<body class="antialiased text-gray-800 flex flex-col min-h-screen">
-    
-    <div id="languageSwitcher" class="lang-toggle-container">
-        <button id="lang-en" onclick="setLanguage('en')">
-            EN
-        </button>
-        <button id="lang-id" onclick="setLanguage('id')">
-            ID
-        </button>
-    </div>
+<body class="bg-gray-50 flex flex-col min-h-screen">
 
-    <main class="p-4 sm:p-8 flex-grow">
-        <div class="content-box">
+    <div id="global-header-container" class="app-header"></div>
+
+    <main class="flex-grow w-full max-w-4xl mx-auto p-6 sm:p-10 my-8 bg-white shadow-lg rounded-xl">
+        
+        <div class="border-b border-gray-200 pb-6 mb-8">
+            <h1 id="headerTitle" class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">Hubungi Digital Tools ID</h1>
+        </div>
+
+        <div class="text-gray-600 leading-relaxed space-y-8">
             
-            <header>
-                <a href="index.html" id="backLink" class="text-blue-600 hover:underline text-sm mb-4 inline-block">&larr; Kembali ke Katalog Alat</a>
-                <h1 id="headerTitle" class="text-3xl sm:text-4xl font-extrabold mb-4 pt-4 border-b">Hubungi Digital Tools ID</h1>
-            </header>
+            <p id="introP1" class="text-lg">
+                Kami di sini untuk membantu Anda dengan pertanyaan, umpan balik, atau pertanyaan bisnis apa pun mengenai alat digital kami. Masukan Anda sangat berharga untuk peningkatan layanan kami secara berkelanjutan.
+            </p>
 
-            <div class="policy-content space-y-6">
-                
-                <p id="introP1">
-                    Kami di sini untuk membantu Anda dengan pertanyaan, umpan balik, atau pertanyaan bisnis apa pun mengenai alat digital kami. Masukan Anda sangat berharga untuk peningkatan layanan kami secara berkelanjutan.
-                </p>
-
-                <h2 id="supportTitle" class="text-2xl font-bold mb-3">Dukungan Umum & Umpan Balik</h2>
-                <p id="supportP1">Untuk dukungan teknis, umpan balik tentang alat, atau pertanyaan umum, silakan hubungi kami di:</p>
-                <div class="contact-detail">
-                    <strong id="emailSupportLabel">Email:</strong> <a class="email-link" href="mailto:hello.digitaltoolsid@gmail.com">hello.digitaltoolsid@gmail.com</a>
+            <section class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                <h2 id="supportTitle" class="text-xl font-bold text-gray-800 mb-3">Dukungan Umum & Umpan Balik</h2>
+                <p id="supportP1" class="mb-3">Untuk dukungan teknis, umpan balik tentang alat, atau pertanyaan umum, silakan hubungi kami di:</p>
+                <div class="flex items-center space-x-2">
+                    <strong id="emailSupportLabel" class="text-gray-800">Email:</strong> 
+                    <a class="email-link" href="mailto:hello.digitaltoolsid@gmail.com">hello.digitaltoolsid@gmail.com</a>
                 </div>
+            </section>
 
-                <h2 id="businessTitle" class="text-2xl font-bold mb-3">Pertanyaan Bisnis & Kemitraan</h2>
-                <p id="businessP1">Untuk potensi kemitraan, kolaborasi, atau urusan bisnis, Anda dapat menghubungi pendiri secara langsung:</p>
-                <div class="contact-detail">
-                    <strong id="founderLabel">Pendiri:</strong> DTID Analytics<br>
-                    <strong id="emailBusinessLabel">Email:</strong> <a class="email-link" href="mailto:dtid.business@gmail.com">dtid.business@gmail.com</a>
+            <section class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <h2 id="businessTitle" class="text-xl font-bold text-gray-800 mb-3">Pertanyaan Bisnis & Kemitraan</h2>
+                <p id="businessP1" class="mb-3">Untuk potensi kemitraan, kolaborasi, atau urusan bisnis, Anda dapat menghubungi pendiri secara langsung:</p>
+                <div class="space-y-2">
+                    <div>
+                        <strong id="founderLabel" class="text-gray-800 w-20 inline-block">Pendiri:</strong> 
+                        <span>DTID Analytics</span>
+                    </div>
+                    <div>
+                        <strong id="emailBusinessLabel" class="text-gray-800 w-20 inline-block">Email:</strong> 
+                        <a class="email-link" href="mailto:dtid.business@gmail.com">dtid.business@gmail.com</a>
+                    </div>
                 </div>
+            </section>
 
-                <p id="responseP1">Kami berusaha keras untuk menanggapi semua pertanyaan dalam waktu 2 hari kerja.</p>
-
-            </div>
+            <p id="responseP1" class="text-sm text-gray-500 italic border-t pt-4">
+                Kami berusaha keras untuk menanggapi semua pertanyaan dalam waktu 2 hari kerja.
+            </p>
 
         </div>
     </main>
 
-    <footer class="mt-8 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Kebijakan Privasi</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Ketentuan Layanan</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">Tentang Kami</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Hubungi Kami</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics.</span>
-            </div>
-        </div>
-    </footer>
+    <div id="global-footer-container"></div>
+
     <script>
+        // 1. Mode Dokumen (Header Abu-abu)
+        window.isDocPage = true; 
+    </script>
+    
+    <script src="components.js"></script>
+
+    <script>
+        // 3. Logika Terjemahan (Diadaptasi ke Struktur Baru)
         const translations = {
             id: {
                 pageTitle: "Hubungi Kami - Digital Tools ID",
-                backLink: "&larr; Kembali ke Katalog Alat",
+                backLink: "Kembali ke Katalog Alat",
                 headerTitle: "Hubungi Digital Tools ID",
                 introP1: "Kami di sini untuk membantu Anda dengan pertanyaan, umpan balik, atau pertanyaan bisnis apa pun mengenai alat digital kami. Masukan Anda sangat berharga untuk peningkatan layanan kami secara berkelanjutan.",
                 supportTitle: "Dukungan Umum & Umpan Balik",
@@ -137,17 +101,11 @@
                 businessP1: "Untuk potensi kemitraan, kolaborasi, atau urusan bisnis, Anda dapat menghubungi pendiri secara langsung:",
                 founderLabel: "Pendiri:",
                 emailBusinessLabel: "Email:",
-                responseP1: "Kami berusaha keras untuk menanggapi semua pertanyaan dalam waktu 2 hari kerja.",
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                responseP1: "Kami berusaha keras untuk menanggapi semua pertanyaan dalam waktu 2 hari kerja."
             },
             en: {
                 pageTitle: "Contact Us - Digital Tools ID",
-                backLink: "&larr; Back to Tools Catalog",
+                backLink: "Back to Tools Catalog",
                 headerTitle: "Contact Digital Tools ID",
                 introP1: "We are here to assist you with any questions, feedback, or business inquiries regarding our digital tools. Your input is valuable for the continuous improvement of our services.",
                 supportTitle: "General Support & Feedback",
@@ -157,28 +115,25 @@
                 businessP1: "For potential partnerships, collaborations, or business matters, you can reach out to the founder directly:",
                 founderLabel: "Founder:",
                 emailBusinessLabel: "Email:",
-                responseP1: "We strive to respond to all inquiries within 2 business days.",
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All Rights Reserved. Developed by DTID Analytics."
+                responseP1: "We strive to respond to all inquiries within 2 business days."
             }
         };
 
-        let currentLang = 'id'; // Default bahasa ID
+        let currentLang = 'id';
 
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
             
-            // Update Title dan HTML lang attribute
+            // 1. Update Title & Meta
             document.getElementById('pageTitle').textContent = t.pageTitle;
             document.documentElement.lang = lang; 
 
-            // Header & Content
-            document.getElementById('backLink').innerHTML = t.backLink;
+            // 2. Update Header Text (Mencari elemen di dalam Global Header)
+            const backLinkEl = document.getElementById('backToCatalogText');
+            if(backLinkEl) backLinkEl.textContent = t.backLink;
+
+            // 3. Update Konten Halaman
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('introP1').textContent = t.introP1;
             document.getElementById('supportTitle').textContent = t.supportTitle;
@@ -190,45 +145,43 @@
             document.getElementById('emailBusinessLabel').textContent = t.emailBusinessLabel;
             document.getElementById('responseP1').textContent = t.responseP1;
             
-            // Footer Links
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-
-
-            // Update Status Tombol Toggle
-            document.getElementById('lang-en').classList.remove('active');
-            document.getElementById('lang-id').classList.remove('active');
-            document.getElementById(`lang-${lang}`).classList.add('active');
+            // 4. Update Status Tombol (Target tombol yang ada di dalam global header)
+            const btnEn = document.getElementById('lang-en');
+            const btnId = document.getElementById('lang-id');
+            const slider = document.getElementById('langToggleSlider');
+            
+            if(btnEn && btnId && slider) {
+                // Reset class
+                btnEn.className = "relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none";
+                btnId.className = "relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none";
+                
+                if(lang === 'id') {
+                    slider.classList.add('translate-x-full');
+                    btnId.classList.add('text-white');
+                    btnEn.classList.add('text-gray-700');
+                } else {
+                    slider.classList.remove('translate-x-full');
+                    btnEn.classList.add('text-white');
+                    btnId.classList.add('text-gray-700');
+                }
+            }
         }
 
         // FUNGSI PROTEKSI HAK CIPTA SISI KLIEN
         document.addEventListener('DOMContentLoaded', () => {
             setLanguage('id'); 
             
-            // 1. Menonaktifkan Klik Kanan (Context Menu)
+            // 1. Menonaktifkan Klik Kanan
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 alert("Aksi Klik Kanan dinonaktifkan untuk melindungi konten ini.");
             });
 
-            // 2. Menonaktifkan Copy (Ctrl+C atau Cmd+C)
+            // 2. Menonaktifkan Copy
             document.addEventListener('copy', function(e) {
                 e.preventDefault();
                 alert("Penyalinan konten dinonaktifkan untuk melindungi hak cipta.");
             });
-        });
-        
-        // Event listener untuk tombol toggle
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                }
-            }
         });
     </script>
 </body>
