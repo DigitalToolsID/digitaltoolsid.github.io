@@ -2,17 +2,25 @@
 module.exports = {
   content: ["./**/*.{html,js}"],
   safelist: [
+    // Backgrounds
     'bg-primary',
     'bg-secondary',
     'bg-accent',
     'bg-health-color',
     'bg-finance-color',
     'bg-productivity-color',
+    // Texts
     'text-primary',
     'text-secondary',
     'text-health-color',
     'text-finance-color',
-    'text-productivity-color'
+    'text-productivity-color',
+    // Borders (INI YANG TADI KURANG)
+    'border-primary',
+    'border-secondary',
+    'border-health-color',
+    'border-finance-color',
+    'border-productivity-color'
   ],
   theme: {
     extend: {
