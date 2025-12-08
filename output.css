@@ -2405,6 +2405,11 @@ video {
   background-color: rgb(255 0 0 / var(--tw-bg-opacity, 1));
 }
 
+.bg-accent {
+  --tw-bg-opacity: 1;
+  background-color: rgb(231 76 60 / var(--tw-bg-opacity, 1));
+}
+
 .bg-blue-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));
@@ -2534,6 +2539,11 @@ video {
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(44 62 80 / var(--tw-bg-opacity, 1));
+}
+
+.bg-productivity-color {
+  --tw-bg-opacity: 1;
+  background-color: rgb(155 89 182 / var(--tw-bg-opacity, 1));
 }
 
 .bg-purple-50 {

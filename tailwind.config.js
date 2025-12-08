@@ -1,6 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./**/*.{html,js}"],
+  safelist: [
+    'bg-primary',
+    'bg-secondary',
+    'bg-accent',
+    'bg-health-color',
+    'bg-finance-color',
+    'bg-productivity-color',
+    'text-primary',
+    'text-secondary',
+    'text-health-color',
+    'text-finance-color',
+    'text-productivity-color'
+  ],
   theme: {
     extend: {
       colors: {
