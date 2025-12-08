@@ -28,11 +28,13 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* Animasi Kartu Aktif */
         .tool-card { 
-            transition: all 0.2s ease-in-out;
-            border-top: 4px solid; 
-        }
+    transition: all 0.2s ease-in-out;
+    border-top-width: 4px;   /* Hanya atur lebar */
+    border-top-style: solid; /* Hanya atur gaya garis */
+    /* Warna JANGAN diatur disini, biar Tailwind yang pegang kendali */
+}
+        
         .tool-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
