@@ -8,22 +8,18 @@ function loadHeader() {
     if (!headerContainer) return;
 
     // LOGIKA WARNA KATEGORI:
-    // Default = Biru (Primary Dark) - Untuk Kesehatan & Gaya Hidup
-    let bgClass = 'bg-[#1e3a8a]'; // Biru Default
+    let bgClass = 'bg-[#1e3a8a]'; // Default Biru
     let sliderClass = 'bg-[#1e3a8a]';
 
     // Cek Kategori Halaman
     if (window.isDocPage) {
-        // Dokumen (Privacy, Terms, dll) -> Abu-abu
         bgClass = 'bg-gray-700';
         sliderClass = 'bg-gray-500';
     } else if (window.headerCategory === 'finance') {
-        // Keuangan -> Hijau
-        bgClass = 'bg-[#27ae60]'; 
+        bgClass = 'bg-[#27ae60]';
         sliderClass = 'bg-[#27ae60]';
     } else if (window.headerCategory === 'productivity') {
-        // Produktivitas -> Ungu
-        bgClass = 'bg-[#8e44ad]'; 
+        bgClass = 'bg-[#8e44ad]';
         sliderClass = 'bg-[#8e44ad]';
     }
 
@@ -38,9 +34,11 @@ function loadHeader() {
                 <span id="backToCatalogText" class="font-medium">Back to Tools Catalog</span>
             </a>
             
-            <div id="languageSwitcher" class="relative flex bg-white rounded-full p-1 shadow-sm cursor-pointer select-none w-24 h-9">
-                <div id="langToggleSlider" class="absolute top-1 left-1 bottom-1 w-[calc(50%-4px)] ${sliderClass} rounded-full transition-all duration-300 ease-in-out z-0"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-white">EN</button>
+            <div id="languageSwitcher" class="lang-toggle-container relative flex bg-white rounded-full p-1 shadow-sm cursor-pointer select-none w-24 h-9">
+                
+                <div id="langToggleSlider" class="lang-toggle-slider absolute top-1 left-1 bottom-1 w-[calc(50%-4px)] ${sliderClass} rounded-full transition-all duration-300 ease-in-out z-0"></div>
+                
+                <button id="lang-en" onclick="setLanguage('en')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-gray-700">EN</button>
                 <button id="lang-id" onclick="setLanguage('id')" class="relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none text-gray-700">ID</button>
             </div>
 
@@ -54,21 +52,20 @@ function loadFooter() {
     if (!footerContainer) return;
 
     const currentYear = new Date().getFullYear();
-    
     footerContainer.innerHTML = `
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-            <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
+            <a href="../privacy-policy.html" class="hover:text-secondary transition duration-150 ease-in-out" id="footerPrivacy">Privacy Policy</a>
             <span aria-hidden="true" class="hidden sm:inline">|</span>
-            <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
+            <a href="../terms-of-service.html" class="hover:text-secondary transition duration-150 ease-in-out" id="footerTerms">Terms of Service</a>
             <span aria-hidden="true" class="hidden sm:inline">|</span>
-            <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
+            <a href="../about-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="footerAbout">About Us</a>
             <span aria-hidden="true" class="hidden sm:inline">|</span>
-            <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
+            <a href="../contact-us.html" class="hover:text-secondary transition duration-150 ease-in-out" id="footerContact">Contact Us</a>
         </div>
-        
+
         <div class="mt-6 text-center text-xs text-gray-500">
-            &copy; ${currentYear} Digital Tools ID. All rights reserved. Developed by DTID Analytics.
+            &copy; ${currentYear} Digital Tools ID. All rights reserved. <span id="footerDev">Developed by DTID Analytics.</span>
         </div>
     </div>
     `;

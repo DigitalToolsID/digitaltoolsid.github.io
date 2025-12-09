@@ -20,7 +20,12 @@ module.exports = {
     'border-secondary',
     'border-health-color',
     'border-finance-color',
-    'border-productivity-color'
+    'border-productivity-color',
+
+    // Tambahan untuk Fix Toggle Bahasa
+    'translate-x-full', 
+    'duration-300'
+
   ],
   theme: {
     extend: {
