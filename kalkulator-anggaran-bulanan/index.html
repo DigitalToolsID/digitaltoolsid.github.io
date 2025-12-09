@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- STRUKTUR SEO OPTIMAL -->
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-anggaran-bulanan/" />
     <meta name="description" content="Kalkulator Anggaran Bulanan Cepat dan Akurat. Gunakan metode 50/30/20 untuk membagi pendapatan Anda ke dalam Kebutuhan, Keinginan, dan Tabungan/Investasi. Kelola keuangan Anda dengan mudah." />
     <title id="appTitle">Kalkulator Anggaran Bulanan (Metode 50/30/20)</title>
-    <!-- Keyword potensial: kalkulator anggaran bulanan, 50/30/20 budget, rencana keuangan bulanan -->
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-anggaran-bulanan/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-anggaran-bulanan/index.html" />
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
 
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Kode Google Analytic dan Adsense (Ikuti template yang dilampirkan) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -22,81 +17,58 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-
-    <!-- Konfigurasi Tailwind (Menggunakan warna yang sama) -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50',
-                        'secondary': '#3498db',
-                        'primary-dark': '#1e3a8a',
-                        'finance-color': '#27ae60', // Hijau Keuangan
-                        'success-color': '#27ae60',
-                        'danger-color': '#e74c3c',
-                        'warning-color': '#f39c12',
-                        'needs-color': '#3498db', // Biru untuk Kebutuhan (50%)
-                        'wants-color': '#f39c12', // Kuning untuk Keinginan (30%)
-                        'savings-color': '#27ae60', // Hijau untuk Tabungan/Investasi (20%)
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 2000;
-            display: inline-flex;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 9999px;
-            padding: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #2c3e50;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px);
-            background-color: #1e3a8a;
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
+        /* --- CSS LOKAL SPESIFIK HALAMAN INI --- */
+        
+        /* Definisi Warna Grafik (Manual agar aman tanpa regenerasi output.css) */
+        .bg-finance-color { background-color: #27ae60; }
+        .text-finance-color { color: #27ae60; }
+        
+        .bg-needs-color { background-color: #3498db; } /* Biru */
+        .text-needs-color { color: #3498db; }
+        .border-needs-color { border-color: #3498db; }
+
+        .bg-wants-color { background-color: #f39c12; } /* Kuning/Orange */
+        .text-wants-color { color: #f39c12; }
+        .border-wants-color { border-color: #f39c12; }
+
+        .bg-savings-color { background-color: #27ae60; } /* Hijau */
+        .text-savings-color { color: #27ae60; }
+        .border-savings-color { border-color: #27ae60; }
+        
+        .text-success-color { color: #27ae60; }
+        .text-danger-color { color: #e74c3c; }
+        .text-warning-color { color: #f39c12; }
+        
+        /* Background transparansi untuk alert */
+        .bg-needs-color\/5 { background-color: rgba(52, 152, 219, 0.05); }
+        .bg-wants-color\/5 { background-color: rgba(243, 156, 18, 0.05); }
+        .bg-savings-color\/5 { background-color: rgba(39, 174, 96, 0.05); }
+        .bg-success-color\/5 { background-color: rgba(39, 174, 96, 0.05); }
+        .bg-danger-color\/5 { background-color: rgba(231, 76, 60, 0.05); }
+        .bg-warning-color\/5 { background-color: rgba(243, 156, 18, 0.05); }
+
 
         /* Gaya Hasil */
-        .result-box { transition: all 0.5s ease-in-out; transform-origin: top center; opacity: 0; max-height: 0; overflow: hidden; }
-        .result-box.visible { opacity: 1; max-height: 3000px; padding: 1.5rem; margin-top: 1.5rem; }
+        .result-box { 
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center; 
+            opacity: 0; 
+            max-height: 0; 
+            overflow: hidden; 
+        }
+        .result-box.visible { 
+            opacity: 1;
+            max-height: 3000px; 
+            padding: 1.5rem; 
+            margin-top: 1.5rem; 
+        }
 
         /* Gaya Tombol */
         .calculate-button {
-            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            box-shadow: 0 4px #1e8449; /* Warna hijau gelap */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
@@ -110,8 +82,8 @@
 
         /* Gaya untuk deskripsi input */
         .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
+            font-size: 0.75rem;
+            color: #6b7280;
             margin-top: 0.25rem;
         }
 
@@ -125,37 +97,23 @@
         }
         .bar-segment {
             height: 100%;
+            transition: width 0.5s ease-in-out;
         }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Kembali ke Katalog Alat</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-id">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-            </div>
-    </header>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
         <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
 
             <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Kalkulator Anggaran Bulanan</h1>
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Kelola uang Anda secara efektif menggunakan metode <strong>50/30/20</strong> yang teruji: 50% untuk Kebutuhan, 30% untuk Keinginan, dan 20% untuk Tabungan/Investasi.</p>
 
-            <!-- Formulir Kalkulator Anggaran -->
             <form id="budgetForm" onsubmit="calculateBudget(event)" class="space-y-6">
 
-                <!-- 1. Data Pendapatan -->
                 <div class="border-b pb-4 border-gray-200">
                     <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionIncomeHeader">1. Pendapatan Bersih Bulanan</h2>
                     <div class="space-y-4">
@@ -167,7 +125,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Pengeluaran -->
                 <div class="pb-4">
                     <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionSpendingHeader">2. Pengeluaran yang Dianggarkan</h2>
                     <div class="space-y-4">
@@ -197,55 +154,44 @@
                 </button>
             </form>
 
-            <!-- Error Alert -->
             <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                 <span id="errorText" class="block sm:inline"></span>
             </div>
 
-            <!-- Result Box (Hasil Perhitungan) -->
             <div id="resultBox" class="result-box bg-secondary/5 border border-secondary/30 rounded-xl shadow-lg">
 
                 <h3 id="resultTitle" class="text-2xl font-bold text-primary-dark mb-4 border-b pb-2">Hasil Analisis Anggaran</h3>
 
-                <!-- Progress Bar Visual -->
                 <div class="mb-6">
                     <p class="text-sm font-medium text-gray-700 mb-2" id="visualHeader">Distribusi Anggaran vs. Pendapatan</p>
                     <div class="budget-bar bg-gray-200">
-                        <!-- Segmen Anggaran Akan Diisi Oleh JS -->
-                        <div id="barNeeds" class="bar-segment" style="background-color: var(--tw-needs-color); width: 0%;"></div>
-                        <div id="barWants" class="bar-segment" style="background-color: var(--tw-wants-color); width: 0%;"></div>
-                        <div id="barSavings" class="bar-segment" style="background-color: var(--tw-savings-color); width: 0%;"></div>
-                        <!-- Sisa atau Surplus -->
+                        <div id="barNeeds" class="bar-segment bg-needs-color" style="width: 0%;"></div>
+                        <div id="barWants" class="bar-segment bg-wants-color" style="width: 0%;"></div>
+                        <div id="barSavings" class="bar-segment bg-savings-color" style="width: 0%;"></div>
                         <div id="barRemaining" class="bar-segment bg-gray-300" style="width: 0%;"></div>
                     </div>
                     <div class="text-center mt-2 text-sm" id="barLegend"></div>
                 </div>
 
-                <!-- Teks Narasi Hasil -->
                 <div id="resultSummaryText" class="p-4 rounded-lg mb-4 bg-white border border-gray-200">
                     <p class="text-lg font-bold mb-2" id="summaryTitle"></p>
                     <p id="summaryText" class="text-gray-700 text-sm"></p>
                 </div>
 
-                <!-- Metrik Kunci -->
                 <h3 id="metricsHeader" class="text-xl font-bold text-primary mb-3 border-b pb-2">Detail Pembagian Anggaran</h3>
                 <div id="metricsContent" class="space-y-3">
-                    <!-- Kebutuhan -->
                     <div class="flex justify-between items-center p-3 rounded-lg border border-needs-color/30 bg-needs-color/5">
                         <p class="text-sm font-medium text-needs-color" id="resultNeeds">Kebutuhan (50%)</p>
                         <p class="text-lg font-bold" id="needsResult">--</p>
                     </div>
-                    <!-- Keinginan -->
                     <div class="flex justify-between items-center p-3 rounded-lg border border-wants-color/30 bg-wants-color/5">
                         <p class="text-sm font-medium text-wants-color" id="resultWants">Keinginan (30%)</p>
                         <p class="text-lg font-bold" id="wantsResult">--</p>
                     </div>
-                    <!-- Tabungan/Investasi -->
                     <div class="flex justify-between items-center p-3 rounded-lg border border-savings-color/30 bg-savings-color/5">
                         <p class="text-sm font-medium text-savings-color" id="resultSavings">Tabungan & Investasi (20%)</p>
                         <p class="text-lg font-bold" id="savingsResult">--</p>
                     </div>
-                    <!-- Sisa Dana (Surplus/Defisit) -->
                     <div class="flex justify-between items-center p-3 rounded-lg border border-gray-300 bg-gray-100 mt-4">
                         <p class="text-base font-semibold text-gray-700" id="resultRemaining">Sisa/Defisit Dana</p>
                         <p class="text-xl font-extrabold" id="remainingResult">--</p>
@@ -253,7 +199,6 @@
                 </div>
             </div>
 
-            <!-- Konten Edukasi & Rekomendasi Tambahan -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Apa itu Metode 50/30/20?</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Metode 50/30/20 adalah aturan mudah dalam penganggaran yang dipopulerkan oleh Senator AS Elizabeth Warren. Tujuannya adalah memastikan alokasi dana yang seimbang, di mana tidak ada kategori yang melebihi batas yang disarankan, sehingga Anda dapat menabung untuk masa depan tanpa merasa terlalu terkekang.</p>
@@ -264,23 +209,13 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary">Kebijakan Privasi</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary">Ketentuan Layanan</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary">Tentang Kami</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary">Hubungi Kami</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi.</span>
-            </div>
-        </div>
-    </footer>
+    <div id="global-footer-container"></div>
+
+    <script>
+        // PENTING: Set Kategori Header menjadi 'finance' agar warna menjadi HIJAU
+        window.headerCategory = 'finance';
+    </script>
+    <script src="../components.js"></script>
 
     <script>
         // **********************************************
@@ -293,12 +228,11 @@
 
         const translations = {
             id: {
-                // UI TEXT
                 appTitle: "Kalkulator Anggaran Bulanan (Metode 50/30/20)",
                 backToCatalogText: "Kembali ke Katalog Alat",
                 headerTitle: "Kalkulator Anggaran Bulanan",
                 toolSubtitle: "Kelola uang Anda secara efektif menggunakan metode <strong>50/30/20</strong> yang teruji: 50% untuk Kebutuhan, 30% untuk Keinginan, dan 20% untuk Tabungan/Investasi.",
-                // LABELS INPUT
+                
                 sectionIncomeHeader: "1. Pendapatan Bersih Bulanan",
                 labelMonthlyIncome: "Total Pendapatan Bersih (Setelah Pajak)",
                 descMonthlyIncome: "Pendapatan yang masuk ke rekening Anda setiap bulan.",
@@ -310,7 +244,7 @@
                 labelSavingsInvestment: "Anggaran Tabungan & Investasi (Savings & Investment)",
                 descSavingsInvestment: "Dana darurat, dana pensiun, investasi saham/reksa dana, atau melunasi utang (selain cicilan wajib).",
                 calculateButton: "Analisis Anggaran 50/30/20",
-                // HASIL
+                
                 resultTitle: "Hasil Analisis Anggaran",
                 visualHeader: "Distribusi Anggaran vs. Pendapatan",
                 metricsHeader: "Detail Pembagian Anggaran",
@@ -318,7 +252,7 @@
                 resultWants: `Keinginan (Target ${WANTS_PERCENT*100}%)`,
                 resultSavings: `Tabungan & Investasi (Target ${SAVINGS_PERCENT*100}%)`,
                 resultRemaining: "Sisa/Defisit Dana",
-                // RINGKASAN NARASI
+                
                 summaryTitle_Good: "Status: Anggaran Sehat dan Efisien",
                 summaryTitle_Warning: "Status: Perlu Penyesuaian Kategori",
                 summaryTitle_Danger: "Status: Anggaran Berisiko Defisit",
@@ -328,25 +262,25 @@
                 summaryText_Danger: (deficit, totalP) => `Peringatan: Total pengeluaran (${totalP}%) melebihi pendapatan. Anda mengalami defisit bulanan sebesar ${deficit}. Lakukan peninjauan total dan segera kurangi pengeluaran Keinginan dan Kebutuhan yang tidak penting.`,
 
                 errorInput: "Harap masukkan semua nilai yang valid dan pastikan Pendapatan Bersih > 0.",
-                // KONTEN EDUKASI
+                
                 sectionHeader1: "Apa itu Metode 50/30/20?",
                 content1: "Metode 50/30/20 adalah aturan mudah dalam penganggaran yang dipopulerkan oleh Senator AS Elizabeth Warren. Tujuannya adalah memastikan alokasi dana yang seimbang, di mana tidak ada kategori yang melebihi batas yang disarankan, sehingga Anda dapat menabung untuk masa depan tanpa merasa terlalu terkekang.",
                 sectionHeader2: "Pentingnya Kepatuhan (Compliance)",
                 content2: "Kepatuhan terhadap persentase ini adalah kunci. Jika pengeluaran Kebutuhan Anda melebihi 50%, ini bisa menjadi tanda bahwa biaya hidup Anda terlalu tinggi dibandingkan pendapatan, dan perlu peninjauan ulang (misalnya, mencari tempat tinggal yang lebih murah). Anggaran Keinginan yang melebihi 30% berarti Anda memprioritaskan kesenangan instan di atas keamanan finansial masa depan.",
+                
                 // FOOTER
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
+                footerPrivacy: "Kebijakan Privasi",
+                footerTerms: "Syarat Ketentuan",
+                footerAbout: "Tentang Kami",
+                footerContact: "Hubungi Kami",
+                footerDev: "Dikembangkan oleh DTID Analytics.",
             },
             en: {
-                // UI TEXT
                 appTitle: "Monthly Budget Calculator (50/30/20 Method)",
                 backToCatalogText: "Back to Tools Catalog",
                 headerTitle: "Monthly Budget Calculator",
                 toolSubtitle: "Effectively manage your money using the proven <strong>50/30/20</strong> method: 50% for Needs, 30% for Wants, and 20% for Savings/Investment.",
-                // LABELS INPUT
+                
                 sectionIncomeHeader: "1. Net Monthly Income",
                 labelMonthlyIncome: "Total Net Income (After Tax)",
                 descMonthlyIncome: "The income that hits your bank account every month.",
@@ -358,7 +292,7 @@
                 labelSavingsInvestment: "Savings & Investment Budget",
                 descSavingsInvestment: "Emergency fund, retirement fund, stock/mutual fund investments, or paying off debt (other than mandatory installments).",
                 calculateButton: "Analyze 50/30/20 Budget",
-                // HASIL
+                
                 resultTitle: "Budget Analysis Result",
                 visualHeader: "Budget Distribution vs. Income",
                 metricsHeader: "Budget Allocation Details",
@@ -366,7 +300,7 @@
                 resultWants: `Wants (Target ${WANTS_PERCENT*100}%)`,
                 resultSavings: `Savings & Investment (Target ${SAVINGS_PERCENT*100}%)`,
                 resultRemaining: "Remaining/Deficit Fund",
-                // RINGKASAN NARASI
+                
                 summaryTitle_Good: "Status: Healthy and Efficient Budget",
                 summaryTitle_Warning: "Status: Category Adjustment Needed",
                 summaryTitle_Danger: "Status: Budget at Risk of Deficit",
@@ -376,17 +310,18 @@
                 summaryText_Danger: (deficit, totalP) => `Warning: Total expenses (${totalP}%) exceed income. You have a monthly deficit of ${deficit}. Conduct a total review and immediately reduce non-essential Wants and Needs spending.`,
 
                 errorInput: "Please enter all valid values and ensure Net Income > 0.",
-                // KONTEN EDUKASI
+                
                 sectionHeader1: "What is the 50/30/20 Method?",
                 content1: "The 50/30/20 method is an easy budgeting rule popularized by US Senator Elizabeth Warren. Its goal is to ensure a balanced allocation of funds, where no category exceeds the suggested limit, allowing you to save for the future without feeling overly restricted.",
                 sectionHeader2: "The Importance of Compliance",
                 content2: "Adherence to these percentages is key. If your Needs spending exceeds 50%, it may signal that your cost of living is too high relative to your income, requiring a review (e.g., finding cheaper housing). Wants budgets exceeding 30% mean you are prioritizing instant gratification over future financial security.",
+                
                 // FOOTER
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                footerAbout: "About Us",
+                footerContact: "Contact Us",
+                footerDev: "Developed by DTID Analytics.",
             }
         };
 
@@ -422,7 +357,6 @@
                 return;
             }
             let number = parseInt(numericValue, 10);
-            // Format number without currency symbol for input field
             inputElement.value = number.toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0
@@ -442,7 +376,7 @@
             const needsSpending = cleanInput(document.getElementById('needsSpending').value);
             const wantsSpending = cleanInput(document.getElementById('wantsSpending').value);
             const savingsInvestment = cleanInput(document.getElementById('savingsInvestment').value);
-            
+
             // 2. Validasi
             if (monthlyIncome <= 0 || isNaN(monthlyIncome) || isNaN(needsSpending) || isNaN(wantsSpending) || isNaN(savingsInvestment)) {
                 errorText.textContent = t.errorInput;
@@ -452,7 +386,7 @@
             }
             
             errorAlert.classList.add('hidden');
-            
+
             // --- PERHITUNGAN ---
             const totalSpending = needsSpending + wantsSpending + savingsInvestment;
             const remaining = monthlyIncome - totalSpending;
@@ -495,11 +429,11 @@
             document.getElementById('needsResult').innerHTML = `${formatNumber(needsSpending)} <span class="text-xs text-gray-500">(${needsP.toFixed(1)}%)</span>`;
             document.getElementById('wantsResult').innerHTML = `${formatNumber(wantsSpending)} <span class="text-xs text-gray-500">(${wantsP.toFixed(1)}%)</span>`;
             document.getElementById('savingsResult').innerHTML = `${formatNumber(savingsInvestment)} <span class="text-xs text-gray-500">(${savingsP.toFixed(1)}%)</span>`;
-
+            
             // Tampilkan Sisa Dana
             document.getElementById('remainingResult').textContent = formatNumber(remaining);
             document.getElementById('remainingResult').className = `text-xl font-extrabold ${remaining >= 0 ? 'text-success-color' : 'text-danger-color'}`;
-            
+
             // Tampilkan Visualisasi Bar
             const totalWidth = totalSpending > monthlyIncome ? totalSpending : monthlyIncome; // Untuk memastikan bar tidak terpotong jika defisit
             const needsWidth = (needsSpending / totalWidth) * 100;
@@ -513,14 +447,15 @@
             let remainingWidth = 100 - (needsWidth + wantsWidth + savingsWidth);
             if (remainingWidth < 0) remainingWidth = 0; // Jika defisit, bar akan penuh
             document.getElementById('barRemaining').style.width = `${remainingWidth}%`;
-
+            
             let legendText;
             if (remaining >= 0) {
                 legendText = `${formatNumber(remaining)} ${t.resultRemaining.split('/')[0]}`;
             } else {
                 legendText = `${formatNumber(Math.abs(remaining))} ${t.resultRemaining.split('/')[1]}`;
             }
-            document.getElementById('barLegend').textContent = remaining >= 0 ? `${t.resultRemaining.split('/')[0]} ${formatNumber(remaining)}` : `${t.resultRemaining.split('/')[1]} ${formatNumber(Math.abs(remaining))}`;
+            document.getElementById('barLegend').textContent = remaining >= 0 ? 
+                `${t.resultRemaining.split('/')[0]} ${formatNumber(remaining)}` : `${t.resultRemaining.split('/')[1]} ${formatNumber(Math.abs(remaining))}`;
             
             resultBox.classList.add('visible');
         }
@@ -533,12 +468,29 @@
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
+            
+            // Update Header & Footer Modular
             const languageSwitcher = document.getElementById('languageSwitcher');
+            if(languageSwitcher) {
+                languageSwitcher.classList.remove('lang-en', 'lang-id');
+                languageSwitcher.classList.add(`lang-${lang}`);
+            }
 
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
+            const backBtn = document.getElementById('backToCatalogText');
+            if(backBtn) backBtn.textContent = t.backToCatalogText;
+            
+            // Update Footer Global (Jika ada)
+            if(document.getElementById('footerPrivacy')) {
+                document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
+                document.getElementById('footerTerms').textContent = t.footerTerms;
+                document.getElementById('footerAbout').textContent = t.footerAbout;
+                document.getElementById('footerContact').textContent = t.footerContact;
+                const devSpan = document.getElementById('footerDev');
+                if(devSpan) devSpan.textContent = t.footerDev;
+            }
+
             document.documentElement.lang = lang;
-
+            
             // Daftar ID elemen dan kunci terjemahan
             const elements = [
                 'appTitle', 'backToCatalogText', 'headerTitle', 'toolSubtitle',
@@ -550,22 +502,20 @@
                 'calculateButton',
                 'resultTitle', 'visualHeader', 'metricsHeader',
                 'resultNeeds', 'resultWants', 'resultSavings', 'resultRemaining',
-                'sectionHeader1', 'content1', 'sectionHeader2', 'content2',
-                'linkPrivacy', 'linkTerms', 'linkAbout', 'linkContact', 'footerCopyright'
+                'sectionHeader1', 'content1', 'sectionHeader2', 'content2'
             ];
 
             elements.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     if (id === 'toolSubtitle') {
-                         // Menggunakan innerHTML karena ada tag <strong>
-                        el.innerHTML = t[id];
+                         el.innerHTML = t[id];
                     } else {
                         el.textContent = t[id];
                     }
                 }
             });
-            
+
             // Re-format input values based on new language settings
             ['monthlyIncome', 'needsSpending', 'wantsSpending', 'savingsInvestment'].forEach(id => {
                 const input = document.getElementById(id);
@@ -603,17 +553,6 @@
             }
             setLanguage(defaultLang);
         });
-
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                }
-            }
-        });
-
     </script>
 </body>
 </html>
