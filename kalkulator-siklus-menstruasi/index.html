@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-siklus-menstruasi/" />
-    <!-- Judul akan di-set oleh JS -->
  
     <meta name="description" content="Kalkulator Siklus Menstruasi & Ovulasi. Perkirakan tanggal Periode Berikutnya, Hari Ovulasi, dan Jendela Subur (hari paling subur) untuk perencanaan yang akurat." />
  
@@ -12,9 +11,11 @@
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-siklus-menstruasi/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-siklus-menstruasi/index.html" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#1e3a8a">
     
-    <!-- Kode Google Analytic dan Adsense -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -22,31 +23,15 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
     
-    <!-- Konfigurasi Tailwind (Sama seperti BMI) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
+    
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'toggle-bg': '#e5e7eb',
-                        'health-color': '#e11d48', // Warna baru untuk alat ini (Pink/Rose)
-                    }
-                }
-            }
-        }
+        window.headerCategory = 'health';
     </script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil (Sama seperti BMI) */
+        /* Gaya Kustom untuk hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -60,42 +45,7 @@
             padding: 1.5rem; 
         }
         
-        /* Gaya Toggle Bahasa (Sama seperti BMI) */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya untuk daftar poin agar lebih rapi */
+        /* Untuk daftar aksi */
         .action-list {
             list-style-type: disc;
             margin-left: 1.5rem;
@@ -104,86 +54,64 @@
         .action-list li {
             margin-bottom: 0.25rem;
         }
-        
     </style>
 </head>
-<!-- Body dengan kode pengaman (Sama seperti BMI) -->
+
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
 
-    <!-- Header (Sama seperti BMI, path ../index.html sudah benar) -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
-                    EN
-                </button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
-                    ID
-                </button>
-            </div>
-            </div>
-    </header>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content (Struktur sama, ID diubah) -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
         <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Menstrual & Ovulation Cycle Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-rose-700 mb-3">Menstrual & Ovulation Cycle Calculator</h1>
             
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
                 Estimate your next period date, ovulation window, and most fertile days based on your cycle.
             </p>
             
-            <!-- Form Input (Baru) -->
             <div class="space-y-4">
                 <div class="relative">
                     <label for="lastPeriodDate" class="block text-sm font-medium text-gray-700 mb-1" id="labelLastPeriod">First Day of Last Period</label>
-                    <input type="date" id="lastPeriodDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                    <input type="date" id="lastPeriodDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 transition duration-150" required>
                 </div>
                 
                 <div class="relative">
                     <label for="cycleLength" class="block text-sm font-medium text-gray-700 mb-1" id="labelCycleLength">Average Cycle Length (days)</label>
-                    <input type="number" id="cycleLength" placeholder="E.g.: 28" step="1" min="20" max="45" value="28" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                    <input type="number" id="cycleLength" placeholder="E.g.: 28" step="1" min="20" max="45" value="28" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 transition duration-150" required>
                 </div>
 
-                <button id="calculateButton" onclick="calculateCycle()" class="w-full bg-health-color text-white font-semibold py-3 rounded-xl shadow-md hover:bg-rose-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-health-color focus:ring-opacity-50">
+                <button id="calculateButton" onclick="calculateCycle()" class="w-full bg-rose-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-rose-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-rose-300 focus:ring-opacity-50">
                     Calculate My Cycle
                 </button>
                 
-                <!-- Error Alert (Sama seperti BMI) -->
                 <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </div>
 
-            <!-- Result Box (Struktur sama, ID diubah, tanpa tabs) -->
-            <div id="resultBox" class="result-box mt-6 bg-health-color/5 border border-health-color/30 rounded-xl shadow-lg">
+            <div id="resultBox" class="result-box mt-6 bg-rose-50 border border-rose-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-lg font-bold mb-4 text-primary border-b pb-2">Your Estimated Cycle</h3>
+                <h3 id="resultHeader" class="text-lg font-bold mb-4 text-rose-800 border-b border-rose-200 pb-2">Your Estimated Cycle</h3>
                 
                 <div class="space-y-4">
-                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p id="labelNextPeriod" class="text-sm text-blue-800 font-medium mb-1">Estimated Next Period</pre>
-                        <p id="nextPeriodResult" class="text-2xl font-bold text-blue-600">--</p>
+                    <div class="p-4 bg-white border border-rose-100 rounded-lg shadow-sm">
+                        <p id="labelNextPeriod" class="text-sm text-gray-600 font-medium mb-1">Estimated Next Period</p>
+                        <p id="nextPeriodResult" class="text-2xl font-bold text-rose-600">--</p>
                     </div>
-                    <div class="p-4 bg-pink-50 border border-pink-200 rounded-lg">
+                    
+                    <div class="p-4 bg-pink-50 border border-pink-100 rounded-lg">
                         <p id="labelFertileWindow" class="text-sm text-pink-800 font-medium mb-1">Estimated Fertile Window</p>
                         <p id="fertileWindowResult" class="text-xl font-bold text-pink-600">--</p>
                     </div>
-                    <div class="p-4 bg-pink-100 border border-pink-300 rounded-lg">
-                        <p id="labelOvulation" class="text-sm text-pink-900 font-medium mb-1">Approximate Ovulation Day</p>
-                        <p id="ovulationResult" class="text-xl font-bold text-pink-700">--</p>
+                    
+                    <div class="p-4 bg-purple-50 border border-purple-100 rounded-lg">
+                        <p id="labelOvulation" class="text-sm text-purple-900 font-medium mb-1">Approximate Ovulation Day</p>
+                        <p id="ovulationResult" class="text-xl font-bold text-purple-700">--</p>
                     </div>
                 </div>
             </div>
             
-            <!-- Konten Edukasi (Struktur sama, ID diubah) -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding Your Menstrual Cycle</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -197,34 +125,132 @@
 
         </div>
     </main>
-    
-    <!-- Footer (Sama seperti BMI) -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+
+    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-blue-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" 
+                data-en="Health & Lifestyle Tools" 
+                data-id="Alat Kesehatan & Gaya Hidup">
+                Health & Lifestyle Tools
+            </h2>
         </div>
-    </footer>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 text-blue-600 group-hover:text-blue-700"
+                    data-en="BMI Calculator"
+                    data-id="Kalkulator BMI">
+                    BMI Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Calculate Body Mass Index & Daily Calorie Needs."
+                    data-id="Hitung Indeks Massa Tubuh & Kebutuhan Kalori Harian.">
+                    Calculate Body Mass Index & Daily Calorie Needs.
+                </p>
+            </a>
+
+            <a href="../body-fat-calculator/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 text-blue-600 group-hover:text-blue-700"
+                    data-en="Body Fat Percentage"
+                    data-id="Persentase Lemak Tubuh">
+                    Body Fat Percentage
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Estimate body composition using US Navy method."
+                    data-id="Estimasi komposisi tubuh dengan metode Angkatan Laut AS.">
+                    Estimate body composition using US Navy method.
+                </p>
+            </a>
+
+            <a href="../kalkulator-air-harian/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 text-blue-600 group-hover:text-blue-700"
+                    data-en="Daily Water Intake Calculator"
+                    data-id="Kalkulator Asupan Air Harian">
+                    Daily Water Intake Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Calculate your minimum daily hydration needs."
+                    data-id="Hitung kebutuhan hidrasi harian minimum Anda.">
+                    Calculate your minimum daily hydration needs.
+                </p>
+            </a>
+
+            <a href="../kalkulator-kebutuhan-protein/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 text-blue-600 group-hover:text-blue-700"
+                    data-en="Daily Protein Needs Calculator"
+                    data-id="Kalkulator Kebutuhan Protein">
+                    Daily Protein Needs Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Determine ideal protein intake for muscle building or diet."
+                    data-id="Tentukan asupan protein ideal untuk pembentukan otot atau diet.">
+                    Determine ideal protein intake for muscle building or diet.
+                </p>
+            </a>
+
+            <a href="../kalkulator-denyut-jantung/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 text-blue-600 group-hover:text-blue-700"
+                    data-en="Target Heart Rate Calculator"
+                    data-id="Kalkulator Detak Jantung Target">
+                    Target Heart Rate Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Calculate Fat Burn and Aerobic zones using Karvonen method."
+                    data-id="Hitung zona Pembakaran Lemak & Aerobik (Metode Karvonen).">
+                    Calculate Fat Burn and Aerobic zones using Karvonen method.
+                </p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-100 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" 
+                data-en="Related Articles:" 
+                data-id="Artikel Terkait:">
+                Related Articles:
+            </h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-sm hover:underline group text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Understanding BMI and TDEE: Your Daily Calorie Needs" 
+                              data-id="Memahami BMI dan TDEE: Kebutuhan Kalori Harian Anda">
+                            Understanding BMI and TDEE: Your Daily Calorie Needs
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../articles/panduan_lingkar_pinggang.html" class="flex items-center text-sm hover:underline group text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Complete Guide to Measuring Ideal Waist Circumference" 
+                              data-id="Panduan Lengkap Mengukur Lingkar Pinggang Ideal">
+                            Complete Guide to Measuring Ideal Waist Circumference
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-sm hover:underline group text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="The Complete Guide: How to Read a Nutrition Facts Label" 
+                              data-id="Panduan Lengkap: Cara Membaca Label Informasi Nilai Gizi">
+                            The Complete Guide: How to Read a Nutrition Facts Label
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
     
+    <div id="global-footer-container"></div>
+    
+    <script src="../components.js"></script>
     <script>
         // **********************************************
         // LOGIKA BARU UNTUK KALKULATOR SIKLUS
         // **********************************************
 
-        // Objek terjemahan BARU untuk alat ini
         const translations = {
-            id: {
+           id: {
                 appTitle: "Kalkulator Siklus Menstruasi & Ovulasi",
                 headerTitle: "Kalkulator Siklus Menstruasi & Ovulasi",
                 toolSubtitle: "Perkirakan tanggal periode berikutnya, jendela ovulasi, dan hari paling subur berdasarkan siklus Anda.",
@@ -239,7 +265,7 @@
                 inputError: "Mohon masukkan Tanggal Periode Terakhir dan Lama Siklus yang valid (antara 20-45 hari).",
                 placeholderCycle: "Contoh: 28",
 
-                // Konten Edukasi (Penting untuk AdSense)
+                // Konten Edukasi
                 sectionHeader1: "Memahami Siklus Menstruasi Anda",
                 content1: "Siklus menstruasi adalah proses bulanan yang dialami tubuh wanita sebagai persiapan untuk kemungkinan kehamilan. Siklus ini diatur oleh hormon dan rata-rata berlangsung selama 28 hari, meskipun siklus normal dapat berkisar antara 21 hingga 35 hari. Mengetahui siklus Anda sangat penting tidak hanya untuk perencanaan kehamilan tetapi juga sebagai indikator kesehatan secara keseluruhan.",
                 
@@ -249,12 +275,12 @@
                 sectionHeader3: "Penting (Disclaimer Medis)",
                 content3: "Kalkulator ini hanya memberikan <strong>estimasi</strong> dan tidak boleh dianggap sebagai pengganti nasihat medis profesional. Siklus dapat bervariasi karena stres, perubahan gaya hidup, atau kondisi kesehatan. Untuk pelacakan kesuburan yang akurat atau jika Anda memiliki siklus yang tidak teratur, harap berkonsultasi dengan dokter atau ahli kesehatan.",
 
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                // [MODULAR] Footer Global
+                footerPrivacy: "Kebijakan Privasi",
+                footerTerms: "Syarat Ketentuan",
+                footerAbout: "Tentang Kami",
+                footerContact: "Hubungi Kami",
+                footerDev: "Dikembangkan oleh DTID Analytics."
             },
             en: {
                 appTitle: "Menstrual & Ovulation Cycle Calculator",
@@ -271,7 +297,7 @@
                 inputError: "Please enter a valid Last Period Date and Cycle Length (between 20-45 days).",
                 placeholderCycle: "E.g.: 28",
 
-                // Konten Edukasi (Penting untuk AdSense)
+                // Konten Edukasi
                 sectionHeader1: "Understanding Your Menstrual Cycle",
                 content1: "The menstrual cycle is the monthly process a woman's body goes through in preparation for a potential pregnancy. It is regulated by hormones, and while the average cycle is 28 days, a normal cycle can range from 21 to 35 days. Knowing your cycle is crucial not only for family planning but also as a general health indicator.",
                 
@@ -281,20 +307,21 @@
                 sectionHeader3: "Important (Medical Disclaimer)",
                 content3: "This calculator provides an <strong>estimate only</strong> and should not be considered a substitute for professional medical advice. Cycles can vary due to stress, lifestyle changes, or health conditions. For accurate fertility tracking or if you have irregular cycles, please consult a doctor or healthcare provider.",
 
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                // [MODULAR] Footer Global
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                footerAbout: "About Us",
+                footerContact: "Contact Us",
+                footerDev: "Developed by DTID Analytics."
             }
         };
 
-        let currentLang = 'en'; // Default language
+        let currentLang = 'en'; 
 
-        // Fungsi untuk memformat Tanggal agar bisa dibaca
+        // Fungsi untuk memformat Tanggal (UPDATED: 01 Dec 2025)
         function formatDate(date, lang) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            // [UPDATE] Opsi tanggal diperbarui: 2-digit day, short month
+            const options = { year: 'numeric', month: 'short', day: '2-digit' };
             const locale = lang === 'id' ? 'id-ID' : 'en-US';
             return date.toLocaleDateString(locale, options);
         }
@@ -317,11 +344,9 @@
             }
             
             errorAlert.classList.add('hidden');
-
+            
             // --- PERHITUNGAN INTI ---
-            // Gunakan T00:00:00 untuk menghindari masalah timezone
             const lastPeriodDate = new Date(lastPeriodInput + 'T00:00:00');
-
             // 1. Perkiraan Periode Berikutnya
             const nextPeriodDate = new Date(lastPeriodDate);
             nextPeriodDate.setDate(lastPeriodDate.getDate() + cycleLength);
@@ -338,27 +363,32 @@
             document.getElementById('nextPeriodResult').textContent = formatDate(nextPeriodDate, lang);
             document.getElementById('ovulationResult').textContent = formatDate(ovulationDate, lang);
             document.getElementById('fertileWindowResult').textContent = `${formatDate(fertileStartDate, lang)} - ${formatDate(ovulationDate, lang)}`;
-
+            
             // Tampilkan kotak hasil
             resultBox.classList.add('visible');
         }
 
 
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa (Disesuaikan untuk alat ini)
+        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
-            currentLang = lang; // Simpan bahasa saat ini
+            currentLang = lang;
             const t = translations[lang];
+            
+            // [MODULAR] Update Toggle Header (via Components)
             const languageSwitcher = document.getElementById('languageSwitcher');
+            if(languageSwitcher) {
+                languageSwitcher.classList.remove('lang-en', 'lang-id');
+                languageSwitcher.classList.add(`lang-${lang}`);
+            }
 
-            // Update status toggle
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
+            // Update Header Global
+            const backBtn = document.getElementById('backToCatalogText');
+            if(backBtn) backBtn.textContent = t.backToCatalogText;
 
             // Update teks statis
             document.getElementById('appTitle').textContent = t.appTitle;
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
             
             // Update label formulir dan tombol
             document.getElementById('labelLastPeriod').textContent = t.labelLastPeriod;
@@ -367,7 +397,7 @@
             
             // Update placeholder
             document.getElementById('cycleLength').placeholder = t.placeholderCycle;
-
+            
             // Update label hasil
             document.getElementById('resultHeader').textContent = t.resultHeader;
             document.getElementById('labelNextPeriod').textContent = t.labelNextPeriod;
@@ -379,49 +409,66 @@
             document.getElementById('content1').innerHTML = t.content1;
             document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
             document.getElementById('content2').innerHTML = t.content2;
-Read
             document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
             document.getElementById('content3').innerHTML = t.content3;
             
             // Update Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
+            const footerPrivacy = document.getElementById('globalPrivacy');
+            if(footerPrivacy) {
+                footerPrivacy.textContent = t.footerPrivacy;
+                document.getElementById('globalTerms').textContent = t.footerTerms;
+                document.getElementById('globalAbout').textContent = t.footerAbout;
+                document.getElementById('globalContact').textContent = t.footerContact;
+                document.getElementById('globalDev').textContent = t.footerDev;
+            }
 
             // Perbarui hasil yang sudah ada (jika sudah dihitung)
             const resultElement = document.getElementById('nextPeriodResult');
             if (resultElement.textContent !== '--') {
-                 calculateCycle(); // Hitung ulang dengan bahasa baru
+                 calculateCycle();
             }
 
              // Pastikan error message diupdate
             if (!document.getElementById('errorAlert').classList.contains('hidden')) {
                 document.getElementById('errorText').textContent = t.inputError;
             }
+
+            // [MODULAR] Update Related Tools Translation
+            updateRelatedContent(lang);
         }
         
-        // Event listener untuk perubahan bahasa (Sama seperti BMI)
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                    // Sembunyikan hasil saat bahasa berganti agar tidak membingungkan
-                    document.getElementById('resultBox').classList.remove('visible');
-                    document.getElementById('errorAlert').classList.add('hidden');
+        // ============================================================
+        // LOGIKA BAHASA: BAGIAN RELATED TOOLS & ARTICLES (NEW)
+        // ============================================================
+        function updateRelatedContent(lang) {
+            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
+            translatableElements.forEach(el => {
+                const newText = el.getAttribute(`data-${lang}`);
+                if (newText) {
+                    el.textContent = newText;
                 }
-            }
-        });
+            });
+        }
 
-        // Inisialisasi (Sama seperti BMI, tanpa PWA)
+        // ============================================================
+        // OBSERVER BAHASA (Agar Konten Lokal Merespon Header) (NEW)
+        // ============================================================
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    const currentLang = document.documentElement.lang || 'en';
+                    setLanguage(currentLang);
+                }
+            });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+
+        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
             // Atur tanggal hari ini sebagai tanggal input maksimum
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('lastPeriodDate').setAttribute('max', today);
 
-            // Set bahasa default (mengikuti contoh BMI)
             setLanguage('en'); 
         });
 

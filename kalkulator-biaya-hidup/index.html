@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../output.css"> 
+    <link rel="stylesheet" href="../style.css">
+
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-biaya-hidup/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Biaya Hidup. Bandingkan biaya hidup antar dua lokasi dan hitung berapa gaji yang Anda butuhkan untuk mempertahankan standar hidup Anda." />
  
     <title id="appTitle">Cost of Living Calculator</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/cost-of-living-calculator/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/cost-of-living-calculator/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Kode Google Analytic dan Adsense -->
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,31 +18,34 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
-    <!-- Konfigurasi Tailwind -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                        'living-color': '#e67e22', // Oranye untuk Lifestyle
-                    }
-                }
-            }
-        }
+        window.headerCategory = 'finance';
     </script>
-    
+
     <style>
-        /* Gaya kustom untuk tampilan hasil */
+        /* CSS LOKAL: Khusus untuk kalkulator ini */
+        :root {
+            --finance-primary: #1e3a8a; /* Navy Blue (Trust) */
+        }
+
+        /* Tombol Kalkulasi (Biru Gelap) */
+        .calculate-button {
+            background-color: var(--finance-primary);
+            box-shadow: 0 4px 0 #1e293b;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .calculate-button:hover {
+            background-color: #172554;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1e293b;
+        }
+        .calculate-button:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -58,204 +58,120 @@
             max-height: 3000px; 
             padding: 1.5rem; 
         }
-        
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya kustom untuk input dan tombol */
-        .calculate-button {
-            box-shadow: 0 4px #a04000; /* Warna oranye gelap */
-            background-color: #e67e22; /* living-color */
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .calculate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px #a04000;
-            background-color: #d35400;
-        }
-        .calculate-button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px #a04000;
-        }
 
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
-        }
-
-        /* Gaya Kartu Hasil Utama */
         .result-card-main {
-            background-color: #fff7ed; /* Orange 50 */
-            border: 2px solid #fdba74; /* Orange 300 */
+            background-color: #f0fdf4; /* Green-50 */
+            border: 2px solid #86efac; /* Green-300 */
         }
-        
-        /* Section Header */
+
         .section-title {
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: #1e3a8a; 
         }
 
+        .input-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-        </div>
-    </header>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
         <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Cost of Living Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Cost of Living Calculator</h1>
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               <!-- Konten Subtitle akan diisi oleh JS -->
-            </p>
+                </p>
             
-            <!-- Form Input -->
             <form id="colForm" onsubmit="calculateCOL(event)" class="space-y-6">
                 
-                <!-- Profil Gaji -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                     <h2 class="section-title" id="headerIncome">1. Current Income</h2>
                     <div class="relative">
                         <label for="currentSalary" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentSalary">Current Monthly Net Salary</label>
-                        <input type="text" id="currentSalary" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-living-color focus:border-living-color" required>
+                        <input type="text" id="currentSalary" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" required>
                         <p class="input-description" id="descCurrentSalary">Gaji bersih (take home pay) Anda saat ini di lokasi asal.</p>
                     </div>
                 </div>
 
-                <!-- Perbandingan Biaya -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                     <h2 class="section-title" id="headerExpenses">2. Expense Comparison (Current vs. New Location)</h2>
                     <p class="text-xs text-gray-500 mb-4 italic" id="noteEstimates">Enter estimates for key monthly expenses. Use online data or personal research.</p>
                     
-                    <!-- Grid Input Biaya -->
                     <div class="grid grid-cols-3 gap-4 mb-2 font-bold text-sm text-gray-700">
                         <div id="colCategory">Category</div>
                         <div id="colCurrent">Current Location</div>
                         <div id="colNew">New Location</div>
                     </div>
 
-                    <!-- Rent -->
                     <div class="grid grid-cols-3 gap-4 mb-4 items-center">
                         <label class="text-sm font-medium text-gray-600" id="labelRent">Housing / Rent</label>
-                        <input type="text" id="rentCurrent" inputmode="numeric" value="3.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
-                        <input type="text" id="rentNew" inputmode="numeric" value="4.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
+                        <input type="text" id="rentCurrent" inputmode="numeric" value="3.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
+                        <input type="text" id="rentNew" inputmode="numeric" value="4.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
                     </div>
 
-                    <!-- Food -->
                     <div class="grid grid-cols-3 gap-4 mb-4 items-center">
                         <label class="text-sm font-medium text-gray-600" id="labelFood">Food & Groceries</label>
-                        <input type="text" id="foodCurrent" inputmode="numeric" value="2.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
-                        <input type="text" id="foodNew" inputmode="numeric" value="3.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
+                        <input type="text" id="foodCurrent" inputmode="numeric" value="2.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
+                        <input type="text" id="foodNew" inputmode="numeric" value="3.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
                     </div>
 
-                    <!-- Transport -->
                     <div class="grid grid-cols-3 gap-4 mb-4 items-center">
                         <label class="text-sm font-medium text-gray-600" id="labelTransport">Transportation</label>
-                        <input type="text" id="transCurrent" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
-                        <input type="text" id="transNew" inputmode="numeric" value="1.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
+                        <input type="text" id="transCurrent" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
+                        <input type="text" id="transNew" inputmode="numeric" value="1.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
                     </div>
 
-                    <!-- Utilities -->
                     <div class="grid grid-cols-3 gap-4 mb-4 items-center">
                         <label class="text-sm font-medium text-gray-600" id="labelUtilities">Utilities (Elec, Water, Internet)</label>
-                        <input type="text" id="utilCurrent" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
-                        <input type="text" id="utilNew" inputmode="numeric" value="1.200.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
+                        <input type="text" id="utilCurrent" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
+                        <input type="text" id="utilNew" inputmode="numeric" value="1.200.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
                     </div>
                     
-                     <!-- Other -->
-                    <div class="grid grid-cols-3 gap-4 mb-4 items-center">
+                     <div class="grid grid-cols-3 gap-4 mb-4 items-center">
                         <label class="text-sm font-medium text-gray-600" id="labelOther">Other/Entertainment</label>
-                        <input type="text" id="otherCurrent" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
-                        <input type="text" id="otherNew" inputmode="numeric" value="1.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-living-color focus:border-living-color text-sm">
+                        <input type="text" id="otherCurrent" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
+                        <input type="text" id="otherNew" inputmode="numeric" value="1.500.000" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-sm">
                     </div>
 
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-orange-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-orange-500 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-bold py-3 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50">
                     Compare Living Costs
                 </button>
                 
-                <!-- Error Alert -->
                 <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
             <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-orange-300">Comparison Result</h3>
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2 border-green-300">Comparison Result</h3>
                 
-                <!-- Salary Requirement -->
                 <div class="text-center mb-8">
                     <p id="labelRequiredSalary" class="text-lg font-bold text-gray-700 mb-1">To maintain your lifestyle, you need to earn:</p>
-                    <p id="resultRequiredSalary" class="text-4xl font-extrabold text-living-color">0</p>
+                    <p id="resultRequiredSalary" class="text-4xl font-extrabold text-green-700">0</p>
                     <div id="diffBadge" class="inline-block mt-3 px-3 py-1 rounded-full text-sm font-bold bg-gray-200 text-gray-700">
                         0% Difference
                     </div>
                 </div>
 
-                <!-- Interpretasi Hasil -->
-                <div class="mb-8 bg-white p-4 rounded-lg border border-orange-200">
-                    <h4 id="headerInterpretation" class="text-md font-bold text-primary mb-2">Analysis</h4>
+                <div class="mb-8 bg-white p-4 rounded-lg border border-green-200">
+                    <h4 id="headerInterpretation" class="text-md font-bold text-gray-800 mb-2">Analysis</h4>
                     <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
-                        <!-- Teks interpretasi dinamis akan muncul di sini -->
-                    </p>
+                        </p>
                 </div>
 
-                <!-- Cost Breakdown -->
-                <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Cost Breakdown Summary</h4>
+                <h4 id="detailHeader" class="text-lg font-bold text-gray-800 mb-3">Cost Breakdown Summary</h4>
                 <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
                     <div class="grid grid-cols-3 bg-gray-100 p-3 font-bold border-b">
                         <div id="tableCat">Category</div>
@@ -267,7 +183,7 @@
                         <div class="text-right" id="valTotalCurr">0</div>
                         <div class="text-right" id="valTotalNew">0</div>
                     </div>
-                     <div class="p-3 grid grid-cols-3 border-b bg-green-50">
+                    <div class="p-3 grid grid-cols-3 border-b bg-green-50">
                         <div id="labelDisposable">Disposable Income</div>
                         <div class="text-right text-green-700" id="valDispCurr">0</div>
                         <div class="text-right text-green-700" id="valDispNew">0</div>
@@ -276,7 +192,6 @@
 
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Evaluating Cost of Living</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -299,23 +214,105 @@
         </div>
     </main>
     
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <h2 class="text-xl font-bold text-gray-800" 
+                data-en="Finance & Planning Tools" 
+                data-id="Alat Keuangan & Perencanaan">
+                Finance & Planning Tools
+            </h2>
         </div>
-    </footer>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-dana-darurat/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Emergency Fund Calculator" data-id="Kalkulator Dana Darurat">
+                    Emergency Fund Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Calculate how much you need to save for unexpected events."
+                    data-id="Hitung berapa banyak yang perlu Anda tabung untuk kejadian tak terduga.">
+                    Calculate how much you need to save for unexpected events.
+                </p>
+            </a>
+            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Mortgage Calculator (KPR)" data-id="Simulasi KPR & Cicilan Rumah">
+                    Mortgage Calculator (KPR)
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Estimate monthly mortgage payments and interest costs."
+                    data-id="Estimasi angsuran KPR bulanan dan total biaya bunga.">
+                    Estimate monthly mortgage payments and interest costs.
+                </p>
+            </a>
+            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Debt Payoff Calculator" data-id="Kalkulator Pelunasan Utang">
+                    Debt Payoff Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Plan your journey to becoming debt-free faster."
+                    data-id="Rencanakan perjalanan Anda untuk bebas utang lebih cepat.">
+                    Plan your journey to becoming debt-free faster.
+                </p>
+            </a>
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Compound Interest Calculator" data-id="Kalkulator Bunga Majemuk">
+                    Compound Interest Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="See how your investments grow over time with compounding."
+                    data-id="Lihat bagaimana investasi Anda tumbuh seiring waktu dengan bunga berbunga.">
+                    See how your investments grow over time with compounding.
+                </p>
+            </a>
+            <a href="../kalkulator-konversi-gaji/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Salary Converter (Net/Gross)" data-id="Kalkulator Konversi Gaji">
+                    Salary Converter (Net/Gross)
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Convert hourly, monthly, or annual salary to take-home pay."
+                    data-id="Konversi gaji per jam, bulan, atau tahun menjadi gaji bersih.">
+                    Convert hourly, monthly, or annual salary to take-home pay.
+                </p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-100 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" 
+                data-en="Related Articles:" data-id="Artikel Terkait:">
+                Related Articles:
+            </h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group dynamic-text">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" 
+                              data-id="Strategi Mempercepat Pelunasan Utang">
+                            Strategies to Accelerate Debt Repayment
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../articles/klausul-perpajakan-kontrak.html" class="flex items-center text-sm hover:underline group dynamic-text">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Understanding Tax Clauses in Contracts" 
+                              data-id="Memahami Klausul Perpajakan dalam Kontrak">
+                            Understanding Tax Clauses in Contracts
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    
+    <script src="../components.js"></script>
     
     <script>
         // **********************************************
@@ -327,7 +324,7 @@
                 appTitle: "Kalkulator Biaya Hidup",
                 headerTitle: "Kalkulator Biaya Hidup",
                 toolSubtitle: "Alat ini dirancang untuk Anda yang sedang mempertimbangkan <b>pindah kota atau negara</b> untuk pekerjaan baru atau gaya hidup yang lebih baik. Apakah gaji yang ditawarkan di lokasi baru cukup? Kalkulator ini membandingkan biaya esensial (sewa, makanan, transportasi) antara lokasi saat ini dan lokasi tujuan untuk menghitung estimasi gaji yang Anda butuhkan agar standar hidup Anda tidak turun.",
-                backToCatalogText: "Kembali ke Katalog Alat",
+                
                 // Input
                 headerIncome: "1. Profil Gaji Saat Ini",
                 labelCurrentSalary: "Gaji Bersih Bulanan Saat Ini",
@@ -374,20 +371,13 @@
                 tip2: "<b>Fokus pada Disposable Income:</b> Yang terpenting bukan seberapa besar gaji kotornya, tapi seberapa besar sisa uang yang bisa ditabung setelah biaya dasar terpenuhi.",
                 tip3: "<b>Riset Pasar:</b> Selain biaya hidup, cek standar gaji pasar untuk posisi Anda di kota tujuan.",
                 sectionHeader4: "Disclaimer",
-                content4: "Hasil perhitungan ini adalah estimasi berdasarkan input pengeluaran yang Anda berikan. Pola konsumsi setiap individu berbeda. Harga sewa dan barang bisa berfluktuasi. Gunakan ini sebagai panduan awal, bukan penentu tunggal keputusan finansial.",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                content4: "Hasil perhitungan ini adalah estimasi berdasarkan input pengeluaran yang Anda berikan. Pola konsumsi setiap individu berbeda. Harga sewa dan barang bisa berfluktuasi. Gunakan ini sebagai panduan awal, bukan penentu tunggal keputusan finansial."
             },
             en: {
                 appTitle: "Cost of Living Calculator",
                 headerTitle: "Cost of Living Calculator",
                 toolSubtitle: "This tool is designed for those considering <b>relocating to a new city or country</b> for a job or lifestyle change. Is the salary offer in the new location enough? This calculator compares essential costs (rent, food, transport) between your current and target locations to estimate the salary you need to maintain your current standard of living.",
-                backToCatalogText: "Back to Tools Catalog",
+                
                 // Input
                 headerIncome: "1. Current Income Profile",
                 labelCurrentSalary: "Current Monthly Net Salary",
@@ -434,14 +424,7 @@
                 tip2: "<b>Focus on Disposable Income:</b> What matters most isn't the gross salary, but how much is left after covering basic necessities.",
                 tip3: "<b>Market Research:</b> Besides living costs, check the market salary standard for your role in the target city.",
                 sectionHeader4: "Disclaimer",
-                content4: "This calculation is an estimate based on the expense inputs you provide. Individual consumption patterns vary. Rent prices and goods can fluctuate. Use this as a preliminary guide, not the sole determinant for financial decisions.",
-
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                content4: "This calculation is an estimate based on the expense inputs you provide. Individual consumption patterns vary. Rent prices and goods can fluctuate. Use this as a preliminary guide, not the sole determinant for financial decisions."
             }
         };
 
@@ -470,18 +453,16 @@
         }
 
         function calculateCOL(event) {
-            event.preventDefault();
-
+            if (event && event.preventDefault) event.preventDefault();
+            
             // 1. Inputs
             const salary = cleanInput(document.getElementById('currentSalary').value);
-            
             // Current Expenses
             const rent1 = cleanInput(document.getElementById('rentCurrent').value);
             const food1 = cleanInput(document.getElementById('foodCurrent').value);
             const trans1 = cleanInput(document.getElementById('transCurrent').value);
             const util1 = cleanInput(document.getElementById('utilCurrent').value);
             const other1 = cleanInput(document.getElementById('otherCurrent').value);
-            
             // New Expenses
             const rent2 = cleanInput(document.getElementById('rentNew').value);
             const food2 = cleanInput(document.getElementById('foodNew').value);
@@ -490,10 +471,7 @@
             const other2 = cleanInput(document.getElementById('otherNew').value);
 
             // 2. Validasi Sederhana
-            if (salary < 0) {
-                 // Alert handled via required attribute mostly, but good for logic check
-                 return; 
-            }
+            if (salary < 0) return;
 
             // 3. Perhitungan
             const totalExp1 = rent1 + food1 + trans1 + util1 + other1;
@@ -505,20 +483,15 @@
                 increaseRatio = (totalExp2 - totalExp1) / totalExp1;
             }
             
-            // Gaji yang dibutuhkan untuk mempertahankan rasio pengeluaran yang sama
-            // Asumsi: Kita ingin mempertahankan Disposable Income (Tabungan) atau mempertahankan rasio daya beli.
-            // Metode: Proportional Increase based on Expense Basket
+            // Gaji yang dibutuhkan
             const requiredSalary = salary * (totalExp2 / totalExp1);
             
             // Sisa Uang (Disposable)
             const disp1 = salary - totalExp1;
-            // Jika gaji baru = requiredSalary, maka disp2 seharusnya setara secara proporsional atau nominal?
-            // Mari kita hitung disp2 berdasarkan requiredSalary baru
             const disp2 = requiredSalary - totalExp2;
 
             // 4. Tampilkan Hasil
             document.getElementById('resultRequiredSalary').textContent = formatNumber(Math.round(requiredSalary));
-            
             const badge = document.getElementById('diffBadge');
             const percentageDiff = (increaseRatio * 100).toFixed(1);
             
@@ -542,7 +515,7 @@
                 interpBox.parentElement.classList.remove('border-green-200', 'bg-green-50');
             } else if (increaseRatio < -0.01) {
                 interpBox.innerHTML = t.interpLower;
-                 interpBox.parentElement.classList.add('border-green-200', 'bg-green-50');
+                interpBox.parentElement.classList.add('border-green-200', 'bg-green-50');
                  interpBox.parentElement.classList.remove('border-red-200', 'bg-red-50');
             } else {
                 interpBox.innerHTML = t.interpEqual;
@@ -563,29 +536,11 @@
             currentLang = lang;
             const t = translations[lang];
             
-            const switcher = document.getElementById('languageSwitcher');
-            switcher.classList.remove('lang-en', 'lang-id');
-            switcher.classList.add(`lang-${lang}`);
-
-            // Get values to re-format
-            const salaryVal = document.getElementById('currentSalary').value;
-            const r1 = document.getElementById('rentCurrent').value;
-            const f1 = document.getElementById('foodCurrent').value;
-            const t1 = document.getElementById('transCurrent').value;
-            const u1 = document.getElementById('utilCurrent').value;
-            const o1 = document.getElementById('otherCurrent').value;
-            
-            const r2 = document.getElementById('rentNew').value;
-            const f2 = document.getElementById('foodNew').value;
-            const t2 = document.getElementById('transNew').value;
-            const u2 = document.getElementById('utilNew').value;
-            const o2 = document.getElementById('otherNew').value;
-
-            // Update Text
+            // LOGIKA HEADER MODULAR SUDAH OTOMATIS HANDLE SWITCHER BUTTON
+            // Update Text Halaman Ini
             document.getElementById('appTitle').textContent = t.appTitle;
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
             
             document.getElementById('headerIncome').textContent = t.headerIncome;
             document.getElementById('labelCurrentSalary').textContent = t.labelCurrentSalary;
@@ -606,18 +561,11 @@
             document.getElementById('calculateButton').textContent = t.calculateButton;
             
             // Re-format Inputs
-            document.getElementById('currentSalary').value = formatNumber(cleanInput(salaryVal));
-            document.getElementById('rentCurrent').value = formatNumber(cleanInput(r1));
-            document.getElementById('foodCurrent').value = formatNumber(cleanInput(f1));
-            document.getElementById('transCurrent').value = formatNumber(cleanInput(t1));
-            document.getElementById('utilCurrent').value = formatNumber(cleanInput(u1));
-            document.getElementById('otherCurrent').value = formatNumber(cleanInput(o1));
-            
-            document.getElementById('rentNew').value = formatNumber(cleanInput(r2));
-            document.getElementById('foodNew').value = formatNumber(cleanInput(f2));
-            document.getElementById('transNew').value = formatNumber(cleanInput(t2));
-            document.getElementById('utilNew').value = formatNumber(cleanInput(u2));
-            document.getElementById('otherNew').value = formatNumber(cleanInput(o2));
+            const inputs = ['currentSalary', 'rentCurrent', 'foodCurrent', 'transCurrent', 'utilCurrent', 'otherCurrent', 'rentNew', 'foodNew', 'transNew', 'utilNew', 'otherNew'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = formatNumber(cleanInput(el.value));
+            });
 
             // Results
             document.getElementById('resultHeader').textContent = t.resultHeader;
@@ -636,37 +584,89 @@
             document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
             document.getElementById('content2').innerHTML = t.content2;
             document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
-            document.getElementById('content3').innerHTML = t.content3; // Header list
+            document.getElementById('content3').innerHTML = t.content3;
             document.getElementById('tip1').innerHTML = t.tip1;
             document.getElementById('tip2').innerHTML = t.tip2;
             document.getElementById('tip3').innerHTML = t.tip3;
             document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
             document.getElementById('content4').textContent = t.content4;
             
-            // Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-            
             // Refresh Calc if visible
             if(document.getElementById('resultBox').classList.contains('visible')){
                 calculateCOL({preventDefault:()=>{}});
             }
+
+            // [MODULAR] TRIGGER TRANSLATE RELATED TOOLS & GLOBAL MODULES
+            updateRelatedContent(lang);
+            if (window.updateGlobalModules) {
+                window.updateGlobalModules(lang);
+            }
         }
 
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) setLanguage(newLang);
-            }
+        // ============================================================
+        // LOGIKA WARNA DINAMIS & TERJEMAHAN (REUSABLE)
+        // ============================================================
+
+        function applyDynamicTheme() {
+            const category = window.headerCategory || 'health'; 
+            
+            const themes = {
+                health: {
+                    bg: 'bg-blue-600', text: 'text-blue-600',
+                    border: 'hover:border-blue-400', hoverText: 'group-hover:text-blue-700',
+                    bgGroup: 'group-hover:bg-blue-500'
+                },
+                finance: {
+                    bg: 'bg-green-600', text: 'text-green-600',
+                    border: 'hover:border-green-400', hoverText: 'group-hover:text-green-700',
+                    bgGroup: 'group-hover:bg-green-500'
+                },
+                productivity: {
+                    bg: 'bg-purple-600', text: 'text-purple-600',
+                    border: 'hover:border-purple-400', hoverText: 'group-hover:text-purple-700',
+                    bgGroup: 'group-hover:bg-purple-500'
+                }
+            };
+
+            const theme = themes[category] || themes.health;
+
+            // Suntikkan class warna
+            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
+            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
+            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
+            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
+            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
+        }
+
+        function updateRelatedContent(lang) {
+            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
+            translatableElements.forEach(el => {
+                const newText = el.getAttribute(`data-${lang}`);
+                if (newText) el.textContent = newText;
+            });
+        }
+
+        // Observer Bahasa (Backup jika switch dari Header)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    const currentLang = document.documentElement.lang || 'en';
+                    if (currentLang !== window.lastAppliedLang) { 
+                         setLanguage(currentLang);
+                         window.lastAppliedLang = currentLang;
+                    }
+                }
+            });
         });
+        observer.observe(document.documentElement, { attributes: true });
 
         document.addEventListener('DOMContentLoaded', () => {
+            applyDynamicTheme(); // Apply Green Theme to Related Tools
+            
             let defaultLang = 'en'; 
             const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
             if (browserLang.startsWith('id')) defaultLang = 'id';
+            
             setLanguage(defaultLang); 
         });
     </script>
