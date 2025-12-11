@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-konversi-gaji/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Konversi Gaji. Hitung gaji per jam menjadi gaji bulanan atau tahunan, dan sebaliknya. Alat mudah untuk freelancer dan karyawan." />
  
     <title id="appTitle">Hourly to Salary Calculator</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/hourly-to-salary-calculator/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/hourly-to-salary-calculator/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Kode Google Analytic dan Adsense -->
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,83 +18,21 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                        'salary-color': '#2980b9', // Biru tenang untuk Gaji
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil */
-        .result-box {
-            transition: all 0.5s ease-in-out;
-            transform-origin: top center;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-        }
-        .result-box.visible {
-            opacity: 1;
-            max-height: 3000px; 
-            padding: 1.5rem; 
-        }
+        /* --- CSS LOKAL (Sesuai Pedoman V.2) --- */
         
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
+        /* Definisi Warna Aksen Lokal (Biru Gaji #2980b9) */
+        .text-salary-color { color: #2980b9; }
+        .bg-salary-color { background-color: #2980b9; }
+        .border-salary-color { border-color: #2980b9; }
+        .ring-salary-color { --tw-ring-color: #2980b9; }
         
-        /* Gaya kustom untuk input dan tombol */
+        /* Gaya Tombol Aksi */
         .calculate-button {
-            box-shadow: 0 4px #1a5276; /* Warna biru gelap */
-            background-color: #2980b9; /* salary-color */
+            background-color: #2980b9; /* Biru Gaji */
+            box-shadow: 0 4px #1a5276; /* Biru Gelap */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
@@ -110,133 +45,113 @@
             box-shadow: 0 2px #1a5276;
         }
 
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
-        }
-
         /* Gaya Kartu Hasil Utama */
         .result-card-main {
             background-color: #eaf2f8; /* Blue 50 */
             border: 2px solid #a9cce3; /* Blue 200 */
         }
-        
-        /* Section Header */
-        .section-title {
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            color: #2c3e50;
+
+        /* Input Description */
+        .input-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
         }
 
+        /* Animasi Hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .result-box.visible {
+            opacity: 1;
+            max-height: 3000px; 
+            padding: 1.5rem; 
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-        </div>
-    </header>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
         <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Hourly to Salary Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Hourly to Salary Calculator</h1>
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               <!-- Konten Subtitle akan diisi oleh JS -->
-            </p>
+                </p>
             
-            <!-- Form Input -->
             <form id="salaryForm" onsubmit="calculateSalary(event)" class="space-y-6">
                 
-                <!-- Mode Kalkulasi -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="section-title" id="headerCalculation">1. Calculation Mode</h2>
+                    <h2 class="text-lg font-bold text-gray-800 border-b border-gray-300 pb-2 mb-3" id="headerCalculation">1. Calculation Mode</h2>
                     <div class="relative">
                         <label for="calcMode" class="block text-sm font-medium text-gray-700 mb-1" id="labelCalcMode">I want to convert...</label>
-                        <select id="calcMode" onchange="toggleInputMode()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color bg-white">
+                        <select id="calcMode" onchange="toggleInputMode()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-salary-color focus:border-salary-color bg-white transition duration-150">
                             <option value="hourly">Hourly Wage to Salary</option>
                             <option value="salary">Annual/Monthly Salary to Hourly</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Detail Input -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="section-title" id="headerDetails">2. Income Details</h2>
+                    <h2 class="text-lg font-bold text-gray-800 border-b border-gray-300 pb-2 mb-3" id="headerDetails">2. Income Details</h2>
                     
-                    <!-- Input: Hourly Rate -->
                     <div id="inputHourlyBox" class="relative mb-4">
                         <label for="hourlyRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelHourlyRate">Hourly Rate</label>
-                        <input type="text" id="hourlyRate" inputmode="numeric" value="50.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color">
-                        <p class="input-description" id="descHourlyRate">Upah per jam Anda.</p>
+                        <input type="text" id="hourlyRate" inputmode="numeric" value="50.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-salary-color focus:border-salary-color transition duration-150">
+                        <p class="input-description" id="descHourlyRate">Your pay rate for one hour of work.</p>
                     </div>
 
-                    <!-- Input: Salary Amount -->
                     <div id="inputSalaryBox" class="relative mb-4 hidden">
                         <label for="salaryAmount" class="block text-sm font-medium text-gray-700 mb-1" id="labelSalaryAmount">Salary Amount</label>
                         <div class="flex gap-2">
-                            <input type="text" id="salaryAmount" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color">
-                            <select id="salaryPeriod" class="p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color bg-white text-sm">
+                            <input type="text" id="salaryAmount" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-salary-color focus:border-salary-color transition duration-150">
+                            <select id="salaryPeriod" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-salary-color focus:border-salary-color bg-white text-sm transition duration-150">
                                 <option value="year">Per Year</option>
                                 <option value="month" selected>Per Month</option>
                             </select>
                         </div>
-                        <p class="input-description" id="descSalaryAmount">Masukkan jumlah gaji dan periode pembayarannya.</p>
+                        <p class="input-description" id="descSalaryAmount">Enter your gross salary amount.</p>
                     </div>
                     
-                    <!-- Jam Kerja -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="hoursPerWeek" class="block text-sm font-medium text-gray-700 mb-1" id="labelHoursPerWeek">Hours per Week</label>
-                            <input type="number" id="hoursPerWeek" min="1" max="168" value="40" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color" required>
-                            <p class="input-description" id="descHoursPerWeek">Jam kerja standar per minggu (biasanya 40 jam).</p>
+                            <input type="number" id="hoursPerWeek" min="1" max="168" value="40" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-salary-color focus:border-salary-color transition duration-150" required>
+                            <p class="input-description" id="descHoursPerWeek">Standard full-time work is 40 hours.</p>
                         </div>
                         <div class="relative">
                             <label for="weeksPerYear" class="block text-sm font-medium text-gray-700 mb-1" id="labelWeeksPerYear">Weeks per Year</label>
-                            <input type="number" id="weeksPerYear" min="1" max="52" value="52" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-salary-color focus:border-salary-color" required>
-                            <p class="input-description" id="descWeeksPerYear">Jumlah minggu kerja per tahun (biasanya 52 minggu).</p>
+                            <input type="number" id="weeksPerYear" min="1" max="52" value="52" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-salary-color focus:border-salary-color transition duration-150" required>
+                            <p class="input-description" id="descWeeksPerYear">There are 52 weeks in a year.</p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-blue-600 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50">
                     Calculate
                 </button>
                 
-                <!-- Error Alert -->
                 <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
             <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-blue-300">Conversion Result</h3>
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2 border-blue-300">Conversion Result</h3>
                 
-                <!-- Hasil Utama -->
                 <div class="text-center mb-8">
                     <p id="labelMainResult" class="text-lg font-bold text-gray-700 mb-1">Equivalent Annual Salary</p>
                     <p id="resultMain" class="text-4xl font-extrabold text-salary-color">0</p>
                 </div>
 
-                <!-- Breakdown Table -->
-                <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Income Breakdown</h4>
+                <h4 id="detailHeader" class="text-lg font-bold text-gray-800 mb-3">Income Breakdown</h4>
                 <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
                     <div class="grid grid-cols-2 bg-gray-100 p-3 font-bold border-b text-gray-700">
                         <div id="colFrequency">Frequency</div>
@@ -270,7 +185,6 @@
                 </div>
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Hourly vs. Salary: What's the Difference?</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -293,24 +207,81 @@
         </div>
     </main>
     
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <h2 class="text-xl font-bold text-gray-800" 
+                data-en="Income & Planning Tools" 
+                data-id="Alat Perencanaan Pendapatan">
+                Income & Planning Tools
+            </h2>
         </div>
-    </footer>
     
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            
+            <a href="../kalkulator-pph/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Income Tax Calculator (PPh 21)"
+                    data-id="Kalkulator PPh 21 (Pajak)">
+                    Income Tax Calculator (PPh 21)
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Estimate your net salary after tax deductions."
+                    data-id="Estimasi gaji bersih setelah potongan pajak.">
+                    Estimate your net salary after tax deductions.
+                </p>
+            </a>
+
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Monthly Budget Calculator"
+                    data-id="Kalkulator Anggaran Bulanan">
+                    Monthly Budget Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Plan your expenses using the 50/30/20 rule."
+                    data-id="Rencanakan pengeluaran dengan aturan 50/30/20.">
+                    Plan your expenses using the 50/30/20 rule.
+                </p>
+            </a>
+
+            <a href="../kalkulator-dana-darurat/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Emergency Fund Calculator"
+                    data-id="Kalkulator Dana Darurat">
+                    Emergency Fund Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Secure your financial stability."
+                    data-id="Amankan stabilitas finansial Anda.">
+                    Secure your financial stability.
+                </p>
+            </a>
+        </div>
+    
+        <div class="border-t border-gray-100 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/klausul-perpajakan-kontrak.html" class="flex items-center text-sm hover:underline group dynamic-text">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Understanding Tax Clauses in Employment Contracts" 
+                              data-id="Memahami Klausul Perpajakan dalam Kontrak Kerja">
+                            Understanding Tax Clauses in Employment Contracts
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    
+    <script>
+        window.headerCategory = 'finance';
+    </script>
+    <script src="../components.js"></script>
+
     <script>
         // **********************************************
         // LOGIKA KALKULATOR HOURLY TO SALARY
@@ -372,12 +343,12 @@
                 sectionHeader4: "Disclaimer",
                 content4: "Hasil perhitungan ini adalah estimasi kasar berdasarkan jam kerja standar (biasanya 40 jam/minggu dan 52 minggu/tahun). Perhitungan tidak memperhitungkan pajak, potongan asuransi, atau hari libur nasional secara spesifik.",
 
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                // Footer Global (Handled by components.js)
+                footerPrivacy: "Kebijakan Privasi",
+                footerTerms: "Ketentuan Layanan",
+                footerAbout: "Tentang Kami",
+                footerContact: "Hubungi Kami",
+                footerDev: "Dikembangkan oleh DTID Analytics."
             },
             en: {
                 appTitle: "Hourly to Salary Calculator",
@@ -435,11 +406,11 @@
                 content4: "This calculation is a rough estimate based on standard working hours (typically 40 hours/week and 52 weeks/year). The calculation does not account for taxes, insurance deductions, or specific national holidays.",
 
                 // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                footerAbout: "About Us",
+                footerContact: "Contact Us",
+                footerDev: "Developed by DTID Analytics."
             }
         };
 
@@ -481,11 +452,10 @@
 
         function calculateSalary(event) {
             event.preventDefault();
-
             const mode = document.getElementById('calcMode').value;
             const hoursPerWeek = parseFloat(document.getElementById('hoursPerWeek').value);
             const weeksPerYear = parseFloat(document.getElementById('weeksPerYear').value);
-            
+
             if (hoursPerWeek <= 0 || weeksPerYear <= 0) {
                  document.getElementById('errorAlert').classList.remove('hidden');
                  document.getElementById('errorText').textContent = translations[currentLang].inputError;
@@ -550,108 +520,124 @@
             const t = translations[lang];
             
             const switcher = document.getElementById('languageSwitcher');
-            switcher.classList.remove('lang-en', 'lang-id');
-            switcher.classList.add(`lang-${lang}`);
+            if (switcher) {
+                switcher.classList.remove('lang-en', 'lang-id');
+                switcher.classList.add(`lang-${lang}`);
+            }
+            
+            const backBtn = document.getElementById('backToCatalogText');
+            if(backBtn) backBtn.textContent = t.backToCatalogText;
+
+            if(document.getElementById('footerPrivacy')) {
+                document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
+                document.getElementById('footerTerms').textContent = t.footerTerms;
+                document.getElementById('footerAbout').textContent = t.footerAbout;
+                document.getElementById('footerContact').textContent = t.footerContact;
+                const devSpan = document.getElementById('footerDev');
+                if(devSpan) devSpan.textContent = t.footerDev;
+            }
 
             // Get values
             const hourlyVal = document.getElementById('hourlyRate').value;
             const salaryVal = document.getElementById('salaryAmount').value;
 
             // Update Text
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
+            const textIds = [
+                'appTitle', 'headerTitle', 'headerCalculation', 'labelCalcMode', 
+                'headerDetails', 'labelHourlyRate', 'descHourlyRate', 'labelSalaryAmount', 'descSalaryAmount',
+                'labelHoursPerWeek', 'descHoursPerWeek', 'labelWeeksPerYear', 'descWeeksPerYear',
+                'calculateButton', 'resultHeader', 'detailHeader', 'colFrequency', 'colAmount',
+                'rowAnnual', 'rowMonthly', 'rowBiWeekly', 'rowWeekly', 'rowDaily', 'rowHourly',
+                'sectionHeader1', 'sectionHeader2', 'sectionHeader3', 'sectionHeader4', 'content4'
+            ];
+            
+            textIds.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.textContent = t[id];
+            });
+
             document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
-            
-            document.getElementById('headerCalculation').textContent = t.headerCalculation;
-            document.getElementById('labelCalcMode').textContent = t.labelCalcMode;
-            
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('content2').innerHTML = t.content2;
+            document.getElementById('content3').innerHTML = t.content3;
+            document.getElementById('tip1').innerHTML = t.tip1;
+            document.getElementById('tip2').innerHTML = t.tip2;
+            document.getElementById('tip3').innerHTML = t.tip3;
+
             // Select Options update
             const modeSelect = document.getElementById('calcMode');
-            // Preserve value, update text
             modeSelect.options[0].text = t.optHourly;
             modeSelect.options[1].text = t.optSalary;
-            
-            document.getElementById('headerDetails').textContent = t.headerDetails;
-            document.getElementById('labelHourlyRate').textContent = t.labelHourlyRate;
-            document.getElementById('descHourlyRate').textContent = t.descHourlyRate;
-            document.getElementById('labelSalaryAmount').textContent = t.labelSalaryAmount;
-            document.getElementById('descSalaryAmount').textContent = t.descSalaryAmount;
             
             const periodSelect = document.getElementById('salaryPeriod');
             periodSelect.options[0].text = t.optPeriodYear;
             periodSelect.options[1].text = t.optPeriodMonth;
 
-            document.getElementById('labelHoursPerWeek').textContent = t.labelHoursPerWeek;
-            document.getElementById('descHoursPerWeek').textContent = t.descHoursPerWeek;
-            document.getElementById('labelWeeksPerYear').textContent = t.labelWeeksPerYear;
-            document.getElementById('descWeeksPerYear').textContent = t.descWeeksPerYear;
-            
-            document.getElementById('calculateButton').textContent = t.calculateButton;
-            
             // Re-format Inputs
             document.getElementById('hourlyRate').value = formatNumber(cleanInput(hourlyVal));
             document.getElementById('salaryAmount').value = formatNumber(cleanInput(salaryVal));
             
-            // Results
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            
-            // Main label logic re-applied based on current selection
+            // Main label logic re-applied
             const currentMode = document.getElementById('calcMode').value;
-             if (currentMode === 'hourly') {
+            if (currentMode === 'hourly') {
                 document.getElementById('labelMainResult').textContent = t.labelMainResultSalary;
             } else {
                 document.getElementById('labelMainResult').textContent = t.labelMainResultHourly;
             }
 
-            document.getElementById('detailHeader').textContent = t.detailHeader;
-            document.getElementById('colFrequency').textContent = t.colFrequency;
-            document.getElementById('colAmount').textContent = t.colAmount;
-            
-            document.getElementById('rowAnnual').textContent = t.rowAnnual;
-            document.getElementById('rowMonthly').textContent = t.rowMonthly;
-            document.getElementById('rowBiWeekly').textContent = t.rowBiWeekly;
-            document.getElementById('rowWeekly').textContent = t.rowWeekly;
-            document.getElementById('rowDaily').textContent = t.rowDaily;
-            document.getElementById('rowHourly').textContent = t.rowHourly;
-            
-            // Edukasi
-            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
-            document.getElementById('content1').innerHTML = t.content1;
-            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
-            document.getElementById('content2').innerHTML = t.content2;
-            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
-            document.getElementById('content3').innerHTML = t.content3;
-            document.getElementById('tip1').innerHTML = t.tip1;
-            document.getElementById('tip2').innerHTML = t.tip2;
-            document.getElementById('tip3').innerHTML = t.tip3;
-            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
-            document.getElementById('content4').textContent = t.content4;
-            
-            // Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-            
             // Refresh Calc if visible
             if(document.getElementById('resultBox').classList.contains('visible')){
                 calculateSalary({preventDefault:()=>{}});
             }
+            
+            updateRelatedContent(lang);
         }
 
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) setLanguage(newLang);
-            }
+        function updateRelatedContent(lang) {
+            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
+            translatableElements.forEach(el => {
+                const newText = el.getAttribute(`data-${lang}`);
+                if (newText) el.textContent = newText;
+            });
+        }
+        
+        function applyDynamicTheme() {
+            const category = window.headerCategory || 'finance';
+            const themes = {
+                finance: {
+                    bg: 'bg-green-600',
+                    text: 'text-green-600',
+                    border: 'hover:border-green-400',
+                    hoverText: 'group-hover:text-green-700',
+                    bgGroup: 'group-hover:bg-green-500'
+                }
+            };
+            const theme = themes[category];
+            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
+            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
+            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
+            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
+            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
+        }
+
+        // --- OBSERVER & INIT ---
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    const currentLang = document.documentElement.lang || 'en';
+                    setLanguage(currentLang);
+                }
+            });
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            observer.observe(document.documentElement, { attributes: true });
+            applyDynamicTheme();
+            
             let defaultLang = 'en'; 
             const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
             if (browserLang.startsWith('id')) defaultLang = 'id';
+            
             setLanguage(defaultLang); 
             toggleInputMode();
         });
