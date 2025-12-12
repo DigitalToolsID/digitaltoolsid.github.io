@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-npv-irr-bep/" />
-    <meta name="description" content="Kalkulator Kelayakan Bisnis. Hitung BEP, NPV, dan IRR sekaligus. Dapatkan Laporan Manajemen yang mengungkap risiko dan potensi Nilai Masa Depan investasi Anda." />
+    <meta name="description" content="Kalkulator Kelayakan Bisnis. Hitung BEP, NPV, dan IRR sekaligus. Dapatkan Laporan Manajemen yang mengungkap risiko dan potensi Nilai Masa Depan investasi Anda.">
 
-    <title id="appTitle">Kalkulator Analisis Kelayakan Bisnis (BEP, NPV, IRR)</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-npv-irr-bep/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-npv-irr-bep/index.html" />
+    <title id="appTitle">Business Viability Analyzer (BEP, NPV, IRR)</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -23,29 +20,8 @@
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau Keuangan
-                        'success-color': '#27ae60',
-                        'danger-color': '#e74c3c',
-                        'warning-color': '#f39c12',
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
-        /* Gaya Tambahan Minimal (Lokal untuk kalkulator ini) */
+        /* CSS LOKAL (Spesifik Alat Ini) */
         
         /* Input khusus untuk Arus Kas */
         .cashflow-input {
@@ -61,24 +37,20 @@
         }
 
         /* Animasi Hasil */
-        .result-box { transition: all 0.5s ease-in-out; transform-origin: top center; opacity: 0; max-height: 0; overflow: hidden; }
-        .result-box.visible { opacity: 1; max-height: 2500px; padding: 1.5rem; }
-
-        /* Gaya Tombol Hitung */
-        .calculate-button {
-            box-shadow: 0 4px #1e8449;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .result-box { 
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center; 
+            opacity: 0; 
+            max-height: 0; 
+            overflow: hidden; 
         }
-        .calculate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px #1e8449;
-        }
-        .calculate-button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px #1e8449;
+        .result-box.visible { 
+            opacity: 1;
+            max-height: 2500px; 
+            padding: 1.5rem; 
         }
 
-        /* Referensi Artikel */
+        /* Referensi Artikel Box (Legacy Style - Optional, bisa disesuaikan) */
         .article-reference {
             padding: 1.5rem;
             background-color: #ecfdf5; 
@@ -91,78 +63,78 @@
     </style>
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <div id="global-header-container" class="app-header"></div>
+    <div id="global-header-container"></div>
 
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8 mt-4">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8 mt-4">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Kalkulator Analisis Kelayakan Bisnis</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Hitung BEP, NPV, dan IRR secara simultan untuk mendapatkan <strong>Laporan Kesimpulan Manajemen</strong> (Executive Summary) yang jelas dan ringkas.</p>
-            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3">Business Viability Analyzer</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Calculate BEP, NPV, and IRR simultaneously to get a clear Executive Summary Report.</p>
+             
             <form id="viabilityForm" onsubmit="calculateAllMetrics(event)" class="space-y-6">
 
                 <div class="border-b pb-4 border-gray-200">
-                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionBepHeader">1. Data Operasional (BEP)</h2>
-                    <div class="space-y-4">
-                        <div class="relative">
-                            <label for="fixedCosts" class="block text-sm font-medium text-gray-700 mb-1" id="labelFixedCosts">Total Biaya Tetap (Per Tahun)</label>
-                            <input type="text" id="fixedCosts" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 100.000.000" value="100000000">
+                    <h2 class="text-xl font-bold text-green-800 mb-3" id="sectionBepHeader">1. Operational Data (BEP)</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="relative sm:col-span-2">
+                            <label for="fixedCosts" class="block text-sm font-medium text-gray-700 mb-1" id="labelFixedCosts">Total Fixed Costs (Per Year)</label>
+                            <input type="text" id="fixedCosts" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" placeholder="e.g. 100,000,000" value="100000000">
                         </div>
                         <div class="relative">
-                            <label for="variableCost" class="block text-sm font-medium text-gray-700 mb-1" id="labelVariableCost">Biaya Variabel (Per Unit)</label>
-                            <input type="text" id="variableCost" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 50.000" value="50000">
+                            <label for="variableCost" class="block text-sm font-medium text-gray-700 mb-1" id="labelVariableCost">Variable Cost (Per Unit)</label>
+                            <input type="text" id="variableCost" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" placeholder="e.g. 50,000" value="50000">
                         </div>
                         <div class="relative">
-                            <label for="salePrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelSalePrice">Harga Jual (Per Unit)</label>
-                            <input type="text" id="salePrice" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 150.000" value="150000">
+                            <label for="salePrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelSalePrice">Sale Price (Per Unit)</label>
+                            <input type="text" id="salePrice" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" placeholder="e.g. 150,000" value="150000">
                         </div>
                     </div>
                 </div>
 
                 <div class="border-b pb-4 border-gray-200">
-                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionNpvIrrHeader">2. Data Investasi & Proyeksi Arus Kas</h2>
+                    <h2 class="text-xl font-bold text-green-800 mb-3" id="sectionNpvIrrHeader">2. Investment & Cash Flow Projection</h2>
                     
                     <div class="relative mb-4">
-                        <label for="initialInvestment" class="block text-sm font-medium text-gray-700 mb-1" id="labelInitialInvestment">Investasi Awal (Tahun 0)</label>
-                        <input type="text" id="initialInvestment" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 500.000.000" value="500000000">
+                        <label for="initialInvestment" class="block text-sm font-medium text-gray-700 mb-1" id="labelInitialInvestment">Initial Investment (Year 0)</label>
+                        <input type="text" id="initialInvestment" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" placeholder="e.g. 500,000,000" value="500000000">
                     </div>
 
                     <div class="relative mb-4">
-                        <label for="discountRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelDiscountRate">Tingkat Diskonto (WACC) (% Per Tahun)</label>
-                        <input type="number" id="discountRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 10" value="10">
-                        <p class="input-description" id="descDiscountRate">Persentase tingkat pengembalian minimum yang Anda harapkan dari investasi. Ini adalah tolok ukur risiko (WACC).</p>
+                        <label for="discountRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelDiscountRate">Discount Rate (WACC) (% Per Year)</label>
+                        <input type="number" id="discountRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" placeholder="e.g. 10" value="10">
+                        <p class="input-description" id="descDiscountRate">The minimum rate of return you expect from the investment (WACC).</p>
                     </div>
 
                     <div class="space-y-2">
-                        <p class="block text-sm font-medium text-gray-700" id="labelCashFlows">Proyeksi Arus Kas Bersih (Per Tahun)</p>
+                        <p class="block text-sm font-medium text-gray-700" id="labelCashFlows">Projected Net Cash Flows (Per Year)</p>
                         
                         <div class="cashflow-input">
-                            <label for="cf1" id="labelCF1">Tahun 1</label>
-                            <input type="text" id="cf1" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="150.000.000" value="150000000">
+                            <label for="cf1" id="labelCF1">Year 1</label>
+                            <input type="text" id="cf1" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="150,000,000" value="150000000">
                         </div>
                         <div class="cashflow-input">
-                            <label for="cf2" id="labelCF2">Tahun 2</label>
-                            <input type="text" id="cf2" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="200.000.000" value="200000000">
+                            <label for="cf2" id="labelCF2">Year 2</label>
+                            <input type="text" id="cf2" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="200,000,000" value="200000000">
                         </div>
                         <div class="cashflow-input">
-                            <label for="cf3" id="labelCF3">Tahun 3</label>
-                            <input type="text" id="cf3" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="250.000.000" value="250000000">
+                            <label for="cf3" id="labelCF3">Year 3</label>
+                            <input type="text" id="cf3" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="250,000,000" value="250000000">
                         </div>
                         <div class="cashflow-input">
-                            <label for="cf4" id="labelCF4">Tahun 4</label>
-                            <input type="text" id="cf4" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="300.000.000" value="300000000">
+                            <label for="cf4" id="labelCF4">Year 4</label>
+                            <input type="text" id="cf4" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="300,000,000" value="300000000">
                         </div>
                         <div class="cashflow-input">
-                            <label for="cf5" id="labelCF5">Tahun 5</label>
-                            <input type="text" id="cf5" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="350.000.000" value="350000000">
+                            <label for="cf5" id="labelCF5">Year 5</label>
+                            <input type="text" id="cf5" inputmode="numeric" oninput="formatInput(this)" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="350,000,000" value="350000000">
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300">
-                    Hitung & Buat Laporan Manajemen
+                <button type="submit" id="calculateButton" class="w-full bg-green-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
+                    Calculate & Generate Management Report
                 </button>
             </form>
 
@@ -170,41 +142,41 @@
                 <span id="errorText" class="block sm:inline"></span>
             </div>
 
-            <div id="resultBox" class="result-box mt-6 bg-secondary/5 border border-secondary/30 rounded-xl shadow-lg">
-                <h3 id="resultTitle" class="text-2xl font-bold text-finance-color mb-4 border-b pb-2">Laporan Kesimpulan Manajemen</h3>
+            <div id="resultBox" class="result-box mt-6 bg-green-50 border border-green-200 rounded-xl shadow-lg">
+                <h3 id="resultTitle" class="text-2xl font-bold text-green-800 mb-4 border-b border-green-200 pb-2">Executive Summary Report</h3>
                 
-                <div id="executiveSummary" class="p-4 rounded-lg mb-4">
+                <div id="executiveSummary" class="p-4 rounded-lg mb-4 bg-white border border-gray-200">
                     <p class="text-lg font-bold mb-2" id="summaryTitle"></p>
-                    <p id="summaryText" class="text-gray-700 text-sm"></p>
+                    <p id="summaryText" class="text-gray-700 text-sm leading-relaxed"></p>
                 </div>
 
-                <h3 id="metricsHeader" class="text-xl font-bold text-primary mb-3 border-b pb-2">Metrik Kunci Kelayakan</h3>
+                <h3 id="metricsHeader" class="text-xl font-bold text-green-800 mb-3 border-b border-green-200 pb-2">Key Viability Metrics</h3>
                 <div id="metricsContent" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     
-                    <div class="p-3 rounded-lg border border-gray-200">
+                    <div class="p-3 rounded-lg border border-gray-200 bg-white">
                         <p class="text-sm text-gray-600" id="resultNPV">Net Present Value (NPV)</p>
                         <p class="text-lg sm:text-2xl break-words font-bold mt-1" id="npvResult">--</p>
                     </div>
                     
-                    <div class="p-3 rounded-lg border border-gray-200">
+                    <div class="p-3 rounded-lg border border-gray-200 bg-white">
                         <p class="text-sm text-gray-600" id="resultIRR">Internal Rate of Return (IRR)</p>
                         <p class="text-lg sm:text-2xl break-words font-bold mt-1" id="irrResult">--</p>
                     </div>
                     
-                    <div class="p-3 rounded-lg border border-gray-200">
-                        <p class="text-sm text-gray-600" id="resultBEPUnits">BEP (Unit)</p>
+                    <div class="p-3 rounded-lg border border-gray-200 bg-white">
+                        <p class="text-sm text-gray-600" id="resultBEPUnits">BEP (Units)</p>
                         <p class="text-lg sm:text-2xl break-words font-bold mt-1" id="bepUnitResult">--</p>
                     </div>
                     
-                    <div class="p-3 rounded-lg border border-gray-200">
-                        <p class="text-sm text-gray-600" id="resultBEPRevenue">BEP (Pendapatan)</p>
+                    <div class="p-3 rounded-lg border border-gray-200 bg-white">
+                        <p class="text-sm text-gray-600" id="resultBEPRevenue">BEP (Revenue)</p>
                         <p class="text-lg sm:text-2xl break-words font-bold mt-1" id="bepRevenueResult">--</p>
                     </div>
                 </div>
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Ringkasan Analisis Kelayakan</h2>
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Viability Analysis Summary</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
                 <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2"></h3>
                 <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
@@ -213,33 +185,104 @@
                 <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2"></h3>
                 <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
             </section>
-
-            <div class="article-reference">
-                <p id="articleReferenceTitle" class="text-base font-semibold text-gray-800 mb-2">Perlu pemahaman lebih lanjut mengenai BEP, NPV, dan IRR?</p>
-                <a href="../articles/analisis-titik-impas-bisnis.html" id="articleReferenceLink" class="text-finance-color hover:text-green-700 font-medium underline transition duration-150">Baca Artikel: Tiga Metrik Penting untuk Kelayakan Bisnis →</a>
-            </div>
-
         </div>
     </main>
+
+    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
+            <h2 class="text-xl font-bold text-gray-800" 
+                data-en="Investment & Finance Tools" 
+                data-id="Alat Investasi & Keuangan">
+                Investment & Finance Tools
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            
+            <a href="../kalkulator-imbal-hasil-saham/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
+                    data-en="Stock Return Calculator"
+                    data-id="Kalkulator Imbal Hasil Saham">
+                    Stock Return Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Calculate Net Profit, ROI & Break-Even Point."
+                    data-id="Hitung Net Profit, ROI & Titik Impas (BEP) Saham.">
+                    Calculate Net Profit, ROI & Break-Even Point.
+                </p>
+            </a>
+
+            <a href="../kalkulator-roi-properti-sewa/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
+                    data-en="Rental Property ROI"
+                    data-id="ROI Properti Sewa">
+                    Rental Property ROI
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Analyze rental yield and cash flow."
+                    data-id="Analisis yield sewa dan arus kas properti.">
+                    Analyze rental yield and cash flow.
+                </p>
+            </a>
+
+            <a href="../kalkulator-pajak-keuntungan-modal/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
+                    data-en="Capital Gains Tax"
+                    data-id="Pajak Keuntungan Modal">
+                    Capital Gains Tax
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Estimate tax on investment profits."
+                    data-id="Estimasi pajak atas keuntungan investasi.">
+                    Estimate tax on investment profits.
+                </p>
+            </a>
+
+        </div>
+
+        <div class="border-t border-gray-100 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" 
+                data-en="Related Articles:" 
+                data-id="Artikel Terkait:">
+                Related Articles:
+            </h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/analisis-titik-impas-bisnis.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Three Essential Metrics for Business Viability" 
+                              data-id="Tiga Metrik Penting untuk Kelayakan Bisnis">
+                            Three Essential Metrics for Business Viability
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../articles/klausul-perpajakan-kontrak.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Understanding Tax Clauses in Contracts" 
+                              data-id="Memahami Klausul Perpajakan dalam Kontrak">
+                            Understanding Tax Clauses in Contracts
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </section>
     
     <div id="global-footer-container"></div>
     
-    <script>
-    window.headerCategory = 'finance'; // INI KUNCINYA: Mengubah Header jadi HIJAU
-    </script>
-
-    
     <script src="../components.js"></script>
-
     <script>
-        // **********************************************
-        // LOGIKA UTAMA
-        // **********************************************
+    window.headerCategory = 'finance';
+    
+    // **********************************************
+    // LOGIKA UTAMA
+    // **********************************************
 
-        const translations = {
+    const translations = {
             id: {
                 appTitle: "Kalkulator Analisis Kelayakan Bisnis (BEP, NPV, IRR)",
-                backToCatalogText: "Kembali ke Katalog Alat",
                 headerTitle: "Kalkulator Analisis Kelayakan Bisnis",
                 toolSubtitle: "Apakah rencana bisnis Anda layak? Hitung BEP, NPV, dan IRR secara simultan.",
                 // LABELS INPUT
@@ -285,20 +328,10 @@
                 sectionHeader3: "Memahami NPV (Net Present Value)",
                 content3: "NPV adalah metrik nilai. Ia menghitung nilai hari ini dari semua keuntungan masa depan, dikurangi investasi awal Anda. Jika NPV positif, proyek tersebut 'Layak'.",
                 sectionHeader4: "Memahami IRR (Internal Rate of Return)",
-                content4: "IRR adalah metrik efisiensi. Ini adalah tingkat pengembalian (profit) tahunan yang dihasilkan oleh investasi Anda. Bandingkan dengan bunga bank atau biaya modal.",
-                // FOOTER
-                articleRefTitle: "Perlu pemahaman lebih lanjut?",
-                articleRefLinkText: "Baca Artikel: Tiga Metrik Penting untuk Kelayakan Bisnis →",
-                articleRefLinkPath: "../articles/analisis-titik-impas-bisnis.html",
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                content4: "IRR adalah metrik efisiensi. Ini adalah tingkat pengembalian (profit) tahunan yang dihasilkan oleh investasi Anda. Bandingkan dengan bunga bank atau biaya modal."
             },
             en: {
                 appTitle: "Business Viability Analyzer (BEP, NPV, IRR)",
-                backToCatalogText: "Back to Tools Catalog",
                 headerTitle: "Business Viability Analyzer",
                 toolSubtitle: "Is your business plan viable? Calculate BEP, NPV, and IRR simultaneously.",
                 sectionBepHeader: "1. Operational Data (BEP)",
@@ -325,6 +358,7 @@
                 summaryTitle_Accept: "Project Status: Recommended ACCEPT",
                 summaryTitle_Reject: "Project Status: Recommended REJECT/REVIEW",
                 summaryTitle_Warning: "Project Status: ACCEPT WITH OPERATIONAL RISK WARNING",
+                
                 summaryNPV_Accept: (npv, irr) => `The project is <strong>financially viable</strong>. The IRR of <strong>${irr}%</strong> exceeds the cost of capital. The project is expected to add <strong>${npv}</strong> in value today.`,
                 summaryNPV_Reject: (npv, irr) => `The project is <strong>not financially viable</strong>. The IRR is only <strong>${irr}%</strong>, below the cost of capital. The project is expected to lose <strong>${npv}</strong> in value.`,
                 summaryBEP_LowRisk: (units, revenue) => `From an operational standpoint, the BEP is at <strong>${units} units</strong> or <strong>${revenue}</strong>. This indicates a <strong>good safety margin</strong>.`,
@@ -337,15 +371,7 @@
                 sectionHeader3: "Understanding NPV",
                 content3: "NPV is the value metric. It calculates the present-day value of all future profits minus your initial investment.",
                 sectionHeader4: "Understanding IRR",
-                content4: "IRR is the efficiency metric. It is the annual rate of return generated by your investment.",
-                articleRefTitle: "Need a deeper understanding?",
-                articleRefLinkText: "Read Article: Three Essential Metrics for Business Viability →",
-                articleRefLinkPath: "../articles/analisis-titik-impas-bisnis.html",
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                content4: "IRR is the efficiency metric. It is the annual rate of return generated by your investment."
             }
         };
 
@@ -394,10 +420,8 @@
                 cleanInput(document.getElementById('cf3').value), cleanInput(document.getElementById('cf4').value),
                 cleanInput(document.getElementById('cf5').value)
             ];
-
             // Validasi
             const contributionMargin = salePrice - variableCost;
-
             if (fixedCosts <= 0 || variableCost < 0 || salePrice <= 0 || initialInvestment <= 0 || discountRate <= 0 || contributionMargin <= 0 || cashFlowsInputs.every(cf => cf <= 0)) {
                 document.getElementById('errorText').textContent = t.errorInput;
                 errorAlert.classList.remove('hidden');
@@ -405,13 +429,11 @@
                 return;
             }
             errorAlert.classList.add('hidden');
-
             // Hitung BEP
             const bepUnits = fixedCosts / contributionMargin;
             const bepRevenue = bepUnits * salePrice;
             const minCashFlow = Math.min(...cashFlowsInputs.filter(cf => cf > 0));
             const isHighBEPRisk = bepUnits > ((minCashFlow / salePrice) * 2);
-
             // Hitung NPV
             let totalPV = 0;
             cashFlowsInputs.forEach((cf, index) => { totalPV += cf / Math.pow(1 + discountRate, index + 1); });
@@ -437,93 +459,101 @@
             const irrFormatted = formatDecimal(irr * 100);
             const bepUnitFormatted = formatDecimal(bepUnits);
             const bepRevFormatted = formatNumber(bepRevenue);
-
             // Tentukan Pesan Summary
             let summaryTitleKey, summaryBgClass, summaryText;
             if (npv > 0 && irr > discountRate) {
                 summaryTitleKey = 'summaryTitle_Accept';
-                summaryBgClass = 'bg-success-color/10 border-success-color/30';
+                summaryBgClass = 'bg-green-50 border-green-200';
                 summaryText = t.summaryNPV_Accept(npvFormatted, irrFormatted);
             } else {
                 summaryTitleKey = 'summaryTitle_Reject';
-                summaryBgClass = 'bg-danger-color/10 border-danger-color/30';
+                summaryBgClass = 'bg-red-50 border-red-200';
                 summaryText = t.summaryNPV_Reject(npvFormatted, irrFormatted);
             }
             let bepSummaryText = isHighBEPRisk ? t.summaryBEP_HighRisk(bepUnitFormatted, bepRevFormatted) : t.summaryBEP_LowRisk(bepUnitFormatted, bepRevFormatted);
             if (isHighBEPRisk && summaryTitleKey === 'summaryTitle_Accept') {
                 summaryTitleKey = 'summaryTitle_Warning';
-                summaryBgClass = 'bg-warning-color/10 border-warning-color/30';
+                summaryBgClass = 'bg-yellow-50 border-yellow-200';
             }
 
             document.getElementById('summaryTitle').textContent = t[summaryTitleKey];
-            document.getElementById('summaryText').innerHTML = summaryText + '<br><br><strong>Analisis Operasional (BEP):</strong> ' + bepSummaryText;
+            document.getElementById('summaryText').innerHTML = summaryText + '<br><br><strong>Operational Analysis (BEP):</strong> ' + bepSummaryText;
             document.getElementById('executiveSummary').className = `p-4 rounded-lg mb-4 border ${summaryBgClass}`;
-
             // Isi Metrik Angka
             const npvEl = document.getElementById('npvResult');
             const irrEl = document.getElementById('irrResult');
             npvEl.textContent = npvFormatted;
-            npvEl.className = `text-lg sm:text-2xl break-words font-bold mt-1 ${npv > 0 ? 'text-success-color' : 'text-danger-color'}`;
+            npvEl.className = `text-lg sm:text-2xl break-words font-bold mt-1 ${npv > 0 ? 'text-green-600' : 'text-red-600'}`;
             irrEl.textContent = irrFormatted + '%';
-            irrEl.className = `text-lg sm:text-2xl break-words font-bold mt-1 ${irr > discountRate ? 'text-success-color' : 'text-danger-color'}`;
+            irrEl.className = `text-lg sm:text-2xl break-words font-bold mt-1 ${irr > discountRate ? 'text-green-600' : 'text-red-600'}`;
             document.getElementById('bepUnitResult').textContent = bepUnitFormatted;
             document.getElementById('bepRevenueResult').textContent = bepRevFormatted;
 
             resultBox.classList.add('visible');
         }
 
-        // Fungsi Ganti Bahasa & Slider (DIMODIFIKASI UNTUK MODULAR)
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            document.documentElement.lang = lang; 
 
-            // MODIFIKASI: Menghapus logika animasi slider lama yang error 
-            // dan menggantinya dengan logika sinkronisasi dengan components.js
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            if(languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
-
-            // Ganti Teks Halaman
+            // Update Text Elements
             const elements = [
-                'appTitle', 'backToCatalogText', 'headerTitle', 'toolSubtitle', 
+                'appTitle', 'headerTitle', 'toolSubtitle', 
                 'sectionBepHeader', 'labelFixedCosts', 'labelVariableCost', 'labelSalePrice',
                 'sectionNpvIrrHeader', 'labelInitialInvestment', 'labelDiscountRate', 
                 'labelCashFlows', 'labelCF1', 'labelCF2', 'labelCF3', 'labelCF4', 'labelCF5', 
                 'calculateButton', 'resultTitle', 'metricsHeader', 'resultNPV', 'resultIRR', 
                 'resultBEPUnits', 'resultBEPRevenue', 'sectionHeader1', 'content1', 
                 'sectionHeader2', 'content2', 'sectionHeader3', 'content3', 
-                'sectionHeader4', 'content4', 'linkPrivacy', 'linkTerms', 'linkAbout', 
-                'linkContact', 'footerCopyright', 'articleReferenceTitle'
+                'sectionHeader4', 'content4'
             ];
             elements.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
-                    if(['content1','content2','content3','content4','toolSubtitle','footerCopyright'].includes(id)) el.innerHTML = t[id];
+                    if(['content1','content2','content3','content4','toolSubtitle'].includes(id)) el.innerHTML = t[id];
                     else el.textContent = t[id];
                 }
             });
 
-            // Update Link Artikel & Deskripsi
-            document.getElementById('articleReferenceLink').textContent = t.articleRefLinkText;
-            document.getElementById('articleReferenceLink').href = t.articleRefLinkPath;
             document.getElementById('descDiscountRate').textContent = t.descDiscountRate;
             
-            // Sembunyikan Hasil saat ganti bahasa
-            document.getElementById('resultBox').classList.remove('visible');
-            document.getElementById('errorAlert').classList.add('hidden');
+            // Re-calculate if results are visible to update messages
+            if (document.getElementById('resultBox').classList.contains('visible')) {
+                calculateAllMetrics({preventDefault:()=>{}});
+            }
+
+            // Update Related Content Language
+            updateRelatedContent(lang);
         }
+
+        function updateRelatedContent(lang) {
+            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
+            translatableElements.forEach(el => {
+                const newText = el.getAttribute(`data-${lang}`);
+                if (newText) {
+                    el.textContent = newText;
+                }
+            });
+        }
+
+        // Observer Bahasa untuk Komunikasi dengan Components.js
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    const currentLang = document.documentElement.lang || 'en';
+                    setLanguage(currentLang);
+                }
+            });
+        });
+        observer.observe(document.documentElement, { attributes: true });
 
         // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
             ['fixedCosts', 'variableCost', 'salePrice', 'initialInvestment', 'cf1', 'cf2', 'cf3', 'cf4', 'cf5'].forEach(id => {
                 const el = document.getElementById(id);
-                if(el.value) el.value = formatNumber(cleanInput(el.value));
+                if(el && el.value) el.value = formatNumber(cleanInput(el.value));
             });
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            setLanguage(browserLang.startsWith('id') ? 'id' : 'en');
+            setLanguage('en');
         });
     </script>
 </body>

@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-imbal-hasil-saham/" />
-    <!-- Judul akan di-set oleh JS -->
+    <meta name="description" content="Kalkulator Imbal Hasil Saham (Stock Return Calculator). Hitung keuntungan bersih (net profit), ROI, dan titik impas investasi saham Anda setelah potongan komisi broker dan pajak.">
  
-    <meta name="description" content="Kalkulator Imbal Hasil Saham (Stock Return Calculator). Hitung keuntungan bersih (net profit), ROI, dan titik impas investasi saham Anda setelah potongan komisi broker dan pajak." />
- 
-    <title id="appTitle">Stock Return Calculator</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/stock-return-calculator/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/stock-return-calculator/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title id="appTitle">Stock Return Calculator - Net Profit & ROI Analysis</title>
     
-    <!-- Kode Google Analytic dan Adsense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,33 +18,10 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                        'stock-up': '#27ae60', // Hijau Saham Naik
-                        'stock-down': '#c0392b', // Merah Saham Turun
-                        'stock-neutral': '#f39c12', // Kuning Netral
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil */
+        /* CSS LOKAL (Spesifik Alat Ini) */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -57,228 +31,144 @@
         }
         .result-box.visible {
             opacity: 1;
-            max-height: 3000px; 
+            max-height: 2000px; 
             padding: 1.5rem; 
         }
         
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya kustom untuk input dan tombol */
-        .calculate-button {
-            box-shadow: 0 4px #196f3d; /* Warna hijau tua */
-            background-color: #27ae60; /* stock-up */
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .calculate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px #196f3d;
-            background-color: #2ecc71;
-        }
-        .calculate-button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px #196f3d;
-        }
-
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
-        }
-
-        /* Gaya Kartu Hasil Utama */
-        .result-card-main {
-            background-color: #f0fdf4; /* Green 50 */
-            border: 2px solid #86efac; /* Green 300 */
-        }
-        
-        /* Toggle Unit (Lot/Lembar) */
+        /* Custom Select Arrow for Unit */
         .unit-select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.5rem center;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2316a34a' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0rem center;
             background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
+            background-size: 1.2em 1.2em;
         }
 
+        .input-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+    <div id="global-header-container"></div>
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Stock Return Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3">Stock Return Calculator</h1>
+            
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               <!-- Konten Subtitle akan diisi oleh JS -->
+               Calculate your true Net Profit, ROI, and Break-Even Point by accounting for broker commissions and taxes.
             </p>
             
-            <!-- Form Input -->
             <form id="stockForm" onsubmit="calculateStockReturn(event)" class="space-y-6">
                 
-                <!-- Bagian 1: Transaksi Beli & Jual -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="text-lg font-bold mb-4 text-primary" id="headerTransaction">1. Transaction Details</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <h2 class="text-lg font-bold mb-4 text-green-800" id="headerTransaction">1. Transaction Details</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         
                         <div class="relative">
                             <label for="buyPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelBuyPrice">Buy Price (per Share)</label>
-                            <input type="text" id="buyPrice" inputmode="numeric" value="5.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color" required>
-                            <p class="input-description" id="descBuyPrice">Harga pembelian per lembar saham.</p>
+                            <input type="text" id="buyPrice" inputmode="numeric" placeholder="e.g. 5,000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
+                            <p class="input-description" id="descBuyPrice">The price at which you bought the stock.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="sellPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelSellPrice">Sell Price (per Share)</label>
-                            <input type="text" id="sellPrice" inputmode="numeric" value="5.500" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color" required>
-                            <p class="input-description" id="descSellPrice">Harga penjualan per lembar saham.</p>
+                            <input type="text" id="sellPrice" inputmode="numeric" placeholder="e.g. 5,500" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
+                            <p class="input-description" id="descSellPrice">The price at which you sold (or plan to sell).</p>
                         </div>
 
-                        <div class="relative">
-                            <div class="flex justify-between mb-1">
+                        <div class="relative sm:col-span-2">
+                            <div class="flex justify-between mb-1 items-center">
                                 <label for="sharesCount" class="block text-sm font-medium text-gray-700" id="labelSharesCount">Quantity</label>
-                                <select id="shareUnit" class="text-xs border-none bg-transparent text-blue-600 font-bold focus:ring-0 cursor-pointer pr-4 unit-select" onchange="updateUnitLabel()">
+                                <select id="shareUnit" class="text-xs border-none bg-transparent text-green-600 font-bold focus:ring-0 cursor-pointer pr-5 unit-select uppercase tracking-wide" onchange="updateUnitLabel()">
                                     <option value="lot">Lot (100)</option>
                                     <option value="share">Shares (Lbr)</option>
                                 </select>
                             </div>
-                            <input type="text" id="sharesCount" inputmode="numeric" value="100" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color" required>
-                            <p class="input-description" id="descSharesCount">Jumlah Lot yang dibeli (1 Lot = 100 Lembar).</p>
+                            <input type="text" id="sharesCount" inputmode="numeric" placeholder="e.g. 100" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
+                            <p class="input-description" id="descSharesCount">Number of lots traded (1 Lot = 100 Shares).</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bagian 2: Komisi & Biaya -->
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="text-lg font-bold mb-4 text-primary" id="headerFees">2. Broker Fees & Taxes</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <h2 class="text-lg font-bold mb-4 text-green-800" id="headerFees">2. Broker Fees & Taxes</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="buyCommission" class="block text-sm font-medium text-gray-700 mb-1" id="labelBuyComm">Buy Commission (%)</label>
-                            <input type="number" id="buyCommission" min="0" step="0.01" value="0.15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color">
-                            <p class="input-description" id="descBuyComm">Fee beli sekuritas (termasuk levy/PPN).</p>
+                            <input type="number" id="buyCommission" min="0" step="0.01" value="0.15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
                         </div>
+             
                         <div class="relative">
                             <label for="sellCommission" class="block text-sm font-medium text-gray-700 mb-1" id="labelSellComm">Sell Commission (%)</label>
-                            <input type="number" id="sellCommission" min="0" step="0.01" value="0.25" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color">
-                            <p class="input-description" id="descSellComm">Fee jual sekuritas (biasanya lebih tinggi ada PPh).</p>
+                            <input type="number" id="sellCommission" min="0" step="0.01" value="0.25" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
                         </div>
-                        <div class="relative">
-                            <label for="dividends" class="block text-sm font-medium text-gray-700 mb-1" id="labelDividends">Dividends Received (Total)</label>
-                            <input type="text" id="dividends" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color">
-                            <p class="input-description" id="descDividends">Total dividen tunai yang diterima selama memegang saham.</p>
+                        
+                        <div class="relative sm:col-span-2">
+                            <label for="dividends" class="block text-sm font-medium text-gray-700 mb-1" id="labelDividends">Dividends Received (Optional)</label>
+                            <input type="text" id="dividends" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
+                            <p class="input-description" id="descDividends">Total cash dividends received.</p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-green-600 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="w-full bg-green-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
                     Calculate Return
                 </button>
                 
-                <!-- Error Alert -->
                 <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
-            <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
+            <div id="resultBox" class="result-box mt-8 bg-green-50 border border-green-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-green-300">Profit/Loss Analysis</h3>
+                <h3 id="resultHeader" class="text-xl font-bold mb-6 text-green-800 border-b border-green-200 pb-2">Profit/Loss Analysis</h3>
                 
-                <!-- Hasil Utama: Net Profit & ROI -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-center">
-                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-center">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                         <p id="labelNetProfit" class="text-sm font-bold text-gray-600 uppercase tracking-wider">Net Profit / Loss</p>
-                        <p id="resultNetProfit" class="text-4xl font-extrabold text-stock-up mt-2">0</p>
+                        <p id="resultNetProfit" class="text-3xl font-extrabold text-gray-800 mt-2">0</p>
                         <p class="text-xs text-gray-500 mt-1" id="descNetProfit">After all fees & taxes</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                         <p id="labelROI" class="text-sm font-bold text-gray-600 uppercase tracking-wider">Return on Investment (ROI)</p>
-                        <p id="resultROI" class="text-4xl font-extrabold text-stock-up mt-2">0%</p>
-                        <p class="text-xs text-gray-500 mt-1" id="descROI">Percentage gain/loss on capital</p>
+                        <p id="resultROI" class="text-3xl font-extrabold text-gray-800 mt-2">0%</p>
+                        <p class="text-xs text-gray-500 mt-1" id="descROI">Percentage gain/loss</p>
                     </div>
                 </div>
 
-                <!-- Interpretasi Hasil -->
-                <div class="mb-6 bg-white p-4 rounded-lg border" id="interpretationBox">
-                    <h4 id="headerInterpretation" class="text-md font-bold text-primary mb-2">Result Analysis</h4>
-                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
-                        <!-- Teks interpretasi dinamis -->
-                    </p>
+                <div class="mb-6 bg-white p-4 rounded-lg border border-gray-100" id="interpretationBox">
+                    <h4 id="headerInterpretation" class="text-md font-bold text-gray-800 mb-2">Result Analysis</h4>
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed"></p>
                 </div>
 
-                <!-- Detail Biaya -->
-                <h4 id="detailHeader" class="text-lg font-bold text-primary mb-3">Transaction Breakdown</h4>
-                <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
+                <h4 id="detailHeader" class="text-lg font-bold text-gray-800 mb-3">Transaction Breakdown</h4>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 text-sm">
                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
-                        <div class="text-gray-600" id="labelTotalBuy">Total Buy Amount</div>
+                        <div class="text-gray-600" id="labelTotalBuy">Total Buy Value</div>
                         <div class="text-right font-semibold" id="valTotalBuy">0</div>
                     </div>
                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
-                        <div class="text-gray-600" id="labelTotalSell">Total Sell Amount</div>
+                        <div class="text-gray-600" id="labelTotalSell">Total Sell Value</div>
                         <div class="text-right font-semibold" id="valTotalSell">0</div>
                     </div>
                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 bg-red-50">
                         <div class="text-gray-600" id="labelTotalFees">Total Broker Fees</div>
                         <div class="text-right font-semibold text-red-600" id="valTotalFees">0</div>
                     </div>
-                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 bg-blue-50">
+                    <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 bg-blue-50">
                         <div class="text-gray-600" id="labelBreakEven">Break-Even Price (per Share)</div>
                         <div class="text-right font-bold text-blue-600" id="valBreakEven">0</div>
                     </div>
                 </div>
-                
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Calculating Stock Returns</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -300,37 +190,106 @@
 
         </div>
     </main>
-    
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+
+    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
+            <h2 class="text-xl font-bold text-gray-800" 
+                data-en="Investment & Finance Tools" 
+                data-id="Alat Investasi & Keuangan">
+                Investment & Finance Tools
+            </h2>
         </div>
-    </footer>
-    
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
+                    data-en="Compound Interest Calculator"
+                    data-id="Kalkulator Bunga Majemuk">
+                    Compound Interest Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Visualize how your investments grow over time."
+                    data-id="Visualisasikan pertumbuhan investasi Anda dari waktu ke waktu.">
+                    Visualize how your investments grow over time.
+                </p>
+            </a>
+
+            <a href="../kalkulator-pph/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
+                    data-en="Income Tax Calculator (PPh 21)"
+                    data-id="Kalkulator PPh 21 (Terbaru)">
+                    Income Tax Calculator (PPh 21)
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Estimate your take-home pay after tax deductions."
+                    data-id="Estimasi gaji bersih Anda setelah potongan pajak.">
+                    Estimate your take-home pay after tax deductions.
+                </p>
+            </a>
+
+            <a href="../kalkulator-npv-irr-bep/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
+                    data-en="NPV, IRR & BEP Calculator"
+                    data-id="Kalkulator NPV, IRR & BEP">
+                    NPV, IRR & BEP Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Analyze the profitability of business projects."
+                    data-id="Analisis profitabilitas proyek bisnis atau investasi.">
+                    Analyze the profitability of business projects.
+                </p>
+            </a>
+
+        </div>
+
+        <div class="border-t border-gray-100 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" 
+                data-en="Related Articles:" 
+                data-id="Artikel Terkait:">
+                Related Articles:
+            </h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" 
+                              data-id="Strategi Mempercepat Pelunasan Utang">
+                            Strategies to Accelerate Debt Repayment
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../articles/klausul-perpajakan-kontrak.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span data-en="Understanding Tax Clauses in Contracts" 
+                              data-id="Memahami Klausul Perpajakan dalam Kontrak">
+                            Understanding Tax Clauses in Contracts
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </section>
+
+    <div id="global-footer-container"></div>
+
+    <script src="../components.js"></script>
     <script>
+        // Set Header Category untuk Finance (Hijau)
+        window.headerCategory = 'finance';
+
         // **********************************************
         // LOGIKA KALKULATOR IMBAL HASIL SAHAM
         // **********************************************
 
         const translations = {
             id: {
-                appTitle: "Kalkulator Imbal Hasil Saham",
+                appTitle: "Kalkulator Imbal Hasil Saham (Net Profit)",
                 headerTitle: "Kalkulator Imbal Hasil Saham",
-                toolSubtitle: "Alat ini dirancang untuk <b>trader dan investor saham</b>. Menghitung keuntungan kotor itu mudah (Harga Jual - Harga Beli), tetapi keuntungan bersih (Net Profit) yang masuk ke rekening Anda sudah terpotong biaya komisi broker (beli & jual), pajak transaksi, dan materai. Kalkulator ini membantu Anda melihat realita keuntungan Anda dan menentukan di harga berapa Anda harus menjual agar balik modal (Break-Even).",
-                backToCatalogText: "Kembali ke Katalog Alat",
-                // Input
+                toolSubtitle: "Alat ini dirancang untuk <b>trader dan investor saham</b>. Menghitung keuntungan kotor itu mudah, tetapi keuntungan bersih (Net Profit) yang masuk ke rekening Anda sudah terpotong biaya komisi broker (beli & jual) dan pajak transaksi. Kalkulator ini membantu Anda melihat realita keuntungan Anda.",
+                
                 headerTransaction: "1. Detail Transaksi",
                 labelBuyPrice: "Harga Beli (per Lembar)",
                 descBuyPrice: "Harga saat Anda membeli saham.",
@@ -341,16 +300,13 @@
                 
                 headerFees: "2. Komisi Broker & Pajak",
                 labelBuyComm: "Komisi Beli (%)",
-                descBuyComm: "Fee sekuritas saat membeli (biasanya 0.15% - 0.20%).",
                 labelSellComm: "Komisi Jual (%)",
-                descSellComm: "Fee sekuritas saat menjual + PPh (biasanya 0.25% - 0.30%).",
                 labelDividends: "Total Dividen (Opsional)",
-                descDividends: "Total dividen tunai yang diterima selama memegang saham ini.",
+                descDividends: "Total dividen tunai yang diterima.",
                 
                 calculateButton: "Hitung Keuntungan",
                 inputError: "Mohon masukkan semua nilai input yang valid.",
                 
-                // Result
                 resultHeader: "Analisis Untung/Rugi",
                 labelNetProfit: "Keuntungan Bersih (Net Profit)",
                 descNetProfit: "Setelah dikurangi semua biaya broker & pajak.",
@@ -358,43 +314,33 @@
                 descROI: "Persentase keuntungan dari modal awal.",
                 
                 headerInterpretation: "Analisis Hasil",
-                interpProfit: "<b>Profit!</b> Transaksi ini menghasilkan keuntungan bersih. Harga jual Anda cukup tinggi untuk menutupi semua biaya broker dan pajak. Strategi Anda berhasil.",
-                interpLoss: "<b>Loss (Rugi).</b> Transaksi ini mengakibatkan kerugian. Penurunan harga atau biaya transaksi menggerus modal Anda. Evaluasi kembali titik entry dan exit Anda.",
-                interpBEP: "<b>Break-Even (Impas).</b> Anda tidak untung dan tidak rugi. Keuntungan harga saham hanya cukup untuk membayar biaya broker.",
+                interpProfit: "<span class='font-bold text-green-700'>Profit!</span> Transaksi ini menghasilkan keuntungan bersih. Harga jual Anda cukup tinggi untuk menutupi semua biaya broker dan pajak.",
+                interpLoss: "<span class='font-bold text-red-700'>Loss (Rugi).</span> Transaksi ini mengakibatkan kerugian. Evaluasi kembali titik entry dan exit Anda.",
+                interpBEP: "<span class='font-bold text-yellow-600'>Break-Even (Impas).</span> Anda tidak untung dan tidak rugi. Keuntungan harga saham hanya cukup untuk membayar biaya broker.",
                 
-                // Detail
                 detailHeader: "Rincian Transaksi",
                 labelTotalBuy: "Total Nilai Beli (Gross)",
                 labelTotalSell: "Total Nilai Jual (Gross)",
                 labelTotalFees: "Total Biaya Broker & Pajak",
                 labelBreakEven: "Harga Impas (per Lembar)",
                 
-                // Edukasi
                 sectionHeader1: "Menghitung Keuntungan Saham",
                 content1: "Dalam investasi saham, keuntungan (Capital Gain) tidak sesederhana selisih harga. Anda harus memperhitungkan biaya friksi. Rumus sederhananya: <br><b>Net Profit = (Total Jual Bersih) - (Total Beli Bersih) + Dividen</b>.<br>Di mana Total Beli Bersih = (Harga x Jumlah) + Fee Beli, dan Total Jual Bersih = (Harga x Jumlah) - Fee Jual.",
                 sectionHeader2: "Dampak Biaya Broker",
-                content2: "Biaya broker (sekuritas) dan pajak dikenakan pada SETIAP transaksi (jual dan beli). Meskipun persentasenya terlihat kecil (misal 0.15% beli dan 0.25% jual), jika Anda sering melakukan trading (scalping/day trading), biaya ini bisa memakan porsi besar dari keuntungan Anda. Mengetahui titik Break-Even (BEP) sangat penting agar Anda tidak menjual di harga yang terlihat untung padahal sebenarnya rugi karena potongan fee.",
+                content2: "Biaya broker (sekuritas) dan pajak dikenakan pada SETIAP transaksi (jual dan beli). Meskipun persentasenya terlihat kecil (misal 0.15% beli dan 0.25% jual), jika Anda sering melakukan trading, biaya ini bisa memakan porsi besar dari keuntungan Anda.",
                 sectionHeader3: "Tips Trading",
                 content3: "Strategi memaksimalkan net profit:",
-                tip1: "<b>Perhatikan Fee Sekuritas:</b> Bandingkan fee antar sekuritas. Selisih 0.05% bisa sangat berarti dalam jangka panjang atau volume besar.",
-                tip2: "<b>Hindari Overtrading:</b> Terlalu sering keluar-masuk pasar meningkatkan biaya transaksi. Pastikan potensi profit sebanding dengan biayanya.",
-                tip3: "<b>Hitung Dividen:</b> Jangan lupa memasukkan dividen dalam perhitungan total return jika Anda memegang saham cukup lama (investing).",
+                tip1: "<b>Perhatikan Fee Sekuritas:</b> Bandingkan fee antar sekuritas. Selisih 0.05% bisa sangat berarti dalam jangka panjang.",
+                tip2: "<b>Hindari Overtrading:</b> Terlalu sering keluar-masuk pasar meningkatkan biaya transaksi.",
+                tip3: "<b>Hitung Dividen:</b> Jangan lupa memasukkan dividen dalam perhitungan total return jika Anda memegang saham cukup lama.",
                 sectionHeader4: "Disclaimer",
-                content4: "Kalkulator ini adalah alat bantu estimasi. Biaya materai (biasanya Rp 10.000 untuk transaksi > Rp 10 juta) mungkin belum termasuk secara otomatis tergantung kebijakan sekuritas Anda. Hasil perhitungan mungkin memiliki sedikit selisih pembulatan dengan laporan resmi sekuritas.",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                content4: "Kalkulator ini adalah alat bantu estimasi. Biaya materai (biasanya Rp 10.000 untuk transaksi > Rp 10 juta) mungkin belum termasuk secara otomatis. Hasil perhitungan mungkin memiliki sedikit selisih pembulatan dengan laporan resmi sekuritas."
             },
             en: {
-                appTitle: "Stock Return Calculator",
+                appTitle: "Stock Return Calculator - Net Profit Analysis",
                 headerTitle: "Stock Return Calculator",
-                toolSubtitle: "This tool is designed for <b>stock traders and investors</b>. Calculating gross profit is easy (Sell Price - Buy Price), but Net Profit that actually hits your account is reduced by broker commissions (buy & sell), transaction taxes, and levies. This calculator helps you see the reality of your returns and determine the exact price you need to sell at to break even.",
-                backToCatalogText: "Back to Tools Catalog",
-                // Input
+                toolSubtitle: "This tool is designed for <b>stock traders and investors</b>. Calculating gross profit is easy, but Net Profit that actually hits your account is reduced by broker commissions (buy & sell) and transaction taxes. This calculator helps you see the reality of your returns.",
+                
                 headerTransaction: "1. Transaction Details",
                 labelBuyPrice: "Buy Price (per Share)",
                 descBuyPrice: "The price at which you bought the stock.",
@@ -405,16 +351,13 @@
                 
                 headerFees: "2. Broker Fees & Taxes",
                 labelBuyComm: "Buy Commission (%)",
-                descBuyComm: "Brokerage fee when buying (typically 0.15% - 0.20%).",
                 labelSellComm: "Sell Commission (%)",
-                descSellComm: "Brokerage fee when selling + Tax (typically 0.25% - 0.30%).",
                 labelDividends: "Dividends Received (Optional)",
-                descDividends: "Total cash dividends received while holding the stock.",
+                descDividends: "Total cash dividends received.",
                 
                 calculateButton: "Calculate Return",
                 inputError: "Please enter all valid input values.",
                 
-                // Result
                 resultHeader: "Profit/Loss Analysis",
                 labelNetProfit: "Net Profit / Loss",
                 descNetProfit: "After all broker fees & taxes.",
@@ -422,41 +365,32 @@
                 descROI: "Percentage gain/loss on initial capital.",
                 
                 headerInterpretation: "Result Analysis",
-                interpProfit: "<b>Profit!</b> This transaction generates a net profit. Your selling price is high enough to cover all broker fees and taxes. Good strategy.",
-                interpLoss: "<b>Loss.</b> This transaction results in a loss. The price drop or transaction fees have eroded your capital. Re-evaluate your entry and exit points.",
-                interpBEP: "<b>Break-Even.</b> You neither gained nor lost money. The stock price gain only covered the broker fees.",
+                interpProfit: "<span class='font-bold text-green-700'>Profit!</span> This transaction generates a net profit. Your selling price is high enough to cover all broker fees and taxes.",
+                interpLoss: "<span class='font-bold text-red-700'>Loss.</span> This transaction results in a loss. The price drop or transaction fees have eroded your capital.",
+                interpBEP: "<span class='font-bold text-yellow-600'>Break-Even.</span> You neither gained nor lost money. The stock price gain only covered the broker fees.",
                 
-                // Detail
                 detailHeader: "Transaction Breakdown",
                 labelTotalBuy: "Total Buy Value (Gross)",
                 labelTotalSell: "Total Sell Value (Gross)",
                 labelTotalFees: "Total Broker Fees & Taxes",
                 labelBreakEven: "Break-Even Price (per Share)",
                 
-                // Edukasi
                 sectionHeader1: "Calculating Stock Returns",
                 content1: "In stock investing, profit (Capital Gain) isn't just the price difference. You must account for friction costs. The simple formula is: <br><b>Net Profit = (Net Sell Value) - (Net Buy Value) + Dividends</b>.<br>Where Net Buy Value = (Price x Qty) + Buy Fee, and Net Sell Value = (Price x Qty) - Sell Fee.",
                 sectionHeader2: "The Impact of Broker Fees",
-                content2: "Broker fees (commissions) and taxes apply to EVERY transaction (buy and sell). Even if the percentage looks small (e.g., 0.15% buy and 0.25% sell), if you trade frequently (scalping/day trading), these costs can eat up a large portion of your profits. Knowing your Break-Even Point (BEP) is crucial so you don't sell at a price that looks profitable but is actually a loss due to fees.",
+                content2: "Broker fees (commissions) and taxes apply to EVERY transaction (buy and sell). Even if the percentage looks small (e.g., 0.15% buy and 0.25% sell), if you trade frequently, these costs can eat up a large portion of your profits.",
                 sectionHeader3: "Trading Tips",
                 content3: "Strategies to maximize net profit:",
-                tip1: "<b>Watch Broker Fees:</b> Compare fees between brokers. A 0.05% difference can be significant in the long run or with large volumes.",
-                tip2: "<b>Avoid Overtrading:</b> Entering and exiting the market too often increases transaction costs. Ensure the potential profit outweighs the costs.",
-                tip3: "<b>Count Dividends:</b> Don't forget to include dividends in your total return calculation if you hold the stock for a while (investing).",
+                tip1: "<b>Watch Broker Fees:</b> Compare fees between brokers. A 0.05% difference can be significant in the long run.",
+                tip2: "<b>Avoid Overtrading:</b> Entering and exiting the market too often increases transaction costs.",
+                tip3: "<b>Count Dividends:</b> Don't forget to include dividends in your total return calculation if you hold the stock for a while.",
                 sectionHeader4: "Disclaimer",
-                content4: "This calculator is an estimation tool. Stamp duty fees (usually applied for large transactions) may not be automatically included depending on your broker's policy. Calculation results may have slight rounding differences compared to official broker statements.",
-
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                content4: "This calculator is an estimation tool. Stamp duty fees (usually applied for large transactions) may not be automatically included depending on your broker's policy. Calculation results may have slight rounding differences compared to official broker statements."
             }
         };
 
-        let currentLang = 'en'; // Default language
-        let currentUnit = 'lot'; // Default unit
+        let currentLang = 'en'; 
+        let currentUnit = 'lot'; 
 
         function formatNumber(amount, decimalPlaces = 0) {
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
@@ -475,7 +409,7 @@
                 inputElement.value = ''; 
             }
         }
-        
+       
         function cleanInput(formattedValue) {
             return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
         }
@@ -491,7 +425,6 @@
                 descElem.textContent = currentLang === 'id' ? "Jumlah lembar saham yang ditransaksikan." : "Number of individual shares traded.";
             }
             
-            // Refresh calc if needed
              if(document.getElementById('resultBox').classList.contains('visible')){
                 calculateStockReturn({preventDefault:()=>{}});
             }
@@ -499,7 +432,6 @@
 
         function calculateStockReturn(event) {
             event.preventDefault();
-
             // 1. Inputs
             const buyPrice = cleanInput(document.getElementById('buyPrice').value);
             const sellPrice = cleanInput(document.getElementById('sellPrice').value);
@@ -522,7 +454,6 @@
             document.getElementById('errorAlert').classList.add('hidden');
 
             // 3. Perhitungan
-            
             // Gross Values
             const grossBuyVal = buyPrice * sharesCount;
             const grossSellVal = sellPrice * sharesCount;
@@ -531,24 +462,21 @@
             const buyFeeVal = grossBuyVal * buyCommPercent;
             const sellFeeVal = grossSellVal * sellCommPercent;
             const totalFees = buyFeeVal + sellFeeVal;
-            
+
             // Net Values
-            const netBuyVal = grossBuyVal + buyFeeVal; // Uang keluar total
-            const netSellVal = grossSellVal - sellFeeVal; // Uang masuk bersih
+            const netBuyVal = grossBuyVal + buyFeeVal;
+            const netSellVal = grossSellVal - sellFeeVal;
             
             // Profit
             const netProfit = (netSellVal - netBuyVal) + dividends;
             const roi = (netProfit / netBuyVal) * 100;
             
             // Break Even Price (per share)
-            // BEP * Shares * (1 - SellComm) = NetBuyVal
-            // BEP = NetBuyVal / (Shares * (1 - SellComm))
             const breakEvenPrice = netBuyVal / (sharesCount * (1 - sellCommPercent));
 
             // 4. Display Results
             const profitElem = document.getElementById('resultNetProfit');
             const roiElem = document.getElementById('resultROI');
-            const interpretationBox = document.getElementById('interpretationBox');
             const interpretationText = document.getElementById('textInterpretation');
             const t = translations[currentLang];
 
@@ -556,24 +484,20 @@
             roiElem.textContent = formatNumber(roi, 2) + "%";
             
             // Styling & Interpretation
-            profitElem.classList.remove('text-stock-up', 'text-stock-down', 'text-stock-neutral');
-            roiElem.classList.remove('text-stock-up', 'text-stock-down', 'text-stock-neutral');
-            interpretationBox.classList.remove('border-green-200', 'border-red-200', 'border-yellow-200', 'bg-green-50', 'bg-red-50', 'bg-yellow-50');
+            profitElem.className = 'text-3xl font-extrabold mt-2';
+            roiElem.className = 'text-3xl font-extrabold mt-2';
             
             if (netProfit > 0) {
-                profitElem.classList.add('text-stock-up');
-                roiElem.classList.add('text-stock-up');
-                interpretationBox.classList.add('border-green-200', 'bg-green-50');
+                profitElem.classList.add('text-green-600');
+                roiElem.classList.add('text-green-600');
                 interpretationText.innerHTML = t.interpProfit;
             } else if (netProfit < 0) {
-                profitElem.classList.add('text-stock-down');
-                roiElem.classList.add('text-stock-down');
-                interpretationBox.classList.add('border-red-200', 'bg-red-50');
+                profitElem.classList.add('text-red-600');
+                roiElem.classList.add('text-red-600');
                 interpretationText.innerHTML = t.interpLoss;
             } else {
-                profitElem.classList.add('text-stock-neutral');
-                roiElem.classList.add('text-stock-neutral');
-                interpretationBox.classList.add('border-yellow-200', 'bg-yellow-50');
+                profitElem.classList.add('text-yellow-600');
+                roiElem.classList.add('text-yellow-600');
                 interpretationText.innerHTML = t.interpBEP;
             }
 
@@ -590,21 +514,16 @@
             currentLang = lang;
             const t = translations[lang];
             
-            const switcher = document.getElementById('languageSwitcher');
-            switcher.classList.remove('lang-en', 'lang-id');
-            switcher.classList.add(`lang-${lang}`);
-
-            // Get values
+            // Simpan nilai input saat ini
             const buyVal = document.getElementById('buyPrice').value;
             const sellVal = document.getElementById('sellPrice').value;
             const sharesVal = document.getElementById('sharesCount').value;
             const divVal = document.getElementById('dividends').value;
 
-            // Update Text
+            // Update Teks
             document.getElementById('appTitle').textContent = t.appTitle;
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
             
             document.getElementById('headerTransaction').textContent = t.headerTransaction;
             document.getElementById('labelBuyPrice').textContent = t.labelBuyPrice;
@@ -612,13 +531,10 @@
             document.getElementById('labelSellPrice').textContent = t.labelSellPrice;
             document.getElementById('descSellPrice').textContent = t.descSellPrice;
             document.getElementById('labelSharesCount').textContent = t.labelSharesCount;
-            // descSharesCount updated via updateUnitLabel below
             
             document.getElementById('headerFees').textContent = t.headerFees;
             document.getElementById('labelBuyComm').textContent = t.labelBuyComm;
-            document.getElementById('descBuyComm').textContent = t.descBuyComm;
             document.getElementById('labelSellComm').textContent = t.labelSellComm;
-            document.getElementById('descSellComm').textContent = t.descSellComm;
             document.getElementById('labelDividends').textContent = t.labelDividends;
             document.getElementById('descDividends').textContent = t.descDividends;
             document.getElementById('calculateButton').textContent = t.calculateButton;
@@ -629,7 +545,7 @@
             document.getElementById('sharesCount').value = formatNumber(cleanInput(sharesVal));
             document.getElementById('dividends').value = formatNumber(cleanInput(divVal));
             
-            // Update Unit Label Description based on Lang
+            // Update Unit Label Description
             updateUnitLabel();
 
             // Results
@@ -659,32 +575,40 @@
             document.getElementById('tip3').innerHTML = t.tip3;
             document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
             document.getElementById('content4').textContent = t.content4;
-            
-            // Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-            
+
             // Refresh Calc if visible
             if(document.getElementById('resultBox').classList.contains('visible')){
                 calculateStockReturn({preventDefault:()=>{}});
             }
+
+            // Update Related Content Language
+            updateRelatedContent(lang);
         }
 
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) setLanguage(newLang);
-            }
-        });
+        function updateRelatedContent(lang) {
+            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
+            translatableElements.forEach(el => {
+                const newText = el.getAttribute(`data-${lang}`);
+                if (newText) {
+                    el.textContent = newText;
+                }
+            });
+        }
 
+        // Observer Bahasa untuk Komunikasi dengan Components.js
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    const currentLang = document.documentElement.lang || 'en';
+                    setLanguage(currentLang);
+                }
+            });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) defaultLang = 'id';
-            setLanguage(defaultLang); 
+            setLanguage('en');
         });
     </script>
 </body>

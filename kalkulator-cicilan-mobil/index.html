@@ -3,398 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- STRUKTUR SEO OPTIMAL -->
-    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-cicilan-mobil/" />
-    <meta name="description" content="Kalkulator Cicilan Mobil Cepat dan Akurat. Hitung perkiraan pembayaran bulanan, total bunga, dan total pembayaran untuk pinjaman mobil Anda." />
-    <title id="appTitle">Kalkulator Cicilan Mobil</title>
-    <!-- Keyword potensial: kalkulator cicilan mobil, simulasi kredit mobil, auto loan calculator, bunga kredit mobil -->
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-cicilan-mobil/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-cicilan-mobil/index.html" />
-
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Konfigurasi Tailwind (DIPINDAHKAN ke SINI agar dimuat SETELAH script Tailwind CDN) -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50',
-                        'secondary': '#3498db',
-                        'primary-dark': '#1e3a8a',
-                        'loan-color': '#e67e22', // Oranye untuk tema Pinjaman/Utang
-                        'success-color': '#27ae60',
-                        'danger-color': '#e74c3c',
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
     
-    <!-- Kode Google Analytic dan Adsense (Placeholder) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-cicilan-mobil/" />
+    <meta name="description" content="Global Car Loan Calculator. Calculate estimated monthly payments, total interest, and total cost for your car loan in any currency.">
+    
+    <title id="appTitle">Kalkulator Cicilan Mobil</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-7M8E7QRYNY'); // Menggunakan ID yang sama
+      gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 2000;
-            display: inline-flex;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 9999px;
-            padding: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        /* CSS LOKAL */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
         }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #2c3e50;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px);
-            background-color: #1e3a8a;
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-
-        /* Gaya Hasil */
-        .result-box { 
-            transition: all 0.5s ease-in-out; 
-            transform-origin: top center; 
-            opacity: 0; 
-            max-height: 0; 
-            overflow: hidden; 
-        }
-        .result-box.visible { 
-            opacity: 1; 
+        .result-box.visible {
+            opacity: 1;
             max-height: 3000px; 
             padding: 1.5rem; 
-            margin-top: 1.5rem; 
         }
 
-        /* Gaya Tombol */
+        /* Tombol Hijau (Finance Standard) */
         .calculate-button {
-            box-shadow: 0 4px #c0392b; /* Warna merah gelap yang relevan untuk pinjaman */
-            transition: transform 0.2s, box-shadow 0.2s;
+            background-color: #16a34a !important; 
+            color: white !important;
         }
         .calculate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px #c0392b;
+            background-color: #15803d !important;
         }
-        .calculate-button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px #c0392b;
-        }
-
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
-        }
-
-        /* Gaya Khusus Hasil */
-        .result-metric {
-            border-bottom: 1px dashed #e5e7eb; /* Garis putus-putus */
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .result-metric:last-child {
-            border-bottom: none;
-        }
-
-        /* Menghapus definisi .input-field-style karena bermasalah dengan @apply pada CDN Tailwind */
-        /* Kita akan menerapkan class secara langsung di HTML */
-
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Kembali ke Katalog Alat</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-id">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-            </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
 
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Kalkulator Cicilan Mobil</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Hitung perkiraan cicilan bulanan, total pembayaran, dan total bunga yang akan Anda bayarkan untuk kredit mobil Anda.</p>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Kalkulator Cicilan Mobil</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed">
+                Hitung perkiraan cicilan bulanan, total pembayaran, dan total bunga yang akan Anda bayarkan untuk kredit mobil Anda.
+            </p>
 
-            <!-- Formulir Kalkulator Cicilan Mobil -->
             <form id="loanForm" onsubmit="calculateLoan(event)" class="space-y-6">
 
-                <!-- 1. Data Harga & Uang Muka -->
-                <div class="border-b pb-4 border-gray-200">
-                    <h2 class="text-xl font-bold text-loan-color mb-3" id="sectionCarHeader">1. Harga Mobil & Uang Muka</h2>
-                    <div class="space-y-4">
-                        <div class="relative">
-                            <label for="carPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelCarPrice">Harga Jual Mobil (OTR)</label>
-                            <!-- PERBAIKAN: Menerapkan class styling langsung -->
-                            <input type="text" id="carPrice" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-color focus:border-loan-color" placeholder="Contoh: 300.000.000" value="300000000">
-                            <p class="input-description" id="descCarPrice">Harga On The Road (OTR) mobil yang ingin Anda beli.</p>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="text-lg font-bold text-green-700 mb-3" id="sectionCarHeader">1. Harga Mobil & Uang Muka</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <div class="md:col-span-2">
+                            <label for="carPrice" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelCarPrice">Harga Jual Mobil</span> 
+                                <span class="currency-label font-normal text-gray-500">(Rp)</span>
+                            </label>
+                            <input type="text" id="carPrice" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="300.000.000" value="300.000.000">
+                            <p class="text-xs text-gray-500 mt-1" id="descCarPrice">Harga total mobil.</p>
                         </div>
-                        <div class="relative">
-                            <label for="downPayment" class="block text-sm font-medium text-gray-700 mb-1" id="labelDownPayment">Uang Muka (DP)</label>
-                            <!-- PERBAIKAN: Menerapkan class styling langsung -->
-                            <input type="text" id="downPayment" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-color focus:border-loan-color" placeholder="Contoh: 60.000.000" value="60000000">
-                            <p class="input-description" id="descDownPayment">Jumlah uang muka yang Anda bayarkan di awal.</p>
+
+                        <div class="md:col-span-2">
+                            <label for="downPayment" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelDownPayment">Uang Muka (DP)</span>
+                                <span class="currency-label font-normal text-gray-500">(Rp)</span>
+                            </label>
+                            <input type="text" id="downPayment" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="60.000.000" value="60.000.000">
+                            <p class="text-xs text-gray-500 mt-1" id="descDownPayment">Jumlah uang muka yang dibayarkan.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Data Pinjaman -->
-                <div class="pb-4">
-                    <h2 class="text-xl font-bold text-loan-color mb-3" id="sectionLoanHeader">2. Jangka Waktu & Bunga</h2>
-                    <div class="space-y-4">
-                        
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="text-lg font-bold text-green-700 mb-3" id="sectionLoanHeader">2. Jangka Waktu & Bunga</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
-                            <label for="loanTerm" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTerm">Jangka Waktu Pinjaman (Tahun)</label>
-                            <!-- PERBAIKAN: Menerapkan class styling langsung -->
-                            <input type="number" id="loanTerm" min="1" max="10" step="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-color focus:border-loan-color" placeholder="Contoh: 5" value="5">
-                            <p class="input-description" id="descLoanTerm">Berapa lama Anda akan mencicil pinjaman ini (1 hingga 10 tahun).</p>
+                            <label for="loanTerm" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTerm">Jangka Waktu (Tahun)</label>
+                            <input type="number" id="loanTerm" min="1" max="10" step="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="5" value="5">
+                            <p class="text-xs text-gray-500 mt-1" id="descLoanTerm">Durasi cicilan (1-10 tahun).</p>
                         </div>
-
                         <div class="relative">
                             <label for="annualInterestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInterestRate">Suku Bunga Tahunan (%)</label>
-                            <!-- PERBAIKAN: Menerapkan class styling langsung -->
-                            <input type="number" id="annualInterestRate" min="0.1" max="50" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-color focus:border-loan-color" placeholder="Contoh: 5.5" value="5.5">
-                            <p class="input-description" id="descInterestRate">Suku bunga efektif tahunan yang dikenakan oleh bank/lembaga pembiayaan.</p>
+                            <input type="number" id="annualInterestRate" min="0.1" max="50" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="5.5" value="5.5">
+                            <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Bunga efektif per tahun.</p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full bg-danger-color text-white font-semibold py-3 rounded-xl hover:bg-red-700 transition duration-300">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-bold py-3 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
                     Hitung Cicilan Bulanan
                 </button>
             </form>
 
-            <!-- Error Alert -->
             <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                 <span id="errorText" class="block sm:inline"></span>
             </div>
 
-            <!-- Result Box (Hasil Perhitungan) -->
-            <div id="resultBox" class="result-box bg-loan-color/5 border border-loan-color/30 rounded-xl shadow-lg">
+            <div id="resultBox" class="result-box mt-6 bg-green-50 border border-green-200 rounded-xl shadow-lg">
 
-                <h3 id="resultTitle" class="text-2xl font-bold text-primary-dark mb-4 border-b pb-2">Hasil Simulasi Kredit Mobil</h3>
+                <h3 id="resultTitle" class="text-xl font-bold text-gray-800 mb-4 border-b pb-2 border-green-300">Hasil Simulasi Kredit</h3>
 
-                <!-- Metrik Kunci (Cicilan Bulanan) -->
-                <div class="p-4 rounded-lg mb-4 bg-white border border-loan-color">
-                    <p class="text-sm font-medium text-gray-700 mb-1" id="metricMonthlyPaymentLabel">Perkiraan Cicilan Bulanan</p>
-                    <p class="text-4xl font-extrabold text-loan-color" id="monthlyPaymentResult">Rp --</p>
-                    <p class="text-sm text-gray-500 mt-1" id="metricDurationText">Selama X Bulan</p>
+                <div class="p-4 rounded-lg mb-6 bg-white border border-green-200 text-center">
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider" id="metricMonthlyPaymentLabel">Perkiraan Cicilan Bulanan</p>
+                    <p class="text-4xl font-extrabold text-green-600 mt-2" id="monthlyPaymentResult">--</p>
+                    <p class="text-xs text-gray-400 mt-1" id="metricDurationText">Selama X Bulan</p>
                 </div>
 
-                <!-- Detail Keuangan -->
-                <h3 id="metricsHeader" class="text-xl font-bold text-primary mb-3 border-b pb-2">Rincian Finansial Pinjaman</h3>
-                <div id="metricsContent" class="space-y-3">
-                    <!-- Jumlah Pinjaman Pokok -->
-                    <div class="flex justify-between items-center result-metric">
-                        <p class="text-sm font-medium text-gray-700" id="resultPrincipal">Jumlah Pinjaman Pokok</p>
-                        <p class="text-lg font-bold text-gray-900" id="principalResult">Rp --</p>
+                <h3 id="metricsHeader" class="text-md font-bold text-gray-800 mb-3">Rincian Finansial</h3>
+                <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
+                    <div class="p-3 flex justify-between items-center border-b border-gray-100">
+                        <span class="text-gray-600" id="resultPrincipal">Jumlah Pinjaman Pokok</span>
+                        <span class="font-bold text-gray-900" id="principalResult">--</span>
                     </div>
-                    <!-- Uang Muka (DP) -->
-                    <div class="flex justify-between items-center result-metric">
-                        <p class="text-sm font-medium text-gray-700" id="resultDownPayment">Uang Muka (DP)</p>
-                        <p class="text-lg font-bold text-gray-900" id="dpResult">Rp --</p>
+                    <div class="p-3 flex justify-between items-center border-b border-gray-100 bg-gray-50">
+                        <span class="text-gray-600" id="resultDownPayment">Uang Muka (DP)</span>
+                        <span class="font-bold text-gray-900" id="dpResult">--</span>
                     </div>
-                    <!-- Total Bunga -->
-                    <div class="flex justify-between items-center result-metric">
-                        <p class="text-sm font-medium text-danger-color" id="resultTotalInterest">Total Bunga (Biaya Pinjaman)</p>
-                        <p class="text-lg font-bold text-danger-color" id="totalInterestResult">Rp --</p>
+                    <div class="p-3 flex justify-between items-center border-b border-gray-100">
+                        <span class="text-red-600 font-medium" id="resultTotalInterest">Total Bunga (Biaya)</span>
+                        <span class="font-bold text-red-600" id="totalInterestResult">--</span>
                     </div>
-                    <!-- Total Pembayaran -->
-                    <div class="flex justify-between items-center p-3 rounded-lg border border-success-color/30 bg-success-color/5 mt-4">
-                        <p class="text-base font-semibold text-success-color" id="resultTotalPayment">Total Pembayaran (Pokok + Bunga)</p>
-                        <p class="text-xl font-extrabold text-success-color" id="totalPaymentResult">Rp --</p>
+                    <div class="p-3 flex justify-between items-center bg-green-100 font-bold">
+                        <span class="text-green-800" id="resultTotalPayment">Total Pembayaran</span>
+                        <span class="text-green-800 text-lg" id="totalPaymentResult">--</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Konten Edukasi & Rekomendasi Tambahan -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Tips Mengambil Kredit Mobil</h2>
-                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Pastikan cicilan bulanan Anda tidak melebihi 20-25% dari pendapatan bulanan bersih Anda. Selain itu, uang muka yang ideal biasanya berkisar 20-30% dari harga mobil. Semakin besar uang muka dan semakin pendek jangka waktu, semakin kecil total bunga yang Anda bayarkan.</p>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Pastikan cicilan bulanan Anda tidak melebihi 20-25% dari pendapatan bulanan bersih Anda.</p>
 
                 <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Mengapa Suku Bunga Penting?</h3>
-                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Suku bunga menentukan seberapa mahal pinjaman Anda. Perbedaan suku bunga 1-2% bisa menghasilkan perbedaan jutaan rupiah dalam total bunga yang dibayarkan. Selalu bandingkan penawaran dari berbagai bank atau lembaga pembiayaan sebelum mengambil keputusan.</p>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Suku bunga menentukan seberapa mahal pinjaman Anda. Perbedaan kecil dapat berdampak besar pada total pembayaran.</p>
             </section>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary">Kebijakan Privasi</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary">Ketentuan Layanan</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary">Tentang Kami</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary">Hubungi Kami</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Alat Keuangan Terkait</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Mortgage Calculator" data-id="Kalkulator KPR Rumah">Kalkulator KPR Rumah</h3>
+                <p class="text-xs text-gray-600" data-en="Estimate monthly house payments." data-id="Estimasi cicilan rumah bulanan.">Estimasi cicilan rumah bulanan.</p>
+            </a>
+            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Debt Payoff Calculator" data-id="Kalkulator Pelunasan Utang">Kalkulator Pelunasan Utang</h3>
+                <p class="text-xs text-gray-600" data-en="Plan your debt freedom journey." data-id="Rencanakan perjalanan bebas utang.">Rencanakan perjalanan bebas utang.</p>
+            </a>
+        </div>
+        
+        <div class="border-t border-gray-100 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Artikel Terkait:</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategi Mempercepat Pelunasan Utang</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
 
     <script>
         // **********************************************
-        // LOGIKA KALKULATOR CICILAN MOBIL (AUTO LOAN)
+        // LOGIKA GLOBAL (MULTI-CURRENCY)
         // **********************************************
 
         const translations = {
             id: {
-                // UI TEXT
                 appTitle: "Kalkulator Cicilan Mobil",
-                backToCatalogText: "Kembali ke Katalog Alat",
                 headerTitle: "Kalkulator Cicilan Mobil",
                 toolSubtitle: "Hitung perkiraan cicilan bulanan, total pembayaran, dan total bunga yang akan Anda bayarkan untuk kredit mobil Anda.",
-                // LABELS INPUT
+                
+                currencyLabel: "(Rp)", // Label Mata Uang di samping Teks
+                
                 sectionCarHeader: "1. Harga Mobil & Uang Muka",
-                labelCarPrice: "Harga Jual Mobil (OTR)",
-                descCarPrice: "Harga On The Road (OTR) mobil yang ingin Anda beli.",
+                labelCarPrice: "Harga Jual Mobil",
+                descCarPrice: "Harga total mobil.",
                 labelDownPayment: "Uang Muka (DP)",
-                descDownPayment: "Jumlah uang muka yang Anda bayarkan di awal.",
+                descDownPayment: "Jumlah uang muka yang Anda bayarkan.",
+                
                 sectionLoanHeader: "2. Jangka Waktu & Bunga",
-                labelLoanTerm: "Jangka Waktu Pinjaman (Tahun)",
-                descLoanTerm: "Berapa lama Anda akan mencicil pinjaman ini (1 hingga 10 tahun).",
+                labelLoanTerm: "Jangka Waktu (Tahun)",
+                descLoanTerm: "Durasi pinjaman (1-10 tahun).",
                 labelInterestRate: "Suku Bunga Tahunan (%)",
-                descInterestRate: "Suku bunga efektif tahunan yang dikenakan oleh bank/lembaga pembiayaan.",
+                descInterestRate: "Suku bunga efektif tahunan.",
+                
                 calculateButton: "Hitung Cicilan Bulanan",
-                // HASIL
-                resultTitle: "Hasil Simulasi Kredit Mobil",
+                
+                resultTitle: "Hasil Simulasi Kredit",
                 metricMonthlyPaymentLabel: "Perkiraan Cicilan Bulanan",
                 metricDurationText: (months) => `Selama ${months} Bulan`,
-                metricsHeader: "Rincian Finansial Pinjaman",
+                metricsHeader: "Rincian Finansial",
                 resultPrincipal: "Jumlah Pinjaman Pokok",
                 resultDownPayment: "Uang Muka (DP)",
-                resultTotalInterest: "Total Bunga (Biaya Pinjaman)",
-                resultTotalPayment: "Total Pembayaran (Pokok + Bunga)",
+                resultTotalInterest: "Total Bunga (Biaya)",
+                resultTotalPayment: "Total Pembayaran",
 
-                errorInput: "Harap masukkan semua nilai yang valid (Harga, Uang Muka, Jangka Waktu > 0, Bunga >= 0). Pastikan Harga Mobil lebih besar dari Uang Muka.",
-                // KONTEN EDUKASI
+                errorInput: "Harap masukkan semua nilai yang valid.",
+                
                 sectionHeader1: "Tips Mengambil Kredit Mobil",
-                content1: "Pastikan cicilan bulanan Anda tidak melebihi 20-25% dari pendapatan bulanan bersih Anda. Selain itu, uang muka yang ideal biasanya berkisar 20-30% dari harga mobil. Semakin besar uang muka dan semakin pendek jangka waktu, semakin kecil total bunga yang Anda bayarkan.",
+                content1: "Pastikan cicilan bulanan Anda tidak melebihi 20-25% dari pendapatan bulanan bersih Anda. Selain itu, uang muka yang ideal biasanya berkisar 20-30% dari harga mobil.",
                 sectionHeader2: "Mengapa Suku Bunga Penting?",
-                content2: "Suku bunga menentukan seberapa mahal pinjaman Anda. Perbedaan suku bunga 1-2% bisa menghasilkan perbedaan jutaan rupiah dalam total bunga yang dibayarkan. Selalu bandingkan penawaran dari berbagai bank atau lembaga pembiayaan sebelum mengambil keputusan.",
-                // FOOTER
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
+                content2: "Suku bunga menentukan seberapa mahal pinjaman Anda. Perbedaan suku bunga 1-2% bisa menghasilkan perbedaan besar dalam total bunga.",
             },
             en: {
-                // UI TEXT
-                appTitle: "Car Payment Calculator",
-                backToCatalogText: "Back to Tools Catalog",
-                headerTitle: "Car Payment Calculator",
-                toolSubtitle: "Calculate the estimated monthly installment, total payment, and total interest you will pay for your car loan.",
-                // LABELS INPUT
+                appTitle: "Car Loan Calculator",
+                headerTitle: "Car Loan Calculator",
+                toolSubtitle: "Calculate estimated monthly payments, total interest, and total cost for your car loan.",
+                
+                currencyLabel: "($)", // Label Mata Uang di samping Teks
+                
                 sectionCarHeader: "1. Car Price & Down Payment",
-                labelCarPrice: "Car Sale Price (OTR)",
-                descCarPrice: "The On The Road (OTR) price of the car you wish to buy.",
-                labelDownPayment: "Down Payment (DP)",
-                descDownPayment: "The amount you pay upfront.",
+                labelCarPrice: "Car Sale Price",
+                descCarPrice: "Total car price.",
+                labelDownPayment: "Down Payment",
+                descDownPayment: "Amount paid upfront.",
+                
                 sectionLoanHeader: "2. Loan Term & Interest",
                 labelLoanTerm: "Loan Term (Years)",
-                descLoanTerm: "How long you will pay the installments (1 to 10 years).",
+                descLoanTerm: "Loan duration (1-10 years).",
                 labelInterestRate: "Annual Interest Rate (%)",
-                descInterestRate: "The effective annual interest rate charged by the bank/financing institution.",
+                descInterestRate: "Effective annual interest rate.",
+                
                 calculateButton: "Calculate Monthly Payment",
-                // HASIL
-                resultTitle: "Car Loan Simulation Results",
+                
+                resultTitle: "Loan Simulation Results",
                 metricMonthlyPaymentLabel: "Estimated Monthly Payment",
                 metricDurationText: (months) => `For ${months} Months`,
-                metricsHeader: "Financial Loan Details",
+                metricsHeader: "Financial Details",
                 resultPrincipal: "Principal Loan Amount",
-                resultDownPayment: "Down Payment (DP)",
-                resultTotalInterest: "Total Interest (Cost of Loan)",
-                resultTotalPayment: "Total Payment (Principal + Interest)",
+                resultDownPayment: "Down Payment",
+                resultTotalInterest: "Total Interest",
+                resultTotalPayment: "Total Payment",
 
-                errorInput: "Please enter all valid values (Price, Down Payment, Loan Term > 0, Interest >= 0). Ensure Car Price is greater than Down Payment.",
-                // KONTEN EDUKASI
+                errorInput: "Please enter valid values.",
+                
                 sectionHeader1: "Tips for Taking a Car Loan",
-                content1: "Ensure your monthly installment does not exceed 20-25% of your net monthly income. Additionally, an ideal down payment usually ranges from 20-30% of the car price. The larger the down payment and the shorter the term, the lower the total interest you pay.",
-                sectionHeader2: "Why is the Interest Rate Important?",
-                content2: "The interest rate determines how expensive your loan is. A 1-2% difference in the interest rate can result in millions of rupiah difference in the total interest paid. Always compare offers from various banks or financing institutions before making a decision.",
-                // FOOTER
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
+                content1: "Ensure your monthly installment does not exceed 20-25% of your net monthly income. Additionally, an ideal down payment usually ranges from 20-30% of the car price.",
+                sectionHeader2: "Why is Interest Rate Important?",
+                content2: "The interest rate determines how expensive your loan is. A small difference in rate can result in a large difference in total interest paid.",
             }
         };
 
-        let currentLang = 'id'; // Default Indonesia
+        let currentLang = 'id';
         const resultBox = document.getElementById('resultBox');
         const errorAlert = document.getElementById('errorAlert');
         const errorText = document.getElementById('errorText');
 
-        // **********************************************
-        // FUNGSI UTILITAS (FORMAT ANGKA)
-        // **********************************************
-
+        // Helper: Clean & Format (Global)
         function cleanInput(formattedValue) {
             if (typeof formattedValue !== 'string') return formattedValue;
-            let cleaned = formattedValue.replace(/\D/g, '');
+            let cleaned = formattedValue.replace(/[^\d]/g, '');
             return parseFloat(cleaned) || 0;
         }
 
+        // Fungsi Format Tampilan Angka (Mata Uang & Lokal)
         function formatNumber(num) {
-            return num.toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
+            const currencyCode = currentLang === 'id' ? 'IDR' : 'USD';
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            
+            return num.toLocaleString(locale, {
                 style: 'currency',
-                currency: 'IDR',
+                currency: currencyCode,
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
-            }).replace('IDR', 'Rp');
+            }); 
         }
 
+        // Fungsi Format Saat Mengetik (Hanya pemisah ribuan)
         function formatInput(inputElement) {
             let value = inputElement.value;
             let numericValue = value.replace(/[^0-9]/g, '');
@@ -403,19 +299,16 @@
                 return;
             }
             let number = parseInt(numericValue, 10);
-            // Format number without currency symbol for input field
+            
+            // Gunakan lokal yang aktif (Titik untuk ID, Koma untuk EN)
             inputElement.value = number.toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0
             });
         }
 
-        // **********************************************
-        // FUNGSI UTAMA: MENGHITUNG CICILAN
-        // **********************************************
-
         function calculateLoan(event) {
-            event.preventDefault();
+            if(event) event.preventDefault();
             const t = translations[currentLang];
             
             // 1. Ambil Input
@@ -423,150 +316,145 @@
             const downPayment = cleanInput(document.getElementById('downPayment').value);
             const loanTermYears = parseFloat(document.getElementById('loanTerm').value) || 0;
             const annualInterestRate = parseFloat(document.getElementById('annualInterestRate').value) || 0;
-            
+
             // 2. Validasi
             const principalLoan = carPrice - downPayment;
-            
-            if (carPrice <= 0 || downPayment < 0 || loanTermYears <= 0 || annualInterestRate < 0 || principalLoan <= 0 || isNaN(loanTermYears) || isNaN(annualInterestRate)) {
+            if (carPrice <= 0 || downPayment < 0 || loanTermYears <= 0 || annualInterestRate < 0 || principalLoan <= 0) {
                 errorText.textContent = t.errorInput;
                 errorAlert.classList.remove('hidden');
                 resultBox.classList.remove('visible');
                 return;
             }
-            
             errorAlert.classList.add('hidden');
-            
-            // --- PERHITUNGAN MENGGUNAKAN FORMULA PINJAMAN (PMT) ---
-            
-            const numPayments = loanTermYears * 12; // Jumlah total bulan pembayaran
-            const monthlyInterestRate = (annualInterestRate / 100) / 12; // Suku bunga bulanan (dalam desimal)
+
+            // 3. Perhitungan PMT
+            const numPayments = loanTermYears * 12;
+            const monthlyInterestRate = (annualInterestRate / 100) / 12;
             
             let monthlyPayment = 0;
             let totalInterest = 0;
             let totalPayment = 0;
             
             if (monthlyInterestRate > 0) {
-                // Formula Cicilan Bulanan (PMT)
                 monthlyPayment = principalLoan * monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -numPayments));
                 totalPayment = monthlyPayment * numPayments;
                 totalInterest = totalPayment - principalLoan;
             } else {
-                // Jika bunga 0% (seperti cicilan internal 0%)
                 monthlyPayment = principalLoan / numPayments;
                 totalInterest = 0;
                 totalPayment = principalLoan;
             }
             
-            // Pembulatan ke angka terdekat
-            monthlyPayment = Math.round(monthlyPayment);
-            totalInterest = Math.round(totalInterest);
-            totalPayment = Math.round(totalPayment);
-            
-            // 3. Tampilkan Hasil
-            
-            // Tampilkan Cicilan Bulanan
-            document.getElementById('monthlyPaymentResult').textContent = formatNumber(monthlyPayment);
+            // 4. Tampilkan Hasil
+            document.getElementById('monthlyPaymentResult').textContent = formatNumber(Math.round(monthlyPayment));
             document.getElementById('metricDurationText').textContent = t.metricDurationText(numPayments);
 
-            // Tampilkan Detail Angka
-            document.getElementById('principalResult').textContent = formatNumber(principalLoan);
-            document.getElementById('dpResult').textContent = formatNumber(downPayment);
-            document.getElementById('totalInterestResult').textContent = formatNumber(totalInterest);
-            document.getElementById('totalPaymentResult').textContent = formatNumber(totalPayment);
+            document.getElementById('principalResult').textContent = formatNumber(Math.round(principalLoan));
+            document.getElementById('dpResult').textContent = formatNumber(Math.round(downPayment));
+            document.getElementById('totalInterestResult').textContent = formatNumber(Math.round(totalInterest));
+            document.getElementById('totalPaymentResult').textContent = formatNumber(Math.round(totalPayment));
             
             resultBox.classList.add('visible');
         }
 
-
-        // **********************************************
-        // FUNGSI TRANSLATE & INISIALISASI
-        // **********************************************
-
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
 
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
-            document.documentElement.lang = lang;
-
-            // Daftar ID elemen dan kunci terjemahan
-            const elements = [
-                'appTitle', 'backToCatalogText', 'headerTitle', 'toolSubtitle',
-                'sectionCarHeader', 'labelCarPrice', 'descCarPrice',
-                'labelDownPayment', 'descDownPayment',
-                'sectionLoanHeader', 'labelLoanTerm', 'descLoanTerm',
-                'labelInterestRate', 'descInterestRate',
-                'calculateButton',
-                'resultTitle', 'metricMonthlyPaymentLabel', 'metricsHeader',
-                'resultPrincipal', 'resultDownPayment', 'resultTotalInterest', 'resultTotalPayment',
-                'sectionHeader1', 'content1', 'sectionHeader2', 'content2',
-                'linkPrivacy', 'linkTerms', 'linkAbout', 'linkContact', 'footerCopyright'
-            ];
-
-            elements.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    if (id === 'metricDurationText') {
-                        // Handle dynamic text for duration
-                        const loanTermYears = parseFloat(document.getElementById('loanTerm').value) || 0;
-                        el.textContent = t.metricDurationText(loanTermYears * 12);
-                    } else {
-                        el.textContent = t[id];
-                    }
-                }
+            // Update UI Teks
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
+            
+            // Update Label Mata Uang (Rp / $)
+            document.querySelectorAll('.currency-label').forEach(el => {
+                el.textContent = t.currencyLabel;
             });
             
-            // Re-format input values based on new language settings
-            // Hanya input Rupiah yang perlu di-format ulang
+            // Labels & Buttons
+            document.getElementById('sectionCarHeader').textContent = t.sectionCarHeader;
+            document.getElementById('labelCarPrice').textContent = t.labelCarPrice;
+            document.getElementById('descCarPrice').textContent = t.descCarPrice;
+            document.getElementById('labelDownPayment').textContent = t.labelDownPayment;
+            document.getElementById('descDownPayment').textContent = t.descDownPayment;
+            
+            document.getElementById('sectionLoanHeader').textContent = t.sectionLoanHeader;
+            document.getElementById('labelLoanTerm').textContent = t.labelLoanTerm;
+            document.getElementById('descLoanTerm').textContent = t.descLoanTerm;
+            document.getElementById('labelInterestRate').textContent = t.labelInterestRate;
+            document.getElementById('descInterestRate').textContent = t.descInterestRate;
+            
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+
+            // Result
+            document.getElementById('resultTitle').textContent = t.resultTitle;
+            document.getElementById('metricMonthlyPaymentLabel').textContent = t.metricMonthlyPaymentLabel;
+            document.getElementById('metricsHeader').textContent = t.metricsHeader;
+            document.getElementById('resultPrincipal').textContent = t.resultPrincipal;
+            document.getElementById('resultDownPayment').textContent = t.resultDownPayment;
+            document.getElementById('resultTotalInterest').textContent = t.resultTotalInterest;
+            document.getElementById('resultTotalPayment').textContent = t.resultTotalPayment;
+
+            // Edukasi
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1').innerHTML = t.content1;
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2').innerHTML = t.content2;
+
+            // Re-format Inputs (Konversi Pemisah Ribuan Titik <-> Koma)
             ['carPrice', 'downPayment'].forEach(id => {
                 const input = document.getElementById(id);
                 if (input.value) {
-                    const cleanedValue = cleanInput(input.value);
-                    input.value = cleanedValue.toLocaleString(lang === 'id' ? 'id-ID' : 'en-US', {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
+                    const cleaned = cleanInput(input.value);
+                    input.value = cleaned.toLocaleString(lang === 'id' ? 'id-ID' : 'en-US', {
+                        maximumFractionDigits: 0, minimumFractionDigits: 0
                     });
                 }
             });
 
-            // Sembunyikan hasil saat ganti bahasa
-            resultBox.classList.remove('visible');
-            errorAlert.classList.add('hidden');
+            // Update Duration Text
+            const loanTerm = parseFloat(document.getElementById('loanTerm').value) || 0;
+            document.getElementById('metricDurationText').textContent = t.metricDurationText(loanTerm * 12);
+            
+            updateRelatedContent(lang);
+            
+            // Re-calc jika hasil sudah muncul
+            if(resultBox.classList.contains('visible')){
+                calculateLoan();
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Inisialisasi input Rupiah dengan format ribuan
-            ['carPrice', 'downPayment'].forEach(id => {
-                const input = document.getElementById(id);
-                if (input.value) {
-                    input.value = cleanInput(input.value).toLocaleString('id-ID', {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
-                    });
+        function updateRelatedContent(lang) {
+            const elements = document.querySelectorAll('#related-tools-section [data-en]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if(text) el.textContent = text;
+            });
+        }
+
+        // Observer Bahasa (Standard SOP)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    const currentLang = document.documentElement.lang || 'en';
+                    setLanguage(currentLang);
                 }
             });
-
-            // Logika Deteksi Bahasa Awal
-            let defaultLang = 'id'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('en')) {
-                defaultLang = 'en';
-            }
-            setLanguage(defaultLang);
         });
+        observer.observe(document.documentElement, { attributes: true });
 
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                }
-            }
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentLang = document.documentElement.lang || 'id'; // Default
+            
+            // Set Default Input Format
+            ['carPrice', 'downPayment'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input.value) formatInput(input);
+            });
+            
+            setLanguage(currentLang);
         });
-
     </script>
 </body>
 </html>
