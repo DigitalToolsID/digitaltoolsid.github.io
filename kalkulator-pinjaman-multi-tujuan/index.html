@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pinjaman-multi-tujuan/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Pinjaman Multi Tujuan akurat. Hitung Angsuran Bulanan dan Total Bunga Anda. Dapatkan Jadwal Amortisasi lengkap untuk semua jenis pinjaman pribadi." />
+    
+    <link rel="icon" href="data:,">
  
     <title id="appTitle">Multi-Purpose Loan Calculator</title>
+    
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-pinjaman-multi-tujuan/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-pinjaman-multi-tujuan/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Kode Google Analytic dan Adsense (Diganti dengan placeholder) -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,30 +24,10 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind (Menggunakan warna yang sama) -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil */
+        /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -54,83 +37,39 @@
         }
         .result-box.visible {
             opacity: 1;
-            max-height: 2000px; /* Diperbesar karena ada tabel amortisasi */
-            padding: 1.5rem; 
+            max-height: 3000px; /* Cukup tinggi untuk tabel amortisasi */
+            padding: 1.5rem;
         }
         
-        /* Gaya Toggle Bahasa (Sama seperti alat lain) */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya kustom untuk input dan tombol */
+        /* Tombol Utama */
         .calculate-button {
-            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            box-shadow: 0 4px #15803d; /* green-700 */
+            background-color: #16a34a; /* green-600 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #1e8449;
+            box-shadow: 0 6px #15803d;
+            background-color: #22c55e; /* green-500 */
         }
         .calculate-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px #1e8449;
+            box-shadow: 0 2px #15803d;
         }
         
-        /* Gaya Tombol Bunga Efektif */
+        /* Tombol Bunga Efektif */
         .apr-button {
-            box-shadow: 0 4px #3498db; /* Warna sekunder biru */
+            box-shadow: 0 4px #2563eb; /* blue-600 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .apr-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #3498db;
-        }
-        .apr-button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px #3498db;
-        }
-
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
+            box-shadow: 0 6px #2563eb;
         }
         
         /* Gaya Tabel Amortisasi */
         .amortization-table-container {
-            max-height: 400px; /* Batasi tinggi tabel agar bisa discroll */
+            max-height: 400px;
             overflow-y: auto;
             margin-top: 1rem;
             border: 1px solid #e5e7eb;
@@ -139,123 +78,103 @@
         .amortization-table th, .amortization-table td {
             padding: 8px 12px;
             text-align: right;
-            font-size: 0.75rem; /* text-xs */
-            white-space: nowrap; /* Cegah pemotongan kolom */
+            font-size: 0.75rem;
+            white-space: nowrap;
         }
         .amortization-table th {
             background-color: #f3f4f6;
             font-weight: 600;
-            position: sticky; /* Header tabel tetap di atas */
+            position: sticky;
             top: 0;
             z-index: 10;
             text-align: center;
+            color: #374151;
         }
         .amortization-table td:first-child {
             text-align: center;
         }
-        
+        .amortization-table tr {
+            border-bottom: 1px solid #f3f4f6;
+        }
     </style>
 </head>
 
-<!-- Body dengan kode pengaman (Sama seperti alat lain) -->
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            
-            <!-- Tautan Kembali ke Katalog (Path disesuaikan) -->
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
-                    EN
-                </button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
-                    ID
-                </button>
-            </div>
-            </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
         <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Multi-Purpose Loan Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Multi-Purpose Loan Calculator</h1>
             
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
                 Calculate your monthly installment and total interest for personal loans, car loans, or other versatile financing needs.
             </p>
             
-            <!-- Form Input -->
             <form id="loanForm" onsubmit="calculateLoan(event)" class="space-y-4">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="relative">
-                        <label for="loanAmount" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanAmount">Loan Amount</label>
-                        <input type="text" id="loanAmount" inputmode="numeric" value="50.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
-                        <p class="input-description" id="descLoanAmount">Total pokok pinjaman yang Anda ajukan.</p>
+                        <label for="loanAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                            <span id="labelLoanAmount">Loan Amount</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                        </label>
+                        <input type="text" id="loanAmount" inputmode="numeric" value="50.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 transition duration-150" required>
+                        <p class="text-xs text-gray-500 mt-1" id="descLoanAmount">Total principal amount you are applying for.</p>
                     </div>
                     
                     <div class="relative">
                         <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInterestRate">Annual Interest Rate (%)</label>
-                        <input type="number" id="interestRate" min="0" step="0.1" value="12" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
-                        <p class="input-description" id="descInterestRate">Suku bunga tahunan (contoh: 12 untuk 12%).</p>
+                        <input type="number" id="interestRate" min="0" step="0.1" value="12" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 transition duration-150" required>
+                        <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Annual interest rate (e.g., 12 for 12%).</p>
                     </div>
                 </div>
 
                 <div class="relative">
                     <label for="loanTermYears" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTerm">Loan Term (Years)</label>
-                    <input type="number" id="loanTermYears" min="1" max="10" value="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color transition duration-150" required>
-                    <p class="input-description" id="descLoanTerm">Jangka waktu pinjaman total dalam tahun (Maks. 10 Tahun).</p>
+                    <input type="number" id="loanTermYears" min="1" max="10" value="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 transition duration-150" required>
+                    <p class="text-xs text-gray-500 mt-1" id="descLoanTerm">Loan duration in years (Max 10 Years).</p>
                 </div>
 
-
-                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl text-lg">
                     Calculate Installment
                 </button>
                 
-                <!-- Error Alert -->
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
-            <div id="resultBox" class="result-box mt-6 bg-finance-color/5 border border-finance-color/30 rounded-xl shadow-lg">
+            <div id="resultBox" class="result-box mt-6 bg-white border border-gray-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-primary border-b pb-2">Loan Summary</h3>
+                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Loan Summary</h3>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                     <div class="p-4 bg-green-50 border border-green-200 rounded-lg col-span-1 sm:col-span-3">
-                        <p id="labelMonthlyPayment" class="text-sm text-green-800 font-medium mb-1">Monthly Installment (Cicilan Bulanan)</pre>
-                        <p id="monthlyPaymentResult" class="text-3xl font-extrabold text-finance-color">0</p>
+                        <p id="labelMonthlyPayment" class="text-sm text-green-800 font-medium mb-1">Monthly Installment</p>
+                        <p id="monthlyPaymentResult" class="text-3xl font-extrabold text-green-600">0</p>
                     </div>
                     
                     <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                        <p id="labelTotalPrincipal" class="text-sm text-gray-800 font-medium mb-1">Total Loan Principal</p>
+                        <p id="labelTotalPrincipal" class="text-sm text-gray-800 font-medium mb-1">Total Principal</p>
                         <p id="totalPrincipalResult" class="text-xl font-bold text-gray-700">0</p>
                     </div>
                     
                     <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <p id="labelTotalInterest" class="text-sm text-yellow-800 font-medium mb-1">Total Interest Paid</p>
+                        <p id="labelTotalInterest" class="text-sm text-yellow-800 font-medium mb-1">Total Interest</p>
                         <p id="totalInterestResult" class="text-xl font-bold text-yellow-700">0</p>
                     </div>
                     
                     <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-                        <p id="labelTotalCost" class="text-sm text-red-800 font-medium mb-1">Total Loan Cost (Principal + Interest)</p>
+                        <p id="labelTotalCost" class="text-sm text-red-800 font-medium mb-1">Total Cost</p>
                         <p id="totalCostResult" class="text-xl font-bold text-red-700">0</p>
                     </div>
                 </div>
 
-                <!-- Tabel Amortisasi -->
-                <h3 id="amortizationHeader" class="text-lg font-bold text-primary border-b pb-2 mb-2">Amortization Schedule (Monthly Breakdown)</h3>
+                <h3 id="amortizationHeader" class="text-lg font-bold text-gray-800 border-b pb-2 mb-2">Amortization Schedule</h3>
                 <div class="amortization-table-container shadow-inner">
-                    <table class="amortization-table w-full">
+                    <table class="amortization-table w-full bg-white">
                         <thead>
                             <tr>
                                 <th id="tableHeaderMonth">Month</th>
@@ -265,14 +184,12 @@
                                 <th id="tableHeaderBalance">Balance</th>
                             </tr>
                         </thead>
-                        <tbody id="amortizationTableBody">
-                            <!-- Rows will be dynamically inserted here -->
-                        </tbody>
+                        <tbody id="amortizationTableBody" class="text-gray-600">
+                            </tbody>
                     </table>
                 </div>
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding Multi-Purpose Loans</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -287,17 +204,13 @@
                     <li id="tip3"></li>
                 </ul>
                 
-                <!-- Kotak Peringatan dan Tombol Bunga Efektif -->
-                <div class="bg-secondary/5 border-l-4 border-secondary p-4 mt-6 rounded-lg">
-                    <h3 id="aprCheckHeader" class="text-lg font-bold text-primary mb-2">Penting: Selalu Cek Bunga Efektif (APR/EIR)</h3>
-                    <p id="aprCheckText" class="text-gray-700 text-sm leading-relaxed mb-4">
-                        Waspadai penawaran pinjaman yang hanya menyebutkan "Angsuran Bulanan". Tanpa mengetahui biaya dan potongan di awal, Anda tidak mengetahui suku bunga efektif sebenarnya. Suku bunga yang tertera di kontrak mungkin lebih rendah dari bunga yang sebenarnya Anda bayarkan. Gunakan alat kami untuk mengecek bunga efektif pinjaman Anda.
-                    </p>
-                    <!-- Link ke kalkulator bunga efektif yang disebutkan pengguna -->
-                    <a href="../kalkulator-bunga-efektif/index.html" id="aprCheckButton" target="_blank" class="apr-button inline-block bg-secondary text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-600 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50 text-sm">
-                        Hitung Suku Bunga Efektif (APR/EIR)
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-6 rounded-lg">
+                    <h3 id="aprCheckHeader" class="text-lg font-bold text-gray-800 mb-2">Important: Always Check APR</h3>
+                    <p id="aprCheckText" class="text-gray-700 text-sm leading-relaxed mb-4"></p>
+                    <a href="../kalkulator-bunga-efektif/index.html" id="aprCheckButton" target="_blank" class="apr-button inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-700 transition duration-300 ease-in-out text-sm">
+                        Calculate Effective Interest Rate
                     </a>
-                                    </div>
+                </div>
 
                 <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2 mt-8">Disclaimer</h3>
                 <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -306,148 +219,144 @@
         </div>
     </main>
     
-    <!-- Footer (Sama seperti alat lain) -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Debt Payoff" data-id="Pelunasan Utang">Debt Payoff</h3>
+                <p class="text-xs text-gray-600" data-en="Snowball vs Avalanche strategies." data-id="Strategi Snowball vs Avalanche.">Snowball vs Avalanche strategies.</p>
+            </a>
+            <a href="../kalkulator-perbandingan-pinjaman-pribadi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Loan Comparison" data-id="Perbandingan Pinjaman">Loan Comparison</h3>
+                <p class="text-xs text-gray-600" data-en="Compare Loan A vs Loan B." data-id="Bandingkan Pinjaman A vs B.">Compare Loan A vs Loan B.</p>
+            </a>
+            <a href="../kalkulator-bunga-efektif/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Effective Interest" data-id="Bunga Efektif">Effective Interest</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate true interest rate." data-id="Hitung suku bunga sebenarnya.">Calculate true interest rate.</p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../kalkulator-anggaran-bulanan/index.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Manage Your Cashflow with 50/30/20 Rule" data-id="Kelola Arus Kas dengan Aturan 50/30/20">Manage Your Cashflow with 50/30/20 Rule</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
     
     <script>
         // **********************************************
-        // LOGIKA KALKULATOR PINJAMAN MULTI TUJUAN / AMORTISASI
+        // LOGIKA KALKULATOR PINJAMAN MULTI TUJUAN
         // **********************************************
+
+        let currentLang = 'en';
 
         const translations = {
             id: {
                 appTitle: "Kalkulator Pinjaman Multi Tujuan",
                 headerTitle: "Kalkulator Pinjaman Multi Tujuan & Amortisasi",
                 toolSubtitle: "Hitung angsuran bulanan Anda dan total bunga untuk pinjaman pribadi, kredit multiguna, atau pembiayaan serbaguna lainnya.",
-                backToCatalogText: "Kembali ke Katalog Alat",
-                // Input
+                
                 labelLoanAmount: "Jumlah Pinjaman (Pokok)",
-                descLoanAmount: "Total pokok pinjaman yang Anda ajukan (misalnya, untuk mobil, pernikahan, atau renovasi).",
+                descLoanAmount: "Total pokok pinjaman yang Anda ajukan.",
                 labelInterestRate: "Suku Bunga Tahunan (%)",
                 descInterestRate: "Suku bunga tahunan pinjaman (contoh: 12 untuk 12%).",
                 labelLoanTerm: "Jangka Waktu Pinjaman (Tahun)",
-                descLoanTerm: "Jangka waktu pinjaman total dalam tahun (Maks. 10 Tahun untuk pinjaman pribadi).",
+                descLoanTerm: "Jangka waktu pinjaman total dalam tahun (Maks 10 Tahun).",
                 calculateButton: "Hitung Angsuran",
                 inputError: "Mohon masukkan semua nilai input yang valid (Jumlah Pinjaman > 0, Bunga >= 0, Jangka Waktu 1-10 Tahun).",
-                // Hasil
+                
                 resultHeader: "Ringkasan Pinjaman",
                 labelMonthlyPayment: "Angsuran Bulanan",
                 labelTotalPrincipal: "Total Pokok Pinjaman",
                 labelTotalInterest: "Total Bunga Dibayar",
                 labelTotalCost: "Total Biaya Pinjaman (Pokok + Bunga)",
                 amortizationHeader: "Jadwal Amortisasi (Rincian Bulanan)",
-                // Tabel Amortisasi
+                
                 tableHeaderMonth: "Bulan",
                 tableHeaderPayment: "Angsuran",
                 tableHeaderPrincipal: "Pokok",
                 tableHeaderInterest: "Bunga",
                 tableHeaderBalance: "Sisa Pokok",
 
-                // Konten Edukasi - Disesuaikan untuk Pinjaman Multi Tujuan
                 sectionHeader1: "Memahami Pinjaman Multi Tujuan (Serbaguna)",
-                content1: "Pinjaman multi tujuan (sering disebut Kredit Tanpa Agunan atau Kredit Multiguna) adalah fasilitas pinjaman yang fleksibel, dirancang untuk memenuhi berbagai kebutuhan finansial, seperti pembiayaan pendidikan, renovasi rumah, atau pembelian kendaraan. Memahami elemen Pokok Pinjaman, Suku Bunga, dan Jangka Waktu sangat krusial. Alat ini memberikan transparansi tentang komposisi angsuran Anda, memastikan Anda dapat mengelola komitmen finansial dengan baik.",
-                
+                content1: "Pinjaman multi tujuan (sering disebut Kredit Tanpa Agunan atau Kredit Multiguna) adalah fasilitas pinjaman yang fleksibel. Memahami elemen Pokok Pinjaman, Suku Bunga, dan Jangka Waktu sangat krusial. Alat ini memberikan transparansi tentang komposisi angsuran Anda.",
                 sectionHeader2: "Cara Kerja Amortisasi",
-                content2: "Amortisasi adalah metode pelunasan utang melalui serangkaian pembayaran tetap yang dilakukan secara berkala. Pada awal tenor pinjaman, mayoritas Angsuran Bulanan Anda digunakan untuk membayar Bunga. Seiring berjalannya waktu, porsi pembayaran Bunga akan semakin mengecil, sementara porsi pembayaran Pokok Pinjaman akan membesar. Proses ini memastikan pinjaman Anda terbayar lunas tepat pada akhir jangka waktu yang disepakati.",
-                
+                content2: "Amortisasi adalah metode pelunasan utang melalui serangkaian pembayaran tetap. Pada awal tenor, mayoritas angsuran digunakan untuk membayar bunga. Seiring waktu, porsi pokok akan membesar.",
                 sectionHeader3: "Tips Mengelola Pinjaman Pribadi",
-                content3: "Beberapa tips penting untuk mengelola pinjaman Anda secara efektif:",
-                tip1: "Evaluasi Kebutuhan Riil: Pinjam hanya sebanyak yang Anda butuhkan dan pastikan tujuan pinjaman (misalnya investasi atau konsumtif) sejalan dengan kemampuan bayar Anda.",
-                tip2: "Perhatikan Suku Bunga Efektif (APR): Selain suku bunga nominal, hitung atau tanyakan Total Biaya Pinjaman Tahunan Efektif (APR) yang mencakup biaya administrasi dan provisi untuk perbandingan yang akurat.",
-                tip3: "Tentukan Jangka Waktu Optimal: Meskipun tenor pendek (1-3 tahun) mengurangi total bunga yang dibayar, pastikan Angsuran Bulanan masih nyaman di anggaran Anda untuk menghindari risiko gagal bayar.",
+                tip1: "Evaluasi Kebutuhan Riil: Pinjam hanya sebanyak yang Anda butuhkan.",
+                tip2: "Perhatikan Suku Bunga Efektif (APR): Tanyakan Total Biaya Pinjaman Tahunan Efektif.",
+                tip3: "Tentukan Jangka Waktu Optimal: Pastikan angsuran bulanan nyaman di anggaran Anda.",
                 
-                // Teks dan Tombol APR/EIR
                 aprCheckHeader: "Penting: Selalu Cek Bunga Efektif (APR/EIR)",
-                aprCheckText: "Waspadai penawaran pinjaman yang hanya menyebutkan 'Angsuran Bulanan'. Tanpa mengetahui biaya dan potongan di awal, Anda tidak mengetahui suku bunga efektif sebenarnya. Suku bunga yang tertera di kontrak mungkin lebih rendah dari bunga yang sebenarnya Anda bayarkan. Gunakan alat kami untuk mengecek bunga efektif pinjaman Anda.",
+                aprCheckText: "Waspadai penawaran yang hanya menyebutkan 'Angsuran Bulanan'. Gunakan alat kami untuk mengecek bunga efektif pinjaman Anda.",
                 aprCheckButton: "Hitung Suku Bunga Efektif (APR/EIR)",
 
                 sectionHeader4: "Penting (Disclaimer)",
-                content4: "Kalkulator ini menggunakan metode perhitungan anuitas standar (bunga flat) untuk tujuan estimasi. Hasil yang disajikan belum termasuk biaya administrasi, provisi, asuransi, atau biaya penalti pelunasan dipercepat yang mungkin dikenakan oleh lembaga keuangan. Hasil ini murni estimasi dan bukan merupakan penawaran pinjaman yang mengikat. Selalu verifikasi perhitungan Anda dengan penyedia pinjaman resmi.",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                content4: "Kalkulator ini menggunakan metode perhitungan anuitas standar. Hasil belum termasuk biaya administrasi atau asuransi.",
             },
             en: {
                 appTitle: "Multi-Purpose Loan Calculator",
                 headerTitle: "Multi-Purpose Loan & Amortization Calculator",
                 toolSubtitle: "Calculate your monthly installment and total interest for personal loans, car loans, or other versatile financing needs.",
-                backToCatalogText: "Back to Tools Catalog",
-                // Input
+                
                 labelLoanAmount: "Loan Amount (Principal)",
-                descLoanAmount: "The total principal amount you are applying for (e.g., for car, wedding, or renovation).",
+                descLoanAmount: "The total principal amount you are applying for.",
                 labelInterestRate: "Annual Interest Rate (%)",
                 descInterestRate: "The annual interest rate of the loan (e.g.: 12 for 12%).",
                 labelLoanTerm: "Loan Term (Years)",
-                descLoanTerm: "The total duration of the loan in years (Max 10 Years for personal loans).",
+                descLoanTerm: "The total duration of the loan in years (Max 10 Years).",
                 calculateButton: "Calculate Installment",
                 inputError: "Please enter all valid input values (Loan Amount > 0, Interest >= 0, Term 1-10 Years).",
-                // Hasil
+                
                 resultHeader: "Loan Summary",
                 labelMonthlyPayment: "Monthly Installment",
                 labelTotalPrincipal: "Total Loan Principal",
                 labelTotalInterest: "Total Interest Paid",
                 labelTotalCost: "Total Loan Cost (Principal + Interest)",
                 amortizationHeader: "Amortization Schedule (Monthly Breakdown)",
-                // Tabel Amortisasi
+                
                 tableHeaderMonth: "Month",
                 tableHeaderPayment: "Payment",
                 tableHeaderPrincipal: "Principal",
                 tableHeaderInterest: "Interest",
                 tableHeaderBalance: "Balance",
                 
-                // Konten Edukasi
                 sectionHeader1: "Understanding Multi-Purpose Loans",
-                content1: "A multi-purpose loan (often called Unsecured or Multi-purpose Credit) is a flexible financing facility designed to meet various financial needs, such as funding education, home renovation, or vehicle purchases. Understanding the Principal, Interest Rate, and Loan Term is crucial. This tool provides transparency on the composition of your installments, ensuring you can manage your financial commitment effectively.",
-                
+                content1: "A multi-purpose loan is a flexible financing facility. Understanding the Principal, Interest Rate, and Loan Term is crucial. This tool provides transparency on the composition of your installments.",
                 sectionHeader2: "How Amortization Works",
-                content2: "Amortization is the process of paying off debt through a series of fixed, regular payments. Early in the loan tenor, the majority of your Monthly Installment is allocated to paying the Interest. As time passes, the Interest payment portion shrinks, while the Principal payment portion increases. This process ensures your loan is fully paid off exactly at the end of the agreed-upon term.",
-                
+                content2: "Amortization is paying off debt through fixed payments. Early on, most of your payment goes to interest. Over time, more goes to principal.",
                 sectionHeader3: "Tips for Managing Personal Loans",
-                content3: "Some important tips for effectively managing your loan:",
-                tip1: "Evaluate Real Need: Borrow only as much as you need and ensure the loan's purpose (e.g., investment or consumption) aligns with your ability to repay.",
-                tip2: "Mind the Effective Interest Rate (APR): In addition to the nominal rate, calculate or ask for the Effective Annual Percentage Rate (APR), which includes administrative and provision fees for accurate comparison.",
-                tip3: "Determine the Optimal Term: Although a shorter tenor (1-3 years) reduces total interest paid, ensure the Monthly Installment is still comfortable within your budget to avoid default risk.",
+                tip1: "Evaluate Real Need: Borrow only as much as you need.",
+                tip2: "Mind the Effective Interest Rate (APR): Check for hidden fees.",
+                tip3: "Determine Optimal Term: Ensure the installment fits your budget.",
                 
-                // Teks dan Tombol APR/EIR
                 aprCheckHeader: "Important: Always Check the Effective Interest Rate (APR/EIR)",
-                aprCheckText: "Beware of loan offers that only state the 'Monthly Installment.' Without knowing the upfront fees and deductions, you don't know the true effective interest rate. The contract rate might be lower than the rate you are actually paying. Use our tool to check your loan's effective interest rate.",
+                aprCheckText: "Beware of loan offers that only state the 'Monthly Installment.' Use our tool to check your loan's effective interest rate.",
                 aprCheckButton: "Calculate Effective Interest Rate (APR/EIR)",
 
                 sectionHeader4: "Disclaimer",
-                content4: "This calculator uses the standard annuity calculation method (flat interest) for estimation purposes. The results presented do not include administration fees, provision fees, insurance, or early repayment penalty fees that may be imposed by the financial institution. This result is purely an estimate and does not constitute a binding loan offer. Always verify your calculations with the official loan provider.",
-                
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                content4: "This calculator uses the standard annuity calculation method. Results do not include administration fees or insurance.",
             }
         };
 
-        let currentLang = 'en'; // Default language
-
-        // Fungsi utilitas untuk memformat angka dengan pemisah ribuan (tanpa simbol mata uang)
         function formatNumber(amount) {
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
             return new Intl.NumberFormat(locale, {
@@ -456,27 +365,20 @@
             }).format(amount);
         }
 
-        // Fungsi yang dipanggil oleh event oninput untuk memformat input secara real-time
         function formatInput(inputElement) {
-            // Hapus semua non-digit untuk mendapatkan nilai mentah
             let rawValue = inputElement.value.replace(/\D/g, ''); 
-            
-            // Konversi ke angka, lalu format, lalu kembalikan ke input value
             if (rawValue) {
                 const numericValue = parseInt(rawValue, 10);
                 inputElement.value = formatNumber(numericValue);
             } else {
-                inputElement.value = ''; // Biarkan kosong jika tidak ada input
+                inputElement.value = '';
             }
         }
         
-        // Fungsi untuk membersihkan format dari input string (misalnya "10.000.000" menjadi 10000000)
         function cleanInput(formattedValue) {
-            // Menghapus semua karakter non-digit (termasuk titik/koma pemisah ribuan)
             return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
         }
 
-        // Fungsi untuk merender tabel amortisasi
         function renderAmortizationTable(amortizationData) {
             const tbody = document.getElementById('amortizationTableBody');
             tbody.innerHTML = '';
@@ -485,27 +387,22 @@
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-gray-100 hover:bg-gray-50';
 
-                // Kolom Bulan
                 const tdMonth = document.createElement('td');
                 tdMonth.textContent = row.month;
                 tr.appendChild(tdMonth);
 
-                // Kolom Angsuran (Payment)
                 const tdPayment = document.createElement('td');
                 tdPayment.textContent = formatNumber(row.payment);
                 tr.appendChild(tdPayment);
 
-                // Kolom Pokok (Principal)
                 const tdPrincipal = document.createElement('td');
                 tdPrincipal.textContent = formatNumber(row.principal);
                 tr.appendChild(tdPrincipal);
 
-                // Kolom Bunga (Interest)
                 const tdInterest = document.createElement('td');
                 tdInterest.textContent = formatNumber(row.interest);
                 tr.appendChild(tdInterest);
 
-                // Kolom Sisa Pokok (Balance)
                 const tdBalance = document.createElement('td');
                 tdBalance.textContent = formatNumber(row.balance);
                 tr.appendChild(tdBalance);
@@ -514,20 +411,15 @@
             });
         }
 
-
-        // Fungsi utama untuk menghitung Pinjaman (Sama dengan KPR)
         function calculateLoan(event) {
             event.preventDefault();
-
-            // 1. Ambil dan Bersihkan Input
-            const L = cleanInput(document.getElementById('loanAmount').value); // Loan Amount (Pokok Pinjaman)
-            const R_annual = parseFloat(document.getElementById('interestRate').value) / 100; // Annual Interest Rate (Bunga Tahunan Desimal)
-            const T_years = parseInt(document.getElementById('loanTermYears').value) || 0; // Loan Term (Tahun)
+            const L = cleanInput(document.getElementById('loanAmount').value);
+            const R_annual = parseFloat(document.getElementById('interestRate').value) / 100;
+            const T_years = parseInt(document.getElementById('loanTermYears').value) || 0;
 
             const resultBox = document.getElementById('resultBox');
             const errorAlert = document.getElementById('errorAlert');
 
-            // 2. Validasi Input (Max 10 tahun untuk pinjaman serbaguna)
             if (L <= 0 || R_annual < 0 || T_years < 1 || T_years > 10) {
                 document.getElementById('errorText').textContent = translations[currentLang].inputError;
                 errorAlert.classList.remove('hidden');
@@ -536,54 +428,40 @@
             }
             
             errorAlert.classList.add('hidden');
-            
-            // 3. Konversi ke Nilai Bulanan
-            const R_monthly = R_annual / 12; // Monthly Interest Rate
-            const N_months = T_years * 12; // Total Number of Payments (Bulan)
-            
+            const R_monthly = R_annual / 12;
+            const N_months = T_years * 12;
             let monthlyPayment = 0;
             
-            // 4. Hitung Angsuran Bulanan (M) menggunakan Formula Cicilan Anuitas
-            // M = P * [ r(1 + r)^n ] / [ (1 + r)^n – 1 ]
             if (R_monthly > 0) {
                 const powerFactor = Math.pow(1 + R_monthly, N_months);
                 monthlyPayment = L * (R_monthly * powerFactor) / (powerFactor - 1);
             } else {
-                // Jika bunga 0%
                 monthlyPayment = L / N_months;
             }
 
-            // 5. Hitung Amortisasi dan Total Biaya
             let remainingBalance = L;
             let totalInterestPaid = 0;
             const amortizationSchedule = [];
 
             for (let month = 1; month <= N_months; month++) {
-                // Hitung Bunga untuk bulan ini: Bunga = Sisa Pokok * Bunga Bulanan
                 const interestPayment = remainingBalance * R_monthly;
-                
-                // Hitung Pembayaran Pokok: Pokok = Angsuran Bulanan - Bunga
                 let principalPayment = monthlyPayment - interestPayment;
-
-                // Adjust the last payment to clear the remaining balance if necessary
+                
                 if (month === N_months) {
                     principalPayment = remainingBalance;
                     monthlyPayment = remainingBalance + interestPayment;
                 }
 
-                // Update Sisa Pokok Pinjaman
                 remainingBalance -= principalPayment;
                 totalInterestPaid += interestPayment;
 
-                // Membulatkan hasil ke angka terdekat (integer) untuk tampilan
                 amortizationSchedule.push({
                     month: month,
                     payment: Math.round(monthlyPayment),
                     principal: Math.round(principalPayment),
                     interest: Math.round(interestPayment),
-                    balance: Math.round(Math.max(0, remainingBalance)) // Pastikan sisa pokok tidak negatif
+                    balance: Math.round(Math.max(0, remainingBalance))
                 });
-                
                 if (remainingBalance <= 0.01) { 
                     remainingBalance = 0;
                     break;
@@ -591,131 +469,60 @@
             }
             
             const totalCost = L + totalInterestPaid;
-            
-            // 6. Tampilkan Ringkasan Hasil (Round ke integer terdekat)
             document.getElementById('monthlyPaymentResult').textContent = formatNumber(Math.round(monthlyPayment));
             document.getElementById('totalPrincipalResult').textContent = formatNumber(Math.round(L));
             document.getElementById('totalInterestResult').textContent = formatNumber(Math.round(totalInterestPaid));
             document.getElementById('totalCostResult').textContent = formatNumber(Math.round(totalCost));
 
-            // 7. Render Tabel Amortisasi
             renderAmortizationTable(amortizationSchedule);
-
-            // Tampilkan kotak hasil
             resultBox.classList.add('visible');
         }
 
-
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
-
-            // Update status toggle
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
-            document.documentElement.lang = lang; 
-
-            // Ambil nilai input yang sudah diformat
-            const lValue = document.getElementById('loanAmount').value;
-
-            // Update teks statis
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
-            document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
             
-            // Update label formulir dan tombol
-            document.getElementById('labelLoanAmount').textContent = t.labelLoanAmount;
-            document.getElementById('descLoanAmount').textContent = t.descLoanAmount;
-            document.getElementById('labelInterestRate').textContent = t.labelInterestRate;
-            document.getElementById('descInterestRate').textContent = t.descInterestRate;
-            document.getElementById('labelLoanTerm').textContent = t.labelLoanTerm;
-            document.getElementById('descLoanTerm').textContent = t.descLoanTerm;
-            document.getElementById('calculateButton').textContent = t.calculateButton;
-
-            // Format ulang input value (Loan Amount) berdasarkan bahasa baru
-            document.getElementById('loanAmount').value = formatNumber(cleanInput(lValue));
+            ['appTitle', 'headerTitle', 'toolSubtitle', 'labelLoanAmount', 'descLoanAmount', 'labelInterestRate', 'descInterestRate', 
+             'labelLoanTerm', 'descLoanTerm', 'calculateButton', 'resultHeader', 'labelMonthlyPayment', 'labelTotalPrincipal', 
+             'labelTotalInterest', 'labelTotalCost', 'amortizationHeader', 'tableHeaderMonth', 'tableHeaderPayment', 
+             'tableHeaderPrincipal', 'tableHeaderInterest', 'tableHeaderBalance', 'sectionHeader1', 'sectionHeader2', 
+             'sectionHeader3', 'tip1', 'tip2', 'tip3', 'aprCheckHeader', 'aprCheckButton', 'sectionHeader4'].forEach(id => {
+                 const el = document.getElementById(id);
+                 if(el) el.textContent = t[id];
+            });
             
-            // Update label hasil
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            document.getElementById('labelMonthlyPayment').textContent = t.labelMonthlyPayment;
-            document.getElementById('labelTotalPrincipal').textContent = t.labelTotalPrincipal;
-            document.getElementById('labelTotalInterest').textContent = t.labelTotalInterest;
-            document.getElementById('labelTotalCost').textContent = t.labelTotalCost;
-            document.getElementById('amortizationHeader').textContent = t.amortizationHeader;
+            ['content1', 'content2', 'aprCheckText', 'content4'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = t[id];
+            });
 
-            // Update header tabel
-            document.getElementById('tableHeaderMonth').textContent = t.tableHeaderMonth;
-            document.getElementById('tableHeaderPayment').textContent = t.tableHeaderPayment;
-            document.getElementById('tableHeaderPrincipal').textContent = t.tableHeaderPrincipal;
-            document.getElementById('tableHeaderInterest').textContent = t.tableHeaderInterest;
-            document.getElementById('tableHeaderBalance').textContent = t.tableHeaderBalance;
-
-            // Update Konten Edukasi
-            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
-            document.getElementById('content1').innerHTML = t.content1;
-            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
-            document.getElementById('content2').innerHTML = t.content2;
-            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
-            // Tips
-            document.getElementById('tip1').textContent = t.tip1;
-            document.getElementById('tip2').textContent = t.tip2;
-            document.getElementById('tip3').textContent = t.tip3;
-            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
-            document.getElementById('content4').innerHTML = t.content4;
+            // Related Tools & Articles
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
             
-            // Update Teks APR/EIR (Konten baru)
-            document.getElementById('aprCheckHeader').textContent = t.aprCheckHeader;
-            document.getElementById('aprCheckText').innerHTML = t.aprCheckText;
-            document.getElementById('aprCheckButton').textContent = t.aprCheckButton;
-
-
-            // Update Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-
-            // Format ulang hasil jika sudah ada
             const resultElement = document.getElementById('monthlyPaymentResult');
             if (resultElement.textContent !== '0') {
-                 // Panggil kembali fungsi hitung untuk me-refresh format angka dan tabel
-                 calculateLoan({ preventDefault: () => {} }); 
+                 calculateLoan({ preventDefault: () => {} });
             }
-
-             // Pastikan error message diupdate
             if (!document.getElementById('errorAlert').classList.contains('hidden')) {
                 document.getElementById('errorText').textContent = t.inputError;
             }
         }
         
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                    // Sembunyikan hasil saat bahasa berganti
-                    document.getElementById('resultBox').classList.remove('visible');
-                    document.getElementById('errorAlert').classList.add('hidden');
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.type === 'attributes' && m.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
                 }
-            }
+            });
         });
+        observer.observe(document.documentElement, { attributes: true });
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
-            // Logika Deteksi Bahasa Awal
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-            setLanguage(defaultLang); 
+            setLanguage(document.documentElement.lang || 'en');
         });
-
     </script>
 </body>
 </html>

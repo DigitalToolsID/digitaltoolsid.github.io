@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-refinancing-pinjaman/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Refinancing Pinjaman. Hitung potensi penghematan dari mengganti pinjaman lama Anda dengan pinjaman baru yang memiliki suku bunga atau jangka waktu lebih baik." />
+    
+    <link rel="icon" href="data:,">
  
     <title id="appTitle">Loan Refinance Calculator</title>
+    
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/loan-refinance-calculator/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/loan-refinance-calculator/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Kode Google Analytic dan Adsense -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,32 +24,10 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                        'loan-old': '#e67e22', // Oranye untuk Pinjaman Lama
-                        'loan-new': '#3498db', // Biru untuk Pinjaman Baru
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil */
+        /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -60,60 +41,20 @@
             padding: 1.5rem; 
         }
         
-        /* Gaya Toggle Bahasa (Sama seperti alat lain) */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya kustom untuk input dan tombol */
+        /* Tombol Utama */
         .calculate-button {
-            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            box-shadow: 0 4px #15803d; /* green-700 */
+            background-color: #16a34a; /* green-600 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #1e8449;
+            box-shadow: 0 6px #15803d;
+            background-color: #22c55e; /* green-500 */
         }
         .calculate-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px #1e8449;
-        }
-
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
+            box-shadow: 0 2px #15803d;
         }
 
         /* Gaya Khusus untuk Kartu Input */
@@ -123,176 +64,149 @@
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
-        .old-loan-border { border-top-color: #e67e22; background-color: #fff7ed; } /* Oranye muda */
-        .new-loan-border { border-top-color: #3498db; background-color: #eff6ff; } /* Biru muda */
+        .old-loan-border { border-top-color: #f97316; background-color: #fff7ed; } /* orange-500 / orange-50 */
+        .new-loan-border { border-top-color: #3b82f6; background-color: #eff6ff; } /* blue-500 / blue-50 */
         
-        /* Gaya untuk tampilan hasil */
+        /* Gaya untuk tampilan hasil (Savings Card) */
         .savings-card {
-            background-color: #ecfdf5; /* Green 50 */
-            border: 2px solid #34d399; /* Green 300 */
+            background-color: #ecfdf5; /* green-50 */
+            border: 2px solid #34d399; /* green-400 */
         }
-        
     </style>
 </head>
 
-<!-- Body dengan kode pengaman (Sama seperti alat lain) -->
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            
-            <!-- Tautan Kembali ke Katalog (Asumsi: naik 1 tingkat dari path alat ini) -->
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
-                    EN
-                </button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
-                    ID
-                </button>
-            </div>
-        </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Loan Refinance Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Loan Refinance Calculator</h1>
             
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
                 Calculate the potential savings and break-even point when refinancing your existing loan (e.g., KPR or Auto Loan) with a new loan.
             </p>
             
-            <!-- Form Input -->
             <form id="refinanceForm" onsubmit="calculateRefinance(event)" class="space-y-6">
                 
-                <!-- BAGIAN 1: PINJAMAN LAMA (OLD LOAN) -->
                 <div class="loan-card old-loan-border">
-                    <h2 class="text-xl font-bold mb-4 text-loan-old" id="headerOldLoan">1. Existing Loan Details</h2>
+                    <h2 class="text-xl font-bold mb-4 text-orange-600" id="headerOldLoan">1. Existing Loan Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
                         <div class="relative">
-                            <label for="oldBalance" class="block text-sm font-medium text-gray-700 mb-1" id="labelOldBalance">Current Outstanding Balance</label>
-                            <input type="text" id="oldBalance" inputmode="numeric" value="300.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-old focus:border-loan-old transition duration-150" required>
-                            <p class="input-description" id="descOldBalance">Sisa pokok pinjaman Anda saat ini.</p>
+                            <label for="oldBalance" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelOldBalance">Current Outstanding Balance</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                            </label>
+                            <input type="text" id="oldBalance" inputmode="numeric" value="300.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descOldBalance">Principal balance to pay off.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="oldRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelOldRate">Current Annual Interest Rate (%)</label>
-                            <input type="number" id="oldRate" min="0" step="0.1" value="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-old focus:border-loan-old transition duration-150" required>
-                            <p class="input-description" id="descOldRate">Suku bunga efektif tahunan pinjaman lama Anda.</p>
+                            <input type="number" id="oldRate" min="0" step="0.1" value="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descOldRate">Effective annual rate.</p>
                         </div>
                         
                         <div class="relative">
-                            <label for="oldPayment" class="block text-sm font-medium text-gray-700 mb-1" id="labelOldPayment">Current Monthly Payment</label>
-                            <input type="text" id="oldPayment" inputmode="numeric" value="3.200.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-old focus:border-loan-old transition duration-150" required>
-                            <p class="input-description" id="descOldPayment">Angsuran bulanan yang Anda bayar saat ini.</p>
+                            <label for="oldPayment" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelOldPayment">Current Monthly Payment</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                            </label>
+                            <input type="text" id="oldPayment" inputmode="numeric" value="3.200.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descOldPayment">Your current monthly installment.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="oldTermMonthsRemaining" class="block text-sm font-medium text-gray-700 mb-1" id="labelOldTerm">Remaining Term (Months)</label>
-                            <input type="number" id="oldTermMonthsRemaining" min="1" step="1" value="180" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-old focus:border-loan-old transition duration-150" required>
-                            <p class="input-description" id="descOldTerm">Sisa jangka waktu pinjaman lama dalam bulan.</p>
+                            <input type="number" id="oldTermMonthsRemaining" min="1" step="1" value="180" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descOldTerm">Months left on old loan.</p>
                         </div>
-                        
                     </div>
                 </div>
 
-                <!-- BAGIAN 2: PINJAMAN BARU (NEW LOAN) -->
                 <div class="loan-card new-loan-border mt-6">
-                    <h2 class="text-xl font-bold mb-4 text-loan-new" id="headerNewLoan">2. Proposed New Loan Details</h2>
+                    <h2 class="text-xl font-bold mb-4 text-blue-600" id="headerNewLoan">2. Proposed New Loan Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         <div class="relative">
                             <label for="newRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelNewRate">New Annual Interest Rate (%)</label>
-                            <input type="number" id="newRate" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-new focus:border-loan-new transition duration-150" required>
-                            <p class="input-description" id="descNewRate">Suku bunga efektif tahunan pinjaman baru.</p>
+                            <input type="number" id="newRate" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descNewRate">Proposed effective annual rate.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="newTermMonths" class="block text-sm font-medium text-gray-700 mb-1" id="labelNewTerm">New Loan Term (Months)</label>
-                            <input type="number" id="newTermMonths" min="1" step="1" value="240" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-new focus:border-loan-new transition duration-150" required>
-                            <p class="input-description" id="descNewTerm">Total jangka waktu pinjaman baru dalam bulan.</p>
+                            <input type="number" id="newTermMonths" min="1" step="1" value="240" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descNewTerm">Duration of the new loan.</p>
                         </div>
                         
                         <div class="relative md:col-span-2">
-                            <label for="refinanceCosts" class="block text-sm font-medium text-gray-700 mb-1" id="labelRefinanceCosts">Total Refinancing Costs</label>
-                            <input type="text" id="refinanceCosts" inputmode="numeric" value="5.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-loan-new focus:border-loan-new transition duration-150" required>
-                            <p class="input-description" id="descRefinanceCosts">Total biaya di muka untuk proses refinancing (provisi, notaris, dll.).</p>
+                            <label for="refinanceCosts" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelRefinanceCosts">Total Refinancing Costs</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                            </label>
+                            <input type="text" id="refinanceCosts" inputmode="numeric" value="5.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descRefinanceCosts">Total upfront costs (origination, notary, penalty, etc.).</p>
                         </div>
-
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl text-lg">
                     Calculate Refinance Savings
                 </button>
                 
-                <!-- Error Alert -->
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span id="errorText" class="block sm:inline"></span>
+                <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                    <span id="errorText">Please complete all fields.</span>
                 </div>
             </form>
 
-            <!-- Result Box -->
             <div id="resultBox" class="result-box mt-8 bg-gray-50 border border-gray-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2">Refinance Analysis Results</h3>
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Refinance Analysis Results</h3>
                 
-                <!-- Ringkasan Hasil Utama -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     
-                    <div class="savings-card p-4 rounded-lg col-span-1 md:col-span-3 text-center">
+                    <div class="savings-card p-4 rounded-lg col-span-1 md:col-span-3 text-center shadow-sm">
                         <p id="labelNetSavings" class="text-lg font-bold text-green-800 mb-1">Net Savings Over Remaining Term</p>
-                        <p id="netSavingsResult" class="text-4xl font-extrabold text-finance-color">0</p>
+                        <p id="netSavingsResult" class="text-4xl font-extrabold text-green-600">0</p>
                         <p id="recommendationText" class="text-sm font-medium mt-2 text-green-700">Refinancing is highly recommended!</p>
                     </div>
 
-                    <!-- Kartu Angsuran Bulanan -->
-                    <div class="p-4 bg-white rounded-lg shadow-md border-t-2 border-loan-old">
-                        <p id="labelOldPaymentSummary" class="text-sm font-medium text-gray-700 mb-1 text-loan-old">Old Monthly Payment</p>
-                        <p id="oldPaymentSummary" class="text-2xl font-bold text-loan-old">0</p>
+                    <div class="p-4 bg-white rounded-lg shadow-md border-t-2 border-orange-500">
+                        <p id="labelOldPaymentSummary" class="text-sm font-medium text-gray-700 mb-1 text-orange-600">Old Monthly Payment</p>
+                        <p id="oldPaymentSummary" class="text-2xl font-bold text-orange-600">0</p>
                     </div>
                     
-                    <div class="p-4 bg-white rounded-lg shadow-md border-t-2 border-loan-new">
-                        <p id="labelNewPaymentSummary" class="text-sm font-medium text-gray-700 mb-1 text-loan-new">New Monthly Payment</p>
-                        <p id="newPaymentSummary" class="text-2xl font-bold text-loan-new">0</p>
+                    <div class="p-4 bg-white rounded-lg shadow-md border-t-2 border-blue-500">
+                        <p id="labelNewPaymentSummary" class="text-sm font-medium text-gray-700 mb-1 text-blue-600">New Monthly Payment</p>
+                        <p id="newPaymentSummary" class="text-2xl font-bold text-blue-600">0</p>
                     </div>
                     
-                    <div class="p-4 bg-white rounded-lg shadow-md border-t-2 border-finance-color">
-                        <p id="labelMonthlyDifference" class="text-sm font-medium text-gray-700 mb-1 text-finance-color">Monthly Savings/Cost</p>
-                        <p id="monthlyDifferenceResult" class="text-2xl font-bold text-finance-color">0</p>
+                    <div class="p-4 bg-white rounded-lg shadow-md border-t-2 border-green-500">
+                        <p id="labelMonthlyDifference" class="text-sm font-medium text-gray-700 mb-1 text-green-600">Monthly Savings/Cost</p>
+                        <p id="monthlyDifferenceResult" class="text-2xl font-bold text-green-600">0</p>
                     </div>
                 </div>
 
-                <!-- Bagian Detail dan Break-Even Point -->
-                <h3 id="detailHeader" class="text-xl font-bold text-primary border-b pb-2 mb-4">Detailed Analysis</h3>
+                <h3 id="detailHeader" class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Detailed Analysis</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Detail Biaya Pinjaman -->
                     <div class="bg-gray-100 p-4 rounded-lg space-y-2">
                         <p class="font-bold text-gray-700" id="labelTotalInterestPaid">Total Interest Paid:</p>
                         <p class="text-sm flex justify-between">
-                            <span id="labelOldInterest">Old Loan Interest (Remaining):</span>
-                            <span id="oldInterestResult" class="font-semibold text-loan-old">0</span>
+                            <span id="labelOldInterest">Old Loan Interest:</span>
+                            <span id="oldInterestResult" class="font-semibold text-orange-600">0</span>
                         </p>
                          <p class="text-sm flex justify-between">
-                            <span id="labelNewInterest">New Loan Interest (Full Term):</span>
-                            <span id="newInterestResult" class="font-semibold text-loan-new">0</span>
+                            <span id="labelNewInterest">New Loan Interest:</span>
+                            <span id="newInterestResult" class="font-semibold text-blue-600">0</span>
                         </p>
                         <p class="text-sm flex justify-between border-t pt-2 mt-2">
                             <span id="labelInterestSavings" class="font-bold">Interest Savings:</span>
-                            <span id="interestSavingsResult" class="font-bold text-finance-color">0</span>
+                            <span id="interestSavingsResult" class="font-bold text-green-600">0</span>
                         </p>
                     </div>
 
-                    <!-- Break-Even Point -->
                     <div class="bg-gray-100 p-4 rounded-lg space-y-2">
                         <p class="font-bold text-gray-700" id="labelBreakEven">Break-Even Point</p>
                          <p class="text-base flex justify-between">
@@ -301,16 +215,15 @@
                         </p>
                         <p class="text-base flex justify-between border-t pt-2 mt-2">
                             <span id="labelBreakEvenMonths" class="font-bold">Break-Even Point (Months):</span>
-                            <span id="breakEvenMonthsResult" class="text-xl font-extrabold text-primary">0</span>
+                            <span id="breakEvenMonthsResult" class="text-xl font-extrabold text-gray-800">0</span>
                         </p>
                         <p class="text-xs text-gray-600 italic" id="breakEvenNote">
-                           Titik impas adalah saat penghematan bulanan Anda menutupi biaya refinancing.
+                           Time until your monthly savings cover the upfront costs.
                         </p>
                     </div>
                 </div>
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding Loan Refinancing</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -332,37 +245,61 @@
         </div>
     </main>
     
-    <!-- Footer (Sama seperti alat lain) -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Mortgage Calculator" data-id="Kalkulator KPR">Mortgage Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate monthly mortgage payments." data-id="Hitung cicilan KPR bulanan.">Calculate monthly mortgage payments.</p>
+            </a>
+            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Debt Payoff" data-id="Pelunasan Utang">Debt Payoff</h3>
+                <p class="text-xs text-gray-600" data-en="Snowball vs Avalanche strategies." data-id="Strategi Snowball vs Avalanche.">Snowball vs Avalanche strategies.</p>
+            </a>
+            <a href="../kalkulator-perbandingan-pinjaman-pribadi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Loan Comparison" data-id="Perbandingan Pinjaman">Loan Comparison</h3>
+                <p class="text-xs text-gray-600" data-en="Compare Loan A vs Loan B." data-id="Bandingkan Pinjaman A vs B.">Compare Loan A vs Loan B.</p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../kalkulator-bunga-efektif/index.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Understanding Effective Interest Rates" data-id="Memahami Suku Bunga Efektif">Understanding Effective Interest Rates</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
     
     <script>
         // **********************************************
         // LOGIKA KALKULATOR REFINANCING PINJAMAN
         // **********************************************
 
+        let currentLang = 'en';
+
         const translations = {
             id: {
                 appTitle: "Kalkulator Refinancing Pinjaman",
                 headerTitle: "Kalkulator Refinancing Pinjaman",
                 toolSubtitle: "Hitung potensi penghematan dan titik impas saat Anda mempertimbangkan untuk mengganti pinjaman lama (misalnya KPR) dengan pinjaman baru.",
-                backToCatalogText: "Kembali ke Katalog Alat",
-                // Input Pinjaman Lama
+                
                 headerOldLoan: "1. Detail Pinjaman Lama (Pelunasan Dipercepat)",
                 labelOldBalance: "Sisa Pokok Pinjaman Saat Ini",
                 descOldBalance: "Sisa pokok pinjaman yang akan Anda lunasi dengan pinjaman baru.",
@@ -372,31 +309,27 @@
                 descOldPayment: "Angsuran bulanan tetap yang Anda bayar untuk pinjaman lama.",
                 labelOldTerm: "Sisa Jangka Waktu (Bulan)",
                 descOldTerm: "Berapa bulan tersisa untuk pinjaman lama Anda.",
-                // Input Pinjaman Baru
+                
                 headerNewLoan: "2. Detail Pinjaman Baru yang Diusulkan",
                 labelNewRate: "Suku Bunga Tahunan Baru (%)",
                 descNewRate: "Suku bunga efektif tahunan dari penawaran pinjaman baru.",
                 labelNewTerm: "Jangka Waktu Pinjaman Baru (Bulan)",
                 descNewTerm: "Total jangka waktu pinjaman baru dalam bulan.",
                 labelRefinanceCosts: "Total Biaya Refinancing",
-                // PERBAIKAN DI SINI: Menghilangkan tag <b> dari string
                 descRefinanceCosts: "Masukkan total biaya di muka dari pinjaman baru (provisi, notaris, appraisal) dan tambahkan penalti pelunasan dipercepat pinjaman lama, jika ada.",
                 calculateButton: "Hitung Penghematan Refinancing",
                 inputError: "Mohon masukkan semua nilai input yang valid (Semua nilai > 0, Jangka Waktu > 0).",
                 
-                // Hasil
                 resultHeader: "Hasil Analisis Refinancing",
                 labelNetSavings: "Total Penghematan Bersih Selama Sisa Jangka Waktu Lama",
                 recommendationTextPositive: "Refinancing sangat direkomendasikan!",
                 recommendationTextNegative: "Refinancing kemungkinan tidak menguntungkan.",
                 recommendationTextNeutral: "Refinancing menghasilkan penghematan minimal. Pertimbangkan faktor non-finansial.",
                 
-                // Summary Detail
                 labelOldPaymentSummary: "Angsuran Bulanan Lama",
                 labelNewPaymentSummary: "Angsuran Bulanan Baru",
                 labelMonthlyDifference: "Selisih Angsuran Bulanan (Penghematan/Biaya Tambahan)",
                 
-                // Detailed Analysis
                 labelTotalInterestPaid: "Total Bunga Dibayar",
                 labelOldInterest: "Bunga Pinjaman Lama (Sisa Jangka Waktu)",
                 labelNewInterest: "Bunga Pinjaman Baru (Jangka Waktu Penuh)",
@@ -406,35 +339,22 @@
                 labelBreakEvenMonths: "Titik Impas (Bulan)",
                 breakEvenNote: "Titik impas adalah saat total penghematan bulanan Anda menutupi total biaya refinancing di muka.",
                 
-                // Konten Edukasi
                 sectionHeader1: "Memahami Refinancing Pinjaman",
-                content1: "Refinancing secara teknis berarti Anda melakukan <b>pelunasan dipercepat</b> atas pinjaman lama Anda dan mengambil pinjaman baru untuk menutupi sisa pokok tersebut. Keputusan untuk melakukan refinancing <b>sangat bergantung</b> pada dua faktor: seberapa banyak Anda menghemat bulanan (selisih angsuran) dan seberapa cepat Anda mencapai Titik Impas (Break-Even Point) dari biaya refinancing di muka. Pelunasan dipercepat ini mungkin dikenakan penalti oleh bank lama, sehingga penting untuk selalu memasukkan biaya ini dalam perhitungan Total Biaya Refinancing.",
-                
+                content1: "Refinancing secara teknis berarti Anda melakukan <b>pelunasan dipercepat</b> atas pinjaman lama Anda dan mengambil pinjaman baru untuk menutupi sisa pokok tersebut.",
                 sectionHeader2: "Titik Impas (Break-Even Point) yang Kritis",
-                content2: "Titik Impas adalah jumlah bulan yang Anda perlukan agar penghematan bulanan Anda (Angsuran Lama - Angsuran Baru) menutupi semua biaya di muka untuk refinancing (provisi, notaris, dll.). Jika Anda berencana menjual properti atau melunasi pinjaman <b>sebelum</b> mencapai titik impas ini, maka refinancing <b>tidak menguntungkan</b>. Semakin cepat titik impas, semakin baik penawaran pinjaman baru.",
-                
+                content2: "Titik Impas adalah jumlah bulan yang Anda perlukan agar penghematan bulanan Anda menutupi semua biaya di muka untuk refinancing.",
                 sectionHeader3: "Faktor Utama yang Perlu Dipertimbangkan",
-                content3: "Beberapa faktor penting dalam refinancing:",
-                tip1: "Suku Bunga vs. Biaya: Pinjaman baru dengan suku bunga sangat rendah tetapi biaya di muka yang tinggi (termasuk penalti pelunasan awal) mungkin membutuhkan waktu impas yang sangat lama. Bandingkan secara cermat.",
-                tip2: "Penalti Pelunasan Awal: Pastikan Anda memperhitungkan penalti pelunasan yang mungkin dikenakan oleh pinjaman lama Anda; ini harus dimasukkan ke dalam Total Biaya Refinancing.",
-                tip3: "Perubahan Tenor: Memperpanjang tenor (jangka waktu) pinjaman Anda dapat mengurangi angsuran bulanan, tetapi akan meningkatkan total bunga yang Anda bayar dalam jangka panjang. Kalkulator ini membantu menunjukkan dampak total biaya.",
-                
+                tip1: "Suku Bunga vs. Biaya: Pinjaman baru dengan suku bunga rendah tetapi biaya tinggi mungkin tidak menguntungkan.",
+                tip2: "Penalti Pelunasan Awal: Pastikan memperhitungkan penalti dari bank lama.",
+                tip3: "Perubahan Tenor: Memperpanjang tenor dapat mengurangi angsuran tetapi meningkatkan total bunga.",
                 sectionHeader4: "Disclaimer",
-                content4: "Kalkulator ini menggunakan metode perhitungan anuitas standar untuk tujuan estimasi. Hasilnya bersifat indikatif dan tidak termasuk semua biaya potensial seperti asuransi, pajak, atau biaya bank spesifik. Selalu konsultasikan dengan broker hipotek atau bank Anda sebelum mengambil keputusan refinancing yang mengikat.",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                content4: "Hasil bersifat indikatif dan tidak termasuk semua biaya potensial seperti asuransi atau pajak."
             },
             en: {
                 appTitle: "Loan Refinance Calculator",
                 headerTitle: "Loan Refinance Calculator",
                 toolSubtitle: "Calculate the potential savings and break-even point when refinancing your existing loan (e.g., Mortgage or Auto Loan) with a new loan.",
-                backToCatalogText: "Back to Tools Catalog",
-                // Input Old Loan
+                
                 headerOldLoan: "1. Existing Loan Details (Early Repayment)",
                 labelOldBalance: "Current Outstanding Balance",
                 descOldBalance: "The remaining principal balance you will pay off with the new loan.",
@@ -444,31 +364,27 @@
                 descOldPayment: "The fixed monthly payment you currently make on the old loan.",
                 labelOldTerm: "Remaining Term (Months)",
                 descOldTerm: "How many months are left on your old loan.",
-                // Input New Loan
+                
                 headerNewLoan: "2. Proposed New Loan Details",
                 labelNewRate: "New Annual Interest Rate (%)",
                 descNewRate: "The effective annual interest rate of the proposed new loan.",
                 labelNewTerm: "New Loan Term (Months)",
                 descNewTerm: "The total duration of the new loan in months.",
                 labelRefinanceCosts: "Total Refinancing Costs",
-                // PERBAIKAN DI SINI: Menghilangkan tag <b> dari string
                 descRefinanceCosts: "Enter the total upfront fees for the new loan (origination, notary, appraisal) and add the old loan prepayment penalty, if any.",
                 calculateButton: "Calculate Refinance Savings",
                 inputError: "Please enter all valid input values (All values > 0, Terms > 0).",
 
-                // Results
                 resultHeader: "Refinance Analysis Results",
                 labelNetSavings: "Net Savings Over Remaining Old Term",
                 recommendationTextPositive: "Refinancing is highly recommended!",
                 recommendationTextNegative: "Refinancing is likely not beneficial.",
                 recommendationTextNeutral: "Refinancing yields minimal savings. Consider non-financial factors.",
 
-                // Summary Detail
                 labelOldPaymentSummary: "Old Monthly Payment",
                 labelNewPaymentSummary: "New Monthly Payment",
                 labelMonthlyDifference: "Monthly Difference (Savings/Cost)",
                 
-                // Detailed Analysis
                 labelTotalInterestPaid: "Total Interest Paid:",
                 labelOldInterest: "Old Loan Interest (Remaining Term):",
                 labelNewInterest: "New Loan Interest (Full Term):",
@@ -478,46 +394,29 @@
                 labelBreakEvenMonths: "Break-Even Point (Months):",
                 breakEvenNote: "The break-even point is when your monthly savings cover the total upfront refinancing costs.",
 
-                // Konten Edukasi
                 sectionHeader1: "Understanding Loan Refinancing",
-                content1: "Refinancing technically means you are making an <b>early repayment</b> on your old loan and taking out a new loan to cover that remaining principal. The decision to refinance <b>heavily depends</b> on two factors: how much you save monthly (the installment difference) and how quickly you reach the Break-Even Point from the upfront refinancing fees. This early repayment may incur a penalty from the old bank, so it is crucial to always include this cost in the Total Refinancing Costs calculation.",
-                
+                content1: "Refinancing technically means you are making an <b>early repayment</b> on your old loan and taking out a new loan to cover that remaining principal.",
                 sectionHeader2: "The Critical Break-Even Point",
-                content2: "The Break-Even Point is the number of months it takes for your monthly savings (Old Payment - New Payment) to cover all the upfront costs of refinancing (origination, notary, etc.). If you plan to sell the property or pay off the loan <b>before</b> reaching this break-even point, then refinancing is <b>not beneficial</b>. The sooner the break-even point, the better the new loan offer.",
-                
+                content2: "The Break-Even Point is the number of months it takes for your monthly savings to cover all the upfront costs of refinancing.",
                 sectionHeader3: "Key Factors to Consider",
-                content3: "Several critical factors in refinancing:",
-                tip1: "Rate vs. Cost: A new loan with a very low interest rate but high upfront fees (including the early repayment penalty) might take a very long time to break even. Compare carefully.",
-                tip2: "Prepayment Penalty: Ensure you account for any prepayment penalty your old loan may charge; this must be factored into the Total Refinancing Costs.",
-                tip3: "Tenor Change: Extending the loan term can reduce your monthly payment, but will significantly increase the total interest you pay over the long run. This calculator helps show the total cost impact.",
-                
+                tip1: "Rate vs. Cost: Low interest with high fees might not be worth it.",
+                tip2: "Prepayment Penalty: Always account for old loan penalties.",
+                tip3: "Tenor Change: Longer terms lower monthly payments but increase total interest.",
                 sectionHeader4: "Disclaimer",
-                content4: "This calculator uses the standard annuity calculation method for estimation purposes. The results are indicative and do not include all potential costs such as insurance, taxes, or specific bank charges. Always consult with a mortgage broker or your bank before making a binding refinancing decision.",
-
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                content4: "Results are indicative and do not include all potential costs."
             }
         };
 
-        let currentLang = 'en'; // Default language
-
-        // Fungsi utilitas untuk memformat angka dengan pemisah ribuan
-        function formatNumber(amount, decimalPlaces = 0) {
+        function formatNumber(amount) {
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
             return new Intl.NumberFormat(locale, {
-                minimumFractionDigits: decimalPlaces,
-                maximumFractionDigits: decimalPlaces,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             }).format(amount);
         }
 
-        // Fungsi yang dipanggil oleh event oninput untuk memformat input secara real-time
         function formatInput(inputElement) {
             let rawValue = inputElement.value.replace(/\D/g, ''); 
-            
             if (rawValue) {
                 const numericValue = parseInt(rawValue, 10);
                 inputElement.value = formatNumber(numericValue);
@@ -526,63 +425,40 @@
             }
         }
         
-        // Fungsi untuk membersihkan format dari input string 
         function cleanInput(formattedValue) {
             return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
         }
 
-        /**
-         * Fungsi untuk menghitung Angsuran dan Bunga Total Pinjaman Anuitas
-         * @param {number} L - Loan Amount (Pokok Pinjaman)
-         * @param {number} R_annual - Annual Interest Rate (e.g., 0.10 for 10%)
-         * @param {number} N_months - Loan Term in Months
-         * @returns {object} {monthlyPayment, totalInterest}
-         */
         function calculateLoanMetrics(L, R_annual, N_months) {
             if (L <= 0 || N_months <= 0) {
                 return { monthlyPayment: 0, totalInterest: 0 };
             }
-
             const R_monthly = R_annual / 12;
             let monthlyPayment;
-
             if (R_monthly > 0) {
                 const powerFactor = Math.pow(1 + R_monthly, N_months);
-                // Formula Cicilan Anuitas
                 monthlyPayment = L * (R_monthly * powerFactor) / (powerFactor - 1);
             } else {
-                // Jika bunga 0%
                 monthlyPayment = L / N_months;
             }
-
             const totalInterest = (monthlyPayment * N_months) - L;
-
-            return {
-                monthlyPayment: monthlyPayment,
-                totalInterest: totalInterest
-            };
+            return { monthlyPayment, totalInterest };
         }
 
-        // Fungsi utama untuk menjalankan Refinancing
         function calculateRefinance(event) {
             event.preventDefault();
-
-            // 1. Ambil dan Bersihkan Input (Pinjaman Lama)
-            const L_old = cleanInput(document.getElementById('oldBalance').value); // Old Outstanding Balance
-            const R_annual_old = parseFloat(document.getElementById('oldRate').value) / 100; // Old Rate
-            const M_old_input = cleanInput(document.getElementById('oldPayment').value); // Old Monthly Payment (Input)
-            const N_months_old = parseInt(document.getElementById('oldTermMonthsRemaining').value) || 0; // Old Term Remaining
+            const L_old = cleanInput(document.getElementById('oldBalance').value);
+            const M_old_input = cleanInput(document.getElementById('oldPayment').value);
+            const N_months_old = parseInt(document.getElementById('oldTermMonthsRemaining').value) || 0;
             
-            // 2. Ambil dan Bersihkan Input (Pinjaman Baru)
-            const R_annual_new = parseFloat(document.getElementById('newRate').value) / 100; // New Rate
-            const N_months_new = parseInt(document.getElementById('newTermMonths').value) || 0; // New Term Total
-            const Costs_refinance = cleanInput(document.getElementById('refinanceCosts').value); // Upfront Refinancing Costs
+            const R_annual_new = parseFloat(document.getElementById('newRate').value) / 100;
+            const N_months_new = parseInt(document.getElementById('newTermMonths').value) || 0;
+            const Costs_refinance = cleanInput(document.getElementById('refinanceCosts').value);
 
             const resultBox = document.getElementById('resultBox');
             const errorAlert = document.getElementById('errorAlert');
 
-            // 3. Validasi Input
-            if (L_old <= 0 || R_annual_old < 0 || M_old_input <= 0 || N_months_old <= 0 || R_annual_new < 0 || N_months_new <= 0 || Costs_refinance < 0) {
+            if (L_old <= 0 || M_old_input <= 0 || N_months_old <= 0 || R_annual_new < 0 || N_months_new <= 0 || Costs_refinance < 0) {
                 document.getElementById('errorText').textContent = translations[currentLang].inputError;
                 errorAlert.classList.remove('hidden');
                 resultBox.classList.remove('visible');
@@ -590,217 +466,102 @@
             }
             
             errorAlert.classList.add('hidden');
-            
-            // 4. Hitung Pinjaman Baru
-            // L_new = L_old (Pinjaman baru mengambil sisa pokok pinjaman lama)
             const newMetrics = calculateLoanMetrics(L_old, R_annual_new, N_months_new);
             const M_new = newMetrics.monthlyPayment;
             const Interest_new = newMetrics.totalInterest;
 
-            // 5. Hitung Bunga Tersisa Pinjaman Lama
-            // Hitung total bunga yang tersisa jika pinjaman lama dilanjutkan
             const Interest_old_remaining = (M_old_input * N_months_old) - L_old;
-
-            // 6. Hitung Penghematan
-            
-            // Penghematan Bulanan Bruto
             const M_difference = M_old_input - M_new;
-            
-            // Penghematan Bunga Bruto (membandingkan bunga yang tersisa pada pinjaman lama dengan bunga total pinjaman baru)
-            // Note: Ini hanya akurat jika N_months_new == N_months_old.
-            // Untuk perbandingan yang lebih adil, kita hitung Net Savings atas SISA jangka waktu pinjaman lama (N_months_old).
-            
-            // Bunga total yang dibayar pada SISA pinjaman lama (Interest_old_remaining)
-            // Biaya total yang dibayar pada SISA pinjaman lama = Interest_old_remaining
-            
-            // Bunga total yang dibayar pada SISA JANGKA WAKTU LAMA (N_months_old) jika menggunakan pinjaman BARU:
             const Interest_new_paid_during_old_term = (M_new * N_months_old) - L_old;
-            
-            // Penghematan Bunga Porsi Jangka Waktu Lama (Gross Interest Savings)
             const Interest_Savings_Gross = Interest_old_remaining - Interest_new_paid_during_old_term;
-            
-            // Penghematan Bersih (Net Savings)
-            // = (Penghematan Bunga Porsi Lama) - (Biaya Refinancing)
             const Net_Savings = Interest_Savings_Gross - Costs_refinance;
-
-
-            // 7. Hitung Titik Impas (Break-Even Point)
+            
             let BreakEven_Months = 0;
             if (M_difference > 0) {
-                // Hanya jika ada penghematan bulanan positif
                 BreakEven_Months = Costs_refinance / M_difference;
             } else {
-                BreakEven_Months = 9999; // Sangat lama atau tidak mungkin
+                BreakEven_Months = 9999;
             }
             
-            // 8. Tampilkan Hasil (Round ke integer terdekat)
-            
-            // Rekomendasi
             let recommendationText;
+            const netSavingsEl = document.getElementById('netSavingsResult');
             if (Net_Savings > 0 && BreakEven_Months < N_months_old) {
                  recommendationText = translations[currentLang].recommendationTextPositive;
-                 document.getElementById('netSavingsResult').classList.remove('text-red-600', 'text-gray-600');
-                 document.getElementById('netSavingsResult').classList.add('text-finance-color');
+                 netSavingsEl.className = "text-4xl font-extrabold text-green-600";
             } else if (Net_Savings < 0) {
                  recommendationText = translations[currentLang].recommendationTextNegative;
-                 document.getElementById('netSavingsResult').classList.remove('text-finance-color', 'text-gray-600');
-                 document.getElementById('netSavingsResult').classList.add('text-red-600');
+                 netSavingsEl.className = "text-4xl font-extrabold text-red-600";
             } else {
                  recommendationText = translations[currentLang].recommendationTextNeutral;
-                 document.getElementById('netSavingsResult').classList.remove('text-finance-color', 'text-red-600');
-                 document.getElementById('netSavingsResult').classList.add('text-gray-600');
+                 netSavingsEl.className = "text-4xl font-extrabold text-gray-600";
             }
             document.getElementById('recommendationText').textContent = recommendationText;
 
-            // Summary
             document.getElementById('netSavingsResult').textContent = formatNumber(Math.round(Net_Savings));
             document.getElementById('oldPaymentSummary').textContent = formatNumber(Math.round(M_old_input));
             document.getElementById('newPaymentSummary').textContent = formatNumber(Math.round(M_new));
             document.getElementById('monthlyDifferenceResult').textContent = formatNumber(Math.round(M_difference));
             
-            // Detailed Analysis
             document.getElementById('oldInterestResult').textContent = formatNumber(Math.round(Interest_old_remaining));
             document.getElementById('newInterestResult').textContent = formatNumber(Math.round(Interest_new));
             document.getElementById('interestSavingsResult').textContent = formatNumber(Math.round(Interest_Savings_Gross));
             document.getElementById('refinanceCostSummary').textContent = formatNumber(Math.round(Costs_refinance));
             
-            // Break-Even Point
             if (BreakEven_Months === 9999 || M_difference <= 0) {
                 document.getElementById('breakEvenMonthsResult').textContent = "N/A";
             } else {
                 document.getElementById('breakEvenMonthsResult').textContent = formatNumber(Math.ceil(BreakEven_Months));
             }
 
-
-            // Tampilkan kotak hasil
             resultBox.classList.add('visible');
         }
 
-
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
-
-            // Update status toggle
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
-            document.documentElement.lang = lang; 
-
-            // Ambil nilai input yang sudah diformat
-            const oldBalanceValue = document.getElementById('oldBalance').value;
-            const oldPaymentValue = document.getElementById('oldPayment').value;
-            const refinanceCostsValue = document.getElementById('refinanceCosts').value;
-
-            // Update teks statis
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
-            document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
             
-            // Pinjaman Lama
-            document.getElementById('headerOldLoan').textContent = t.headerOldLoan;
-            document.getElementById('labelOldBalance').textContent = t.labelOldBalance;
-            document.getElementById('descOldBalance').textContent = t.descOldBalance;
-            document.getElementById('labelOldRate').textContent = t.labelOldRate;
-            document.getElementById('descOldRate').textContent = t.descOldRate;
-            document.getElementById('labelOldPayment').textContent = t.labelOldPayment;
-            document.getElementById('descOldPayment').textContent = t.descOldPayment;
-            document.getElementById('labelOldTerm').textContent = t.labelOldTerm;
-            document.getElementById('descOldTerm').textContent = t.descOldTerm;
+            ['appTitle', 'headerTitle', 'toolSubtitle', 'headerOldLoan', 'labelOldBalance', 'descOldBalance', 'labelOldRate', 'descOldRate', 
+             'labelOldPayment', 'descOldPayment', 'labelOldTerm', 'descOldTerm', 'headerNewLoan', 'labelNewRate', 'descNewRate', 
+             'labelNewTerm', 'descNewTerm', 'labelRefinanceCosts', 'descRefinanceCosts', 'calculateButton', 'resultHeader', 'labelNetSavings', 
+             'labelOldPaymentSummary', 'labelNewPaymentSummary', 'labelMonthlyDifference', 'detailHeader', 'labelTotalInterestPaid', 
+             'labelOldInterest', 'labelNewInterest', 'labelInterestSavings', 'labelBreakEven', 'labelRefinanceCost', 'labelBreakEvenMonths', 
+             'breakEvenNote', 'sectionHeader1', 'sectionHeader2', 'sectionHeader3', 'tip1', 'tip2', 'tip3', 'sectionHeader4'].forEach(id => {
+                 const el = document.getElementById(id);
+                 if(el) el.textContent = t[id];
+            });
             
-            // Pinjaman Baru
-            document.getElementById('headerNewLoan').textContent = t.headerNewLoan;
-            document.getElementById('labelNewRate').textContent = t.labelNewRate;
-            document.getElementById('descNewRate').textContent = t.descNewRate;
-            document.getElementById('labelNewTerm').textContent = t.labelNewTerm;
-            document.getElementById('descNewTerm').textContent = t.descNewTerm;
-            document.getElementById('labelRefinanceCosts').textContent = t.labelRefinanceCosts;
-            document.getElementById('descRefinanceCosts').textContent = t.descRefinanceCosts;
+            ['content1', 'content2', 'content4'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = t[id];
+            });
 
-            document.getElementById('calculateButton').textContent = t.calculateButton;
-
-            // Format ulang input value (Absolut) berdasarkan bahasa baru
-            document.getElementById('oldBalance').value = formatNumber(cleanInput(oldBalanceValue));
-            document.getElementById('oldPayment').value = formatNumber(cleanInput(oldPaymentValue));
-            document.getElementById('refinanceCosts').value = formatNumber(cleanInput(refinanceCostsValue));
-
-            // Update label hasil
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            document.getElementById('labelNetSavings').textContent = t.labelNetSavings;
-            document.getElementById('labelOldPaymentSummary').textContent = t.labelOldPaymentSummary;
-            document.getElementById('labelNewPaymentSummary').textContent = t.labelNewPaymentSummary;
-            document.getElementById('labelMonthlyDifference').textContent = t.labelMonthlyDifference;
-            document.getElementById('detailHeader').textContent = t.detailHeader;
+            // Related Tools Update
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
             
-            document.getElementById('labelTotalInterestPaid').textContent = t.labelTotalInterestPaid;
-            document.getElementById('labelOldInterest').textContent = t.labelOldInterest;
-            document.getElementById('labelNewInterest').textContent = t.labelNewInterest;
-            document.getElementById('labelInterestSavings').textContent = t.labelInterestSavings;
-            document.getElementById('labelBreakEven').textContent = t.labelBreakEven;
-            document.getElementById('labelRefinanceCost').textContent = t.labelRefinanceCost;
-            document.getElementById('labelBreakEvenMonths').textContent = t.labelBreakEvenMonths;
-            document.getElementById('breakEvenNote').textContent = t.breakEvenNote;
-
-
-            // Update Konten Edukasi
-            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
-            document.getElementById('content1').innerHTML = t.content1;
-            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
-            document.getElementById('content2').innerHTML = t.content2;
-            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
-            // Tips
-            document.getElementById('tip1').textContent = t.tip1;
-            document.getElementById('tip2').textContent = t.tip2;
-            document.getElementById('tip3').textContent = t.tip3;
-            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
-            document.getElementById('content4').innerHTML = t.content4;
-            
-            // Update Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-
-            // Format ulang hasil jika sudah ada
             const resultElement = document.getElementById('netSavingsResult');
             if (resultElement.textContent !== '0') {
-                 // Panggil kembali fungsi hitung untuk me-refresh format angka
-                 calculateRefinance({ preventDefault: () => {} }); 
+                 calculateRefinance({ preventDefault: () => {} });
             }
-
-             // Pastikan error message diupdate
             if (!document.getElementById('errorAlert').classList.contains('hidden')) {
                 document.getElementById('errorText').textContent = t.inputError;
             }
         }
         
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                    // Sembunyikan hasil saat bahasa berganti
-                    document.getElementById('resultBox').classList.remove('visible');
-                    document.getElementById('errorAlert').classList.add('hidden');
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.type === 'attributes' && m.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
                 }
-            }
+            });
         });
+        observer.observe(document.documentElement, { attributes: true });
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
-            // Logika Deteksi Bahasa Awal
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-            setLanguage(defaultLang); 
+            setLanguage(document.documentElement.lang || 'en');
         });
-
     </script>
 </body>
 </html>

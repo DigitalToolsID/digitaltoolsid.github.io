@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-inflasi/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Inflasi. Hitung penurunan daya beli uang Anda dan estimasi kenaikan harga barang di masa depan akibat inflasi." />
+    
+    <link rel="icon" href="data:,">
  
     <title id="appTitle">Inflation Calculator</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/inflation-calculator/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/inflation-calculator/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Kode Google Analytic dan Adsense -->
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-inflasi/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-inflasi/index.html" />
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,32 +24,10 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                        'inflation-color': '#e67e22', // Oranye untuk Peringatan Inflasi
-                        'loss-color': '#c0392b', // Merah untuk Kerugian
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil */
+        /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -60,68 +41,26 @@
             padding: 1.5rem; 
         }
         
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya kustom untuk input dan tombol */
+        /* Tombol Utama (Nuansa Oranye untuk Inflasi) */
         .calculate-button {
-            box-shadow: 0 4px #d35400; /* Warna oranye gelap */
-            background-color: #e67e22; /* inflation-color */
+            box-shadow: 0 4px #c2410c; /* orange-700 */
+            background-color: #ea580c; /* orange-600 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #d35400;
-            background-color: #d35400;
+            box-shadow: 0 6px #c2410c;
+            background-color: #f97316; /* orange-500 */
         }
         .calculate-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px #d35400;
-        }
-
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
+            box-shadow: 0 2px #c2410c;
         }
 
         /* Gaya Kartu Hasil Utama */
         .result-card-main {
-            background-color: #fff3e0; /* Orange 50 */
-            border: 2px solid #ffb74d; /* Orange 300 */
+            background-color: #fff7ed; /* orange-50 */
+            border: 2px solid #fdba74; /* orange-300 */
         }
         
         /* Section Header */
@@ -130,114 +69,89 @@
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: #1f2937;
         }
-
     </style>
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-        </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Inflation Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Inflation Calculator</h1>
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               <!-- Konten Subtitle akan diisi oleh JS -->
-            </p>
+               </p>
             
-            <!-- Form Input -->
             <form id="inflationForm" onsubmit="calculateInflation(event)" class="space-y-6">
                 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                     <h2 class="section-title" id="headerParameters">1. Inflation Parameters</h2>
                     
                     <div class="relative mb-4">
-                        <label for="currentAmount" class="block text-sm font-medium text-gray-700 mb-1" id="labelAmount">Current Amount / Price</label>
-                        <input type="text" id="currentAmount" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-inflation-color focus:border-inflation-color" required>
-                        <p class="input-description" id="descAmount">Jumlah uang atau harga barang saat ini.</p>
+                        <label for="currentAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                            <span id="labelAmount">Current Amount / Price</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                        </label>
+                        <input type="text" id="currentAmount" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" required>
+                        <p class="text-xs text-gray-500 mt-1" id="descAmount">Enter cash amount or item price today.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelRate">Average Inflation Rate (%)</label>
-                            <input type="number" id="inflationRate" min="0" step="0.01" value="4.0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-inflation-color focus:border-inflation-color" required>
-                            <p class="input-description" id="descRate">Rata-rata inflasi tahunan (Indonesia historis: 3-5%).</p>
+                            <input type="number" id="inflationRate" min="0" step="0.01" value="4.0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descRate">Annual average rate (Historical ~3-5%).</p>
                         </div>
                         
                         <div class="relative">
                             <label for="years" class="block text-sm font-medium text-gray-700 mb-1" id="labelYears">Time Period (Years)</label>
-                            <input type="number" id="years" min="1" max="100" step="1" value="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-inflation-color focus:border-inflation-color" required>
-                            <p class="input-description" id="descYears">Jangka waktu proyeksi ke masa depan.</p>
+                            <input type="number" id="years" min="1" max="100" step="1" value="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descYears">Years to project.</p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-orange-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-orange-500 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl text-lg">
                     Calculate Impact
                 </button>
                 
-                <!-- Error Alert -->
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
             <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2 border-orange-300">Inflation Impact Analysis</h3>
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2 border-orange-300">Inflation Impact Analysis</h3>
                 
-                <!-- Scenario 1: Future Cost -->
                 <div class="mb-6">
                     <p class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1" id="labelFutureCost">Future Cost (Price Increase)</p>
                     <div class="flex items-baseline">
-                        <p id="resultFutureCost" class="text-4xl font-extrabold text-primary-dark">0</p>
-                        <span class="ml-2 text-sm text-loss-color font-bold" id="valIncrease">0</span>
+                        <p id="resultFutureCost" class="text-4xl font-extrabold text-gray-900">0</p>
+                        <span class="ml-2 text-sm text-red-600 font-bold" id="valIncrease">0</span>
                     </div>
-                    <p class="text-sm text-gray-600 mt-2 leading-relaxed" id="descFutureCost">
-                        To buy items worth <b>[AMOUNT]</b> today, you will need this amount in <b>[YEARS] years</b>.
-                    </p>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed" id="descFutureCost"></p>
                 </div>
 
-                <!-- Scenario 2: Purchasing Power -->
                 <div class="mb-6 pt-6 border-t border-orange-200">
                     <p class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1" id="labelPurchasingPower">Future Purchasing Power (Value Erosion)</p>
                     <div class="flex items-baseline">
-                        <p id="resultPower" class="text-4xl font-extrabold text-loss-color">0</p>
+                        <p id="resultPower" class="text-4xl font-extrabold text-red-600">0</p>
                         <span class="ml-2 text-sm text-gray-500" id="valDecrease">0</span>
                     </div>
-                     <p class="text-sm text-gray-600 mt-2 leading-relaxed" id="descPurchasingPower">
-                        If you keep <b>[AMOUNT]</b> in cash under your mattress, in <b>[YEARS] years</b> it will only be worth this much in today's value.
-                    </p>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed" id="descPurchasingPower"></p>
                 </div>
 
-                <!-- Interpretasi Hasil -->
                 <div class="bg-white p-4 rounded-lg border border-orange-200">
-                    <h4 id="headerInterpretation" class="text-md font-bold text-primary mb-2">What This Means</h4>
-                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
-                        <!-- Teks interpretasi dinamis -->
-                    </p>
+                    <h4 id="headerInterpretation" class="text-md font-bold text-gray-800 mb-2">What This Means</h4>
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed"></p>
                 </div>
 
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">What is Inflation?</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -260,36 +174,56 @@
         </div>
     </main>
     
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</h3>
+                <p class="text-xs text-gray-600" data-en="Grow your wealth above inflation." data-id="Tumbuhkan aset di atas inflasi.">Grow your wealth above inflation.</p>
+            </a>
+            <a href="../kalkulator-tabungan-pendidikan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Education Savings" data-id="Tabungan Pendidikan">Education Savings</h3>
+                <p class="text-xs text-gray-600" data-en="Plan for rising tuition costs." data-id="Rencanakan biaya kuliah yang naik.">Plan for rising tuition costs.</p>
+            </a>
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Monthly Budget" data-id="Anggaran Bulanan">Monthly Budget</h3>
+                <p class="text-xs text-gray-600" data-en="Manage expenses smartly." data-id="Kelola pengeluaran dengan cerdas.">Manage expenses smartly.</p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
     
     <script>
         // **********************************************
         // LOGIKA KALKULATOR INFLASI
         // **********************************************
 
+        let currentLang = 'en';
+
         const translations = {
             id: {
                 appTitle: "Kalkulator Inflasi",
                 headerTitle: "Kalkulator Inflasi",
-                toolSubtitle: "Inflasi adalah 'pencuri diam-diam' kekayaan Anda. Kalkulator ini membantu Anda memvisualisasikan dua hal: Berapa harga barang akan naik di masa depan, dan berapa nilai daya beli uang tunai Anda akan menyusut jika tidak diinvestasikan. Pahami dampak inflasi agar Anda bisa merencanakan masa depan finansial yang lebih aman.",
+                toolSubtitle: "Inflasi adalah 'pencuri diam-diam' kekayaan Anda. Kalkulator ini membantu Anda memvisualisasikan kenaikan harga barang dan penyusutan daya beli uang di masa depan.",
                 backToCatalogText: "Kembali ke Katalog Alat",
-                // Input
+                
                 headerParameters: "1. Parameter Inflasi",
                 labelAmount: "Jumlah Uang / Harga Saat Ini",
                 descAmount: "Masukkan nominal uang tunai atau harga barang hari ini.",
@@ -301,7 +235,6 @@
                 calculateButton: "Hitung Dampak Inflasi",
                 inputError: "Mohon masukkan semua nilai input yang valid.",
                 
-                // Result
                 resultHeader: "Analisis Dampak Inflasi",
                 
                 labelFutureCost: "Biaya Masa Depan (Kenaikan Harga)",
@@ -313,20 +246,18 @@
                 headerInterpretation: "Apa Artinya?",
                 interpText: "Dalam <b>[YEARS] tahun</b>, inflasi kumulatif sebesar <b>[CUMULATIVE]%</b> akan memangkas daya beli uang Anda hampir separuhnya. Ini berarti jika gaji atau investasi Anda tidak tumbuh setidaknya <b>[RATE]%</b> per tahun, Anda sebenarnya menjadi lebih miskin setiap tahunnya.",
                 
-                // Edukasi
                 sectionHeader1: "Apa Itu Inflasi?",
-                content1: "Inflasi adalah penurunan daya beli mata uang dari waktu ke waktu. Sederhananya, Rp 100.000 hari ini bisa membeli lebih sedikit barang daripada Rp 100.000 sepuluh tahun yang lalu. Ini adalah kenaikan umum harga barang dan jasa.",
+                content1: "Inflasi adalah penurunan daya beli mata uang dari waktu ke waktu. Sederhananya, Rp 100.000 hari ini bisa membeli lebih sedikit barang daripada Rp 100.000 sepuluh tahun yang lalu.",
                 sectionHeader2: "Aturan 72 (Rule of 72)",
-                content2: "Cara cepat untuk mengetahui kapan harga akan menjadi dua kali lipat adalah dengan membagi 72 dengan tingkat inflasi. Contoh: Jika inflasi 4%, harga barang akan menjadi dua kali lipat dalam 18 tahun (72 / 4 = 18).",
+                content2: "Cara cepat untuk mengetahui kapan harga akan menjadi dua kali lipat adalah dengan membagi 72 dengan tingkat inflasi. Contoh: Jika inflasi 4%, harga barang akan menjadi dua kali lipat dalam 18 tahun.",
                 sectionHeader3: "Cara Melawan Inflasi",
                 content3: "Jangan biarkan uang Anda diam:",
-                tip1: "<b>Investasi:</b> Tabungan bank biasa seringkali memberikan bunga di bawah inflasi. Pertimbangkan reksa dana, saham, atau obligasi negara (SBN) yang menawarkan imbal hasil di atas inflasi.",
-                tip2: "<b>Aset Riil:</b> Properti dan emas sering dianggap sebagai lindung nilai (hedging) yang baik terhadap inflasi dalam jangka panjang.",
-                tip3: "<b>Tingkatkan Pendapatan:</b> Pastikan kenaikan gaji atau pendapatan bisnis Anda setiap tahun setidaknya setara dengan laju inflasi.",
+                tip1: "<b>Investasi:</b> Tabungan bank biasa seringkali memberikan bunga di bawah inflasi. Pertimbangkan instrumen investasi yang melawan inflasi.",
+                tip2: "<b>Aset Riil:</b> Properti dan emas sering dianggap sebagai lindung nilai (hedging) yang baik.",
+                tip3: "<b>Tingkatkan Pendapatan:</b> Pastikan kenaikan pendapatan Anda setidaknya setara dengan laju inflasi.",
                 sectionHeader4: "Disclaimer",
-                content4: "Kalkulator ini adalah alat simulasi matematika sederhana yang mengasumsikan tingkat inflasi konstan (compounding) setiap tahun. Inflasi dunia nyata berfluktuasi dan bervariasi untuk setiap kategori barang (pendidikan dan kesehatan seringkali memiliki inflasi lebih tinggi dari rata-rata umum).",
+                content4: "Kalkulator ini adalah alat simulasi matematika sederhana yang mengasumsikan tingkat inflasi konstan.",
 
-                // Footer
                 linkPrivacy: "Kebijakan Privasi",
                 linkTerms: "Ketentuan Layanan",
                 linkAbout: "Tentang Kami",
@@ -336,9 +267,9 @@
             en: {
                 appTitle: "Inflation Calculator",
                 headerTitle: "Inflation Calculator",
-                toolSubtitle: "Inflation is the 'silent thief' of your wealth. This calculator helps you visualize two things: How much prices will rise in the future, and how much the purchasing power of your cash will shrink if left uninvested. Understanding inflation is crucial for secure financial planning.",
+                toolSubtitle: "Inflation is the 'silent thief' of your wealth. Visualize future price increases and the shrinking purchasing power of your cash.",
                 backToCatalogText: "Back to Tools Catalog",
-                // Input
+                
                 headerParameters: "1. Inflation Parameters",
                 labelAmount: "Current Amount / Price",
                 descAmount: "Enter a cash amount or the price of an item today.",
@@ -350,7 +281,6 @@
                 calculateButton: "Calculate Impact",
                 inputError: "Please enter all valid input values.",
                 
-                // Result
                 resultHeader: "Inflation Impact Analysis",
                 
                 labelFutureCost: "Future Cost (Price Increase)",
@@ -362,20 +292,18 @@
                 headerInterpretation: "What This Means",
                 interpText: "Over <b>[YEARS] years</b>, a cumulative inflation of <b>[CUMULATIVE]%</b> will significantly slash your purchasing power. This means if your salary or investments are not growing by at least <b>[RATE]%</b> annually, you are effectively becoming poorer each year.",
                 
-                // Edukasi
                 sectionHeader1: "What is Inflation?",
-                content1: "Inflation is the decline of purchasing power of a given currency over time. Simply put, $100 today buys fewer goods than $100 ten years ago. It is the general rise in the price level of an economy.",
+                content1: "Inflation is the decline of purchasing power of a given currency over time. Simply put, $100 today buys fewer goods than $100 ten years ago.",
                 sectionHeader2: "The Rule of 72",
-                content2: "A quick way to estimate when prices will double is to divide 72 by the inflation rate. Example: If inflation is 4%, prices will double in 18 years (72 / 4 = 18).",
+                content2: "A quick way to estimate when prices will double is to divide 72 by the inflation rate. Example: If inflation is 4%, prices will double in 18 years.",
                 sectionHeader3: "How to Beat Inflation",
                 content3: "Don't let your money sit idle:",
-                tip1: "<b>Invest:</b> Standard savings accounts often yield below inflation. Consider stocks, mutual funds, or bonds that offer returns above the inflation rate.",
-                tip2: "<b>Real Assets:</b> Real estate and gold are often considered good hedges against inflation over the long term.",
-                tip3: "<b>Increase Income:</b> Ensure your annual salary raise or business income growth at least matches the inflation rate.",
+                tip1: "<b>Invest:</b> Standard savings accounts often yield below inflation. Consider investments with higher returns.",
+                tip2: "<b>Real Assets:</b> Real estate and gold are often considered good hedges against inflation.",
+                tip3: "<b>Increase Income:</b> Ensure your income growth at least matches the inflation rate.",
                 sectionHeader4: "Disclaimer",
-                content4: "This calculator is a simple mathematical simulation assuming a constant annual compounding inflation rate. Real-world inflation fluctuates and varies by category (education and healthcare often have higher inflation than the general average).",
+                content4: "This calculator is a simple mathematical simulation assuming a constant annual compounding inflation rate.",
 
-                // Footer
                 linkPrivacy: "Privacy Policy",
                 linkTerms: "Terms of Service",
                 linkAbout: "About Us",
@@ -383,8 +311,6 @@
                 footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
             }
         };
-
-        let currentLang = 'en'; // Default language
 
         function formatNumber(amount, decimalPlaces = 0) {
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
@@ -410,60 +336,45 @@
 
         function calculateInflation(event) {
             event.preventDefault();
-
-            // 1. Inputs
             const amount = cleanInput(document.getElementById('currentAmount').value);
             const rate = parseFloat(document.getElementById('inflationRate').value) / 100;
             const years = parseInt(document.getElementById('years').value);
 
-            // 2. Validasi
             if (amount <= 0 || rate < 0 || years <= 0) {
                 document.getElementById('errorAlert').classList.remove('hidden');
                 document.getElementById('errorText').textContent = translations[currentLang].inputError;
                 return;
             }
             document.getElementById('errorAlert').classList.add('hidden');
-
-            // 3. Perhitungan
             
             // Future Cost: FV = PV * (1 + r)^n
             const futureCost = amount * Math.pow(1 + rate, years);
             const increaseVal = futureCost - amount;
             
             // Purchasing Power: PV = FV / (1 + r)^n
-            // Pertanyaan: Uang X hari ini, nilainya setara dengan berapa di masa depan (didiskon)?
-            // ATAU: Berapa nilai X di masa depan jika dibawa ke hari ini?
-            // Konsep "Purchasing Power" biasanya: Nominal X di masa depan hanya bisa beli barang senilai Y hari ini.
-            // Y = X / (1 + r)^n
             const purchasingPower = amount / Math.pow(1 + rate, years);
             const decreaseVal = amount - purchasingPower;
             
-            // Cumulative Inflation
             const cumulativeInflation = ((futureCost - amount) / amount) * 100;
 
-            // 4. Tampilkan Hasil
             const t = translations[currentLang];
-            
             document.getElementById('resultFutureCost').textContent = formatNumber(Math.round(futureCost));
             document.getElementById('valIncrease').textContent = "(+" + formatNumber(Math.round(increaseVal)) + ")";
             
             document.getElementById('resultPower').textContent = formatNumber(Math.round(purchasingPower));
             document.getElementById('valDecrease').textContent = "(-" + formatNumber(Math.round(decreaseVal)) + ")";
-            
-            // Update descriptions with variables
+
             document.getElementById('descFutureCost').innerHTML = t.descFutureCost
                 .replace('[AMOUNT]', formatNumber(amount))
                 .replace('[YEARS]', years);
-                
             document.getElementById('descPurchasingPower').innerHTML = t.descPurchasingPower
                 .replace('[AMOUNT]', formatNumber(amount))
                 .replace('[YEARS]', years);
-                
             document.getElementById('textInterpretation').innerHTML = t.interpText
                 .replace('[YEARS]', years)
                 .replace('[CUMULATIVE]', formatNumber(cumulativeInflation, 1))
                 .replace('[RATE]', (rate * 100).toFixed(1));
-
+            
             document.getElementById('resultBox').classList.add('visible');
         }
 
@@ -471,79 +382,44 @@
             currentLang = lang;
             const t = translations[lang];
             
-            const switcher = document.getElementById('languageSwitcher');
-            switcher.classList.remove('lang-en', 'lang-id');
-            switcher.classList.add(`lang-${lang}`);
+            ['appTitle', 'headerTitle', 'toolSubtitle', 'headerParameters', 'labelAmount', 'descAmount', 'labelRate', 'descRate', 
+             'labelYears', 'descYears', 'calculateButton', 'resultHeader', 'labelFutureCost', 'labelPurchasingPower', 
+             'headerInterpretation', 'sectionHeader1', 'sectionHeader2', 'sectionHeader3', 'sectionHeader4', 'content4'].forEach(id => {
+                 const el = document.getElementById(id);
+                 if(el) el.textContent = t[id];
+            });
+            
+            ['content1', 'content2', 'content3', 'tip1', 'tip2', 'tip3'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = t[id];
+            });
 
-            // Get values
+            // Format Inputs
             const amountVal = document.getElementById('currentAmount').value;
-
-            // Update Text
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
-            document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
-            
-            document.getElementById('headerParameters').textContent = t.headerParameters;
-            document.getElementById('labelAmount').textContent = t.labelAmount;
-            document.getElementById('descAmount').textContent = t.descAmount;
-            document.getElementById('labelRate').textContent = t.labelRate;
-            document.getElementById('descRate').textContent = t.descRate;
-            document.getElementById('labelYears').textContent = t.labelYears;
-            document.getElementById('descYears').textContent = t.descYears;
-            
-            document.getElementById('calculateButton').textContent = t.calculateButton;
-            
-            // Re-format Inputs
             document.getElementById('currentAmount').value = formatNumber(cleanInput(amountVal));
-            
-            // Results
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            document.getElementById('labelFutureCost').textContent = t.labelFutureCost;
-            // desc updated in calc
-            document.getElementById('labelPurchasingPower').textContent = t.labelPurchasingPower;
-            // desc updated in calc
-            document.getElementById('headerInterpretation').textContent = t.headerInterpretation;
-            // interp updated in calc
-            
-            // Edukasi
-            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
-            document.getElementById('content1').innerHTML = t.content1;
-            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
-            document.getElementById('content2').innerHTML = t.content2;
-            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
-            document.getElementById('content3').innerHTML = t.content3; // Header list
-            document.getElementById('tip1').innerHTML = t.tip1;
-            document.getElementById('tip2').innerHTML = t.tip2;
-            document.getElementById('tip3').innerHTML = t.tip3;
-            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
-            document.getElementById('content4').textContent = t.content4;
-            
-            // Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-            
-            // Refresh Calc if visible
+
+            // Related Tools & Articles
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
+
             if(document.getElementById('resultBox').classList.contains('visible')){
                 calculateInflation({preventDefault:()=>{}});
             }
         }
 
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) setLanguage(newLang);
-            }
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.type === 'attributes' && m.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
+                }
+            });
         });
+        observer.observe(document.documentElement, { attributes: true });
 
         document.addEventListener('DOMContentLoaded', () => {
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) defaultLang = 'id';
-            setLanguage(defaultLang); 
+            setLanguage(document.documentElement.lang || 'en');
         });
     </script>
 </body>

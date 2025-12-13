@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO & Canonical -->
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pelunasan-utang/" />
-    <meta name="description" content="Kalkulator Prioritas Pelunasan Utang (Debt Payoff Priority Calculator). Bandingkan metode Snowball vs Avalanche untuk menentukan urutan pelunasan utang terbaik bagi Anda." />
-    <meta name="keywords" content="kalkulator prioritas pelunasan utang, debt payoff priority calculator, snowball vs avalanche, manajemen utang, bebas utang, simulasi kredit, kalkulator finansial" />
+    <meta name="description" content="Kalkulator Prioritas Pelunasan Utang. Bandingkan metode Snowball vs Avalanche untuk menentukan urutan pelunasan utang terbaik bagi Anda." />
+    <meta name="keywords" content="kalkulator utang, snowball vs avalanche, manajemen utang, bebas utang, simulasi kredit" />
     
-    <!-- Alternate Languages -->
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/debt-payoff-calculator/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/debt-payoff-calculator/index.html" />
+    <link rel="icon" href="data:,">
+
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-pelunasan-utang/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-pelunasan-utang/index.html" />
 
     <title id="appTitle">Debt Payoff Priority Calculator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Kode Google Analytic dan Adsense (Sesuai Referensi) -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -24,30 +25,7 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau
-                        'debt-color': '#c0392b', // Merah
-                        'highlight-snowball': '#3498db', // Biru
-                        'highlight-avalanche': '#e67e22', // Oranye
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
         /* Transisi Hasil */
@@ -64,74 +42,32 @@
             padding: 1.5rem; 
         }
         
-        /* Toggle Bahasa */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; 
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
         /* Tombol Utama */
         .calculate-button {
-            box-shadow: 0 4px #1e8449;
-            background-color: #27ae60;
+            box-shadow: 0 4px #15803d; /* green-700 */
+            background-color: #16a34a; /* green-600 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #1e8449;
-            background-color: #2ecc71;
+            box-shadow: 0 6px #15803d;
+            background-color: #22c55e; /* green-500 */
         }
         .calculate-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px #1e8449;
+            box-shadow: 0 2px #15803d;
         }
 
-        .input-description {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
-
-        /* Kartu Utang Dinamis */
+        /* Kartu Utang */
         .debt-card {
-            background-color: #f9fafb; /* gray-50 */
-            border: 1px solid #e5e7eb; /* gray-200 */
-            border-left: 4px solid #3498db;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-left: 4px solid #3b82f6;
             padding: 1rem;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
             position: relative;
         }
-        
         .delete-btn {
             position: absolute;
             top: 0.5rem;
@@ -142,67 +78,56 @@
             font-weight: 600;
         }
         .delete-btn:hover { text-decoration: underline; }
-        
         .section-title {
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: #1f2937;
+        }
+
+        /* LOCAL STYLING: REKOMENDASI BOX */
+        .recommendation-box {
+            background-color: #14532d; /* Green 900 - Hijau Tua */
+            color: #ffffff;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <!-- Link Kembali -->
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            <!-- Toggle Bahasa -->
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-        </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Debt Payoff Priority Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Debt Payoff Priority Calculator</h1>
+           
             <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               <!-- Diisi JS -->
-            </p>
+               </p>
             
-            <!-- Form Input -->
             <form id="debtForm" onsubmit="calculateStrategies(event)" class="space-y-6">
                 
-                <!-- Bagian 1: Daftar Utang -->
                 <div class="bg-white rounded-lg">
                     <h2 class="section-title" id="headerDebts">1. Your Debts (List all)</h2>
-                    
-                    <div id="debtListContainer">
-                        <!-- Utang dinamis muncul di sini -->
-                    </div>
-
-                    <button type="button" onclick="addDebtInput()" id="btnAddDebt" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-secondary hover:text-secondary transition font-semibold mt-2">
+                    <div id="debtListContainer"></div>
+                    <button type="button" onclick="addDebtInput()" id="btnAddDebt" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-600 transition font-semibold mt-2">
                         + Add Another Debt
                     </button>
                 </div>
 
-                <!-- Bagian 2: Pembayaran Ekstra -->
                 <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <h2 class="text-lg font-bold text-finance-color mb-2" id="headerExtra">2. Monthly Extra Payment</h2>
+                    <h2 class="text-lg font-bold text-green-700 mb-2" id="headerExtra">2. Monthly Extra Payment</h2>
                     <div class="relative">
-                        <label for="extraPayment" class="block text-sm font-medium text-gray-700 mb-1" id="labelExtraPayment">Extra Amount</label>
-                        <input type="text" id="extraPayment" inputmode="numeric" value="500.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-finance-color focus:border-finance-color" required>
-                        <p class="input-description" id="descExtraPayment">Amount you can pay on top of total minimum payments.</p>
+                        <label for="extraPayment" class="block text-sm font-medium text-gray-700 mb-1">
+                            <span id="labelExtraPayment">Extra Amount</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                        </label>
+                        <input type="text" id="extraPayment" inputmode="numeric" value="500.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" required>
+                        <p class="text-xs text-gray-500 mt-1" id="descExtraPayment">Amount you can pay on top of total minimum payments.</p>
                     </div>
                 </div>
 
@@ -211,95 +136,110 @@
                 </button>
             </form>
 
-            <!-- Error Alert -->
             <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
                 <span id="errorText">Please complete all fields.</span>
             </div>
 
-            <!-- RESULT BOX -->
             <div id="resultBox" class="result-box mt-8 bg-white border border-gray-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2">Payoff Strategy Results</h3>
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Payoff Strategy Results</h3>
                 
-                <!-- Hasil 1: AVALANCHE -->
-                <div class="mb-8 bg-gray-50 p-5 rounded-lg border-l-4 border-highlight-avalanche">
-                    <h4 class="text-xl font-bold text-highlight-avalanche flex items-center gap-2 mb-3">
+                <div class="mb-8 bg-gray-50 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h4 class="text-xl font-bold text-orange-600 flex items-center gap-2 mb-3">
                         <span id="titleAvalanche">Avalanche (Lowest Cost)</span>
                         <span id="badgeAvalanche" class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-normal">High Interest First</span>
                     </h4>
                     <div id="resultAvalanche" class="text-gray-700 text-sm space-y-2"></div>
                 </div>
 
-                <!-- Hasil 2: SNOWBALL -->
-                <div class="mb-8 bg-gray-50 p-5 rounded-lg border-l-4 border-highlight-snowball">
-                    <h4 class="text-xl font-bold text-highlight-snowball flex items-center gap-2 mb-3">
+                <div class="mb-8 bg-gray-50 p-5 rounded-lg border-l-4 border-blue-500">
+                    <h4 class="text-xl font-bold text-blue-600 flex items-center gap-2 mb-3">
                         <span id="titleSnowball">Snowball (Psychological Win)</span>
                         <span id="badgeSnowball" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-normal">Smallest Balance First</span>
                     </h4>
                     <div id="resultSnowball" class="text-gray-700 text-sm space-y-2"></div>
                 </div>
 
-                <!-- Kesimpulan Akhir -->
-                <div class="bg-primary-dark text-white p-5 rounded-lg mb-2">
-                    <h4 class="font-bold text-lg mb-2">💡 <span id="headerConclusion">Our Recommendation</span></h4>
-                    <p id="finalConclusion" class="text-sm leading-relaxed opacity-90"></p>
+                <div class="recommendation-box mb-2">
+                    <h4 class="font-bold text-lg mb-2 flex items-center gap-2">
+                        <span>💡</span> <span id="headerConclusion">Our Recommendation</span>
+                    </h4>
+                    <p id="finalConclusion" class="text-sm leading-relaxed opacity-95"></p>
                 </div>
             </div>
             
-            <!-- EDUKASI (Konten Penjelasan) -->
             <section class="mt-10 pt-6 border-t border-gray-200 font-sans">
                 <h2 id="eduHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding the Strategies</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 gap-6 mb-6">
                     <div>
-                        <h3 class="text-lg font-bold text-highlight-avalanche mb-2">Avalanche Method</h3>
+                        <h3 class="text-lg font-bold text-orange-600 mb-2">Avalanche Method</h3>
                         <p id="eduContentAvalanche" class="text-gray-600 text-sm leading-relaxed text-justify">
-                            This method focuses on the math. You list your debts from highest interest rate to lowest. You pay minimums on everything, then throw all extra money at the debt with the highest interest rate. This saves you the most money over time.
+                            This method focuses on the math. You pay high-interest debts first.
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold text-highlight-snowball mb-2">Snowball Method</h3>
+                        <h3 class="text-lg font-bold text-blue-600 mb-2">Snowball Method</h3>
                         <p id="eduContentSnowball" class="text-gray-600 text-sm leading-relaxed text-justify">
-                            This method focuses on behavior. You list debts from smallest balance to largest. You attack the smallest debt first. When it's gone, you take that payment and apply it to the next smallest. Seeing debts disappear quickly keeps you motivated.
+                            This method focuses on behavior. You pay smallest debts first.
                         </p>
                     </div>
                 </div>
 
                 <h3 id="eduHeader2" class="text-lg font-bold text-gray-800 mb-2">Which One Should You Choose?</h3>
-                <p id="eduContentChoice" class="text-gray-600 text-sm leading-relaxed text-justify mb-6">
-                    If you are disciplined and motivated by numbers, choose Avalanche to save money. If you feel overwhelmed and need to see quick progress to stay on track, choose Snowball. The best strategy is the one you will actually stick with.
-                </p>
+                <p id="eduContentChoice" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
                 <h3 id="eduHeader3" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
-                <p id="eduContentDisclaimer" class="text-gray-600 text-sm leading-relaxed text-justify mb-6">
-                    This calculator assumes that any extra payment is applied directly to the principal balance of the target loan. Some lenders may apply extra payments to future interest unless you specify otherwise. Please contact your lender to confirm how extra payments are handled.
-                </p>
+                <p id="eduContentDisclaimer" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
             </section>
-
         </div>
     </main>
-    
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Monthly Budget" data-id="Anggaran Bulanan">Monthly Budget</h3>
+                <p class="text-xs text-gray-600" data-en="Manage 50/30/20 rule." data-id="Kelola aturan 50/30/20.">Manage 50/30/20 rule.</p>
+            </a>
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate investment growth." data-id="Hitung pertumbuhan investasi.">Calculate investment growth.</p>
+            </a>
+            <a href="../kalkulator-dpp-ppn-pph/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Tax Calculator" data-id="Kalkulator Pajak">Tax Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate VAT & Income Tax." data-id="Hitung PPN & PPh.">Calculate VAT & Income Tax.</p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../kalkulator-anggaran-bulanan/index.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Manage Your Cashflow with 50/30/20 Rule" data-id="Kelola Arus Kas dengan Aturan 50/30/20">Manage Your Cashflow with 50/30/20 Rule</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
     
     <script>
         // **********************************************
-        // KONFIGURASI BAHASA & TERJEMAHAN
+        // KONFIGURASI BAHASA & LOGIKA
         // **********************************************
         
         let currentLang = 'en';
@@ -309,8 +249,7 @@
             id: {
                 appTitle: "Kalkulator Prioritas Pelunasan Utang",
                 headerTitle: "Kalkulator Prioritas Pelunasan Utang",
-                toolSubtitle: "Jika Anda memiliki dana lebih untuk membayar angsuran di luar cicilan wajib, mana yang lebih baik: melunasi utang berbunga tinggi dulu (Avalanche) atau utang bersaldo kecil dulu (Snowball)? Hitung dan tentukan strategi terbaik Anda di sini.",
-                backToCatalogText: "Kembali ke Katalog Alat",
+                toolSubtitle: "Pilih strategi terbaik: Lunasi bunga tinggi dulu (Avalanche) atau saldo kecil dulu (Snowball)?",
                 
                 headerDebts: "1. Daftar Utang Anda",
                 btnAddDebt: "+ Tambah Utang Lain",
@@ -324,133 +263,104 @@
                 
                 headerExtra: "2. Pembayaran Ekstra Bulanan",
                 labelExtraPayment: "Dana Tambahan",
-                descExtraPayment: "Berapa uang tambahan yang bisa Anda sisihkan setiap bulan di luar total cicilan wajib?",
+                descExtraPayment: "Berapa uang tambahan yang bisa Anda sisihkan di luar cicilan wajib?",
+                btnCalculate: "Hitung & Bandingkan",
+                errorText: "Mohon lengkapi data utang dengan benar.",
                 
-                btnCalculate: "Hitung & Bandingkan Strategi",
-                errorText: "Mohon lengkapi semua data utang dengan benar.",
-                
-                resultHeader: "Hasil Analisis Strategi",
+                resultHeader: "Hasil Analisis",
                 titleAvalanche: "Strategi Avalanche (Hemat Bunga)",
                 badgeAvalanche: "Fokus Bunga Tinggi",
                 titleSnowball: "Strategi Snowball (Menang Psikologis)",
                 badgeSnowball: "Fokus Saldo Kecil",
                 headerConclusion: "Rekomendasi Kami",
                 
-                // Narasi Hasil - Bagian Atas (List & Timeline)
-                narrativeIntro: "Prioritas pembayaran ekstra diarahkan sepenuhnya ke",
-                narrativeTargetSnow: "Utang dengan Saldo Terkecil",
-                narrativeTargetAva: "Utang dengan Bunga Tertinggi",
+                narrativeIntro: "Prioritas pembayaran ekstra diarahkan ke",
+                narrativeTargetSnow: "Utang Saldo Terkecil",
+                narrativeTargetAva: "Utang Bunga Tertinggi",
                 txtSpecifically: "yaitu", 
                 narrativeListHeader: "Rincian Pelunasan:",
-                textPaidIn: "Lunas di bulan ke-",
-                
-                // Narasi Hasil - Bagian Bawah (Kesimpulan Bercerita)
+                textPaidIn: "Lunas bulan ke-",
+  
                 resLabelKesimpulan: "Kesimpulan:",
-                // Template Avalanche: 
-                resTextIntro: "Dengan membayar angsuran lebih banyak <b>[EXTRA]</b> setiap bulannya untuk angsuran bulanan <b>[NAME]</b> terlebih dahulu yang memiliki [DESC] (<b>[VALUE]</b>), Anda mendapatkan keuntungan:",
-                resDescAva: "tingkat bunga lebih mahal",
-                resDescSnow: "sisa saldo utang lebih sedikit",
-                resPoint1: "1. Penghematan biaya bunga <b>[SAVINGS]</b> dibandingkan jika hanya membayar angsuran <b>[NAME]</b> sebesar angsuran wajib saja.",
-                resPoint2: "2. Semua utang telah terselesaikan dalam waktu <b>[TIME]</b>.",
+                resTextIntro: "Dengan membayar ekstra <b>[EXTRA]</b> untuk <b>[NAME]</b> ([DESC]: <b>[VALUE]</b>):",
+                resDescAva: "bunga tertinggi",
+                resDescSnow: "saldo terkecil",
+                resPoint1: "1. Hemat bunga <b>[SAVINGS]</b> dibanding bayar minimum.",
+                resPoint2: "2. Bebas utang dalam <b>[TIME]</b>.",
                 resTextForever: "Tidak akan lunas (Bunga > Cicilan)",
 
-                // Kesimpulan Logika
                 conclIdentical: "Hasil kedua strategi <b>HAMPIR IDENTIK</b>. <br><br><b>Saran Kami:</b> Pilih <b>Snowball</b>. Karena hitungan uangnya sama, lebih baik ambil keuntungan psikologis di mana utang kecil cepat lunas, membuat Anda lebih semangat.",
-                conclAvaWin: "Strategi <b>Avalanche</b> lebih hemat uang sebesar <b>[AMOUNT]</b> dibanding Snowball. <br><br><b>Saran Kami:</b> Pilih Avalanche untuk berhemat maksimal. Namun jika Anda butuh motivasi cepat, Snowball tetap oke karena selisihnya biaya ketenangan pikiran.",
-                conclSnowWin: "Uniknya, pada kasus Anda, <b>Snowball</b> justru lebih menguntungkan! Pilih Snowball tanpa ragu.",
-                conclForever: "PERINGATAN: Berdasarkan data yang dimasukkan, utang Anda mungkin tidak akan lunas karena bunga lebih besar dari cicilan. Silakan cek kembali input Anda.",
+                conclAvaWin: "Strategi <b>Avalanche</b> lebih hemat uang sebesar <b>[AMOUNT]</b> dibanding Snowball. <br><br><b>Saran Kami:</b> Pilih Avalanche untuk berhemat maksimal.",
+                conclSnowWin: "Uniknya, pada kasus Anda, <b>Snowball</b> lebih menguntungkan! Pilih Snowball.",
+                conclForever: "PERINGATAN: Utang Anda mungkin tidak akan lunas karena bunga lebih besar dari cicilan.",
                 
-                // Edukasi
-                eduHeader1: "Memahami Kedua Strategi",
-                eduContentAvalanche: "Metode ini fokus pada matematika. Anda mengurutkan utang dari bunga tertinggi ke terendah. Bayar ekstra ke utang dengan bunga paling 'jahat' dulu. Ini cara paling efisien untuk menghemat uang.",
-                eduContentSnowball: "Metode ini fokus pada perilaku manusia. Anda mengurutkan utang dari saldo terkecil. Serang 'musuh' paling lemah dulu. Saat satu lunas, Anda merasa menang dan makin semangat menyerang utang berikutnya.",
+                eduHeader1: "Memahami Strategi",
+                eduContentAvalanche: "Fokus matematika. Urutkan dari bunga tertinggi. Bayar ekstra ke utang bunga paling 'jahat'. Paling hemat uang.",
+                eduContentSnowball: "Fokus psikologi. Urutkan dari saldo terkecil. Serang yang kecil dulu agar cepat lunas dan semangat naik.",
                 eduHeader2: "Mana yang Harus Dipilih?",
-                eduContentChoice: "Jika Anda disiplin dan dimotivasi angka, pilih Avalanche. Jika Anda merasa kewalahan dan butuh bukti kemajuan cepat agar tidak putus asa, pilih Snowball. Strategi terbaik adalah strategi yang konsisten Anda jalankan.",
+                eduContentChoice: "Disiplin angka? Pilih Avalanche. Butuh motivasi cepat? Pilih Snowball. Yang terbaik adalah yang konsisten Anda jalankan.",
                 eduHeader3: "Penting (Disclaimer)",
-                eduContentDisclaimer: "Kalkulator ini berasumsi pembayaran ekstra Anda mengurangi pokok utang (principal reduction). Pastikan Anda menghubungi bank/pemberi pinjaman untuk konfirmasi bahwa dana lebih dialokasikan ke pokok, bukan bunga di muka.",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
+                eduContentDisclaimer: "Kalkulator berasumsi pembayaran ekstra mengurangi pokok utang (principal reduction). Konfirmasikan ke bank Anda."
             },
             en: {
                 appTitle: "Debt Payoff Priority Calculator",
                 headerTitle: "Debt Payoff Priority Calculator",
-                toolSubtitle: "If you have extra cash to pay above your minimums, which is better: paying off high-interest debt first (Avalanche) or the smallest balance first (Snowball)? Calculate and decide your best strategy here.",
-                backToCatalogText: "Back to Tools Catalog",
+                toolSubtitle: "Determine the best strategy: Pay high-interest debt first (Avalanche) or smallest balance first (Snowball)?",
                 
-                headerDebts: "1. Your Debts (List all)",
+                headerDebts: "1. Your Debts",
                 btnAddDebt: "+ Add Another Debt",
                 lblDebtName: "DEBT NAME",
-                phDebtName: "Ex: Credit Card / Loan",
-                lblBalance: "REMAINING BALANCE",
-                lblMinPay: "MINIMUM PAYMENT",
-                lblTerm: "REMAINING MONTHS",
+                phDebtName: "Ex: Credit Card",
+                lblBalance: "BALANCE",
+                lblMinPay: "MIN PAYMENT",
+                lblTerm: "MONTHS LEFT",
                 lblRateDisplay: "Implied Rate:",
                 btnDelete: "Remove",
                 
                 headerExtra: "2. Monthly Extra Payment",
                 labelExtraPayment: "Extra Amount",
-                descExtraPayment: "How much extra can you pay monthly on top of your total minimums?",
+                descExtraPayment: "How much extra can you pay monthly?",
+                btnCalculate: "Calculate",
+                errorText: "Please complete all fields.",
                 
-                btnCalculate: "Calculate & Compare",
-                errorText: "Please complete all debt information correctly.",
-                
-                resultHeader: "Strategy Analysis Results",
-                titleAvalanche: "Avalanche Strategy (Lowest Cost)",
+                resultHeader: "Analysis Results",
+                titleAvalanche: "Avalanche (Lowest Cost)",
                 badgeAvalanche: "High Interest First",
-                titleSnowball: "Snowball Strategy (Psychological Win)",
+                titleSnowball: "Snowball (Psychological Win)",
                 badgeSnowball: "Smallest Balance First",
                 headerConclusion: "Our Recommendation",
                 
-                // Narasi Hasil - Top (List)
-                narrativeIntro: "Extra payments are prioritized towards the",
-                narrativeTargetSnow: "Debt with Smallest Balance",
-                narrativeTargetAva: "Debt with Highest Interest",
+                narrativeIntro: "Extra payments prioritized to",
+                narrativeTargetSnow: "Smallest Balance",
+                narrativeTargetAva: "Highest Interest",
                 txtSpecifically: "specifically", 
-                narrativeListHeader: "Payoff Timeline:",
-                textPaidIn: "Paid off in month",
-                
-                // Narasi Hasil - Bottom (Narrative Conclusion)
+                narrativeListHeader: "Timeline:",
+                textPaidIn: "Paid in month",
+        
                 resLabelKesimpulan: "Conclusion:",
-                resTextIntro: "By paying an extra <b>[EXTRA]</b> monthly towards <b>[NAME]</b> first, which has the [DESC] (<b>[VALUE]</b>), you gain these benefits:",
-                resDescAva: "highest interest rate",
-                resDescSnow: "lowest remaining balance",
-                resPoint1: "1. Interest savings of <b>[SAVINGS]</b> compared to paying just the minimum on <b>[NAME]</b>.",
-                resPoint2: "2. All debts paid off in <b>[TIME]</b>.",
-                resTextForever: "Will not pay off (Interest > Payment)",
+                resTextIntro: "By paying extra <b>[EXTRA]</b> towards <b>[NAME]</b> ([DESC]: <b>[VALUE]</b>):",
+                resDescAva: "highest rate",
+                resDescSnow: "lowest balance",
+                resPoint1: "1. Save <b>[SAVINGS]</b> in interest.",
+                resPoint2: "2. Debt free in <b>[TIME]</b>.",
+                resTextForever: "Will not pay off",
                 
-                // Kesimpulan Logika
-                conclIdentical: "The results are <b>NEARLY IDENTICAL</b>. <br><br><b>Our Advice:</b> Choose <b>Snowball</b>. Since the math is the same, take the psychological win of seeing small debts vanish quickly to keep you motivated.",
-                conclAvaWin: "<b>Avalanche</b> saves you <b>[AMOUNT]</b> more than Snowball. <br><br><b>Our Advice:</b> Choose Avalanche for maximum savings. However, if you need quick wins to stay motivated, Snowball is still a valid choice.",
-                conclSnowWin: "Interestingly, in your specific case, <b>Snowball</b> is mathematically better! Choose Snowball without hesitation.",
-                conclForever: "WARNING: Based on your inputs, it seems your debt may never be paid off because the interest exceeds your payments. Please check your numbers.",
+                conclIdentical: "Results are <b>NEARLY IDENTICAL</b>. <br><br><b>Advice:</b> Choose <b>Snowball</b> for the psychological win of seeing debts vanish quickly.",
+                conclAvaWin: "<b>Avalanche</b> saves you <b>[AMOUNT]</b> more. <br><br><b>Advice:</b> Choose Avalanche for maximum savings.",
+                conclSnowWin: "<b>Snowball</b> is mathematically better in this case! Choose Snowball.",
+                conclForever: "WARNING: Interest exceeds payments. Debt may never be paid off.",
                 
-                // Edukasi
-                eduHeader1: "Understanding the Strategies",
-                eduContentAvalanche: "This method focuses on the math. You list your debts from highest interest rate to lowest. You pay minimums on everything, then throw all extra money at the debt with the highest interest rate. This saves you the most money over time.",
-                eduContentSnowball: "This method focuses on behavior. You list debts from smallest balance to largest. You attack the smallest debt first. When it's gone, you take that payment and apply it to the next smallest. Seeing debts disappear quickly keeps you motivated.",
-                eduHeader2: "Which One Should You Choose?",
-                eduContentChoice: "If you are disciplined and motivated by numbers, choose Avalanche to save money. If you feel overwhelmed and need to see quick progress to stay on track, choose Snowball. The best strategy is the one you will actually stick with.",
-                eduHeader3: "Important Disclaimer",
-                eduContentDisclaimer: "This calculator assumes that any extra payment is applied directly to the principal balance of the target loan. Some lenders may apply extra payments to future interest unless you specify otherwise. Please contact your lender to confirm how extra payments are handled.",
-                
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
+                eduHeader1: "Understanding Strategies",
+                eduContentAvalanche: "Math-focused. Pay highest interest first to save the most money over time.",
+                eduContentSnowball: "Behavior-focused. Pay smallest balance first to build momentum and motivation.",
+                eduHeader2: "Which to Choose?",
+                eduContentChoice: "Disciplined? Avalanche. Need motivation? Snowball. The best plan is the one you stick to.",
+                eduHeader3: "Disclaimer",
+                eduContentDisclaimer: "Assumes extra payments go to principal. Confirm with your lender."
             }
         };
 
-        // **********************************************
-        // FUNGSI UTILITY & FORMATTING
-        // **********************************************
-
+        // Utility Functions
         function formatNumber(amount) {
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
             return new Intl.NumberFormat(locale).format(amount);
@@ -458,78 +368,58 @@
 
         function cleanInput(formattedValue) {
             if (!formattedValue) return 0;
-            // Perbaikan: Hapus titik (ribuan), lalu ganti koma jadi titik (desimal)
-            // Ini penting untuk format angka Indonesia 1.500.000,00
             let clean = formattedValue.toString().replace(/\./g, ''); 
             clean = clean.replace(/,/g, '.');
             return parseFloat(clean) || parseFloat(formattedValue.toString().replace(/\D/g, '')) || 0;
         }
         
         function formatInput(inputElement) {
-            let rawValue = inputElement.value.replace(/\D/g, ''); 
+            let rawValue = inputElement.value.replace(/\D/g, '');
             if (rawValue) {
                 inputElement.value = new Intl.NumberFormat('id-ID').format(parseInt(rawValue, 10));
             } else {
-                inputElement.value = ''; 
+                inputElement.value = '';
             }
         }
 
         function formatBulanTahun(totalMonths) {
-            const t = translations[currentLang];
             const textMonth = currentLang === 'id' ? 'Bulan' : 'Months';
             const textYear = currentLang === 'id' ? 'Tahun' : 'Years';
-            
-            // Batas 300 tahun (3600 bulan) sebagai indikator infinite
-            if (totalMonths >= 3600) {
-                return currentLang === 'id' ? "> 300 Tahun" : "> 300 Years";
-            }
-
+            if (totalMonths >= 3600) return currentLang === 'id' ? "> 300 Tahun" : "> 300 Years";
             if (totalMonths < 12) return `${totalMonths} ${textMonth}`;
             const years = Math.floor(totalMonths / 12);
             const months = totalMonths % 12;
-            if (months === 0) return `${years} ${textYear}`;
-            return `${years} ${textYear} ${months} ${textMonth}`;
+            return months === 0 ? `${years} ${textYear}` : `${years} ${textYear} ${months} ${textMonth}`;
         }
 
-        // **********************************************
-        // LOGIKA INTI (CORE LOGIC)
-        // **********************************************
-
+        // Calculation Logic
         function calculateImpliedRate(balance, payment, months) {
             if (months <= 0 || balance <= 0 || payment <= 0) return 0;
             if (payment * months <= balance) return 0;
-
-            let low = 0;
-            let high = 1; 
-            let guess = 0.05;
-            const tolerance = 0.000001;
-            
+            let low = 0, high = 1, guess = 0.05;
             for (let i = 0; i < 100; i++) {
                 guess = (low + high) / 2;
                 if (guess === 0) break;
                 let factor = (1 - Math.pow(1 + guess, -months)) / guess;
-                let calculatedPV = payment * factor;
-                if (Math.abs(calculatedPV - balance) < tolerance * balance) break;
-                if (calculatedPV > balance) low = guess;
-                else high = guess;
+                let calcPV = payment * factor;
+                if (Math.abs(calcPV - balance) < 0.000001 * balance) break;
+                if (calcPV > balance) low = guess; else high = guess;
             }
-            return (guess * 12) * 100; 
+            return (guess * 12) * 100;
         }
 
         function calculateRowRate(id) {
             const row = document.getElementById(`debt-row-${id}`);
             if (!row) return;
-
             const balance = cleanInput(row.querySelector('.debt-balance').value);
             const minPayment = cleanInput(row.querySelector('.debt-min').value);
             const term = parseInt(row.querySelector('.debt-term').value) || 0;
             const displayEl = document.getElementById(`rate-display-${id}`);
-
             if (balance > 0 && minPayment > 0 && term > 0) {
                  const rate = calculateImpliedRate(balance, minPayment, term);
                  if (rate > 0 && rate < 1000) {
                      displayEl.textContent = rate.toFixed(2) + "% p.a.";
-                     displayEl.className = "font-bold text-finance-color";
+                     displayEl.className = "font-bold text-green-600";
                  } else {
                      displayEl.textContent = "Invalid";
                      displayEl.className = "font-bold text-red-500";
@@ -544,7 +434,6 @@
             debtCount++;
             const container = document.getElementById('debtListContainer');
             const t = translations[currentLang];
-            
             const div = document.createElement('div');
             div.className = 'debt-card';
             div.id = `debt-row-${debtCount}`;
@@ -553,26 +442,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1 lbl-name">${t.lblDebtName}</label>
-                        <input type="text" class="debt-name w-full p-2 border border-gray-300 rounded focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="${t.phDebtName}" value="${name}">
+                        <input type="text" class="debt-name w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" placeholder="${t.phDebtName}" value="${name}">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1 lbl-balance">${t.lblBalance}</label>
-                        <input type="text" class="debt-balance w-full p-2 border border-gray-300 rounded outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" oninput="formatInput(this); calculateRowRate(${debtCount})" placeholder="0" value="${balance}">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1"><span class="lbl-balance">${t.lblBalance}</span> <span class="text-gray-400 font-normal">(Rp/$)</span></label>
+                        <input type="text" class="debt-balance w-full p-2 border border-gray-300 rounded outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" oninput="formatInput(this); calculateRowRate(${debtCount})" placeholder="0" value="${balance}">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1 lbl-minpay">${t.lblMinPay}</label>
-                        <input type="text" class="debt-min w-full p-2 border border-gray-300 rounded outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" oninput="formatInput(this); calculateRowRate(${debtCount})" placeholder="0" value="${payment}">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1"><span class="lbl-minpay">${t.lblMinPay}</span> <span class="text-gray-400 font-normal">(Rp/$)</span></label>
+                        <input type="text" class="debt-min w-full p-2 border border-gray-300 rounded outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" oninput="formatInput(this); calculateRowRate(${debtCount})" placeholder="0" value="${payment}">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1 lbl-term">${t.lblTerm}</label>
-                        <input type="number" class="debt-term w-full p-2 border border-gray-300 rounded outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" oninput="calculateRowRate(${debtCount})" placeholder="0" value="${term}">
-                        <p class="text-xs mt-1 text-right">
-                            <span class="lbl-ratedisplay text-gray-500">${t.lblRateDisplay}</span> 
-                            <span id="rate-display-${debtCount}" class="text-gray-400">-</span>
-                        </p>
+                        <input type="number" class="debt-term w-full p-2 border border-gray-300 rounded outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" oninput="calculateRowRate(${debtCount})" placeholder="0" value="${term}">
+                        <p class="text-xs mt-1 text-right"><span class="lbl-ratedisplay text-gray-500">${t.lblRateDisplay}</span> <span id="rate-display-${debtCount}" class="text-gray-400">-</span></p>
                     </div>
-                </div>
-            `;
+                </div>`;
             container.appendChild(div);
             if(balance && payment && term) calculateRowRate(debtCount);
         }
@@ -584,297 +469,154 @@
 
         function calculateStrategies(event) {
             if(event) event.preventDefault();
-
             const debtRows = document.querySelectorAll('.debt-card');
             let debts = [];
             let hasError = false;
             const t = translations[currentLang];
-
+            
             debtRows.forEach(row => {
-                const nameInput = row.querySelector('.debt-name').value;
-                const name = nameInput.trim() !== '' ? nameInput : (currentLang === 'id' ? 'Utang Tanpa Nama' : 'Unnamed Debt');
-                
+                const name = row.querySelector('.debt-name').value || (currentLang === 'id' ? 'Utang' : 'Debt');
                 const balance = cleanInput(row.querySelector('.debt-balance').value);
                 const minPayment = cleanInput(row.querySelector('.debt-min').value);
                 const term = parseInt(row.querySelector('.debt-term').value) || 0;
-
                 if (balance > 0 && minPayment > 0 && term > 0) {
-                    const impliedRate = calculateImpliedRate(balance, minPayment, term);
-                    debts.push({ name, balance, minPayment, term, rate: impliedRate, originalBalance: balance });
-                } else if (balance > 0 || minPayment > 0 || term > 0) {
-                    hasError = true;
-                }
+                    debts.push({ name, balance, minPayment, term, rate: calculateImpliedRate(balance, minPayment, term), originalBalance: balance });
+                } else if (balance > 0 || minPayment > 0 || term > 0) hasError = true;
             });
-
-            const extraPaymentInput = cleanInput(document.getElementById('extraPayment').value);
 
             if (debts.length === 0 || hasError) {
                 document.getElementById('errorAlert').classList.remove('hidden');
-                document.getElementById('errorText').textContent = t.errorText;
                 document.getElementById('resultBox').classList.remove('visible');
                 return;
             }
             document.getElementById('errorAlert').classList.add('hidden');
+            
+            const extra = cleanInput(document.getElementById('extraPayment').value);
+            const baseline = simulatePayoff(debts.map(d=>({...d})), 0);
+            
+            const snowDebts = debts.map(d=>({...d})).sort((a,b) => a.balance - b.balance || b.rate - a.rate);
+            const snowRes = simulatePayoff(snowDebts, extra);
+            
+            const avaDebts = debts.map(d=>({...d})).sort((a,b) => b.rate - a.rate || a.balance - b.balance);
+            const avaRes = simulatePayoff(avaDebts, extra);
 
-            const baselineResult = simulatePayoff(debts.map(d => ({...d})), 0);
-            // Snowball: Saldo ASC
-            const snowballDebts = debts.map(d => ({...d})).sort((a, b) => a.balance - b.balance || b.rate - a.rate);
-            const snowballResult = simulatePayoff(snowballDebts, extraPaymentInput);
-            // Avalanche: Rate DESC
-            const avalancheDebts = debts.map(d => ({...d})).sort((a, b) => b.rate - a.rate || a.balance - b.balance);
-            const avalancheResult = simulatePayoff(avalancheDebts, extraPaymentInput);
-
-            // Pass the TARGET debt data for narrative
-            const snowballTarget = snowballDebts[0];
-            const avalancheTarget = avalancheDebts[0];
-
-            renderNarrativeResult('Avalanche', avalancheResult, baselineResult, avalancheTarget, extraPaymentInput);
-            renderNarrativeResult('Snowball', snowballResult, baselineResult, snowballTarget, extraPaymentInput);
-            renderConclusion(snowballResult, avalancheResult);
+            renderNarrative('Avalanche', avaRes, baseline, avaDebts[0], extra);
+            renderNarrative('Snowball', snowRes, baseline, snowDebts[0], extra);
+            renderConclusion(snowRes, avaRes);
             
             document.getElementById('resultBox').classList.add('visible');
         }
 
-        function simulatePayoff(debts, extraPayment) {
-            let initialTotalMin = debts.reduce((sum, d) => sum + d.minPayment, 0);
-            let monthlyCommitment = initialTotalMin + extraPayment;
-            let currentDebts = debts.map(d => ({
-                ...d, currentBalance: d.balance, monthlyRate: d.rate / 100 / 12, isPaid: false
-            }));
-
-            let months = 0, totalInterest = 0, payoffDetails = [];
-
-            // UPDATE LOGIC: Loop berhenti saat semua status isPaid = TRUE
-            while (currentDebts.some(d => !d.isPaid) && months < 3600) {
+        function simulatePayoff(debts, extra) {
+            let totalMin = debts.reduce((sum,d) => sum + d.minPayment, 0);
+            let commitment = totalMin + extra;
+            let current = debts.map(d => ({...d, cur: d.balance, mRate: d.rate/1200, isPaid: false}));
+            let months = 0, interest = 0, details = [];
+            
+            while (current.some(d => !d.isPaid) && months < 3600) {
                 months++;
-                let availableCash = monthlyCommitment;
-
-                // Charge Interest
-                currentDebts.forEach(d => {
-                    if (!d.isPaid) {
-                        let interest = d.currentBalance * d.monthlyRate;
-                        d.currentBalance += interest;
-                        totalInterest += interest;
-                    }
-                });
-                // Pay Minimums
-                currentDebts.forEach(d => {
-                    if (!d.isPaid) {
-                        let minPay = Math.min(d.currentBalance, d.minPayment);
-                        d.currentBalance -= minPay;
-                        availableCash -= minPay;
-                    }
-                });
-                // Pay Extra (Priority)
-                for (let d of currentDebts) {
-                    if (!d.isPaid && availableCash > 0) {
-                        let extra = Math.min(d.currentBalance, availableCash);
-                        d.currentBalance -= extra;
-                        availableCash -= extra;
-                    }
-                }
-                // Check Paid (FIXED: Force balance to 0)
-                currentDebts.forEach(d => {
-                    if (!d.isPaid && d.currentBalance <= 100) {
-                        d.isPaid = true;
-                        d.currentBalance = 0; // KILL THE DEBT COMPLETELY
-                        payoffDetails.push({ name: d.name, month: months });
-                    }
-                });
+                let cash = commitment;
+                current.forEach(d => { if(!d.isPaid) { let int = d.cur * d.mRate; d.cur += int; interest += int; }});
+                current.forEach(d => { if(!d.isPaid) { let pay = Math.min(d.cur, d.minPayment); d.cur -= pay; cash -= pay; }});
+                for(let d of current) { if(!d.isPaid && cash > 0) { let pay = Math.min(d.cur, cash); d.cur -= pay; cash -= pay; }}
+                current.forEach(d => { if(!d.isPaid && d.cur <= 100) { d.isPaid = true; d.cur = 0; details.push({name:d.name, month:months}); }});
             }
-            
-            // Cek apakah masih ada utang tersisa setelah loop (Indikasi Infinite/Gagal Bayar)
-            const isFullyPaid = !currentDebts.some(d => !d.isPaid);
-            
-            return { totalMonths: months, totalInterest: totalInterest, details: payoffDetails, isFullyPaid: isFullyPaid };
+            return { totalMonths: months, totalInterest: interest, details, isFullyPaid: !current.some(d => !d.isPaid) };
         }
 
-        function renderNarrativeResult(strategyType, result, baseline, targetDebt, extraPayment) {
-            const container = document.getElementById(`result${strategyType}`);
-            const savings = baseline.totalInterest - result.totalInterest;
+        function renderNarrative(type, res, base, target, extra) {
             const t = translations[currentLang];
+            const container = document.getElementById(`result${type}`);
+            const savings = base.totalInterest - res.totalInterest;
+            const targetText = type === 'Snowball' ? t.narrativeTargetSnow : t.narrativeTargetAva;
+            const targetVal = type === 'Avalanche' ? target.rate.toFixed(2)+"%" : formatNumber(target.originalBalance);
+            const desc = type === 'Avalanche' ? t.resDescAva : t.resDescSnow;
+            const timeText = res.isFullyPaid ? formatBulanTahun(res.totalMonths) : `<span class="text-red-500">${t.resTextForever}</span>`;
+
+            let html = `<p>${t.narrativeIntro} <b>${targetText}</b> (${t.txtSpecifically}: ${target.name}).</p>`;
+            html += `<p class="font-bold text-xs text-gray-500 mt-2 uppercase">${t.narrativeListHeader}</p><ul class="list-disc ml-5 text-sm mb-3">`;
+            res.details.forEach(d => html += `<li><b>${d.name}:</b> ${t.textPaidIn} <b>${d.month}</b>.</li>`);
+            html += `</ul>`;
             
-            const targetText = strategyType === 'Snowball' ? t.narrativeTargetSnow : t.narrativeTargetAva;
-            const specificallyText = ` (${t.txtSpecifically}: ${targetDebt.name})`;
-
-            // BAGIAN 1: LIST TIMELINE
-            let listHtml = `
-                <p>${t.narrativeIntro} <b>${targetText}${specificallyText}</b>.</p>
-                <p class="font-semibold mt-2 text-xs text-gray-500 uppercase">${t.narrativeListHeader}</p>
-                <ul class="list-disc ml-5 space-y-1 mt-1 mb-4">
-            `;
-            result.details.forEach(item => {
-                listHtml += `<li><b>${item.name}:</b> ${t.textPaidIn} <b>${item.month}</b> (${formatBulanTahun(item.month)}).</li>`;
-            });
-            listHtml += `</ul>`;
-
-            // BAGIAN 2: KESIMPULAN NARATIF
-            const name = targetDebt.name;
-            const desc = strategyType === 'Avalanche' ? t.resDescAva : t.resDescSnow;
-            const value = strategyType === 'Avalanche' 
-                ? targetDebt.rate.toFixed(2) + "%" 
-                : formatNumber(targetDebt.originalBalance);
-            const extra = formatNumber(extraPayment);
-            const totalSavings = formatNumber(Math.max(0, Math.round(savings)));
-            
-            // Logika Tampilan Waktu (Jika Infinite)
-            let totalTimeText = "";
-            if (result.isFullyPaid) {
-                totalTimeText = formatBulanTahun(result.totalMonths);
-            } else {
-                totalTimeText = `<span class="text-red-600 font-bold">${t.resTextForever}</span>`;
-            }
-
-            const intro = t.resTextIntro
-                .replace('[EXTRA]', extra)
-                .replace('[NAME]', name)
-                .replace('[DESC]', desc)
-                .replace('[VALUE]', value);
-            
-            const point1 = t.resPoint1
-                .replace('[SAVINGS]', totalSavings)
-                .replace('[NAME]', name);
-
-            const point2 = t.resPoint2
-                .replace('[TIME]', totalTimeText);
-
-            let conclusionHtml = `
-                <div class="mt-4 pt-4 border-t border-gray-200">
-                    <p class="font-bold text-gray-800 mb-2">${t.resLabelKesimpulan}</p>
-                    <p class="mb-3 text-sm text-gray-700 text-justify leading-relaxed">${intro}</p>
-                    <ul class="space-y-2 text-sm pl-2 text-gray-700">
-                        <li class="flex items-start gap-2">
-                            <span>${point1}</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span>${point2}</span>
-                        </li>
-                    </ul>
-                </div>
-            `;
-            
-            container.innerHTML = listHtml + conclusionHtml;
+            const intro = t.resTextIntro.replace('[EXTRA]', formatNumber(extra)).replace('[NAME]', target.name).replace('[DESC]', desc).replace('[VALUE]', targetVal);
+            html += `<div class="mt-3 pt-3 border-t border-gray-200 text-sm space-y-1">
+                <p>${intro}</p>
+                <p>✅ ${t.resPoint1.replace('[SAVINGS]', formatNumber(Math.max(0, Math.round(savings))))}</p>
+                <p>✅ ${t.resPoint2.replace('[TIME]', timeText)}</p>
+            </div>`;
+            container.innerHTML = html;
         }
 
-        function renderConclusion(snowball, avalanche) {
+        function renderConclusion(snow, ava) {
             const el = document.getElementById('finalConclusion');
             const t = translations[currentLang];
             
-            // Cek Infinite dulu
-            if (!snowball.isFullyPaid || !avalanche.isFullyPaid) {
+            if (!snow.isFullyPaid || !ava.isFullyPaid) {
                 el.innerHTML = t.conclForever;
-                el.className = "text-sm leading-relaxed font-bold text-yellow-300";
+                el.className = "text-sm leading-relaxed font-bold text-yellow-300"; 
                 return;
             }
 
-            const diffInterest = Math.abs(avalanche.totalInterest - snowball.totalInterest);
-            let text = "";
-            if (diffInterest < 1000) {
-                 text = t.conclIdentical;
-            } else if (avalanche.totalInterest < snowball.totalInterest) {
-                text = t.conclAvaWin.replace('[AMOUNT]', formatNumber(Math.round(diffInterest)));
+            const diff = Math.abs(ava.totalInterest - snow.totalInterest);
+            if (diff < 1000) {
+                el.innerHTML = t.conclIdentical;
+            } else if (ava.totalInterest < snow.totalInterest) {
+                el.innerHTML = t.conclAvaWin.replace('[AMOUNT]', formatNumber(Math.round(diff)));
             } else {
-                text = t.conclSnowWin;
+                el.innerHTML = t.conclSnowWin;
             }
-            el.innerHTML = text;
-            el.className = "text-sm leading-relaxed opacity-90";
+            // Reset text color (Opacity 95, white dari parent container)
+            el.className = "text-sm leading-relaxed opacity-95";
         }
-
-        // **********************************************
-        // SET LANGUAGE
-        // **********************************************
 
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
             
-            // UI State
-            const switcher = document.getElementById('languageSwitcher');
-            switcher.classList.remove('lang-en', 'lang-id');
-            switcher.classList.add(`lang-${lang}`);
-
-            // Header & Meta
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
+            // Basic Text Updates
+            ['appTitle', 'headerTitle', 'headerDebts', 'btnAddDebt', 'headerExtra', 'labelExtraPayment', 'descExtraPayment', 
+             'btnCalculate', 'errorText', 'resultHeader', 'titleAvalanche', 'badgeAvalanche', 'titleSnowball', 'badgeSnowball', 
+             'headerConclusion', 'eduHeader1', 'eduContentAvalanche', 'eduContentSnowball', 'eduHeader2', 'eduContentChoice', 
+             'eduHeader3', 'eduContentDisclaimer'].forEach(id => {
+                 const el = document.getElementById(id);
+                 if(el) el.textContent = t[id];
+            });
             document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
             
-            // Form Labels
-            document.getElementById('headerDebts').textContent = t.headerDebts;
-            document.getElementById('btnAddDebt').textContent = t.btnAddDebt;
-            document.getElementById('headerExtra').textContent = t.headerExtra;
-            document.getElementById('labelExtraPayment').textContent = t.labelExtraPayment;
-            document.getElementById('descExtraPayment').textContent = t.descExtraPayment;
-            document.getElementById('btnCalculate').textContent = t.btnCalculate;
-            document.getElementById('errorText').textContent = t.errorText;
+            document.querySelectorAll('.lbl-name').forEach(e => e.textContent = t.lblDebtName);
+            document.querySelectorAll('.debt-name').forEach(e => e.placeholder = t.phDebtName);
+            document.querySelectorAll('.lbl-balance').forEach(e => e.textContent = t.lblBalance);
+            document.querySelectorAll('.lbl-minpay').forEach(e => e.textContent = t.lblMinPay);
+            document.querySelectorAll('.lbl-term').forEach(e => e.textContent = t.lblTerm);
+            document.querySelectorAll('.lbl-ratedisplay').forEach(e => e.textContent = t.lblRateDisplay);
+            document.querySelectorAll('.delete-btn').forEach(e => e.textContent = t.btnDelete);
 
-            // Dynamic Inputs Update
-            document.querySelectorAll('.lbl-name').forEach(el => el.textContent = t.lblDebtName);
-            document.querySelectorAll('.debt-name').forEach(el => el.placeholder = t.phDebtName);
-            document.querySelectorAll('.lbl-balance').forEach(el => el.textContent = t.lblBalance);
-            document.querySelectorAll('.lbl-minpay').forEach(el => el.textContent = t.lblMinPay);
-            document.querySelectorAll('.lbl-term').forEach(el => el.textContent = t.lblTerm);
-            document.querySelectorAll('.lbl-ratedisplay').forEach(el => el.textContent = t.lblRateDisplay);
-            document.querySelectorAll('.delete-btn').forEach(el => el.textContent = t.btnDelete);
+            // Related Articles & Tools
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
 
-            // Result Static Texts
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            document.getElementById('titleAvalanche').textContent = t.titleAvalanche;
-            document.getElementById('badgeAvalanche').textContent = t.badgeAvalanche;
-            document.getElementById('titleSnowball').textContent = t.titleSnowball;
-            document.getElementById('badgeSnowball').textContent = t.badgeSnowball;
-            document.getElementById('headerConclusion').textContent = t.headerConclusion;
-            
-            // Edukasi
-            document.getElementById('eduHeader1').textContent = t.eduHeader1;
-            document.getElementById('eduContentAvalanche').textContent = t.eduContentAvalanche;
-            document.getElementById('eduContentSnowball').textContent = t.eduContentSnowball;
-            document.getElementById('eduHeader2').textContent = t.eduHeader2;
-            document.getElementById('eduContentChoice').textContent = t.eduContentChoice;
-            document.getElementById('eduHeader3').textContent = t.eduHeader3;
-            document.getElementById('eduContentDisclaimer').textContent = t.eduContentDisclaimer;
-
-            // Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-
-            // Refresh Calculation if visible
-            if(document.getElementById('resultBox').classList.contains('visible')){
-                calculateStrategies({preventDefault:()=>{}});
-            }
+            if(document.getElementById('resultBox').classList.contains('visible')) calculateStrategies({preventDefault:()=>{}});
         }
-        
-        // Event Listeners
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) setLanguage(newLang);
-            }
-        });
 
-        // Init
-        window.onload = function() {
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) defaultLang = 'id';
-            
-            setLanguage(defaultLang);
-
-            // Tambah 2 utang default sebagai contoh
-            // Gunakan setTimeout agar transisi bahasa selesai dulu
-            setTimeout(() => {
-                if(currentLang === 'id') {
-                    addDebtInput("Koperasi", "5.000.000", "500.000", "12"); 
-                    addDebtInput("Kartu Kredit", "30.000.000", "1.500.000", "26"); 
-                } else {
-                    addDebtInput("Personal Loan", "5.000.000", "500.000", "12"); 
-                    addDebtInput("Credit Card", "30.000.000", "1.500.000", "26"); 
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.type === 'attributes' && m.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
                 }
-            }, 50);
-        };
+            });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(document.documentElement.lang || 'en');
+            setTimeout(() => {
+                const isId = document.documentElement.lang === 'id';
+                addDebtInput(isId?"Koperasi":"Loan", "5000000", "500000", "12");
+                addDebtInput(isId?"Kartu Kredit":"Credit Card", "30000000", "1500000", "26");
+            }, 100);
+        });
 
     </script>
 </body>
