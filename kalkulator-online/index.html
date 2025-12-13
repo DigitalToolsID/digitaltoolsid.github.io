@@ -7,8 +7,10 @@
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-online/" />
     <meta name="description" content="Kalkulator Dagang Online: Hitung cepat, cetak struk PDF, riwayat otomatis, dan fitur terbilang rupiah. Simpan URL di Home Screen untuk akses cepat."
  />
+    
+    <meta name="keywords" content="Kalkulator Dagang, Kalkulator Bisnis, Kalkulator Cetak Struk, Kalkulator PDF, Terbilang Rupiah, Online Calculator, Receipt Calculator, Business Tool">
  
-    <title id="appTitle">Business & Receipt Calculator - Digital Tools ID</title>
+    <title id="appTitle">Kalkulator Dagang Online, Cetak Struk PDF & Terbilang Rupiah - Digital Tools ID</title>
     
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
@@ -135,8 +137,17 @@
             to { transform: translateY(0);
  }
         }
-        #ios-modal > div { animation: slideInUp 0.3s ease-out;
- }
+        /* Modal Style */
+        #ios-modal > div, #non-ios-modal > div { animation: slideInUp 0.3s ease-out; }
+        
+        /* PERBAIKAN Z-INDEX DAN POSISI MODAL */
+        #ios-modal, #non-ios-modal {
+            z-index: 1000; /* Pastikan di atas semua elemen, termasuk header */
+        }
+        #non-ios-modal {
+            /* Mengganti align-items: flex-end (default di mobile) menjadi center di desktop */
+            align-items: center !important; 
+        }
         
         /* Hapus Margin Bottom dari Related Tools Section */
         #related-tools-section {
@@ -245,7 +256,7 @@
                                 To ensure easy reuse, save this tool's URL. Benefits: **Free, No hassle download, No phone memory usage, No sensitive data access, and Safe.**
                             </p>
     
-                            <button id="installBtn" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded transition" data-id="Petunjuk Simpan ke Layar Utama" data-en="Instructions to Save to Home Screen">
+                            <button id="installBtn" onclick="showInstallInstructions()" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded transition" data-id="Petunjuk Simpan ke Layar Utama" data-en="Instructions to Save to Home Screen">
                                 Instructions to Save to Home Screen
              
             </button>
@@ -301,7 +312,7 @@
      </div>
 
     </main>
-
+    
     <div id="ios-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-end sm:items-center justify-center p-4">
         <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6">
             <div class="flex justify-between items-center mb-4">
@@ -324,6 +335,28 @@
         </div>
     </div>
 
+    <div id="non-ios-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden flex items-end sm:items-center justify-center p-4">
+        <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-gray-800" id="nonIosModalTitle" data-id="Petunjuk Simpan URL" data-en="Save URL Instructions">Save URL Instructions</h3>
+             
+    <button onclick="closeNonIosModal()" class="text-gray-500 
+ text-2xl">&times;</button>
+            </div>
+            <div class="space-y-4 text-gray-600" id="nonIosModalContent" 
+                 data-id="<p>Fitur Simpan ke Layar Utama (Instalasi PWA) biasanya tersedia di menu browser Anda.</p><p>1. Cari ikon <strong>tiga titik vertikal (⋮)</strong> atau ikon <strong>Share</strong> di sudut kanan atas browser.</p><p>2. Pilih opsi <strong>'Instal Aplikasi'</strong> atau <strong>'Tambahkan ke Layar Utama'</strong>.</p><p>3. Untuk <strong>Desktop</strong>, gunakan fitur <strong>Bookmark</strong> atau cari opsi 'Instal' di Address Bar.</p>"
+                 data-en="<p>The Add to Home Screen (PWA Install) feature is usually available in your browser's main menu.</p><p>1. Look for the <strong>vertical three dots (⋮)</strong> icon or the <strong>Share</strong> icon in the top right corner of your browser.</p><p>2. Select the option <strong>'Install App'</strong> or <strong>'Add to Home Screen'</strong>.</p><p>3. For <strong>Desktop</strong>, use the <strong>Bookmark</strong> feature or look for the 'Install' option in the Address Bar.</p>">
+                <p>The Add to Home Screen (PWA Install) feature is usually available in your browser's main menu.</p>
+                <p>1. Look for the <strong>vertical three dots (⋮)</strong> icon or the <strong>Share</strong> icon in the top right corner of your browser.</p>
+                <p>2. Select the option <strong>'Install App'</strong> or <strong>'Add to Home Screen'</strong>.</p>
+                <p>3. For <strong>Desktop</strong>, use the <strong>Bookmark</strong> feature or look for the 'Install' option in the Address Bar.</p>
+            </div>
+            <button onclick="closeNonIosModal()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-xl" 
+ data-id="Tutup" data-en="Close">Close</button>
+        </div>
+    </div>
+
+
     <div id="global-footer-container"></div>
     <script src="../components.js"></script>
 
@@ -337,83 +370,73 @@
  = "";
            
             a = Math.floor(a);
- if(a === 0) return "Nol";
+            if(a === 0) return "Nol";
             if(a < 0) return "Minus " + terbilangID(Math.abs(a));
- // Logika Rekursi
-            if(a < 12) { kalimat = bilangan[a];
- } 
-            else if (a < 20) { kalimat = terbilangID(a-10) + ' Belas';
- } 
-            else if (a < 100) { kalimat = terbilangID(Math.floor(a/10)) + ' Puluh ' + terbilangID(a%10);
- } 
-            else if (a < 200) { kalimat = 'Seratus ' + terbilangID(a - 100);
- } 
-            else if (a < 1000) { kalimat = terbilangID(Math.floor(a/100)) + ' Ratus ' + terbilangID(a%100);
- } 
-            else if (a < 2000) { kalimat = 'Seribu ' + terbilangID(a - 1000);
- } 
-            else if (a < 1000000) { kalimat = terbilangID(Math.floor(a/1000)) + ' Ribu ' + terbilangID(a%1000);
- } 
-            else if (a < 1000000000) { kalimat = terbilangID(Math.floor(a/1000000)) + ' Juta ' + terbilangID(a%1000000);
- } 
-            else if (a < 1000000000000) { kalimat = terbilangID(Math.floor(a/1000000000)) + ' Milyar ' + terbilangID(a%1000000000);
- } 
-            else if (a < 1000000000000000) { kalimat = terbilangID(Math.floor(a/1000000000000)) + ' Triliun ' + terbilangID(a%1000000000000);
- }
+            // Logika Rekursi
+            if(a < 12) { kalimat = bilangan[a]; } 
+            else if (a < 20) { kalimat = terbilangID(a-10) + ' Belas'; } 
+            else if (a < 100) { kalimat = terbilangID(Math.floor(a/10)) + ' Puluh ' + terbilangID(a%10); } 
+            else if (a < 200) { kalimat = 'Seratus ' + terbilangID(a - 100); } 
+            else if (a < 1000) { kalimat = terbilangID(Math.floor(a/100)) + ' Ratus ' + terbilangID(a%100); } 
+            else if (a < 2000) { kalimat = 'Seribu ' + terbilangID(a - 1000); } 
+            else if (a < 1000000) { kalimat = terbilangID(Math.floor(a/1000)) + ' Ribu ' + terbilangID(a%1000); } 
+            else if (a < 1000000000) { kalimat = terbilangID(Math.floor(a/1000000)) + ' Juta ' + terbilangID(a%1000000); } 
+            else if (a < 1000000000000) { kalimat = terbilangID(Math.floor(a/1000000000)) + ' Milyar ' + terbilangID(a%1000000000); } 
+            else if (a < 1000000000000000) { kalimat = terbilangID(Math.floor(a/1000000000000)) + ' Triliun ' + terbilangID(a%1000000000000); }
             
             // PERBAIKAN: Bersihkan kata 'Nol' yang tidak perlu dari hasil rekursi (misal: "Puluh Nol", "Ratus Nol")
             kalimat = kalimat.replace(/\sNol/g, '');
- // Bersihkan spasi ganda dan trim
+            // Bersihkan spasi ganda dan trim
             return kalimat.replace(/\s+/g, ' ').trim();
- }
+        }
         
         function terbilangEN(n) {
             const units = ['', 'Thousand', 'Million', 'Billion', 'Trillion'];
- const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
- const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
- if (n === 0) return 'Zero';
+            const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            if (n === 0) return 'Zero';
             let i = 0;
             let result = '';
- while (n > 0) {
+            while (n > 0) {
                 if (n % 1000 !== 0) {
                     result = terbilangHundreds(n % 1000) + ' ' + units[i] + ' ' + result;
- }
+                }
                 n = Math.floor(n / 1000);
- i++;
+                i++;
             }
 
             function terbilangHundreds(num) {
                 let current = '';
- if (num % 100 < 20) {
+                if (num % 100 < 20) {
                     current += ones[num % 100];
- num = Math.floor(num / 100);
+                    num = Math.floor(num / 100);
                 } else {
                     current += ones[num % 10];
- num = Math.floor(num / 10);
+                    num = Math.floor(num / 10);
                     current = tens[num % 10] + (current.trim() === '' ? '' : ' ') + current;
- num = Math.floor(num / 10);
+                    num = Math.floor(num / 10);
                 }
                 if (num > 0) {
                     current = ones[num] + ' Hundred ' + current;
- }
+                }
                 return current.trim();
- }
+            }
 
             return result.replace(/\s+/g, ' ').trim();
- }
+        }
 
         // ==========================================
         // 2. LOGIKA UTAMA & FORMATTING
         // ==========================================
         let currentInput = '0';
- const display = document.getElementById('display');
+        const display = document.getElementById('display');
         const historyList = document.getElementById('history-list');
         let lastResultRaw = 0; 
         let currentLang = 'en';
- // FIX: Memastikan format ribuan ada di display
+        // FIX: Memastikan format ribuan ada di display
         function formatDisplayValue(raw) {
             const parts = raw.split(/([\+\-\*\/])/);
- const formattedParts = parts.map(part => {
+            const formattedParts = parts.map(part => {
                 if (['+', '-', '*', '/'].includes(part)) { return part.replace('*', '×').replace('/', '÷'); }
                 if (!isNaN(part) && part !== '') {
                     const numberParts = part.split('.');
@@ -423,9 +446,9 @@
                 }
                 return part;
             });
- // Menggunakan join tanpa spasi di sini, spasi sudah ditambahkan di HTML/CSS jika perlu
+            // Menggunakan join tanpa spasi di sini, spasi sudah ditambahkan di HTML/CSS jika perlu
             return formattedParts.join(' ');
- }
+        }
 
         function updateDisplay() {
             display.value = formatDisplayValue(currentInput);
@@ -436,28 +459,28 @@
 
         function appendToDisplay(val) {
             const operators = ['+', '-', '*', '/'];
- const lastChar = currentInput.slice(-1);
+            const lastChar = currentInput.slice(-1);
 
             if (currentInput === '0' && !operators.includes(val) && val !== '.') {
                 currentInput = val;
- } else if (operators.includes(val) && operators.includes(lastChar)) {
+            } else if (operators.includes(val) && operators.includes(lastChar)) {
                 currentInput = currentInput.slice(0, -1) + val;
- } else {
+            } else {
                 currentInput += val;
- }
+            }
             updateDisplay();
         }
 
         function clearDisplay() {
             currentInput = '0';
- lastResultRaw = 0;
+            lastResultRaw = 0;
             updateDisplay();
             document.getElementById('terbilang').textContent = currentLang === 'id' ? 'Nol Rupiah' : 'Zero Dollar';
- }
+        }
 
         function deleteLast() {
             currentInput = currentInput.toString().slice(0, -1);
- if (currentInput === '') currentInput = '0';
+            if (currentInput === '') currentInput = '0';
             updateDisplay();
         }
 
@@ -467,12 +490,12 @@
         function calculate() {
             try {
                 const expressionRaw = currentInput;
- const expressionEval = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
+                const expressionEval = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
                 
                 let result = eval(expressionEval);
- if (result !== undefined && isFinite(result)) {
+                if (result !== undefined && isFinite(result)) {
                     result = parseFloat(result.toFixed(4));
- lastResultRaw = result;
+                    lastResultRaw = result;
                     
                     addToHistory(expressionRaw, result);
                     
@@ -480,24 +503,24 @@
                     updateDisplay();
                     
                     const terbilangFunc = currentLang === 'id' ? terbilangID : terbilangEN;
- const currencyText = currentLang === 'id' ? " Rupiah" : " Dollar";
+                    const currencyText = currentLang === 'id' ? " Rupiah" : " Dollar";
                     const textTerbilang = terbilangFunc(Math.floor(result)) + currencyText;
- document.getElementById('terbilang').textContent = textTerbilang;
+                    document.getElementById('terbilang').textContent = textTerbilang;
                 } else {
                     display.value = "Error";
- currentInput = '0';
+                    currentInput = '0';
                     document.getElementById('terbilang').textContent = currentLang === 'id' ? 'Nol Rupiah (Error)' : 'Zero Dollar (Error)';
- }
+                }
             } catch (e) {
                 display.value = "Error";
- currentInput = '0';
+                currentInput = '0';
                 document.getElementById('terbilang').textContent = currentLang === 'id' ? 'Nol Rupiah (Error)' : 'Zero Dollar (Error)';
- }
+            }
         }
 
         function copyResult() {
             const resultToCopy = lastResultRaw !== 0 ?
- lastResultRaw.toString() : currentInput.replace(/[\.\,]/g, '');
+                lastResultRaw.toString() : currentInput.replace(/[\.\,]/g, '');
 
             navigator.clipboard.writeText(resultToCopy)
                 .then(() => {
@@ -507,8 +530,8 @@
                 .catch(err => {
                     alert(currentLang === 'id' ? 'Gagal menyalin: ' + err : 'Failed to copy: ' + err);
                 });
- }
-        
+        }
+
         function addToHistory(calcRaw, res) {
             const historyItem = {
                 id: Date.now(), calcRaw: calcRaw, result: res,
@@ -518,18 +541,18 @@
 
             let history = JSON.parse(localStorage.getItem('calc_history') || '[]');
             history.unshift(historyItem);
- if (history.length > 50) history.pop();
+            if (history.length > 50) history.pop();
             localStorage.setItem('calc_history', JSON.stringify(history));
             renderHistory();
         }
 
         function renderHistory() {
             const history = JSON.parse(localStorage.getItem('calc_history') || '[]');
- historyList.innerHTML = '';
+            historyList.innerHTML = '';
 
             if (history.length === 0) {
                 historyList.innerHTML = '<div class="flex flex-col items-center justify-center h-full text-gray-400 opacity-60">' + (currentLang === 'id' ? 'Belum ada data' : 'No data yet') + '</div>';
- return;
+                return;
             }
 
             history.forEach(item => {
@@ -537,27 +560,22 @@
                 div.className = "border-b border-dashed border-gray-300 pb-2 mb-2 last:border-0";
                 
                 const formattedResult = new Intl.NumberFormat('id-ID').format(item.result);
-       
-                  const formattedCalc = formatDisplayValue(item.calcRaw);
+                const formattedCalc = formatDisplayValue(item.calcRaw);
 
                 div.innerHTML = `
                     <div class="flex justify-between text-xs text-gray-400 mb-1">
                         <span>${item.date}, ${item.time}</span>
-                    
-      <button onclick="printSpecificPDF('${item.calcRaw}', ${item.result})" class="text-blue-500 hover:text-blue-700">🖨️ PDF</button>
+                        <button onclick="printSpecificPDF('${item.calcRaw}', ${item.result})" class="text-blue-500 hover:text-blue-700">🖨️ PDF</button>
                     </div>
                     <div class="text-right text-gray-600 text-sm mb-1">${formattedCalc}</div>
                     <div class="text-right font-bold text-gray-900 text-lg cursor-pointer hover:text-blue-600 transition" 
-                   
-          onclick="useResult('${item.result}')" title="${currentLang === 'id' ?
- 'Pakai angka ini' : 'Use this number'}">
+                        onclick="useResult('${item.result}')" title="${currentLang === 'id' ? 'Pakai angka ini' : 'Use this number'}">
                         = ${formattedResult}
                     </div>
                 `;
                 historyList.appendChild(div);
             });
-     
-    }
+        }
 
         function useResult(val) {
             if(currentInput === '0') currentInput = val.toString();
@@ -566,8 +584,7 @@
         }
 
         function clearHistory() {
-            if(confirm(currentLang === 'id' ? "Hapus seluruh riwayat hitungan?" : "Clear all calculation history?")) 
- {
+            if(confirm(currentLang === 'id' ? "Hapus seluruh riwayat hitungan?" : "Clear all calculation history?")) {
                 localStorage.removeItem('calc_history');
                 renderHistory();
             }
@@ -576,23 +593,22 @@
         function generateReceiptPDF(calcRaw, resultValue) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
-    
-             orientation: 'portrait', unit: 'mm', format: [80, 200]
+                orientation: 'portrait', unit: 'mm', format: [80, 200]
             });
 
             const parts = calcRaw.split(/([\+\-\*\/])/).filter(p => p.trim() !== "");
- doc.setFont("courier", "normal"); doc.setFontSize(10);
+            doc.setFont("courier", "normal"); doc.setFontSize(10);
             let yPos = 10;
             const xPosRight = 75; const pageWidth = 80;
 
             doc.setFontSize(12); doc.setFont("courier", "bold");
- doc.text(currentLang === 'id' ? "Kalkulator Dagang" : "Business Calculator", pageWidth / 2, yPos, { align: "center" });
+            doc.text(currentLang === 'id' ? "Kalkulator Dagang" : "Business Calculator", pageWidth / 2, yPos, { align: "center" });
             yPos += 5;
- doc.setFontSize(8); doc.setFont("courier", "normal");
+            doc.setFontSize(8); doc.setFont("courier", "normal");
             doc.text(new Date().toLocaleString('id-ID'), pageWidth / 2, yPos, { align: "center" });
             yPos += 5;
             doc.line(5, yPos, 75, yPos);
- yPos += 5;
+            yPos += 5;
 
             doc.setFontSize(10);
             
@@ -601,74 +617,114 @@
                 if (!isNaN(part) && part !== '') {
                     textToPrint = parseInt(part).toLocaleString('id-ID');
                 } else {
-            
-                  textToPrint = part.replace('*', 'x').replace('/', ':');
+                    textToPrint = part.replace('*', 'x').replace('/', ':');
                 }
                 
                 if (['+', '-', 'x', ':'].includes(textToPrint)) {
                     doc.text(textToPrint, xPosRight, yPos, { align: "right" });
-         
-               yPos += 5;
+                    yPos += 5;
                 } else {
                     doc.text(textToPrint, xPosRight, yPos, { align: "right" });
                     
-                    const nextPart = 
- parts[index + 1];
+                    const nextPart = parts[index + 1];
                     if(nextPart && ['+', '-', '*', '/'].includes(nextPart)) {
                         doc.text(nextPart.replace('*', 'x').replace('/', ':'), 5, yPos);
                     }
                     yPos += 5;
-  
                 }
             });
- doc.line(5, yPos, 75, yPos); yPos += 5;
+            doc.line(5, yPos, 75, yPos); yPos += 5;
 
             doc.setFont("courier", "bold"); doc.setFontSize(12);
             doc.text("= " + parseInt(resultValue).toLocaleString('id-ID'), xPosRight, yPos, { align: "right" });
- yPos += 7;
+            yPos += 7;
 
             doc.setFont("courier", "italic"); doc.setFontSize(8);
             const terbilangFunc = currentLang === 'id' ? terbilangID : terbilangEN;
- const currencyText = currentLang === 'id' ? " Rupiah" : " Dollar";
+            const currencyText = currentLang === 'id' ? " Rupiah" : " Dollar";
             const textTerbilang = terbilangFunc(Math.floor(resultValue)) + currencyText;
- const splitText = doc.splitTextToSize((currentLang === 'id' ? "Terbilang: " : "Spelled out: ") + textTerbilang, 70);
+            const splitText = doc.splitTextToSize((currentLang === 'id' ? "Terbilang: " : "Spelled out: ") + textTerbilang, 70);
             doc.text(splitText, 5, yPos);
             
             doc.save(`struk-${Date.now()}.pdf`);
- }
+        }
 
+        // PERBAIKAN: Menambahkan konfirmasi sebelum mencetak PDF
         function printCurrentPDF() {
+            if (!confirm(currentLang === 'id' ? "Apakah Anda yakin ingin mencetak/menyimpan PDF untuk hitungan ini?" : "Are you sure you want to print/save the PDF for this calculation?")) {
+                return;
+            }
+            
             const hasOperator = /[\+\-\*\/]/.test(currentInput);
- if (hasOperator) {
+            if (hasOperator) {
                 calculate();
- }
+            }
 
             const history = JSON.parse(localStorage.getItem('calc_history') || '[]');
- if (history.length > 0) {
-                 generateReceiptPDF(history[0].calcRaw, history[0].result);
- } else if (!hasOperator && currentInput !== '0') {
-                 generateReceiptPDF(currentInput, lastResultRaw);
- } else {
+            if (history.length > 0) {
+                 // Memberikan sedikit penundaan (delay) untuk stabilitas di mobile browser
+                 setTimeout(() => {
+                    generateReceiptPDF(history[0].calcRaw, history[0].result);
+                 }, 50);
+            } else if (!hasOperator && currentInput !== '0') {
+                 setTimeout(() => {
+                    generateReceiptPDF(currentInput, lastResultRaw);
+                 }, 50);
+            } else {
                 alert(currentLang === 'id' ? "Silakan lakukan perhitungan yang valid terlebih dahulu." : "Please perform a valid calculation first.");
- }
+            }
         }
 
         function printSpecificPDF(calcRaw, result) {
-            generateReceiptPDF(calcRaw, result);
- }
+            if (!confirm(currentLang === 'id' ? "Apakah Anda yakin ingin mencetak/menyimpan PDF untuk riwayat ini?" : "Are you sure you want to print/save the PDF for this history item?")) {
+                return;
+            }
+            // Memberikan sedikit penundaan (delay) untuk stabilitas di mobile browser
+            setTimeout(() => {
+                generateReceiptPDF(calcRaw, result);
+            }, 50);
+        }
 
-        function closeIosModal() { iosModal.classList.add('hidden'); }
+        function closeIosModal() { document.getElementById('ios-modal').classList.add('hidden'); }
+        function closeNonIosModal() { document.getElementById('non-ios-modal').classList.add('hidden'); }
+
+        // FUNGSI DETEKSI DAN TAMPILKAN INSTRUKSI (Perbaikan untuk Android/iOS)
+        function isIOS() {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent) && !window.MSStream;
+        }
+
+        function showInstallInstructions() {
+             const installCard = document.getElementById('install-card');
+             const iosModal = document.getElementById('ios-modal');
+             const nonIosModal = document.getElementById('non-ios-modal');
+             
+             if (isIOS()) {
+                 // HANYA tampilkan modal iOS jika terdeteksi iOS
+                 iosModal.classList.remove('hidden');
+             } else {
+                 // Tampilkan modal generik untuk Android/Desktop
+                 nonIosModal.classList.remove('hidden');
+             }
+             
+             // Sembunyikan kartu promosi utama setelah diklik
+             if (installCard) {
+                installCard.classList.add('hidden'); 
+             }
+        }
 
         // ==========================================
-        // TRANSLATION LOGIC
+        // 4. TRANSLATION LOGIC (UPDATED with SEO Titles)
         // ==========================================
         const translations = {
             id: {
-                appTitle: "Kalkulator Dagang & Struk - Digital Tools ID",
+                // Judul baru untuk SEO Bahasa Indonesia
+                appTitle: "Kalkulator Dagang Online, Cetak Struk PDF & Terbilang Rupiah - Digital Tools ID",
                 headerTitle: "Kalkulator Dagang Online",
             },
             en: {
-                appTitle: "Business & Receipt Calculator - Digital Tools ID",
+                // Judul baru untuk SEO Bahasa Inggris
+                appTitle: "Business & Receipt Calculator, PDF Receipt & Spell Out Feature - Digital Tools ID",
                 headerTitle: "Online Business Calculator",
             }
         };
@@ -678,29 +734,39 @@
             currentLang = lang;
             
             const t = translations[lang];
-            // 1. Update Title
+            // 1. Update Title (Menggunakan textContent karena Title tidak memiliki atribut data-lang)
             document.getElementById('appTitle').textContent = t.appTitle;
             
             // 2. Update Semua Elemen dengan Atribut data-lang
             document.querySelectorAll('[data-id], [data-en]').forEach(el => {
                 const text = el.getAttribute(`data-${lang}`);
                 
-                // --- PERBAIKAN LOGIKA TEXT (HANYA UNTUK labelInstallDesc) ---
-                if (el.id === 'labelInstallDesc' && text) {
-                    // Gunakan innerHTML untuk merender tag <strong>
-                    el.innerHTML = text; 
-                    return; // Lewati pemrosesan textContent standar
-                }
+                // --- PERBAIKAN LOGIKA TEXT (labelInstallDesc) ---
+                const isInstallDesc = (el.id === 'labelInstallDesc');
                 
-                if (text) { el.textContent = text; }
+                if (text) { 
+                    if (isInstallDesc) {
+                         // Gunakan innerHTML untuk merender tag <strong> (Fix Markup Leak)
+                         el.innerHTML = text; 
+                    } else {
+                         el.textContent = text; 
+                    }
+                }
             });
             
-            // 3. Update Konten dengan HTML (Modal iOS)
+            // 3. Update Konten dengan HTML (Modal iOS & Non-iOS)
             const iosContent = document.getElementById('iosModalContent');
             if (iosContent) {
                 const contentHtml = iosContent.getAttribute(`data-${lang}`);
                 if (contentHtml) {
                     iosContent.innerHTML = contentHtml;
+                }
+            }
+            const nonIosContent = document.getElementById('nonIosModalContent');
+            if (nonIosContent) {
+                const contentHtml = nonIosContent.getAttribute(`data-${lang}`);
+                if (contentHtml) {
+                    nonIosContent.innerHTML = contentHtml;
                 }
             }
             
@@ -744,6 +810,8 @@
         // 5b. Inisialisasi Saat Halaman Dimuat (HANYA SEKALI)
         document.addEventListener('DOMContentLoaded', () => {
             let initialLang = 'en'; 
+            
+            // Tidak perlu menyembunyikan kartu instalasi secara default di sini
             
             const initialHtmlLang = document.documentElement.lang;
             const browserLang = navigator.language || navigator.userLanguage;
