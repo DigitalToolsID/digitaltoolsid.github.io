@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-tabungan-pendidikan/" />
-    <!-- Judul akan di-set oleh JS -->
- 
     <meta name="description" content="Kalkulator Tabungan Pendidikan yang akurat. Hitung berapa banyak yang perlu Anda tabung bulanan untuk biaya kuliah di masa depan, dengan memperhitungkan inflasi dan investasi." />
+    
+    <link rel="icon" href="data:,">
  
     <title id="appTitle">Education Savings Calculator</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/education-savings-calculator/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/education-savings-calculator/index.html" />
-    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Kode Google Analytic dan Adsense -->
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-tabungan-pendidikan/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-tabungan-pendidikan/index.html" />
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,31 +24,10 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-    
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                        'education-color': '#f39c12', // Kuning/Oranye untuk Pendidikan
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya kustom untuk tampilan hasil */
+        /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -59,204 +41,150 @@
             padding: 1.5rem; 
         }
         
-        /* Gaya Toggle Bahasa (Sama seperti alat lain) */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
-        }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya kustom untuk input dan tombol */
+        /* Tombol Utama (Warna Oranye/Kuning Pendidikan) */
         .calculate-button {
-            box-shadow: 0 4px #d35400; /* Warna oranye yang lebih gelap dari education-color */
-            background-color: #f39c12; /* education-color */
+            box-shadow: 0 4px #d97706; /* amber-600 */
+            background-color: #f59e0b; /* amber-500 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #d35400;
-            background-color: #e67e22;
+            box-shadow: 0 6px #d97706;
+            background-color: #fbbf24; /* amber-400 */
         }
         .calculate-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px #d35400;
+            box-shadow: 0 2px #d97706;
         }
 
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
-        }
-
-        /* Gaya Kartu Hasil Utama */
+        /* Kartu Hasil Utama */
         .result-card-main {
-            background-color: #fffbeb; /* Yellow 50 */
-            border: 2px solid #fbbf24; /* Yellow 400 */
+            background-color: #fffbeb; /* amber-50 */
+            border: 2px solid #fcd34d; /* amber-300 */
         }
-        .text-education-color { color: #f39c12; }
         
+        /* Section Header */
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
     </style>
 </head>
 
-<!-- Body dengan kode pengaman (Sama seperti alat lain) -->
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            
-            <!-- Tautan Kembali ke Katalog (Asumsi: naik 1 tingkat dari path alat ini) -->
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
-                    EN
-                </button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
-                    ID
-                </button>
-            </div>
-        </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Education Savings Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Education Savings Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                 Calculate the monthly or annual amount you need to save to meet future college or education funding goals, factoring in inflation and investment returns.
             </p>
             
-            <!-- Form Input -->
             <form id="educationSavingsForm" onsubmit="calculateSavings(event)" class="space-y-6">
                 
-                <h2 class="text-xl font-bold mb-4 text-education-color" id="headerGoal">1. Future Goal Details</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-amber-50/50 p-4 rounded-lg border border-amber-100">
+                    <h2 class="section-title text-amber-700" id="headerGoal">1. Future Goal Details</h2>
                     
-                    <div class="relative">
-                        <label for="currentCost" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentCost">Current Annual Education Cost</label>
-                        <input type="text" id="currentCost" inputmode="numeric" value="30.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-education-color focus:border-education-color transition duration-150" required>
-                        <p class="input-description" id="descCurrentCost">Perkiraan biaya kuliah per tahun saat ini (misal: S1 selama 4 tahun).</p>
-                    </div>
-                    
-                    <div class="relative">
-                        <label for="yearsToGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsToGoal">Years Until Education Starts</label>
-                        <input type="number" id="yearsToGoal" min="1" step="1" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-education-color focus:border-education-color transition duration-150" required>
-                        <p class="input-description" id="descYearsToGoal">Berapa tahun lagi tujuan pendidikan akan dimulai (misal: anak berusia 3 tahun, tujuan 18 tahun, maka 15 tahun).</p>
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <div class="relative">
+                            <label for="currentCost" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelCurrentCost">Current Annual Education Cost</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                            </label>
+                            <input type="text" id="currentCost" inputmode="numeric" value="30.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descCurrentCost">Estimated current annual tuition.</p>
+                        </div>
+                        
+                        <div class="relative">
+                            <label for="yearsToGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsToGoal">Years Until Education Starts</label>
+                            <input type="number" id="yearsToGoal" min="1" step="1" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descYearsToGoal">Years until goal begins.</p>
+                        </div>
 
-                    <div class="relative">
-                        <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInflationRate">Annual Education Inflation Rate (%)</label>
-                        <input type="number" id="inflationRate" min="0" step="0.1" value="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-education-color focus:border-education-color transition duration-150" required>
-                        <p class="input-description" id="descInflationRate">Perkiraan kenaikan biaya pendidikan per tahun (seringkali lebih tinggi dari inflasi umum).</p>
-                    </div>
-                    
-                    <div class="relative">
-                        <label for="yearsOfStudy" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsOfStudy">Years of Study/Duration</label>
-                        <input type="number" id="yearsOfStudy" min="1" step="1" value="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-education-color focus:border-education-color transition duration-150" required>
-                        <p class="input-description" id="descYearsOfStudy">Durasi pendidikan (misal: 4 tahun untuk gelar S1).</p>
+                        <div class="relative">
+                            <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInflationRate">Annual Education Inflation Rate (%)</label>
+                            <input type="number" id="inflationRate" min="0" step="0.1" value="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descInflationRate">Education cost increase per year.</p>
+                        </div>
+                        
+                        <div class="relative">
+                            <label for="yearsOfStudy" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsOfStudy">Years of Study/Duration</label>
+                            <input type="number" id="yearsOfStudy" min="1" step="1" value="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descYearsOfStudy">Duration of the education.</p>
+                        </div>
                     </div>
                 </div>
                 
-                <h2 class="text-xl font-bold pt-6 mb-4 text-education-color border-t border-gray-200" id="headerInvestment">2. Investment and Savings Details</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <div class="relative">
-                        <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentSavings">Current Savings/Investment Amount</label>
-                        <input type="text" id="currentSavings" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-education-color focus:border-education-color transition duration-150" required>
-                        <p class="input-description" id="descCurrentSavings">Jumlah uang yang sudah Anda miliki saat ini untuk tujuan ini.</p>
-                    </div>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title text-gray-700" id="headerInvestment">2. Investment and Savings Details</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div class="relative">
+                            <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1">
+                                <span id="labelCurrentSavings">Current Savings Amount</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
+                            </label>
+                            <input type="text" id="currentSavings" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descCurrentSavings">Amount already saved.</p>
+                        </div>
 
-                    <div class="relative">
-                        <label for="annualReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelAnnualReturn">Expected Annual Investment Return (%)</label>
-                        <input type="number" id="annualReturn" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-education-color focus:border-education-color transition duration-150" required>
-                        <p class="input-description" id="descAnnualReturn">Tingkat pengembalian tahunan rata-rata yang Anda harapkan dari investasi Anda.</p>
+                        <div class="relative">
+                            <label for="annualReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelAnnualReturn">Expected Annual Return (%)</label>
+                            <input type="number" id="annualReturn" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500 transition duration-150" required>
+                            <p class="text-xs text-gray-500 mt-1" id="descAnnualReturn">Expected investment return rate.</p>
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl hover:bg-education-color/90 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-education-color focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl text-lg">
                     Calculate Required Savings
                 </button>
                 
-                <!-- Error Alert -->
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
-            <!-- Result Box -->
             <div id="resultBox" class="result-box mt-8 p-6 rounded-xl shadow-lg result-card-main">
                 
-                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-primary border-b pb-2">Savings Calculation Summary</h3>
+                <h3 id="resultHeader" class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2 border-amber-200">Savings Calculation Summary</h3>
                 
-                <!-- Hasil Utama: Tabungan Bulanan Dibutuhkan -->
-                <div class="text-center mb-6 border-b pb-4">
+                <div class="text-center mb-6 border-b border-amber-200 pb-4">
                     <p id="labelMonthlyContribution" class="text-lg font-bold text-gray-700 mb-1">Monthly Contribution Needed</p>
-                    <p id="monthlyContributionResult" class="text-5xl font-extrabold text-education-color">0</p>
+                    <p id="monthlyContributionResult" class="text-5xl font-extrabold text-amber-600">0</p>
                     <p id="labelMonthlyNote" class="text-sm text-gray-600 mt-1">If you save this amount every month, you will meet your goal.</p>
                 </div>
 
-                <!-- Detail Perhitungan -->
-                <h4 id="detailHeader" class="text-xl font-bold text-primary mb-3">Goal Breakdown</h4>
+                <h4 id="detailHeader" class="text-xl font-bold text-gray-800 mb-3">Goal Breakdown</h4>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     
-                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-amber-100">
                         <p id="labelFutureCost" class="text-sm text-gray-700 font-medium mb-1">Total Future Education Cost</p>
-                        <p id="futureCostResult" class="text-2xl font-bold text-education-color">0</p>
+                        <p id="futureCostResult" class="text-2xl font-bold text-amber-600">0</p>
                         <p id="labelFutureCostNote" class="text-xs text-gray-500 mt-1">Cost inflated to the start year.</p>
                     </div>
 
                     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                         <p id="labelFutureSavingsValue" class="text-sm text-gray-700 font-medium mb-1">Future Value of Current Savings</p>
-                        <p id="futureSavingsValueResult" class="text-2xl font-bold text-finance-color">0</p>
+                        <p id="futureSavingsValueResult" class="text-2xl font-bold text-green-600">0</p>
                         <p id="labelFutureSavingsNote" class="text-xs text-gray-500 mt-1">Your current savings projected forward.</p>
                     </div>
                 </div>
 
-                <!-- Jumlah Kekurangan -->
-                <div class="mt-4 p-4 bg-red-100/70 rounded-lg border border-red-300">
+                <div class="mt-4 p-4 bg-red-50 rounded-lg border border-red-200">
                     <p id="labelShortfall" class="text-sm text-red-700 font-medium mb-1">Total Shortfall / Required Target</p>
                     <p id="shortfallResult" class="text-2xl font-bold text-red-700">0</p>
                 </div>
             </div>
             
-            <!-- Konten Edukasi -->
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Planning for Education Costs</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
@@ -265,7 +193,8 @@
                 <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
                 <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Investment Strategies</h3>
-                <ul id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
+                <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
                     <li id="tip1"></li>
                     <li id="tip2"></li>
                     <li id="tip3"></li>
@@ -278,37 +207,55 @@
         </div>
     </main>
     
-    <!-- Footer (Sama seperti alat lain) -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-inflasi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Inflation Calculator" data-id="Kalkulator Inflasi">Inflation Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate purchasing power loss." data-id="Hitung penurunan daya beli.">Calculate purchasing power loss.</p>
+            </a>
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate investment growth." data-id="Hitung pertumbuhan investasi.">Calculate investment growth.</p>
+            </a>
+            <a href="../kalkulator-target-tabungan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Savings Goal" data-id="Target Tabungan">Savings Goal</h3>
+                <p class="text-xs text-gray-600" data-en="Plan for specific financial goals." data-id="Rencanakan tujuan keuangan spesifik.">Plan for specific financial goals.</p>
+            </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
     
     <script>
         // **********************************************
         // LOGIKA KALKULATOR TABUNGAN PENDIDIKAN
         // **********************************************
 
+        let currentLang = 'en';
+
         const translations = {
             id: {
                 appTitle: "Kalkulator Tabungan Pendidikan",
                 headerTitle: "Kalkulator Tabungan Pendidikan/Kuliah",
                 toolSubtitle: "Hitung jumlah bulanan atau tahunan yang perlu Anda tabung untuk mencapai target biaya pendidikan di masa depan, dengan memperhitungkan inflasi dan hasil investasi.",
-                backToCatalogText: "Kembali ke Katalog Alat",
-                // Input
+                
                 headerGoal: "1. Detail Tujuan Biaya Masa Depan",
                 labelCurrentCost: "Biaya Pendidikan Tahunan Saat Ini",
                 descCurrentCost: "Perkiraan biaya kuliah per tahun saat ini (misal: S1 selama 4 tahun).",
@@ -318,6 +265,7 @@
                 descInflationRate: "Perkiraan kenaikan biaya pendidikan per tahun.",
                 labelYearsOfStudy: "Durasi Pendidikan (Tahun)",
                 descYearsOfStudy: "Durasi pendidikan (misal: 4 tahun untuk gelar S1).",
+                
                 headerInvestment: "2. Detail Investasi dan Tabungan",
                 labelCurrentSavings: "Dana Tabungan/Investasi Saat Ini",
                 descCurrentSavings: "Jumlah uang yang sudah Anda miliki saat ini untuk tujuan ini.",
@@ -325,7 +273,7 @@
                 descAnnualReturn: "Tingkat pengembalian tahunan rata-rata yang Anda harapkan dari investasi Anda.",
                 calculateButton: "Hitung Kebutuhan Tabungan",
                 inputError: "Mohon masukkan semua nilai input yang valid (Semua biaya, tahun, dan persentase harus >= 0, dan Durasi Studi harus > 0).",
-                // Hasil
+                
                 resultHeader: "Ringkasan Perhitungan Tabungan",
                 labelMonthlyContribution: "Kontribusi Bulanan yang Dibutuhkan",
                 labelMonthlyNote: "Jika Anda menabung jumlah ini setiap bulan, Anda akan mencapai tujuan Anda.",
@@ -336,7 +284,6 @@
                 labelFutureSavingsNote: "Tabungan Anda saat ini yang diproyeksikan hingga tahun tujuan dimulai.",
                 labelShortfall: "Total Kekurangan / Target yang Harus Ditabung",
                 
-                // Konten Edukasi
                 sectionHeader1: "Merencanakan Biaya Pendidikan",
                 content1: "Perencanaan dana pendidikan adalah proses finansial jangka panjang yang harus mempertimbangkan tiga faktor utama: <b>inflasi</b>, <b>jangka waktu</b>, dan <b>tingkat pengembalian investasi</b>. Mengabaikan inflasi pendidikan, yang seringkali lebih tinggi daripada inflasi umum, dapat menyebabkan kekurangan dana yang signifikan di masa depan.",
                 sectionHeader2: "Dampak Inflasi Pendidikan dan Angka Realistis",
@@ -347,21 +294,13 @@
                 tip2: "Diversifikasi Investasi: Pilih instrumen investasi (seperti reksa dana saham atau obligasi) yang menawarkan tingkat pengembalian yang realistis dan sesuai dengan toleransi risiko Anda. <b>Konsultasikan dengan perencana keuangan berlisensi.</b>",
                 tip3: "Tinjau Berkala: Tinjau kemajuan tabungan Anda dan sesuaikan kontribusi tahunan (atau bulanan) secara berkala (misalnya setiap tahun) untuk mengimbangi perubahan inflasi atau kinerja investasi. <b>Tidak perlu menghitung ulang setiap kali inflasi naik atau turun sedikit</b>; yang terpenting adalah melakukan peninjauan <b>tahunan</b> atau ketika terjadi perubahan signifikan pada tujuan atau investasi Anda. Ini akan menjaga rencana Anda tetap relevan dalam jangka waktu panjang.",
                 sectionHeader4: "Disclaimer",
-                content4: "Kalkulator ini menggunakan formula nilai masa depan (Future Value of Annuity Due) dan tidak mempertimbangkan pajak, biaya transaksi investasi, atau variasi tingkat pengembalian tahunan. Hasil ini murni estimasi. Selalu verifikasi perhitungan Anda dengan penasihat keuangan profesional.",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                content4: "Kalkulator ini menggunakan formula nilai masa depan (Future Value of Annuity Due) dan tidak mempertimbangkan pajak, biaya transaksi investasi, atau variasi tingkat pengembalian tahunan. Hasil ini murni estimasi. Selalu verifikasi perhitungan Anda dengan penasihat keuangan profesional."
             },
             en: {
                 appTitle: "Education Savings Calculator",
                 headerTitle: "College/Education Savings Calculator",
                 toolSubtitle: "Calculate the monthly or annual amount you need to save to meet future college or education funding goals, factoring in inflation and investment returns.",
-                backToCatalogText: "Back to Tools Catalog",
-                // Input
+                
                 headerGoal: "1. Future Goal Details",
                 labelCurrentCost: "Current Annual Education Cost",
                 descCurrentCost: "Estimated current annual tuition cost (e.g., 4 years of undergraduate study).",
@@ -371,6 +310,7 @@
                 descInflationRate: "Estimated annual increase in education costs (often higher than general inflation).",
                 labelYearsOfStudy: "Years of Study/Duration",
                 descYearsOfStudy: "Duration of the education (e.g., 4 years for a Bachelor's degree).",
+                
                 headerInvestment: "2. Investment and Savings Details",
                 labelCurrentSavings: "Current Savings/Investment Amount",
                 descCurrentSavings: "The amount of money you already have saved for this goal.",
@@ -378,7 +318,7 @@
                 descAnnualReturn: "The average annual rate of return you expect on your investments.",
                 calculateButton: "Calculate Required Savings",
                 inputError: "Please enter all valid input values (All costs, years, and percentages must be >= 0, and Study Duration must be > 0).",
-                // Hasil
+                
                 resultHeader: "Savings Calculation Summary",
                 labelMonthlyContribution: "Monthly Contribution Needed",
                 labelMonthlyNote: "If you save this amount every month, you will meet your goal.",
@@ -389,9 +329,8 @@
                 labelFutureSavingsNote: "Your current savings projected until the goal start year.",
                 labelShortfall: "Total Shortfall / Required Target",
                 
-                // Konten Edukasi
                 sectionHeader1: "Planning for Education Costs",
-                content1: "Education funding planning is a long-term financial process that must consider three main factors: <b>inflation</b>, <b>time horizon</b>, and <b>investment return rate</b>. Ignoring education inflation, which is often higher than general inflation, can lead to significant funding shortfalls in the future.",
+                content1: "Education funding planning is a long-term financial process that must consider three main factors: <b>inflation</b>, <b>time horizon</b>, and <b>investment return rate</b>. Ignoring education inflation can lead to significant funding shortfalls in the future.",
                 sectionHeader2: "The Impact of Education Inflation and Realistic Rates",
                 content2: "Education inflation is the annual increase in tuition costs. This calculator accurately projects future education costs by applying your input inflation rate. The longer the time to the goal, the greater the impact inflation will have. <br><br>To determine a realistic inflation rate, you can do the following: <ul><li><b>Look at Historical Data:</b> Find the average cost increase data for your target school/university over the last 5-10 years. Use that average rate.</li><li><b>Use a Conservative Figure:</b> If specific data is hard to find, use a rate higher than general inflation (e.g., if general inflation is 3%, use 5%-7% for education). It is better to overshoot than to have a shortfall.</li></ul>",
                 sectionHeader3: "Investment Strategies and Regular Review",
@@ -400,32 +339,20 @@
                 tip2: "Diversify Investments: Choose investment instruments (such as stock or bond mutual funds) that offer a realistic rate of return aligned with your risk tolerance. <b>Consult with a licensed financial planner.</b>",
                 tip3: "Review Regularly: Periodically review your savings progress and adjust your annual (or monthly) contributions to account for changes in inflation or investment performance. <b>There is no need to recalculate every time inflation fluctuates slightly</b>; the most important thing is to conduct an <b>annual</b> review or when significant changes occur to your goal or investment.",
                 sectionHeader4: "Disclaimer",
-                content4: "This calculator uses the Future Value of Annuity Due formula and does not account for taxes, investment transaction fees, or variations in the annual rate of return. The results are purely an estimate. Always verify your calculations with a professional financial advisor.",
-
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                content4: "This calculator uses the Future Value of Annuity Due formula and does not account for taxes, investment transaction fees, or variations in the annual rate of return. The results are purely an estimate. Always verify your calculations with a professional financial advisor."
             }
         };
 
-        let currentLang = 'en'; // Default language
-
-        // Fungsi utilitas untuk memformat angka dengan pemisah ribuan
         function formatNumber(amount, decimalPlaces = 0) {
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
             return new Intl.NumberFormat(locale, {
-                minimumFractionDigits: decimalPlaces,
-                maximumFractionDigits: decimalPlaces,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             }).format(amount);
         }
 
-        // Fungsi yang dipanggil oleh event oninput untuk memformat input secara real-time
         function formatInput(inputElement) {
             let rawValue = inputElement.value.replace(/\D/g, ''); 
-            
             if (rawValue) {
                 const numericValue = parseInt(rawValue, 10);
                 inputElement.value = formatNumber(numericValue);
@@ -434,18 +361,12 @@
             }
         }
         
-        // Fungsi untuk membersihkan format dari input string 
         function cleanInput(formattedValue) {
             return parseFloat(formattedValue.replace(/\D/g, '')) || 0;
         }
 
-        /**
-         * Fungsi utama untuk menghitung tabungan pendidikan
-         */
         function calculateSavings(event) {
             event.preventDefault();
-
-            // 1. Ambil dan Bersihkan Input
             const currentCost = cleanInput(document.getElementById('currentCost').value);
             const yearsToGoal = parseInt(document.getElementById('yearsToGoal').value) || 0;
             const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
@@ -456,7 +377,6 @@
             const resultBox = document.getElementById('resultBox');
             const errorAlert = document.getElementById('errorAlert');
 
-            // 2. Validasi Input
             if (currentCost <= 0 || yearsToGoal < 0 || inflationRate < 0 || yearsOfStudy <= 0 || currentSavings < 0 || annualReturn < 0) {
                 document.getElementById('errorText').textContent = translations[currentLang].inputError;
                 errorAlert.classList.remove('hidden');
@@ -465,193 +385,90 @@
             }
             
             errorAlert.classList.add('hidden');
-            
-            // --- Perbaikan: Inisialisasi variabel lokal di dalam fungsi ---
             let totalFutureCostNominal = 0;
             let totalFutureCostPV = 0; 
             
-            // 3. Hitung Biaya Pendidikan Masa Depan (Future Cost)
-            
-            // Total Biaya Masa Depan (Biaya untuk setiap tahun studi)
             for (let i = 0; i < yearsOfStudy; i++) {
-                 // Biaya aktual di tahun studi ke-(i+1) (inflated cost)
                  const costThisYear = currentCost * Math.pow(1 + inflationRate, yearsToGoal + i);
-                 totalFutureCostNominal += costThisYear; // Total Biaya Nominal (hanya untuk tampilan)
-                 
-                 // Nilai yang dibutuhkan di Tahun 0 (Present Value)
-                 // Diskon menggunakan tingkat pengembalian investasi
+                 totalFutureCostNominal += costThisYear;
                  const pvOfCost = costThisYear / Math.pow(1 + annualReturn, yearsToGoal + i);
                  totalFutureCostPV += pvOfCost;
             }
             
-            // 4. Hitung Nilai Masa Depan dari Tabungan Saat Ini (FV of Current Savings)
-            // FV = PV * (1 + r)^n. Ini adalah nilai tabungan awal di tahun tujuan dimulai.
             const fvCurrentSavings = currentSavings * Math.pow(1 + annualReturn, yearsToGoal);
-
-            // 5. Hitung Kekurangan (Net Required PV)
-            // Target bersih yang harus dipenuhi oleh kontribusi bulanan (dalam PV)
-            const netRequiredPV = totalFutureCostPV - currentSavings; 
-            
-            // 6. Hitung Kontribusi Bulanan (PMT)
-            const N = yearsToGoal * 12; // Total bulan tabungan
-            const R_monthly = annualReturn / 12; // Tingkat pengembalian bulanan
+            const netRequiredPV = totalFutureCostPV - currentSavings;
+            const N = yearsToGoal * 12;
+            const R_monthly = annualReturn / 12;
             
             let monthlyContribution = 0;
-            
             if (yearsToGoal > 0 && netRequiredPV > 0) {
-                // Hitung Future Value yang dibutuhkan pada saat goal dimulai (yearsToGoal)
                 const FV_needed = netRequiredPV * Math.pow(1 + annualReturn, yearsToGoal);
-                
                 if (annualReturn > 0) {
-                    // Formula PMT menggunakan Future Value of Annuity Due (pembayaran di awal periode)
                     const FVIF = (Math.pow(1 + R_monthly, N) - 1) / R_monthly;
                     const AnnuityDueFactor = FVIF * (1 + R_monthly);
-                    
                     monthlyContribution = FV_needed / AnnuityDueFactor;
                 } else {
-                    // Jika return 0%
                     monthlyContribution = FV_needed / N;
                 }
-
             } else if (netRequiredPV <= 0) {
-                 // Jika dana sudah tercukupi (atau berlebih)
                  monthlyContribution = 0;
             }
 
-
-            // 7. Tampilkan Hasil (Round ke integer terdekat)
-            
-            // Total biaya masa depan (nominal)
             document.getElementById('futureCostResult').textContent = formatNumber(Math.round(totalFutureCostNominal));
-            
-            // Nilai masa depan tabungan awal
             document.getElementById('futureSavingsValueResult').textContent = formatNumber(Math.round(fvCurrentSavings));
-            
-            // Total Kekurangan (Shortfall) - Nominal
             const totalShortfallNominal = totalFutureCostNominal - fvCurrentSavings;
-            
             document.getElementById('shortfallResult').textContent = formatNumber(Math.round(Math.max(0, totalShortfallNominal))); 
-
-            // Kontribusi Bulanan
             document.getElementById('monthlyContributionResult').textContent = formatNumber(Math.round(monthlyContribution));
-
-
-            // Tampilkan kotak hasil
             resultBox.classList.add('visible');
         }
 
-
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
+            
+            ['appTitle', 'headerTitle', 'toolSubtitle', 'headerGoal', 'labelCurrentCost', 'descCurrentCost', 
+             'labelYearsToGoal', 'descYearsToGoal', 'labelInflationRate', 'descInflationRate', 'labelYearsOfStudy', 
+             'descYearsOfStudy', 'headerInvestment', 'labelCurrentSavings', 'descCurrentSavings', 'labelAnnualReturn', 
+             'descAnnualReturn', 'calculateButton', 'resultHeader', 'labelMonthlyContribution', 'labelMonthlyNote', 
+             'detailHeader', 'labelFutureCost', 'labelFutureCostNote', 'labelFutureSavingsValue', 'labelFutureSavingsNote', 
+             'labelShortfall', 'sectionHeader1', 'sectionHeader2', 'sectionHeader3', 'sectionHeader4', 'content3', 'content4'].forEach(id => {
+                 const el = document.getElementById(id);
+                 if(el) el.textContent = t[id];
+            });
+            
+            ['content1', 'content2', 'tip1', 'tip2', 'tip3'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = t[id];
+            });
 
-            // Update status toggle
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
-            document.documentElement.lang = lang; 
-
-            // Ambil nilai input yang sudah diformat (hanya yang numerik)
             const currentCostValue = document.getElementById('currentCost').value;
             const currentSavingsValue = document.getElementById('currentSavings').value;
-
-            // Update teks statis
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
-            document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
-            document.getElementById('backToCatalogText').textContent = t.backToCatalogText;
-            
-            // Input
-            document.getElementById('headerGoal').textContent = t.headerGoal;
-            document.getElementById('labelCurrentCost').textContent = t.labelCurrentCost;
-            document.getElementById('descCurrentCost').textContent = t.descCurrentCost;
-            document.getElementById('labelYearsToGoal').textContent = t.labelYearsToGoal;
-            document.getElementById('descYearsToGoal').textContent = t.descYearsToGoal;
-            document.getElementById('labelInflationRate').textContent = t.labelInflationRate;
-            document.getElementById('descInflationRate').textContent = t.descInflationRate;
-            document.getElementById('labelYearsOfStudy').textContent = t.labelYearsOfStudy;
-            document.getElementById('descYearsOfStudy').textContent = t.descYearsOfStudy;
-            document.getElementById('headerInvestment').textContent = t.headerInvestment;
-            document.getElementById('labelCurrentSavings').textContent = t.labelCurrentSavings;
-            document.getElementById('descCurrentSavings').textContent = t.descCurrentSavings;
-            document.getElementById('labelAnnualReturn').textContent = t.labelAnnualReturn;
-            document.getElementById('descAnnualReturn').textContent = t.descAnnualReturn;
-            document.getElementById('calculateButton').textContent = t.calculateButton;
-
-            // Format ulang input value (Absolut) berdasarkan bahasa baru
             document.getElementById('currentCost').value = formatNumber(cleanInput(currentCostValue));
             document.getElementById('currentSavings').value = formatNumber(cleanInput(currentSavingsValue));
 
-            // Update label hasil
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            document.getElementById('labelMonthlyContribution').textContent = t.labelMonthlyContribution;
-            document.getElementById('labelMonthlyNote').textContent = t.labelMonthlyNote;
-            document.getElementById('detailHeader').textContent = t.detailHeader;
-            
-            document.getElementById('labelFutureCost').textContent = t.labelFutureCost;
-            document.getElementById('labelFutureCostNote').textContent = t.labelFutureCostNote;
-            document.getElementById('labelFutureSavingsValue').textContent = t.labelFutureSavingsValue;
-            document.getElementById('labelFutureSavingsNote').textContent = t.labelFutureSavingsNote;
-            document.getElementById('labelShortfall').textContent = t.labelShortfall;
+            // Related Tools Update
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
 
-            // Update Konten Edukasi
-            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
-            document.getElementById('content1').innerHTML = t.content1;
-            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
-            document.getElementById('content2').innerHTML = t.content2;
-            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
-            // Tips
-            document.getElementById('tip1').innerHTML = t.tip1;
-            document.getElementById('tip2').innerHTML = t.tip2;
-            document.getElementById('tip3').innerHTML = t.tip3;
-            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
-            document.getElementById('content4').innerHTML = t.content4;
-            
-            // Update Footer
-            document.getElementById('linkPrivacy').textContent = t.linkPrivacy;
-            document.getElementById('linkTerms').textContent = t.linkTerms;
-            document.getElementById('linkAbout').textContent = t.linkAbout;
-            document.getElementById('linkContact').textContent = t.linkContact;
-            document.getElementById('footerCopyright').innerHTML = t.footerCopyright;
-
-            // Format ulang hasil jika sudah ada
-            const resultElement = document.getElementById('monthlyContributionResult');
-            if (resultElement.textContent !== '0') {
-                 // Panggil kembali fungsi hitung untuk me-refresh format angka
-                 calculateSavings({ preventDefault: () => {} }); 
-            }
-
-             // Pastikan error message diupdate
-            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
-                document.getElementById('errorText').textContent = t.inputError;
+            if(document.getElementById('resultBox').classList.contains('visible')){
+                calculateSavings({preventDefault:()=>{}});
             }
         }
-        
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                    // Sembunyikan hasil saat bahasa berganti
-                    document.getElementById('resultBox').classList.remove('visible');
-                    document.getElementById('errorAlert').classList.add('hidden');
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.type === 'attributes' && m.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
                 }
-            }
+            });
         });
+        observer.observe(document.documentElement, { attributes: true });
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
-            // Logika Deteksi Bahasa Awal
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-            setLanguage(defaultLang); 
+            setLanguage(document.documentElement.lang || 'en');
         });
-
     </script>
 </body>
 </html>

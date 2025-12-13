@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- STRUKTUR SEO OPTIMAL -->
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pensiun/" />
-    <meta name="description" content="Kalkulator Rencana Pensiun. Hitung target dana pensiun Anda, perkirakan kebutuhan dana bulanan saat pensiun, dan tentukan investasi yang diperlukan per bulan untuk mencapainya. Mulai perencanaan keuangan masa depan Anda sekarang." />
-    <title id="appTitle">Kalkulator Rencana Pensiun & Target Investasi</title>
-    <!-- Keyword potensial: kalkulator dana pensiun, investasi pensiun, retirement calculator, biaya hidup pensiun -->
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-rencana-pensiun/index.html" />
-    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-rencana-pensiun/index.html" />
-
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Kode Google Analytic dan Adsense (Ikuti template yang dilampirkan) -->
+    <meta name="description" content="Kalkulator Rencana Pensiun. Hitung target dana pensiun Anda, perkirakan kebutuhan dana bulanan saat pensiun, dan tentukan investasi yang diperlukan per bulan untuk mencapainya." />
+    
+    <link rel="icon" href="data:,">
+ 
+    <title id="appTitle">Retirement Planning Calculator</title>
+    
+    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-pensiun/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-pensiun/index.html" />
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -22,300 +24,257 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
-
-    <!-- Konfigurasi Tailwind (Menggunakan warna yang sama) -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50',
-                        'secondary': '#3498db',
-                        'primary-dark': '#1e3a8a',
-                        'finance-color': '#27ae60', // Hijau Keuangan
-                        'success-color': '#27ae60',
-                        'danger-color': '#e74c3c',
-                        'warning-color': '#f39c12',
-                    }
-                }
-            }
-        }
-    </script>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
+    
     <style>
-        /* Gaya Toggle Bahasa */
-        .lang-toggle-container {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 2000;
-            display: inline-flex;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 9999px;
-            padding: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        /* Transisi Hasil */
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
         }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #2c3e50;
-            transition: color 0.3s ease;
-            position: relative;
+        .result-box.visible {
+            opacity: 1;
+            max-height: 3000px; 
+            padding: 1.5rem; 
         }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px);
-            background-color: #1e3a8a;
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-
-        /* Gaya Hasil */
-        .result-box { transition: all 0.5s ease-in-out; transform-origin: top center; opacity: 0; max-height: 0; overflow: hidden; }
-        .result-box.visible { opacity: 1; max-height: 3000px; padding: 1.5rem; margin-top: 1.5rem; }
-
-        /* Gaya Tombol */
+        
+        /* Tombol Utama */
         .calculate-button {
-            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
+            box-shadow: 0 4px #15803d; /* green-700 */
+            background-color: #16a34a; /* green-600 */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px #1e8449;
+            box-shadow: 0 6px #15803d;
+            background-color: #22c55e; /* green-500 */
         }
         .calculate-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px #1e8449;
+            box-shadow: 0 2px #15803d;
         }
 
-        /* Gaya untuk deskripsi input */
-        .input-description {
-            font-size: 0.75rem; /* text-xs */
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 0.25rem;
+        /* Gaya Kartu Hasil Utama */
+        .result-card-main {
+            background-color: #f0fdf4; /* green-50 */
+            border: 2px solid #86efac; /* green-300 */
         }
-        /* Style untuk referensi artikel */
-        .article-reference {
-            padding: 1.5rem;
-            background-color: #ecfdf5; /* green-50 */
-            border: 1px solid #a7f3d0; /* green-200 */
-            border-radius: 0.75rem;
-            margin-top: 2rem;
-            text-align: center;
+        
+        /* Section Header */
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #1f2937;
         }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Kembali ke Katalog Alat</span>
-            </a>
-            <div id="languageSwitcher" class="lang-toggle-container lang-id">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">EN</button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">ID</button>
-            </div>
-            </div>
-    </header>
+    <script>window.headerCategory = 'finance';</script>
+    <div id="global-header-container"></div>
 
-    <!-- Main Content -->
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
-
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Kalkulator Rencana Pensiun</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Hitung kebutuhan dana pensiun Anda dan berapa yang harus diinvestasikan setiap bulan untuk mencapainya, dengan memperhitungkan inflasi.</p>
-
-            <!-- Formulir Kalkulator Pensiun -->
+        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+            
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Retirement Planner</h1>
+            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+               </p>
+            
             <form id="retirementForm" onsubmit="calculateRetirement(event)" class="space-y-6">
-
-                <!-- 1. Data Pribadi & Waktu -->
-                <div class="border-b pb-4 border-gray-200">
-                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionTimeHeader">1. Garis Waktu Pensiun</h2>
+                
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title text-green-700" id="sectionTimeHeader">1. Retirement Timeline</h2>
                     <div class="space-y-4">
-                        <div class="relative">
-                            <label for="currentAge" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentAge">Usia Anda Saat Ini (Tahun)</label>
-                            <input type="number" id="currentAge" inputmode="numeric" min="18" max="90" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 30" value="30">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="relative">
+                                <label for="currentAge" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentAge">Current Age</label>
+                                <input type="number" id="currentAge" inputmode="numeric" min="18" max="90" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="e.g. 30" value="30">
+                            </div>
+                            <div class="relative">
+                                <label for="retirementAge" class="block text-sm font-medium text-gray-700 mb-1" id="labelRetirementAge">Retirement Age</label>
+                                <input type="number" id="retirementAge" inputmode="numeric" min="30" max="90" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="e.g. 55" value="55">
+                            </div>
                         </div>
                         <div class="relative">
-                            <label for="retirementAge" class="block text-sm font-medium text-gray-700 mb-1" id="labelRetirementAge">Usia Target Pensiun (Tahun)</label>
-                            <input type="number" id="retirementAge" inputmode="numeric" min="30" max="90" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 55" value="55">
-                        </div>
-                        <div class="relative">
-                            <label for="lifeExpectancy" class="block text-sm font-medium text-gray-700 mb-1" id="labelLifeExpectancy">Perkiraan Usia Harapan Hidup (Tahun)</label>
-                            <input type="number" id="lifeExpectancy" inputmode="numeric" min="60" max="110" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 80" value="80">
-                            <p class="input-description" id="descLifeExpectancy">Jangka waktu Anda akan menggunakan dana pensiun.</p>
+                            <label for="lifeExpectancy" class="block text-sm font-medium text-gray-700 mb-1" id="labelLifeExpectancy">Life Expectancy</label>
+                            <input type="number" id="lifeExpectancy" inputmode="numeric" min="60" max="110" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="e.g. 80" value="80">
+                            <p class="text-xs text-gray-500 mt-1" id="descLifeExpectancy">Estimated age until funds are needed.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Data Keuangan Saat Ini -->
-                <div class="border-b pb-4 border-gray-200">
-                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionFinanceHeader">2. Data Keuangan & Asumsi</h2>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title text-green-700" id="sectionFinanceHeader">2. Financial Data</h2>
                     <div class="space-y-4">
                         <div class="relative">
-                            <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentSavings">Total Tabungan Pensiun Saat Ini</label>
-                            <input type="text" id="currentSavings" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 50.000.000" value="50000000">
+                            <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentSavings">Current Retirement Savings</label>
+                            <input type="text" id="currentSavings" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" value="50.000.000">
                         </div>
 
                         <div class="relative">
-                            <label for="monthlyExpense" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyExpense">Perkiraan Biaya Hidup Bulanan Saat Ini</label>
-                            <input type="text" id="monthlyExpense" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 5.000.000" value="5000000">
-                            <p class="input-description" id="descMonthlyExpense">Ini akan dihitung ulang berdasarkan inflasi hingga usia pensiun.</p>
+                            <label for="monthlyExpense" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyExpense">Estimated Monthly Expense (Today's Value)</label>
+                            <input type="text" id="monthlyExpense" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" value="5.000.000">
+                            <p class="text-xs text-gray-500 mt-1" id="descMonthlyExpense">Will be adjusted for inflation.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Asumsi Investasi & Inflasi -->
-                <div class="pb-4">
-                    <h2 class="text-xl font-bold text-finance-color mb-3" id="sectionAssumptionHeader">3. Asumsi Tingkat Pertumbuhan</h2>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title text-green-700" id="sectionAssumptionHeader">3. Growth Assumptions</h2>
                     <div class="space-y-4">
                         <div class="relative">
-                            <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInflationRate">Tingkat Inflasi Tahunan Rata-Rata (%)</label>
-                            <input type="number" id="inflationRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 4" value="4">
+                            <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInflationRate">Inflation Rate (%)</label>
+                            <input type="number" id="inflationRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" value="4">
                         </div>
-                        <div class="relative">
-                            <label for="preRetirementReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelPreRetirementReturn">Estimasi Imbal Hasil Investasi Tahunan (%) (Sebelum Pensiun)</label>
-                            <input type="number" id="preRetirementReturn" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 8" value="8">
-                            <p class="input-description" id="descPreRetirementReturn">Asumsi rata-rata imbal hasil dari portofolio investasi Anda (misalnya campuran saham, reksa dana, deposito).</p>
-                        </div>
-                        <div class="relative">
-                            <label for="postRetirementReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelPostRetirementReturn">Estimasi Imbal Hasil Investasi Tahunan (%) (Setelah Pensiun)</label>
-                            <input type="number" id="postRetirementReturn" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Contoh: 5" value="5">
-                            <p class="input-description" id="descPostRetirementReturn">Asumsi rata-rata imbal hasil dari dana pensiun saat Anda sudah menggunakannya.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="relative">
+                                <label for="preRetirementReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelPreRetirementReturn">Pre-Retirement Return (%)</label>
+                                <input type="number" id="preRetirementReturn" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" value="8">
+                                <p class="text-xs text-gray-500 mt-1" id="descPreRetirementReturn">Annual return before retiring.</p>
+                            </div>
+                            <div class="relative">
+                                <label for="postRetirementReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelPostRetirementReturn">Post-Retirement Return (%)</label>
+                                <input type="number" id="postRetirementReturn" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" value="5">
+                                <p class="text-xs text-gray-500 mt-1" id="descPostRetirementReturn">Annual return after retiring.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition duration-300">
-                    Hitung Target Pensiun & Investasi Bulanan
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl text-lg">
+                    Calculate Plan
                 </button>
+                
+                <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span id="errorText" class="block sm:inline"></span>
+                </div>
             </form>
 
-            <!-- Error Alert -->
-            <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <span id="errorText" class="block sm:inline"></span>
-            </div>
+            <div id="resultBox" class="result-box mt-8 bg-white border border-gray-200 rounded-xl shadow-lg result-card-main">
+                
+                <h3 id="resultTitle" class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Plan Summary</h3>
 
-            <!-- Result Box (Hasil Perhitungan) -->
-            <div id="resultBox" class="result-box bg-secondary/5 border border-secondary/30 rounded-xl shadow-lg">
-
-                <h3 id="resultTitle" class="text-2xl font-bold text-primary-dark mb-4 border-b pb-2">Rangkuman Rencana Pensiun</h3>
-
-                <!-- Teks Narasi Hasil -->
                 <div id="resultSummaryText" class="p-4 rounded-lg mb-4 bg-white border border-gray-200">
-                    <p class="text-lg font-bold mb-2 text-finance-color" id="summaryTitle"></p>
-                    <p id="summaryText" class="text-gray-700 text-sm"></p>
+                    <p class="text-lg font-bold mb-2 text-green-700" id="summaryTitle"></p>
+                    <p id="summaryText" class="text-gray-700 text-sm leading-relaxed"></p>
                 </div>
 
-                <!-- Metrik Kunci -->
-                <h3 id="metricsHeader" class="text-xl font-bold text-primary mb-3 border-b pb-2">Metrik Kunci</h3>
+                <h3 id="metricsHeader" class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">Key Metrics</h3>
                 <div id="metricsContent" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- 1. Kebutuhan Bulanan Saat Pensiun -->
+                    
+                    <div class="p-3 rounded-lg border border-gray-200 bg-gray-50">
+                        <p class="text-xs text-gray-500 uppercase tracking-wide" id="resultFutureExpense">Future Monthly Expense</p>
+                        <p class="text-xl font-bold mt-1 text-green-600" id="futureExpenseResult">--</p>
+                    </div>
+                    
+                    <div class="p-3 rounded-lg border border-gray-200 bg-gray-50">
+                        <p class="text-xs text-gray-500 uppercase tracking-wide" id="resultTargetFund">Total Target Fund</p>
+                        <p class="text-xl font-bold mt-1 text-green-600" id="targetFundResult">--</p>
+                    </div>
+                    
                     <div class="p-3 rounded-lg border border-gray-200 bg-white">
-                        <p class="text-sm text-gray-600" id="resultFutureExpense">Kebutuhan Bulanan Saat Pensiun</p>
-                        <p class="text-2xl font-bold mt-1 text-finance-color" id="futureExpenseResult">--</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide" id="resultCurrentFundFuture">Future Value of Savings</p>
+                        <p class="text-lg font-bold mt-1 text-gray-700" id="currentFundFutureResult">--</p>
                     </div>
-                    <!-- 2. Total Dana Pensiun Target -->
+                    
                     <div class="p-3 rounded-lg border border-gray-200 bg-white">
-                        <p class="text-sm text-gray-600" id="resultTargetFund">Total Dana Pensiun Target</p>
-                        <p class="text-2xl font-bold mt-1 text-finance-color" id="targetFundResult">--</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide" id="resultGap">Net Funding Gap</p>
+                        <p class="text-lg font-bold mt-1 text-gray-700" id="gapResult">--</p>
                     </div>
-                    <!-- 3. Dana yang Sudah Terkumpul (Future Value) -->
-                    <div class="p-3 rounded-lg border border-gray-200">
-                        <p class="text-sm text-gray-600" id="resultCurrentFundFuture">Nilai Tabungan Saat Ini di Usia Pensiun</p>
-                        <p class="text-xl font-bold mt-1 text-primary" id="currentFundFutureResult">--</p>
-                    </div>
-                    <!-- 4. Kekurangan/Kelebihan Dana Pensiun -->
-                    <div class="p-3 rounded-lg border border-gray-200">
-                        <p class="text-sm text-gray-600" id="resultGap">Kekurangan Dana Bersih</p>
-                        <p class="text-xl font-bold mt-1" id="gapResult">--</p>
-                    </div>
-                    <!-- 5. Investasi Bulanan yang Diperlukan -->
-                    <div class="col-span-1 sm:col-span-2 p-4 rounded-lg border border-dashed border-finance-color bg-white">
-                        <p class="text-sm text-gray-600" id="resultMonthlyInvestment">Investasi Bulanan yang Diperlukan</p>
-                        <p class="text-3xl font-extrabold mt-1 text-finance-color" id="monthlyInvestmentResult">--</p>
+                    
+                    <div class="col-span-1 sm:col-span-2 p-4 rounded-lg border-2 border-dashed border-green-500 bg-green-50 text-center">
+                        <p class="text-sm font-bold text-green-800" id="resultMonthlyInvestment">Required Monthly Investment</p>
+                        <p class="text-3xl font-extrabold mt-1 text-green-600" id="monthlyInvestmentResult">--</p>
                     </div>
                 </div>
 
             </div>
-
-            <!-- Konten Edukasi (HANYA INFLASI) -->
+            
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Pentingnya Memperhitungkan Inflasi</h2>
-                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Uang Rp 5.000.000 hari ini tidak akan memiliki daya beli yang sama 25 tahun ke depan. Kalkulator ini secara otomatis memproyeksikan kebutuhan biaya hidup Anda pada usia pensiun berdasarkan tingkat inflasi yang Anda masukkan. Ini adalah langkah krusial dalam perencanaan pensiun yang realistis.</p>
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">The Importance of Inflation</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
             </section>
+
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary">Kebijakan Privasi</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary">Ketentuan Layanan</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary">Tentang Kami</a>
-                <span class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary">Hubungi Kami</a>
-            </div>
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. Semua hak dilindungi.</span>
-            </div>
+    
+    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    </footer>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-inflasi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Inflation Calculator" data-id="Kalkulator Inflasi">Inflation Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate purchasing power loss." data-id="Hitung penurunan daya beli.">Calculate purchasing power loss.</p>
+            </a>
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate investment growth." data-id="Hitung pertumbuhan investasi.">Calculate investment growth.</p>
+            </a>
+            <a href="../kalkulator-penarikan-dana-pensiun/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Withdrawal Calculator" data-id="Kalkulator Penarikan">Withdrawal Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="How long will your savings last?" data-id="Berapa lama tabungan bertahan?">How long will your savings last?</p>
+            </a>
+        </div>
 
+        <div class="border-t border-gray-200 pt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
+    
     <script>
         // **********************************************
         // LOGIKA KALKULATOR RENCANA PENSIUN
         // **********************************************
 
+        let currentLang = 'id';
+
         const translations = {
             id: {
-                // UI TEXT
                 appTitle: "Kalkulator Rencana Pensiun & Target Investasi",
                 backToCatalogText: "Kembali ke Katalog Alat",
                 headerTitle: "Kalkulator Rencana Pensiun",
                 toolSubtitle: "Hitung kebutuhan dana pensiun Anda dan berapa yang harus diinvestasikan setiap bulan untuk mencapainya, dengan memperhitungkan inflasi.",
-                // LABELS INPUT
+                
                 sectionTimeHeader: "1. Garis Waktu Pensiun",
                 labelCurrentAge: "Usia Anda Saat Ini (Tahun)",
                 labelRetirementAge: "Usia Target Pensiun (Tahun)",
                 labelLifeExpectancy: "Perkiraan Usia Harapan Hidup (Tahun)",
                 descLifeExpectancy: "Jangka waktu Anda akan menggunakan dana pensiun.",
+                
                 sectionFinanceHeader: "2. Data Keuangan & Asumsi",
                 labelCurrentSavings: "Total Tabungan Pensiun Saat Ini",
                 labelMonthlyExpense: "Perkiraan Biaya Hidup Bulanan Saat Ini",
                 descMonthlyExpense: "Ini akan dihitung ulang berdasarkan inflasi hingga usia pensiun.",
+                
                 sectionAssumptionHeader: "3. Asumsi Tingkat Pertumbuhan",
                 labelInflationRate: "Tingkat Inflasi Tahunan Rata-Rata (%)",
                 labelPreRetirementReturn: "Estimasi Imbal Hasil Investasi Tahunan (%) (Sebelum Pensiun)",
                 descPreRetirementReturn: "Asumsi rata-rata imbal hasil dari portofolio investasi Anda.",
                 labelPostRetirementReturn: "Estimasi Imbal Hasil Investasi Tahunan (%) (Setelah Pensiun)",
                 descPostRetirementReturn: "Asumsi rata-rata imbal hasil dari dana pensiun saat Anda sudah menggunakannya.",
-                calculateButton: "Hitung Target Pensiun & Investasi Bulanan",
-                // HASIL
+                
+                calculateButton: "Hitung Target Pensiun",
+                inputError: "Harap masukkan semua nilai yang valid dan pastikan Usia Pensiun > Usia Saat Ini.",
+                
                 resultTitle: "Rangkuman Rencana Pensiun",
                 metricsHeader: "Metrik Kunci",
                 resultFutureExpense: "Kebutuhan Bulanan Saat Pensiun",
@@ -323,18 +282,18 @@
                 resultCurrentFundFuture: "Nilai Tabungan Saat Ini di Usia Pensiun",
                 resultGap: "Kekurangan Dana Bersih",
                 resultMonthlyInvestment: "Investasi Bulanan yang Diperlukan",
-                // RINGKASAN NARASI
+                
                 summaryTitle_OnTrack: "Status: Berada di Jalur yang Benar",
                 summaryTitle_Gap: "Status: Perlu Peningkatan Investasi",
                 summaryTitle_Surplus: "Status: Surplus Dana Pensiun",
+                
                 summaryText_Gap: (gap, monthlyInv) => `Anda perlu berinvestasi sebesar <strong>${monthlyInv} per bulan</strong> untuk menutup kekurangan dana pensiun Anda sebesar <strong>${gap}</strong>. Tingkatkan imbal hasil investasi atau perpanjang jangka waktu Anda.`,
                 summaryText_OnTrack: (monthlyInv) => `Target bulanan Anda adalah <strong>${monthlyInv}</strong>. Dengan asumsi ini, Anda akan mencapai target. Tetap konsisten dan pantau imbal hasil Anda.`,
                 summaryText_Surplus: (surplus, monthlyInv) => `Selamat! Anda memiliki perkiraan kelebihan dana sebesar <strong>${surplus}</strong>. Anda hanya perlu berinvestasi <strong>${monthlyInv}</strong> (atau kurang) untuk mencapai tujuan.`,
-                errorInput: "Harap masukkan semua nilai yang valid dan pastikan Usia Pensiun > Usia Saat Ini.",
-                // KONTEN EDUKASI
+                
                 sectionHeader1: "Pentingnya Memperhitungkan Inflasi",
                 content1: "Uang Rp 5.000.000 hari ini tidak akan memiliki daya beli yang sama 25 tahun ke depan. Kalkulator ini secara otomatis memproyeksikan kebutuhan biaya hidup Anda pada usia pensiun berdasarkan tingkat inflasi yang Anda masukkan. Ini adalah langkah krusial dalam perencanaan pensiun yang realistis.",
-                // FOOTER
+                
                 linkPrivacy: "Kebijakan Privasi",
                 linkTerms: "Ketentuan Layanan",
                 linkAbout: "Tentang Kami",
@@ -342,29 +301,32 @@
                 footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
             },
             en: {
-                // UI TEXT
                 appTitle: "Retirement Planning & Investment Target Calculator",
                 backToCatalogText: "Back to Tools Catalog",
                 headerTitle: "Retirement Planner",
                 toolSubtitle: "Calculate your required retirement fund, estimate future monthly expenses, and determine the monthly investment needed to reach your goal, accounting for inflation.",
-                // LABELS INPUT
+                
                 sectionTimeHeader: "1. Retirement Timeline",
                 labelCurrentAge: "Current Age (Years)",
                 labelRetirementAge: "Target Retirement Age (Years)",
                 labelLifeExpectancy: "Estimated Life Expectancy (Years)",
                 descLifeExpectancy: "The duration you will utilize your retirement fund.",
+                
                 sectionFinanceHeader: "2. Financial Data & Assumptions",
                 labelCurrentSavings: "Total Current Retirement Savings",
                 labelMonthlyExpense: "Estimated Current Monthly Expense",
                 descMonthlyExpense: "This will be recalculated based on inflation up to retirement age.",
+                
                 sectionAssumptionHeader: "3. Growth Rate Assumptions",
                 labelInflationRate: "Average Annual Inflation Rate (%)",
                 labelPreRetirementReturn: "Estimated Annual Investment Return (%) (Pre-Retirement)",
                 descPreRetirementReturn: "The assumed average return on your investment portfolio.",
                 labelPostRetirementReturn: "Estimated Annual Investment Return (%) (Post-Retirement)",
                 descPostRetirementReturn: "The assumed average return on the fund while you are withdrawing from it.",
-                calculateButton: "Calculate Retirement Target & Monthly Investment",
-                // HASIL
+                
+                calculateButton: "Calculate Retirement Target",
+                inputError: "Please enter all valid values and ensure Retirement Age > Current Age.",
+                
                 resultTitle: "Retirement Plan Summary",
                 metricsHeader: "Key Metrics",
                 resultFutureExpense: "Future Monthly Expense at Retirement",
@@ -372,18 +334,18 @@
                 resultCurrentFundFuture: "Future Value of Current Savings",
                 resultGap: "Net Funding Gap",
                 resultMonthlyInvestment: "Required Monthly Investment",
-                // RINGKASAN NARASI
+                
                 summaryTitle_OnTrack: "Status: On Track",
                 summaryTitle_Gap: "Status: Investment Increase Needed",
                 summaryTitle_Surplus: "Status: Retirement Fund Surplus",
+                
                 summaryText_Gap: (gap, monthlyInv) => `You need to invest <strong>${monthlyInv} monthly</strong> to cover your retirement fund gap of <strong>${gap}</strong>. Consider increasing your investment return or extending your timeline.`,
                 summaryText_OnTrack: (monthlyInv) => `Your required monthly target is <strong>${monthlyInv}</strong>. Based on these assumptions, you will meet your goal. Stay consistent and monitor your returns.`,
                 summaryText_Surplus: (surplus, monthlyInv) => `Congratulations! You have an estimated fund surplus of <strong>${surplus}</strong>. You only need to invest <strong>${monthlyInv}</strong> (or less) to reach your goal.`,
-                errorInput: "Please enter all valid values and ensure Retirement Age > Current Age.",
-                // KONTEN EDUKASI
+                
                 sectionHeader1: "The Importance of Accounting for Inflation",
                 content1: "Today's $5,000,000 will not have the same purchasing power 25 years from now. This calculator automatically projects your living expense needs at retirement age based on the inflation rate you input. This is a crucial step in realistic retirement planning.",
-                // FOOTER
+                
                 linkPrivacy: "Privacy Policy",
                 linkTerms: "Terms of Service",
                 linkAbout: "About Us",
@@ -392,14 +354,9 @@
             }
         };
 
-        let currentLang = 'id'; // Default Indonesia
         const resultBox = document.getElementById('resultBox');
         const errorAlert = document.getElementById('errorAlert');
         const errorText = document.getElementById('errorText');
-
-        // **********************************************
-        // FUNGSI UTILITAS (FORMAT ANGKA)
-        // **********************************************
 
         function cleanInput(formattedValue) {
             if (typeof formattedValue !== 'string') return formattedValue;
@@ -424,22 +381,16 @@
                 return;
             }
             let number = parseInt(numericValue, 10);
-            // Format number without currency symbol for input field
             inputElement.value = number.toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0
             });
         }
 
-        // **********************************************
-        // FUNGSI UTAMA: MENGHITUNG PENSIUN
-        // **********************************************
-
         function calculateRetirement(event) {
             event.preventDefault();
             const t = translations[currentLang];
 
-            // 1. Ambil Input
             const currentAge = parseInt(document.getElementById('currentAge').value);
             const retirementAge = parseInt(document.getElementById('retirementAge').value);
             const lifeExpectancy = parseInt(document.getElementById('lifeExpectancy').value);
@@ -449,9 +400,8 @@
             const preRetirementReturn = parseFloat(document.getElementById('preRetirementReturn').value) / 100;
             const postRetirementReturn = parseFloat(document.getElementById('postRetirementReturn').value) / 100;
 
-            // 2. Validasi
-            if (currentAge <= 0 || retirementAge <= currentAge || lifeExpectancy <= retirementAge || monthlyExpense <= 0 || inflationRate < 0 || preRetirementReturn <= 0 || postRetirementReturn <= 0 || isNaN(currentAge) || isNaN(retirementAge) || isNaN(lifeExpectancy) || isNaN(currentSavings) || isNaN(monthlyExpense) || isNaN(inflationRate) || isNaN(preRetirementReturn) || isNaN(postRetirementReturn)) {
-                errorText.textContent = t.errorInput;
+            if (currentAge <= 0 || retirementAge <= currentAge || lifeExpectancy <= retirementAge || monthlyExpense <= 0 || inflationRate < 0 || preRetirementReturn <= 0 || postRetirementReturn <= 0) {
+                errorText.textContent = t.inputError;
                 errorAlert.classList.remove('hidden');
                 resultBox.classList.remove('visible');
                 return;
@@ -459,58 +409,37 @@
 
             errorAlert.classList.add('hidden');
 
-            // --- PARAMETER WAKTU ---
             const yearsToRetirement = retirementAge - currentAge;
-            const retirementDuration = lifeExpectancy - retirementAge; // Tahun pensiun
+            const retirementDuration = lifeExpectancy - retirementAge;
 
-            // --- PERHITUNGAN 1: KEBUTUHAN BULANAN SAAT PENSIUN ---
-            // Future Value of Current Monthly Expense (FV = PV * (1 + i)^n)
             const futureMonthlyExpense = monthlyExpense * Math.pow(1 + inflationRate, yearsToRetirement);
             const futureExpenseFormatted = formatNumber(futureMonthlyExpense);
 
-            // --- PERHITUNGAN 2: TOTAL DANA PENSIUN TARGET (PERLU DANA DI TAHUN KE-R) ---
-            // Menggunakan formula Present Value of an Annuity Due (PVOA) karena dana ditarik di awal bulan.
-            // Angka disesuaikan untuk kebutuhan bulanan. Rate disesuaikan per bulan.
             const ratePostMonthly = (1 + postRetirementReturn) ** (1/12) - 1;
             const nMonthsPost = retirementDuration * 12;
-
-            // Formula PV Annuity Due (untuk penarikan di awal periode)
-            // PV = PMT * [ (1 - (1 + r)^-n) / r ] * (1 + r)
-            // *** PERBAIKAN DILAKUKAN DI SINI: Menghapus perkalian x12 yang berlebihan ***
             const totalTargetFund = futureMonthlyExpense * (1 - Math.pow(1 + ratePostMonthly, -nMonthsPost)) / ratePostMonthly * (1 + ratePostMonthly);
-
             const targetFundFormatted = formatNumber(totalTargetFund);
 
-            // --- PERHITUNGAN 3: NILAI AKAN DARI TABUNGAN SAAT INI ---
-            // Future Value of Current Savings (FV = PV * (1 + r)^n)
             const currentFundFuture = currentSavings * Math.pow(1 + preRetirementReturn, yearsToRetirement);
             const currentFundFutureFormatted = formatNumber(currentFundFuture);
 
-            // --- PERHITUNGAN 4: KEKURANGAN DANA BERSIH (GAP) ---
             const fundingGap = totalTargetFund - currentFundFuture;
             const gapFormatted = formatNumber(Math.abs(fundingGap));
 
-            // --- PERHITUNGAN 5: INVESTASI BULANAN YANG DIPERLUKAN (FUTURE VALUE ANNUITY) ---
             let monthlyInvestment = 0;
             const ratePreMonthly = (1 + preRetirementReturn) ** (1/12) - 1;
             const nMonthsPre = yearsToRetirement * 12;
-
+            
             if (fundingGap > 0) {
-                // Formula Future Value of an Ordinary Annuity (untuk setoran di akhir bulan)
-                // PMT = FV * [ r / ((1 + r)^n - 1) ]
                 monthlyInvestment = fundingGap * (ratePreMonthly / (Math.pow(1 + ratePreMonthly, nMonthsPre) - 1));
-            } else {
-                // Jika surplus, setoran bulanan yang dibutuhkan adalah 0 atau sangat kecil
-                monthlyInvestment = 0;
             }
 
             const monthlyInvestmentFormatted = formatNumber(monthlyInvestment);
             const actualMonthlyInvDisplay = fundingGap > 0 ? monthlyInvestmentFormatted : formatNumber(0);
 
-            // --- RANGKUMAN NARASI ---
             let summaryTitleKey;
             let summaryText;
-
+            
             if (fundingGap > 0) {
                 summaryTitleKey = 'summaryTitle_Gap';
                 summaryText = t.summaryText_Gap(gapFormatted, actualMonthlyInvDisplay);
@@ -518,13 +447,10 @@
                 summaryTitleKey = 'summaryTitle_Surplus';
                 summaryText = t.summaryText_Surplus(gapFormatted, actualMonthlyInvDisplay);
             } else {
-                // Tepat sasaran (sangat jarang terjadi)
                 summaryTitleKey = 'summaryTitle_OnTrack';
                 summaryText = t.summaryText_OnTrack(actualMonthlyInvDisplay);
             }
 
-
-            // 3. Tampilkan Hasil
             document.getElementById('summaryTitle').textContent = t[summaryTitleKey];
             document.getElementById('summaryText').innerHTML = summaryText;
 
@@ -533,95 +459,63 @@
             document.getElementById('currentFundFutureResult').textContent = currentFundFutureFormatted;
 
             document.getElementById('gapResult').textContent = gapFormatted;
-            document.getElementById('gapResult').className = `text-xl font-bold mt-1 ${fundingGap > 0 ? 'text-danger-color' : 'text-success-color'}`;
+            document.getElementById('gapResult').className = `text-xl font-bold mt-1 ${fundingGap > 0 ? 'text-red-600' : 'text-green-600'}`;
 
             document.getElementById('monthlyInvestmentResult').textContent = actualMonthlyInvDisplay;
-
 
             resultBox.classList.add('visible');
         }
 
-
-        // **********************************************
-        // FUNGSI TRANSLATE & INISIALISASI
-        // **********************************************
-
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
-
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
-            document.documentElement.lang = lang;
-
-            // Daftar ID elemen dan kunci terjemahan
-            const elements = [
-                'appTitle', 'backToCatalogText', 'headerTitle', 'toolSubtitle',
-                'sectionTimeHeader', 'labelCurrentAge', 'labelRetirementAge', 'labelLifeExpectancy',
-                'descLifeExpectancy', 'sectionFinanceHeader', 'labelCurrentSavings', 'labelMonthlyExpense',
-                'descMonthlyExpense', 'sectionAssumptionHeader', 'labelInflationRate', 'labelPreRetirementReturn',
-                'descPreRetirementReturn', 'labelPostRetirementReturn', 'descPostRetirementReturn', 'calculateButton',
-                'resultTitle', 'metricsHeader', 'resultFutureExpense', 'resultTargetFund', 'resultCurrentFundFuture', 'resultGap', 'resultMonthlyInvestment',
-                'sectionHeader1', 'content1',
-                'linkPrivacy', 'linkTerms', 'linkAbout', 'linkContact', 'footerCopyright'
-            ];
-
-            elements.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.textContent = t[id];
-                }
+            
+            ['appTitle', 'backToCatalogText', 'headerTitle', 'toolSubtitle', 'sectionTimeHeader', 'labelCurrentAge', 
+             'labelRetirementAge', 'labelLifeExpectancy', 'descLifeExpectancy', 'sectionFinanceHeader', 'labelCurrentSavings', 
+             'labelMonthlyExpense', 'descMonthlyExpense', 'sectionAssumptionHeader', 'labelInflationRate', 'labelPreRetirementReturn', 
+             'descPreRetirementReturn', 'labelPostRetirementReturn', 'descPostRetirementReturn', 'calculateButton', 'resultTitle', 
+             'metricsHeader', 'resultFutureExpense', 'resultTargetFund', 'resultCurrentFundFuture', 'resultGap', 'resultMonthlyInvestment', 
+             'sectionHeader1', 'content1'].forEach(id => {
+                 const el = document.getElementById(id);
+                 if(el) el.innerHTML = t[id];
             });
 
-            // Re-format input values based on new language settings
+            // Re-format Inputs
             ['currentSavings', 'monthlyExpense'].forEach(id => {
                 const input = document.getElementById(id);
                 if (input.value) {
-                    const cleanedValue = cleanInput(input.value);
-                    input.value = cleanedValue.toLocaleString(lang === 'id' ? 'id-ID' : 'en-US', {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
+                    input.value = cleanInput(input.value).toLocaleString(lang === 'id' ? 'id-ID' : 'en-US', {
+                        maximumFractionDigits: 0
                     });
                 }
             });
 
-            // Sembunyikan hasil saat ganti bahasa
-            resultBox.classList.remove('visible');
-            errorAlert.classList.add('hidden');
+            // Related Tools Update
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
+
+            if(document.getElementById('resultBox').classList.contains('visible')){
+                calculateRetirement({preventDefault:()=>{}});
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Inisialisasi input dengan format ribuan
-            ['currentSavings', 'monthlyExpense'].forEach(id => {
-                const input = document.getElementById(id);
-                if (input.value) {
-                    input.value = cleanInput(input.value).toLocaleString('id-ID', {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
-                    });
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.type === 'attributes' && m.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
+        });
+        observer.observe(document.documentElement, { attributes: true });
 
-            // Logika Deteksi Bahasa Awal
-            let defaultLang = 'id'; // Sudah di set default 'id' di HTML
+        document.addEventListener('DOMContentLoaded', () => {
+            let defaultLang = 'id';
             const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('en')) {
-                defaultLang = 'en';
-            }
+            if (browserLang.startsWith('en')) defaultLang = 'en';
             setLanguage(defaultLang);
         });
-
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                }
-            }
-        });
-
     </script>
 </body>
 </html>
