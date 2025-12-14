@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="Target Heart Rate Calculator: Master the Karvonen method to calculate your ideal training zones. Optimize fat burning and cardio endurance based on your age and RHR." />
+    
+    <meta name="keywords" content="Target Heart Rate Calculator, Karvonen Formula, Heart Rate Zones, Cardio Intensity, MHR Calculator, Kalkulator Detak Jantung, Zona Latihan, Hitung Denyut Nadi, Rumus Karvonen, Latihan Kardio, Pembakaran Lemak" />
+
+    <title id="appTitle">Target Heart Rate Calculator (Karvonen) - Digital Tools ID</title>
+
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-denyut-jantung/" />
-   
-    <meta name="description" content="Kalkulator Target Denyut Jantung Karvonen yang akurat. Hitung Zona Latihan (THR) personal Anda (50%-100%) berdasarkan Usia dan Denyut Jantung Istirahat (RHR)." />
-   
-    <title id="appTitle">Target Heart Rate Calculator</title>
-    <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-denyut-jantung/index.html" />
+    <link rel="icon" href="data:,"> <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-denyut-jantung/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-denyut-jantung/index.html" />
 
     <meta name="theme-color" content="#1e3a8a">
@@ -23,14 +26,17 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
-    <script>
-        window.headerCategory = 'health';
-    </script>
-    
     <style>
+        /* CSS LOKAL */
+        
+        /* Layout Hard Lock 50% Desktop */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
+        }
+
         /* Gaya Kustom untuk hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -41,7 +47,7 @@
         }
         .result-box.visible {
             opacity: 1;
-            max-height: fit-content; 
+            max-height: 2500px; /* Cukup tinggi untuk konten */
             padding: 1.5rem;
             overflow: visible; 
         }
@@ -55,19 +61,31 @@
         .action-list li {
             margin-bottom: 0.25rem;
         }
+
+        /* Hover effects for tool cards */
+        .tool-card:hover {
+            border-color: #3b82f6; /* Blue-500 */
+            transform: translateY(-2px);
+        }
+        
+        /* Dynamic Text Highlight */
+        .dynamic-text:hover {
+            color: #2563eb;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'health'; </script>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-10 border border-gray-100">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-blue-800 mb-3">Target Heart Rate Calculator (Karvonen)</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-sm text-gray-600 mb-6 leading-relaxed text-justify">
                 Calculate the optimal heart rate zones for your cardio workout based on your age and resting heart rate.
             </p>
             
@@ -83,7 +101,7 @@
                     <p id="rhrHelper" class="text-xs text-gray-500 mt-1 pl-1">How to measure: Count beats per minute while fully rested (e.g., first thing in the morning).</p>
                 </div>
 
-                <button id="calculateButton" onclick="calculateTHR()" class="w-full bg-secondary text-white font-semibold py-3 rounded-xl shadow-md hover:bg-primary-dark transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50">
+                <button id="calculateButton" onclick="calculateTHR()" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50">
                     Calculate Heart Rate Zones
                 </button>
                 
@@ -103,50 +121,47 @@
                         </div>
                         <div class="p-3 bg-white border border-blue-100 rounded-lg text-center">
                             <p id="labelRHRResult" class="text-sm text-gray-700 font-medium">Resting Heart Rate (RHR)</p>
-                            <p id="rhrResult" class="text-2xl font-bold text-primary-dark mt-1">-- bpm</p>
+                            <p id="rhrResult" class="text-2xl font-bold text-gray-800 mt-1">-- bpm</p>
                         </div>
                     </div>
                 </div>
 
-                <h3 id="zoneHeader" class="text-lg font-bold mt-6 mb-3 text-primary border-b border-blue-200 pb-2">Training Zones (Beats Per Minute)</h3>
+                <h3 id="zoneHeader" class="text-lg font-bold mt-6 mb-3 text-gray-800 border-b border-blue-200 pb-2">Training Zones (Beats Per Minute)</h3>
                 <div id="zoneContainer" class="space-y-2">
                     </div>
                 
                 <div id="actionAdviceBox" class="p-4 bg-white border border-blue-200 rounded-lg mt-6">
-                    <h4 id="actionHeader" class="text-lg font-bold text-primary-dark mb-2">How to Use Your Heart Rate Zones</h4>
-                    <ul class="action-list list-disc ml-4 space-y-1" id="actionSteps">
+                    <h4 id="actionHeader" class="text-lg font-bold text-blue-800 mb-2">How to Use Your Heart Rate Zones</h4>
+                    <ul class="action-list list-disc ml-4 space-y-1 text-sm text-gray-700" id="actionSteps">
                         </ul>
                 </div>
 
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding the Karvonen Method and Training Zones</h2>
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Understanding the Karvonen Method</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
                 <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">The Purpose of Each Heart Rate Zone</h3>
                 
                 <div id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
                     <p id="zoneIntro"></p>
-                    <div id="zoneBenefits">
+                    <div id="zoneBenefits" class="space-y-3">
                         </div>
                 </div>
 
-                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Safety and Practical Use During Exercise</h3>
-                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
-                <div id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
-                    <h4 class="text-base font-semibold mt-0 text-primary-dark" id="safetyHeader">Important Safety Guidelines</h4>
-                    <ul class="action-list list-disc ml-4 space-y-1" id="safetyList">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Safety Guidelines</h3>
+                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                    <h4 class="text-sm font-bold text-yellow-800 mb-2" id="safetyHeader">Important Safety Guidelines</h4>
+                    <ul class="action-list list-disc ml-4 space-y-1 text-xs text-yellow-900" id="safetyList">
+                        </ul>
                 </div>
             </section>
             
             <section id="referenceSection" class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader4" class="text-xl font-bold text-gray-800 mb-3">Sources & References</h2>
-                <div id="references" class="text-gray-600 text-xs leading-relaxed space-y-2">
+                <h2 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2">Sources & References</h2>
+                <div id="references" class="text-gray-500 text-xs leading-relaxed space-y-1">
                     </div>
             </section>
 
@@ -155,7 +170,7 @@
 
     <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <div class="w-1 h-7 bg-blue-600 mr-3 rounded"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
                 data-en="Health & Lifestyle Tools" 
                 data-id="Alat Kesehatan & Gaya Hidup">
@@ -164,7 +179,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="BMI Calculator"
                     data-id="Kalkulator BMI">
@@ -177,7 +192,7 @@
                 </p>
             </a>
 
-            <a href="../body-fat-calculator/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../body-fat-calculator/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Body Fat Percentage"
                     data-id="Persentase Lemak Tubuh">
@@ -190,20 +205,7 @@
                 </p>
             </a>
 
-            <a href="../kalkulator-air-harian/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Daily Water Intake Calculator"
-                    data-id="Kalkulator Asupan Air Harian">
-                    Daily Water Intake Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Calculate your minimum daily hydration needs."
-                    data-id="Hitung kebutuhan hidrasi harian minimum Anda.">
-                    Calculate your minimum daily hydration needs.
-                </p>
-            </a>
-
-            <a href="../kalkulator-kebutuhan-protein/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../kalkulator-kebutuhan-protein/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Daily Protein Needs Calculator"
                     data-id="Kalkulator Kebutuhan Protein">
@@ -213,19 +215,6 @@
                     data-en="Determine ideal protein intake for muscle building or diet."
                     data-id="Tentukan asupan protein ideal untuk pembentukan otot atau diet.">
                     Determine ideal protein intake for muscle building or diet.
-                </p>
-            </a>
-
-            <a href="../kalkulator-siklus-menstruasi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Menstrual & Ovulation Cycle"
-                    data-id="Kalkulator Siklus Menstruasi">
-                    Menstrual & Ovulation Cycle
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Estimate your next period and fertile window."
-                    data-id="Perkirakan periode haid berikutnya dan masa subur.">
-                    Estimate your next period and fertile window.
                 </p>
             </a>
         </div>
@@ -239,7 +228,7 @@
             <ul class="space-y-3">
                 <li>
                     <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="Understanding BMI and TDEE: Your Daily Calorie Needs" 
                               data-id="Memahami BMI dan TDEE: Kebutuhan Kalori Harian Anda">
                             Understanding BMI and TDEE: Your Daily Calorie Needs
@@ -247,17 +236,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/panduan_lingkar_pinggang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
-                        <span data-en="Complete Guide to Measuring Ideal Waist Circumference" 
-                              data-id="Panduan Lengkap Mengukur Lingkar Pinggang Ideal">
-                            Complete Guide to Measuring Ideal Waist Circumference
-                        </span>
-                    </a>
-                </li>
-                <li>
                     <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="The Complete Guide: How to Read a Nutrition Facts Label" 
                               data-id="Panduan Lengkap: Cara Membaca Label Informasi Nilai Gizi">
                             The Complete Guide: How to Read a Nutrition Facts Label
@@ -269,19 +249,15 @@
     </section>
 
     <div id="global-footer-container"></div>
-    
     <script src="../components.js"></script>
+    
     <script>
-        // **********************************************
-        // LOGIKA BARU UNTUK KALKULATOR TARGET DENYUT JANTUNG (KARVONEN)
-        // **********************************************
-
         const zonesData = [
-            { name: "Healthy Heart / Warm-up (50-60%)", min: 0.50, max: 0.60, color: "bg-gray-200", text: "text-gray-800", id: "zone1" },
-            { name: "Fat Burning (60-70%)", min: 0.60, max: 0.70, color: "bg-green-200", text: "text-green-800", id: "zone2" },
-            { name: "Aerobic / Endurance (70-80%)", min: 0.70, max: 0.80, color: "bg-yellow-200", text: "text-yellow-800", id: "zone3" },
-            { name: "Anaerobic / Performance (80-90%)", min: 0.80, max: 0.90, color: "bg-red-200", text: "text-red-800", id: "zone4" },
-            { name: "Maximum Effort (90-100%)", min: 0.90, max: 1.00, color: "bg-red-300", text: "text-red-900", id: "zone5" }
+            { name: "Healthy Heart / Warm-up (50-60%)", min: 0.50, max: 0.60, color: "bg-gray-100", text: "text-gray-800", id: "zone1" },
+            { name: "Fat Burning (60-70%)", min: 0.60, max: 0.70, color: "bg-green-100", text: "text-green-800", id: "zone2" },
+            { name: "Aerobic / Endurance (70-80%)", min: 0.70, max: 0.80, color: "bg-yellow-100", text: "text-yellow-800", id: "zone3" },
+            { name: "Anaerobic / Performance (80-90%)", min: 0.80, max: 0.90, color: "bg-orange-100", text: "text-orange-800", id: "zone4" },
+            { name: "Maximum Effort (90-100%)", min: 0.90, max: 1.00, color: "bg-red-100", text: "text-red-900", id: "zone5" }
         ];
 
         const translations = {
@@ -312,48 +288,40 @@
                 zone4Name: "Anaerobik / Performa (80-90%)",
                 zone5Name: "Upaya Maksimum (90-100%)",
                 
-                // Konten Edukasi Wajib
-                sectionHeader1: "Memahami Metode Karvonen dan Zona Latihan",
-                content1: "Detak Jantung Maksimum (MHR) yang dihitung dengan rumus dasar (220 - Usia) seringkali tidak akurat karena tidak memperhitungkan tingkat kebugaran individual. Metode <strong>Karvonen</strong> yang kami gunakan jauh lebih akurat karena memasukkan Denyut Jantung Istirahat (RHR) Anda. <br><br> RHR adalah metrik penting yang secara langsung mencerminkan kebugaran kardiovaskular Anda: semakin rendah RHR, semakin efisien jantung Anda memompa darah. Dengan menggunakan RHR, kami menghitung Heart Rate Reserve (HRR) Anda, memungkinkan zona target latihan Anda lebih dipersonalisasi dan efektif.",
+                // Konten Edukasi
+                sectionHeader1: "Memahami Metode Karvonen",
+                content1: "Detak Jantung Maksimum (MHR) yang dihitung dengan rumus dasar (220 - Usia) seringkali tidak akurat karena tidak memperhitungkan tingkat kebugaran individual. Metode <strong>Karvonen</strong> yang kami gunakan jauh lebih akurat karena memasukkan Denyut Jantung Istirahat (RHR) Anda. <br><br> RHR adalah metrik penting yang secara langsung mencerminkan kebugaran kardiovaskular Anda: semakin rendah RHR, semakin efisien jantung Anda memompa darah. Dengan menggunakan RHR, kami menghitung Heart Rate Reserve (HRR) Anda, memungkinkan zona target latihan Anda lebih dipersonalisasi.",
                 
                 sectionHeader2: "Tujuan Setiap Zona Denyut Jantung",
-                zoneIntro: `Setiap zona pelatihan menargetkan sistem energi yang berbeda dalam tubuh, memberikan manfaat kebugaran yang unik. Melatih pada persentase intensitas yang tepat sangat penting untuk mencapai tujuan Anda, apakah itu pembakaran lemak, peningkatan daya tahan, atau peningkatan performa.`,
+                zoneIntro: `Setiap zona pelatihan menargetkan sistem energi yang berbeda dalam tubuh, memberikan manfaat kebugaran yang unik.`,
                 
-                // Manfaat Zona (akan diinjeksikan secara dinamis)
-                zone1Benefit: "Manfaat: Membangun fondasi kebugaran dan pemanasan. Meningkatkan daya tahan jantung dasar.",
-                zone2Benefit: "Manfaat: Zona optimal untuk pembakaran lemak karena tubuh menggunakan lemak sebagai sumber energi utama.",
-                zone3Benefit: "Manfaat: Meningkatkan kapasitas aerobik dan daya tahan kardiovaskular jangka panjang.",
-                zone4Benefit: "Manfaat: Membangun kecepatan dan kekuatan. Latihan intensitas tinggi untuk peningkatan performa.",
-                zone5Benefit: "Manfaat: Interval sangat pendek untuk latihan performa. Jangan pertahankan zona ini terlalu lama.",
+                // Manfaat Zona
+                zone1Benefit: "<strong>Manfaat:</strong> Membangun fondasi kebugaran dan pemanasan. Meningkatkan daya tahan jantung dasar.",
+                zone2Benefit: "<strong>Manfaat:</strong> Zona optimal untuk pembakaran lemak karena tubuh menggunakan lemak sebagai sumber energi utama.",
+                zone3Benefit: "<strong>Manfaat:</strong> Meningkatkan kapasitas aerobik dan daya tahan kardiovaskular jangka panjang.",
+                zone4Benefit: "<strong>Manfaat:</strong> Membangun kecepatan dan kekuatan. Latihan intensitas tinggi untuk peningkatan performa.",
+                zone5Benefit: "<strong>Manfaat:</strong> Interval sangat pendek untuk latihan performa. Jangan pertahankan zona ini terlalu lama.",
                 
-                // PANDUAN AKSI BARU
-                actionStep0: "<strong>Panduan Umum: Kontrol Real-Time</strong>. Selalu gunakan monitor Denyut Jantung. Jika Denyut Jantung Anda <strong>melebihi</strong> batas atas zona target, segera <strong>kurangi</strong> kecepatan/upaya Anda. Jika Denyut Jantung Anda <strong>di bawah</strong> batas bawah, <strong>tingkatkan</strong> intensitas.",
-                actionStep1: "<strong>Tujuan: Pembakaran Lemak (Zona 2)</strong>. Latihan: 45-60 menit berjalan cepat, bersepeda, atau berenang. Pertahankan Denyut Jantung Anda di 60-70% MHR.",
-                actionStep2: "<strong>Tujuan: Peningkatan Daya Tahan (Zona 3)</strong>. Latihan: 30-45 menit lari santai atau latihan beban sirkuit. Pertahankan Denyut Jantung Anda di 70-80% MHR.",
-                actionStep3: "<strong>Tujuan: Peningkatan Performa (Zona 4)</strong>. Latihan: Latihan Interval Intensitas Tinggi (HIIT). Lakukan interval 2-5 menit dengan Denyut Jantung di 80-90% MHR, diselingi pemulihan di Zona 2.",
-                actionStep4: "<strong>Tujuan: Upaya Maksimum (Zona 5)</strong>. Zona ini hanya untuk atlet berpengalaman dan sesi singkat (mis. sprint 30-60 detik). <strong>Tidak disarankan untuk pemula.</strong>",
-                actionStep5: "<strong>Pendinginan (Wajib)</strong>. Setelah sesi intensif, turunkan intensitas secara bertahap (Zona 1) selama 5-10 menit untuk menormalkan detak jantung sebelum berhenti total.",
+                // Aksi
+                actionStep0: "<strong>Panduan Umum:</strong> Selalu gunakan monitor Denyut Jantung. Jika melebihi batas, kurangi intensitas.",
+                actionStep1: "<strong>Pembakaran Lemak (Zona 2):</strong> 45-60 menit berjalan cepat atau bersepeda santai.",
+                actionStep2: "<strong>Daya Tahan (Zona 3):</strong> 30-45 menit lari santai atau berenang.",
+                actionStep3: "<strong>Performa (Zona 4):</strong> Interval Intensitas Tinggi (HIIT).",
+                actionStep4: "<strong>Maksimum (Zona 5):</strong> Hanya untuk atlet berpengalaman (Sprint singkat).",
+                actionStep5: "<strong>Pendinginan:</strong> Kembali ke Zona 1 selama 5-10 menit setelah latihan.",
 
-                sectionHeader3: "Keselamatan dan Penggunaan Praktis Selama Berolahraga",
-                content3: "Meskipun kalkulator ini menyediakan panduan yang terpersonalisasi, selalu utamakan perasaan tubuh Anda. Jika Anda merasa pusing, mual, atau sakit dada, segera hentikan latihan terlepas dari apa pun angka yang ditampilkan di monitor detak jantung Anda.",
+                sectionHeader3: "Keselamatan dan Penggunaan Praktis",
+                content3: "Meskipun kalkulator ini menyediakan panduan, selalu utamakan perasaan tubuh Anda. Jika pusing atau sakit dada, berhenti segera.",
                 
                 safetyHeader: "Pedoman Keselamatan Penting",
-                safetyList1: "Selalu berkonsultasi dengan dokter sebelum memulai rejimen latihan intensif baru, terutama jika Anda memiliki kondisi kesehatan yang sudah ada sebelumnya.",
-                safetyList2: "Gunakan monitor detak jantung (seperti *strap* dada atau jam tangan pintar) untuk memantau detak jantung Anda secara <strong>real-time</strong> saat berolahraga.",
-                safetyList3: "Denyut Jantung Maksimum yang dihitung hanyalah estimasi; jangan pernah memaksakan diri mencapai batas maksimum jika tubuh Anda tidak terasa nyaman.",
+                safetyList1: "Konsultasikan dengan dokter sebelum memulai latihan intensif.",
+                safetyList2: "Gunakan monitor detak jantung untuk akurasi.",
+                safetyList3: "Jangan memaksakan diri mencapai batas maksimum jika tidak nyaman.",
                 
-                // REFERENSI
                 sectionHeader4: "Sumber & Referensi",
-                ref1: "Karvonen, J., Kentala, E., & Mustala, O. (1957). The effects of training on heart rate: a longitudinal study. *Annales Medicinae Experimentalis et Biologiae Fenniae*, 35(3), 307–315. (Metode Karvonen)",
-                ref2: "American College of Sports Medicine (ACSM). *ACSM's Guidelines for Exercise Testing and Prescription* (Edisi terbaru). (Zona Intensitas Latihan)",
-                ref3: "Centers for Disease Control and Prevention (CDC). *Target Heart Rate and Estimated Maximum Heart Rate*. (Panduan Denyut Jantung)",
-
-                // [MODULAR] Global Footer
-                footerPrivacy: "Kebijakan Privasi",
-                footerTerms: "Syarat Ketentuan",
-                footerAbout: "Tentang Kami",
-                footerContact: "Hubungi Kami",
-                footerDev: "Dikembangkan oleh DTID Analytics.",
+                ref1: "Karvonen, J., et al. (1957). The effects of training on heart rate.",
+                ref2: "American College of Sports Medicine (ACSM). Guidelines for Exercise Testing.",
+                ref3: "Centers for Disease Control and Prevention (CDC). Target Heart Rate.",
             },
             en: {
                 appTitle: "Target Heart Rate Calculator",
@@ -368,77 +336,61 @@
                 placeholderAge: "E.g.: 30",
                 placeholderRHR: "E.g.: 65",
 
-                // Results
                 resultTitle: "Your Heart Rate Zones",
                 labelMaxHR: "Maximum Heart Rate (MHR)",
                 labelRHRResult: "Resting Heart Rate (RHR)",
                 zoneHeader: "Training Zones (Beats Per Minute)",
                 actionHeader: "How to Use Your Heart Rate Zones",
 
-                // Zone Names
                 zone1Name: "Healthy Heart / Warm-up (50-60%)",
                 zone2Name: "Fat Burning (60-70%)",
                 zone3Name: "Aerobic / Endurance (70-80%)",
                 zone4Name: "Anaerobic / Performance (80-90%)",
                 zone5Name: "Maximum Effort (90-100%)",
 
-                // Mandatory Educational Content
-                sectionHeader1: "Understanding the Karvonen Method and Training Zones",
-                content1: "Maximum Heart Rate (MHR) calculated using the basic formula (220 - Age) is often inaccurate because it fails to account for individual fitness levels. The <strong>Karvonen method</strong> we use is significantly more precise as it incorporates your Resting Heart Rate (RHR). <br><br> RHR is a crucial metric that directly reflects your cardiovascular fitness: the lower your RHR, the more efficiently your heart pumps blood. By using your RHR, we calculate your Heart Rate Reserve (HRR), allowing your target training zones to be more personalized and effective.",
+                sectionHeader1: "Understanding the Karvonen Method",
+                content1: "Maximum Heart Rate (MHR) calculated using the basic formula (220 - Age) is often inaccurate. The <strong>Karvonen method</strong> is more precise as it incorporates your Resting Heart Rate (RHR). <br><br> RHR reflects your cardiovascular fitness: the lower your RHR, the more efficient your heart. By using RHR, we calculate Heart Rate Reserve (HRR) for personalized zones.",
                 
                 sectionHeader2: "The Purpose of Each Heart Rate Zone",
-                zoneIntro: `Each training zone targets a different energy system in the body, providing unique fitness benefits. Training at the correct intensity percentage is critical to achieving your goals, whether that's fat burn, endurance improvement, or performance enhancement.`,
+                zoneIntro: `Each training zone targets a different energy system, providing unique fitness benefits.`,
                 
-                // Zone Benefits
-                zone1Benefit: "Benefit: Builds fitness foundation and warms up the body. Improves basic heart endurance.",
-                zone2Benefit: "Benefit: The optimal zone for fat burning as the body uses fat as the primary energy source.",
-                zone3Benefit: "Benefit: Improves aerobic capacity and long-term cardiovascular endurance.",
-                zone4Benefit: "Benefit: Builds speed and strength. High-intensity training for performance enhancement.",
-                zone5Benefit: "Benefit: Very short intervals for performance training. Do not sustain this zone for long.",
+                zone1Benefit: "<strong>Benefit:</strong> Builds fitness foundation and warms up the body.",
+                zone2Benefit: "<strong>Benefit:</strong> Optimal for fat burning using fat as primary energy.",
+                zone3Benefit: "<strong>Benefit:</strong> Improves aerobic capacity and endurance.",
+                zone4Benefit: "<strong>Benefit:</strong> Builds speed and strength (High intensity).",
+                zone5Benefit: "<strong>Benefit:</strong> Short intervals for performance. Do not sustain long.",
                 
-                // NEW ACTION GUIDANCE
-                actionStep0: "<strong>General Guide: Real-Time Control</strong>. Always use a Heart Rate monitor. If your Heart Rate <strong>exceeds</strong> the upper zone limit, immediately <strong>reduce</strong> your speed/effort. If your Heart Rate <strong>falls below</strong> the lower limit, <strong>increase</strong> intensity.",
-                actionStep1: "<strong>Goal: Fat Burning (Zone 2)</strong>. Workout: 45-60 minutes of brisk walking, cycling, or swimming. Sustain your Heart Rate at 60-70% MHR.",
-                actionStep2: "<strong>Goal: Endurance Improvement (Zone 3)</strong>. Workout: 30-45 minutes of easy running or circuit strength training. Sustain your Heart Rate at 70-80% MHR.",
-                actionStep3: "<strong>Goal: Performance Increase (Zone 4)</strong>. Workout: High-Intensity Interval Training (HIIT). Perform 2-5 minute intervals with your Heart Rate at 80-90% MHR, interspersed with recovery in Zone 2.",
-                actionStep4: "<strong>Goal: Maximum Effort (Zone 5)</strong>. This zone is only for experienced athletes and brief sessions (e.g., 30-60 second sprints). <strong>Not recommended for beginners.</strong>",
-                actionStep5: "<strong>Cool-down (Mandatory)</strong>. After an intense session, gradually decrease intensity (Zone 1) for 5-10 minutes to normalize heart rate before stopping completely.",
+                actionStep0: "<strong>General Guide:</strong> Use a Heart Rate monitor. Adjust intensity to stay in zone.",
+                actionStep1: "<strong>Fat Burning (Zone 2):</strong> 45-60 mins brisk walking/cycling.",
+                actionStep2: "<strong>Endurance (Zone 3):</strong> 30-45 mins steady running/swimming.",
+                actionStep3: "<strong>Performance (Zone 4):</strong> High-Intensity Interval Training (HIIT).",
+                actionStep4: "<strong>Max Effort (Zone 5):</strong> Experienced athletes only (Sprints).",
+                actionStep5: "<strong>Cool-down:</strong> Return to Zone 1 for 5-10 mins.",
 
-                sectionHeader3: "Safety and Practical Use During Exercise",
-                content3: "While this calculator provides personalized guidance, always prioritize how your body feels. If you experience dizziness, nausea, or chest pain, stop exercising immediately regardless of the number displayed on your heart rate monitor.",
+                sectionHeader3: "Safety and Practical Use",
+                content3: "Always prioritize how your body feels. Stop if you feel dizziness or chest pain.",
                 
                 safetyHeader: "Important Safety Guidelines",
-                safetyList1: "Always consult a doctor before starting a new intensive exercise regimen, especially if you have pre-existing health conditions.",
-                safetyList2: "Use a heart rate monitor (like a chest strap or smartwatch) to track your heart rate in <strong>real-time</strong> during exercise.",
-                safetyList3: "The calculated Maximum Heart Rate is only an estimate; never push yourself to the absolute maximum limit if your body feels uncomfortable.",
+                safetyList1: "Consult a doctor before starting intensive exercise.",
+                safetyList2: "Use a heart rate monitor for real-time tracking.",
+                safetyList3: "Never push to absolute max if uncomfortable.",
 
-                // REFERENSI
                 sectionHeader4: "Sources & References",
-                ref1: "Karvonen, J., Kentala, E., & Mustala, O. (1957). The effects of training on heart rate: a longitudinal study. *Annales Medicinae Experimentalis et Biologiae Fenniae*, 35(3), 307–315. (Karvonen Method)",
-                ref2: "American College of Sports Medicine (ACSM). *ACSM's Guidelines for Exercise Testing and Prescription* (Latest Edition). (Training Intensity Zones)",
-                ref3: "Centers for Disease Control and Prevention (CDC). *Target Heart Rate and Estimated Maximum Heart Rate*. (Heart Rate Guidance)",
-
-                // [MODULAR] Global Footer
-                footerPrivacy: "Privacy Policy",
-                footerTerms: "Terms of Service",
-                footerAbout: "About Us",
-                footerContact: "Contact Us",
-                footerDev: "Developed by DTID Analytics.",
+                ref1: "Karvonen, J., et al. (1957). The effects of training on heart rate.",
+                ref2: "American College of Sports Medicine (ACSM). Guidelines for Exercise Testing.",
+                ref3: "Centers for Disease Control and Prevention (CDC). Target Heart Rate.",
             }
         };
 
         let currentLang = 'en'; 
 
-        // Fungsi untuk menghitung Target Heart Rate (Karvonen Method)
         function calculateTHR() {
             const age = parseInt(document.getElementById('ageInput').value);
             const rhr = parseInt(document.getElementById('rhrInput').value);
-            
             const lang = currentLang;
             const resultBox = document.getElementById('resultBox');
             const errorAlert = document.getElementById('errorAlert');
 
-            // 1. Validasi Input
             if (isNaN(age) || age < 10 || isNaN(rhr) || rhr < 30 || rhr > 120) {
                 document.getElementById('errorText').textContent = translations[lang].inputError;
                 errorAlert.classList.remove('hidden');
@@ -448,27 +400,19 @@
             
             errorAlert.classList.add('hidden');
             
-            // --- PERHITUNGAN KARVONEN ---
-            // 1. MHR (Maximum Heart Rate): 220 - Usia
             const mhr = 220 - age;
-            // 2. HRR (Heart Rate Reserve): MHR - RHR
             const hrr = mhr - rhr;
             
-            // Tampilkan MHR dan RHR
             document.getElementById('maxHrResult').textContent = `${mhr} bpm`;
             document.getElementById('rhrResult').textContent = `${rhr} bpm`;
 
-            // Hitung Zona Target (THR)
             let zoneHTML = '';
             let zoneBenefitHTML = '';
 
             zonesData.forEach(zone => {
-                // THR Min = (HRR * %Min) + RHR
                 const minTHR = Math.round((hrr * zone.min) + rhr);
-                // THR Max = (HRR * %Max) + RHR
                 const maxTHR = Math.round((hrr * zone.max) + rhr);
                 
-                // Ambil Nama Zona dari objek terjemahan
                 const zoneNameKey = `zone${zonesData.indexOf(zone) + 1}Name`;
                 const zoneBenefitKey = `zone${zonesData.indexOf(zone) + 1}Benefit`;
 
@@ -487,17 +431,15 @@
                 
                 zoneBenefitHTML += `
                     <div class="pt-2">
-                        <h4 class="text-base font-semibold mt-0 text-primary-dark">${zoneName}</h4>
-                        <p class="text-sm text-gray-700">${zoneBenefit}</p>
+                        <h4 class="text-sm font-semibold mt-0 text-blue-800">${zoneName}</h4>
+                        <p class="text-xs text-gray-700">${zoneBenefit}</p>
                     </div>
                 `;
             });
             
-            // Injeksi ke HTML
             document.getElementById('zoneContainer').innerHTML = zoneHTML;
             document.getElementById('zoneBenefits').innerHTML = zoneBenefitHTML;
             
-            // Injeksi Langkah Aksi
             document.getElementById('actionSteps').innerHTML = `
                 <li>${translations[lang].actionStep0}</li>
                 <li>${translations[lang].actionStep1}</li>
@@ -507,50 +449,31 @@
                 <li>${translations[lang].actionStep5}</li>
             `;
             
-            // 7. Tampilkan kotak hasil
             resultBox.classList.add('visible');
         }
 
-
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
             
-            // [MODULAR] Update Toggle Header jika ada (via Components)
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            if(languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
-
-            // Update Header Global (Safety Check)
-            const backBtn = document.getElementById('backToCatalogText');
-            if(backBtn) backBtn.textContent = t.backToCatalogText;
-
-            // Update teks statis
             document.getElementById('appTitle').textContent = t.appTitle;
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
             
-            // Update label formulir dan tombol
             document.getElementById('labelAge').textContent = t.labelAge;
             document.getElementById('labelRHR').textContent = t.labelRHR;
             document.getElementById('rhrHelper').textContent = t.rhrHelper;
             document.getElementById('calculateButton').textContent = t.calculateButton;
 
-            // Update placeholder
             document.getElementById('ageInput').placeholder = t.placeholderAge;
             document.getElementById('rhrInput').placeholder = t.placeholderRHR;
 
-            // Update label hasil
             document.getElementById('resultTitle').textContent = t.resultTitle;
             document.getElementById('labelMaxHR').textContent = t.labelMaxHR;
             document.getElementById('labelRHRResult').textContent = t.labelRHRResult;
             document.getElementById('zoneHeader').textContent = t.zoneHeader;
             document.getElementById('actionHeader').textContent = t.actionHeader;
             
-            // Update Konten Edukasi Wajib
             document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
             document.getElementById('content1').innerHTML = t.content1;
             document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
@@ -558,14 +481,12 @@
             
             document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
             document.getElementById('content3').innerHTML = t.content3;
-            // Safety
             document.getElementById('safetyHeader').textContent = t.safetyHeader;
             document.getElementById('safetyList').innerHTML = `
                 <li>${t.safetyList1}</li>
                 <li>${t.safetyList2}</li>
                 <li>${t.safetyList3}</li>
             `;
-            // REFERENSI
             document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
             document.getElementById('references').innerHTML = `
                 <p>${t.ref1}</p>
@@ -573,82 +494,28 @@
                 <p>${t.ref3}</p>
             `;
 
-            // Perbarui hasil yang sudah ada (jika sudah dihitung)
             const maxHrResultElement = document.getElementById('maxHrResult');
             if (maxHrResultElement.textContent !== '-- bpm') {
                  calculateTHR();
             }
 
-             // Pastikan error message diupdate
-            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
-                document.getElementById('errorText').textContent = t.inputError;
-            }
-
-            // [MODULAR] Update Related Tools Translation
-            updateRelatedContent(lang);
-        }
-
-        // ============================================================
-        // LOGIKA BAHASA: BAGIAN RELATED TOOLS & ARTICLES (NEW)
-        // ============================================================
-        function updateRelatedContent(lang) {
-            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
-            translatableElements.forEach(el => {
+            document.querySelectorAll('#related-tools-section [data-en]').forEach(el => {
                 const newText = el.getAttribute(`data-${lang}`);
-                if (newText) {
-                    el.textContent = newText;
-                }
+                if (newText) el.textContent = newText;
             });
         }
 
-        // ============================================================
-        // LOGIKA WARNA DINAMIS (THEME MANAGER) (NEW)
-        // ============================================================
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'health'; 
-            const themes = {
-                health: {
-                    bg: 'bg-blue-600', text: 'text-blue-600',
-                    border: 'hover:border-blue-400', hoverText: 'group-hover:text-blue-700',
-                    bgGroup: 'group-hover:bg-blue-500'
-                },
-                finance: {
-                    bg: 'bg-green-600', text: 'text-green-600',
-                    border: 'hover:border-green-400', hoverText: 'group-hover:text-green-700',
-                    bgGroup: 'group-hover:bg-green-500'
-                },
-                productivity: {
-                    bg: 'bg-purple-600', text: 'text-purple-600',
-                    border: 'hover:border-purple-400', hoverText: 'group-hover:text-purple-700',
-                    bgGroup: 'group-hover:bg-purple-500'
-                }
-            };
-            const theme = themes[category] || themes.health;
-
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
-        }
-
-        // ============================================================
-        // OBSERVER BAHASA (Agar Konten Lokal Merespon Header) (NEW)
-        // ============================================================
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    const currentLang = document.documentElement.lang || 'en';
-                    setLanguage(currentLang);
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
         });
         observer.observe(document.documentElement, { attributes: true });
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
             setLanguage('en'); 
-            applyDynamicTheme(); // Apply color theme
         });
     </script>
 </body>

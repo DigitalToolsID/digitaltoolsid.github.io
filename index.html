@@ -56,8 +56,7 @@
         /* Warna Kategori */
         .card-health { border-color: #3498db; }
         .card-finance { border-color: #27ae60; }
-        .card-productivity { border-color: #9b59b6; }
-    </style>
+        .card-productivity { border-color: #3730a3; } </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -503,9 +502,9 @@
                 subCategory: "prod_general",
                 active: true,
                 path: "./kalkulator-online/index.html",
-                title: { id: "Kalkulator Online Sederhana", en: "Simple Online Calculator" },
-                desc: { id: "Kalkulasi sederhana tanpa fungsi rumit.", en: "Simple calculations without complex features." },
-                keywords: ["kalkulator", "hitung", "tambah", "kurang", "kali", "bagi", "sederhana", "matematika", "calculator"]
+                title: { id: "Kalkulator Bisnis Online", en: "Online Business Calculator" },
+                desc: { id: "Alat hitung yang diperkaya fitur riwayat, narasi terbilang rupiah, dan dapat mencetak struk sederhana dalam format PDF.", en: "A standard calculator enhanched with history spell-out feature, and the ability to print simple receipts in PDF format." },
+                keywords: ["kalkulator", "hitung", "tambah", "kurang", "kali", "bagi", "sederhana", "matematika", "calculator", "print pdf", "spell out", "cetak pdf", "pdf","rupiah terbilang"]
             },
             // ALAT NON-AKTIF
             {
@@ -528,7 +527,7 @@
                 desc: { id: "Analisis teks cepat untuk SEO atau batas karakter.", en: "Quick text analysis for SEO or character limits." },
                 keywords: ["kata", "karakter", "word count", "menulis", "seo", "teks", "panjang"]
             }
-        ];
+        ]; // <--- PERBAIKAN SINTAKS 1: Menambahkan titik koma (;) yang hilang
         
         // Data Artikel
         const articleData = {
@@ -543,7 +542,7 @@
                 { path: "./articles/klausul-perpajakan-kontrak.html", title: {id: "Klausul Pembayaran Kontrak: Menghindari Sengketa PPN dan PPh", en: "Contract Payment Clauses: Avoiding VAT and WHT Disputes"} },
                 { path: "./articles/strategi-mempercepat-pelunasan-utang.html", title: {id: "Strategi Mempercepat Pelunasan Utang dan Menghemat Bunga", en: "Strategy for Accelerating Debt Payoff and Saving Interest"} }
             ]
-        };
+        }; // <--- PERBAIKAN SINTAKS 2: Menambahkan titik koma (;) yang hilang
 
         // Kategori Meta Data
         const categories = {

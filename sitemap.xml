@@ -1,319 +1,306 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
     
-    <!-- ========================================== -->
-    <!-- HALAMAN UTAMA (KATALOG)                    -->
-    <!-- ========================================== -->
     <url>
         <loc>https://digitaltoolsid.github.io/</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
 
-    <!-- ========================================== -->
-    <!-- KATEGORI: KESEHATAN (HEALTH)               -->
-    <!-- ========================================== -->
     <url>
         <loc>https://digitaltoolsid.github.io/BMI/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/body-fat-calculator/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-air-harian/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-denyut-jantung/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-kebutuhan-protein/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-siklus-menstruasi/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- ========================================== -->
-    <!-- KATEGORI: KEUANGAN (FINANCE)               -->
-    <!-- ========================================== -->
-    
-    <!-- Sub: Anggaran & Kesehatan Keuangan -->
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-anggaran-bulanan/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-biaya-hidup/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-bunga-efektif/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-dana-darurat/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-konversi-gaji/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-networth/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- Sub: Investasi & Pertumbuhan -->
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-bunga-majemuk/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-dpp-ppn-pph/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-imbal-hasil-saham/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-npv-irr-bep/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pajak-keuntungan-modal/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pph/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pph-detil/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-roi-properti-sewa/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- Sub: Pinjaman & Utang -->
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-cicilan-mobil/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-kapasitas-cicilan/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-kpr/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pelunasan-kartu-kredit/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pelunasan-utang/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-perbandingan-pinjaman-pribadi/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pinjaman-multi-tujuan/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-refinancing-pinjaman/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- Sub: Perencanaan Pensiun -->
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-inflasi/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-penarikan-dana-pensiun/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-pensiun/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-tabungan-pendidikan/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-target-tabungan/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- ========================================== -->
-    <!-- KATEGORI: PRODUKTIVITAS (PRODUCTIVITY)     -->
-    <!-- ========================================== -->
     <url>
         <loc>https://digitaltoolsid.github.io/universal-convert/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/kalkulator-online/index.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- ========================================== -->
-    <!-- ARTIKEL (BLOG / GUIDES)                    -->
-    <!-- ========================================== -->
-    <!-- Kesehatan -->
     <url>
         <loc>https://digitaltoolsid.github.io/articles/definisi_bmi_tdee.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/articles/panduan_lingkar_pinggang.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/articles/panduan-label-nutrisi.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/articles/protein-penurunan-berat-badan.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/articles/strategi_menurunkan_berat_badan.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
     
-    <!-- Keuangan -->
     <url>
         <loc>https://digitaltoolsid.github.io/articles/klausul-perpajakan-kontrak.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/articles/strategi-mempercepat-pelunasan-utang.html</loc>
-        <lastmod>2025-11-23</lastmod>
+        <lastmod>2025-12-14</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://digitaltoolsid.github.io/articles/analisis-titik-impas-bisnis.html</loc>
+        <lastmod>2025-12-14</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://digitaltoolsid.github.io/articles/bunga-efektif-sebenarnya.html</loc>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- ========================================== -->
-    <!-- HALAMAN STATIS (STATIC PAGES)              -->
-    <!-- ========================================== -->
     <url>
         <loc>https://digitaltoolsid.github.io/about-us.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/contact-us.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/privacy-policy.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://digitaltoolsid.github.io/terms-of-service.html</loc>
-        <lastmod>2025-11-12</lastmod>
+        <lastmod>2025-12-14</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>

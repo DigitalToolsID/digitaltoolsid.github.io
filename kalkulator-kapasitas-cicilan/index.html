@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-kapasitas-cicilan/" />
-    <meta name="description" content="Kalkulator Kapasitas Cicilan (Debt Service Ratio). Hitung jumlah pinjaman maksimum yang mampu Anda ambil berdasarkan pendapatan dan utang bulanan Anda.">
+    <meta name="description" content="Loan Affordability Calculator. Calculate your maximum safe loan limit and borrowing capacity based on net income and existing debt obligations (DSR).">
+    <meta name="keywords" content="Loan Affordability Calculator, Debt Service Ratio Calculator, Max Loan Capacity, Kalkulator Kapasitas Cicilan, Hitung Batas Utang, Simulasi Plafond Kredit, how much loan can I afford, safe debt limit calculation, cara hitung maksimal cicilan">
     
-    <title id="appTitle">Kalkulator Kapasitas Cicilan (Affordability)</title>
+    <link rel="icon" href="data:,">
     
+    <title id="appTitle">Loan Affordability Calculator</title>
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,6 +25,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* CSS LOKAL */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -67,60 +82,59 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
 
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Kalkulator Kapasitas Cicilan</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed">
-                Hindari utang berlebihan. Hitung jumlah pinjaman maksimum yang aman berdasarkan pendapatan bersih dan cicilan utang Anda saat ini.
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Loan Affordability Calculator</h1>
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
             </p>
 
             <form id="affordabilityForm" onsubmit="calculateAffordability(event)" class="space-y-6">
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="text-lg font-bold text-green-700 mb-3" id="sectionIncomeHeader">1. Data Pendapatan & Utang</h2>
+                    <h2 class="text-lg font-bold text-green-700 mb-3" id="sectionIncomeHeader">1. Income & Debt Data</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
                         <div class="md:col-span-2">
                             <label for="monthlyIncome" class="block text-sm font-medium text-gray-700 mb-1">
-                                <span id="labelMonthlyIncome">Total Pendapatan Bersih (Bulanan)</span>
-                                <span class="currency-label font-normal text-gray-500">(Rp)</span>
+                                <span id="labelMonthlyIncome">Total Net Monthly Income</span>
+                                <span class="currency-label font-normal text-gray-500">($)</span>
                             </label>
                             <input type="text" id="monthlyIncome" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="10.000.000" value="10.000.000">
                         </div>
 
                         <div class="md:col-span-2">
                             <label for="existingDebtPayment" class="block text-sm font-medium text-gray-700 mb-1">
-                                <span id="labelExistingDebtPayment">Total Cicilan Utang Saat Ini</span>
-                                <span class="currency-label font-normal text-gray-500">(Rp)</span>
+                                <span id="labelExistingDebtPayment">Current Monthly Debt Payments</span>
+                                <span class="currency-label font-normal text-gray-500">($)</span>
                             </label>
                             <input type="text" id="existingDebtPayment" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="1.500.000" value="1.500.000">
-                            <p class="text-xs text-gray-500 mt-1" id="descExistingDebtPayment">Total cicilan (KPR, Mobil, Kartu Kredit) yang sedang berjalan.</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descExistingDebtPayment">Total existing installments (Mortgage, Car, Credit Cards).</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="text-lg font-bold text-green-700 mb-3" id="sectionNewLoanHeader">2. Detail Pinjaman Baru</h2>
+                    <h2 class="text-lg font-bold text-green-700 mb-3" id="sectionNewLoanHeader">2. New Loan Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
-                            <label for="loanInterestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanInterestRate">Bunga Tahunan (%)</label>
+                            <label for="loanInterestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanInterestRate">Annual Interest (%)</label>
                             <input type="number" id="loanInterestRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="9" value="9">
                         </div>
                         <div class="relative">
-                            <label for="loanTermYears" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTermYears">Jangka Waktu (Tahun)</label>
+                            <label for="loanTermYears" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTermYears">Loan Term (Years)</label>
                             <input type="number" id="loanTermYears" min="1" step="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="10" value="10">
                         </div>
                         <div class="md:col-span-2">
-                            <label for="dsrLimit" class="block text-sm font-medium text-gray-700 mb-1" id="labelDSRLimit">Batas DSR Ideal (%)</label>
+                            <label for="dsrLimit" class="block text-sm font-medium text-gray-700 mb-1" id="labelDSRLimit">Ideal DSR Limit (%)</label>
                             <input type="number" id="dsrLimit" step="1" min="10" max="60" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" placeholder="35" value="35">
-                            <p class="text-xs text-gray-500 mt-1" id="descDSRLimit">Batas aman bank biasanya 30% - 40%.</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descDSRLimit">Safe bank limits are usually 30% - 40%.</p>
                         </div>
                     </div>
                 </div>
 
                 <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-bold py-3 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
-                    Hitung Kapasitas Maksimum
+                    Calculate Maximum Capacity
                 </button>
             </form>
 
@@ -130,28 +144,28 @@
 
             <div id="resultBox" class="result-box mt-6 bg-green-50 border border-green-200 rounded-xl shadow-lg">
 
-                <h3 id="resultTitle" class="text-xl font-bold text-gray-800 mb-4 border-b pb-2 border-green-300">Hasil Analisis</h3>
+                <h3 id="resultTitle" class="text-xl font-bold text-gray-800 mb-4 border-b pb-2 border-green-300">Analysis Result</h3>
 
                 <div id="resultSummaryText" class="p-4 rounded-lg mb-6 bg-white border border-gray-200">
                     <p class="text-lg font-bold mb-2" id="summaryTitle"></p>
                     <p id="summaryText" class="text-gray-700 text-sm leading-relaxed"></p>
                 </div>
 
-                <h3 id="metricsHeader" class="text-md font-bold text-gray-800 mb-3">Kapasitas Maksimum</h3>
+                <h3 id="metricsHeader" class="text-md font-bold text-gray-800 mb-3">Maximum Capacity</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <p class="text-xs text-gray-500 uppercase font-bold" id="resultMaxMonthlyInstallment">Maksimum Cicilan Baru</p>
+                        <p class="text-xs text-gray-500 uppercase font-bold" id="resultMaxMonthlyInstallment">Max New Monthly Installment</p>
                         <p class="text-xl font-extrabold text-green-600 mt-1" id="maxMonthlyInstallmentResult">--</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <p class="text-xs text-gray-500 uppercase font-bold" id="resultMaxLoanAmount">Plafond Pinjaman Maksimum</p>
+                        <p class="text-xs text-gray-500 uppercase font-bold" id="resultMaxLoanAmount">Maximum Loan Amount</p>
                         <p class="text-xl font-extrabold text-blue-600 mt-1" id="maxLoanAmountResult">--</p>
                     </div>
                 </div>
 
                 <div class="mt-4">
                     <div class="flex justify-between items-end mb-2">
-                        <p class="text-sm font-bold text-gray-700" id="ratioVisualHeader">Penggunaan Kapasitas DSR</p>
+                        <p class="text-sm font-bold text-gray-700" id="ratioVisualHeader">DSR Capacity Usage</p>
                         <p class="text-sm font-bold text-gray-900" id="currentDSRResult">0%</p>
                     </div>
                     <div class="ratio-bar">
@@ -163,38 +177,38 @@
             </div>
 
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Apa itu Debt Service Ratio (DSR)?</h2>
-                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">DSR adalah rasio total cicilan utang dibagi pendapatan bulanan. Jika DSR di atas 40%, bank menganggap risiko tinggi.</p>
+                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">What is Debt Service Ratio (DSR)?</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
 
-                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Mengapa Batas 35% Penting?</h3>
-                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4">Membatasi utang di angka 35% memastikan Anda memiliki sisa uang yang cukup untuk tabungan dan biaya hidup sehari-hari.</p>
+                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Why is the 35% Limit Important?</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
             </section>
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
-            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Alat Keuangan Terkait</h2>
+            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Related Finance Tools</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
             <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Debt Payoff Calculator" data-id="Kalkulator Pelunasan Utang">Kalkulator Pelunasan Utang</h3>
-                <p class="text-xs text-gray-600" data-en="Plan your debt-free journey." data-id="Rencanakan perjalanan bebas utang.">Rencanakan perjalanan bebas utang.</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Debt Payoff Calculator" data-id="Kalkulator Pelunasan Utang">Debt Payoff Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Plan your debt-free journey." data-id="Rencanakan perjalanan bebas utang.">Plan your debt-free journey.</p>
             </a>
             <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Mortgage Calculator" data-id="Kalkulator KPR Rumah">Kalkulator KPR Rumah</h3>
-                <p class="text-xs text-gray-600" data-en="Calculate monthly mortgage payments." data-id="Hitung estimasi cicilan rumah.">Hitung estimasi cicilan rumah.</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Mortgage Calculator" data-id="Kalkulator KPR Rumah">Mortgage Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate monthly mortgage payments." data-id="Hitung estimasi cicilan rumah.">Calculate monthly mortgage payments.</p>
             </a>
         </div>
         
         <div class="border-t border-gray-100 pt-8">
-            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Artikel Terkait:</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
             <ul class="space-y-3">
                 <li>
                     <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
                         <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
-                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategi Mempercepat Pelunasan Utang</span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
                     </a>
                 </li>
             </ul>
@@ -208,6 +222,8 @@
         // **********************************************
         // LOGIKA KALKULATOR KAPASITAS CICILAN
         // **********************************************
+
+        let currentLang = 'en';
 
         const translations = {
             id: {
@@ -303,7 +319,6 @@
             }
         };
 
-        let currentLang = 'id';
         const resultBox = document.getElementById('resultBox');
         const errorAlert = document.getElementById('errorAlert');
         const errorText = document.getElementById('errorText');
@@ -475,20 +490,14 @@
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    const currentLang = document.documentElement.lang || 'en';
-                    setLanguage(currentLang);
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
         });
         observer.observe(document.documentElement, { attributes: true });
 
         document.addEventListener('DOMContentLoaded', () => {
-            const currentLang = document.documentElement.lang || 'id';
-            ['monthlyIncome', 'existingDebtPayment'].forEach(id => {
-                const input = document.getElementById(id);
-                if (input.value) formatInput(input);
-            });
-            setLanguage(currentLang);
+            setLanguage(document.documentElement.lang || 'en');
         });
     </script>
 </body>

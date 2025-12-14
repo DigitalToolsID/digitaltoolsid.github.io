@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-tabungan-pendidikan/" />
-    <meta name="description" content="Kalkulator Tabungan Pendidikan yang akurat. Hitung berapa banyak yang perlu Anda tabung bulanan untuk biaya kuliah di masa depan, dengan memperhitungkan inflasi dan investasi." />
-    
     <link rel="icon" href="data:,">
+    
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-tabungan-pendidikan/" />
+    
+    <meta name="description" content="Education Savings Calculator. Calculate monthly savings required for future college costs, factoring in inflation and compound interest." />
+    <meta name="keywords" content="Education Savings Calculator, College Fund Planner, Tuition Inflation Calculator, Future Value Calculator, Investment Goal Planner, Kalkulator Tabungan Pendidikan, Biaya Kuliah Anak, Simulasi Dana Pendidikan, Asuransi Pendidikan vs Tabungan, Cara menyiapkan dana kuliah, strategi investasi pendidikan anak, hitung biaya masuk kuliah 10 tahun lagi">
  
     <title id="appTitle">Education Savings Calculator</title>
     
@@ -27,6 +29,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -80,11 +93,11 @@
     <div id="global-header-container"></div>
 
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="layout-article-fixed w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Education Savings Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                 Calculate the monthly or annual amount you need to save to meet future college or education funding goals, factoring in inflation and investment returns.
             </p>
             
@@ -99,25 +112,25 @@
                             <label for="currentCost" class="block text-sm font-medium text-gray-700 mb-1">
                                 <span id="labelCurrentCost">Current Annual Education Cost</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
                             </label>
-                            <input type="text" id="currentCost" inputmode="numeric" value="30.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <input type="text" id="currentCost" inputmode="numeric" value="30.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descCurrentCost">Estimated current annual tuition.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="yearsToGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsToGoal">Years Until Education Starts</label>
-                            <input type="number" id="yearsToGoal" min="1" step="1" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <input type="number" id="yearsToGoal" min="1" step="1" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descYearsToGoal">Years until goal begins.</p>
                         </div>
 
                         <div class="relative">
                             <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInflationRate">Annual Education Inflation Rate (%)</label>
-                            <input type="number" id="inflationRate" min="0" step="0.1" value="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <input type="number" id="inflationRate" min="0" step="0.1" value="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descInflationRate">Education cost increase per year.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="yearsOfStudy" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsOfStudy">Years of Study/Duration</label>
-                            <input type="number" id="yearsOfStudy" min="1" step="1" value="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150" required>
+                            <input type="number" id="yearsOfStudy" min="1" step="1" value="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descYearsOfStudy">Duration of the education.</p>
                         </div>
                     </div>
@@ -131,13 +144,13 @@
                             <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1">
                                 <span id="labelCurrentSavings">Current Savings Amount</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
                             </label>
-                            <input type="text" id="currentSavings" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500 transition duration-150" required>
+                            <input type="text" id="currentSavings" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500 transition duration-150 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descCurrentSavings">Amount already saved.</p>
                         </div>
 
                         <div class="relative">
                             <label for="annualReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelAnnualReturn">Expected Annual Return (%)</label>
-                            <input type="number" id="annualReturn" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500 transition duration-150" required>
+                            <input type="number" id="annualReturn" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500 transition duration-150 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descAnnualReturn">Expected investment return rate.</p>
                         </div>
                     </div>
@@ -148,7 +161,7 @@
                 </button>
                 
                 <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span id="errorText" class="block sm:inline"></span>
+                    <span id="errorText" class="block sm:inline text-sm"></span>
                 </div>
             </form>
 
@@ -207,7 +220,7 @@
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full max-w-2xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
@@ -366,7 +379,7 @@
         }
 
         function calculateSavings(event) {
-            event.preventDefault();
+            if(event) event.preventDefault();
             const currentCost = cleanInput(document.getElementById('currentCost').value);
             const yearsToGoal = parseInt(document.getElementById('yearsToGoal').value) || 0;
             const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
@@ -453,7 +466,7 @@
             });
 
             if(document.getElementById('resultBox').classList.contains('visible')){
-                calculateSavings({preventDefault:()=>{}});
+                calculateSavings();
             }
         }
 

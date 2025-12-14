@@ -13,5 +13,14 @@
     "autoprefixer": "^10.4.22",
     "postcss": "^8.5.6",
     "tailwindcss": "3.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DigitalToolsID/digitaltoolsid.github.io.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DigitalToolsID/digitaltoolsid.github.io/issues"
+  },
+  "homepage": "https://github.com/DigitalToolsID/digitaltoolsid.github.io#readme"
 }

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-penarikan-dana-pensiun/" />
-    <meta name="description" content="Kalkulator Penarikan Dana Pensiun. Hitung berapa lama tabungan pensiun Anda akan bertahan dengan memperhitungkan penarikan bulanan, inflasi, dan hasil investasi." />
+    
+    <meta name="description" content="Retirement Withdrawal Calculator. Estimate how long your retirement savings will last based on monthly withdrawals, inflation, and investment returns." />
+    <meta name="keywords" content="Retirement Withdrawal Calculator, Safe Withdrawal Rate, 4% Rule Calculator, Kalkulator Penarikan Dana Pensiun, Hitung Umur Tabungan, Simulasi Dana Hari Tua, Perencanaan Pensiun Indonesia, how long will my money last, cara hitung masa bertahan dana pensiun">
     
     <link rel="icon" href="data:,">
  
@@ -27,6 +29,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -79,17 +92,18 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Retirement Withdrawal Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Retirement Withdrawal Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                </p>
             
             <form id="withdrawalForm" onsubmit="calculateWithdrawal(event)" class="space-y-6">
                 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title">1. Savings & Withdrawal</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1" id="labelCurrentSavings">Current Retirement Savings</label>
@@ -105,6 +119,7 @@
                 </div>
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h2 class="section-title">2. Economic Assumptions</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="annualReturn" class="block text-sm font-medium text-gray-700 mb-1" id="labelAnnualReturn">Annual Investment Return (%)</label>
@@ -139,17 +154,17 @@
 
                 <div class="mb-8 bg-white p-4 rounded-lg border border-orange-200">
                     <h4 id="headerInterpretation" class="text-md font-bold text-gray-800 mb-2">Analysis</h4>
-                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed text-justify">
                         </p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
                     <div class="bg-white p-3 rounded shadow-sm border border-gray-100">
-                        <p class="text-xs text-gray-500 uppercase tracking-wide" id="labelTotalWithdrawn">Total Withdrawn</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide font-bold" id="labelTotalWithdrawn">Total Withdrawn</p>
                         <p class="text-xl font-bold text-gray-800" id="valTotalWithdrawn">0</p>
                     </div>
                     <div class="bg-white p-3 rounded shadow-sm border border-gray-100">
-                        <p class="text-xs text-gray-500 uppercase tracking-wide" id="labelFinalMonthly">Final Monthly Withdrawal</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide font-bold" id="labelFinalMonthly">Final Monthly Withdrawal</p>
                         <p class="text-xl font-bold text-gray-800" id="valFinalMonthly">0</p>
                         <p class="text-[10px] text-gray-400" id="labelInflationAdjusted">(Inflation Adjusted)</p>
                     </div>
@@ -179,7 +194,7 @@
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
@@ -236,7 +251,7 @@
                 labelAnnualReturn: "Imbal Hasil Investasi Tahunan (%)",
                 descAnnualReturn: "Rata-rata keuntungan investasi portofolio Anda per tahun.",
                 labelInflationRate: "Tingkat Inflasi Tahunan (%)",
-                descInflationRate: "Persentase kenaikan biaya hidup. Penarikan Anda akan dinaikkan setiap tahun sebesar angka ini untuk menjaga daya beli.",
+                descInflationRate: "Persentase kenaikan biaya hidup. Penarikan Anda akan dinaikkan setiap tahun sebesar angka ini.",
                 calculateButton: "Hitung Durasi Dana",
                 inputError: "Mohon masukkan semua nilai input yang valid.",
                 
@@ -290,7 +305,7 @@
                 labelAnnualReturn: "Annual Investment Return (%)",
                 descAnnualReturn: "Average annual net return on your investment portfolio.",
                 labelInflationRate: "Annual Inflation Rate (%)",
-                descInflationRate: "Percentage increase in cost of living. Your withdrawals will increase annually by this rate to maintain purchasing power.",
+                descInflationRate: "Percentage increase in cost of living. Your withdrawals will increase annually by this rate.",
                 calculateButton: "Calculate Duration",
                 inputError: "Please enter all valid input values.",
                 
@@ -437,9 +452,8 @@
             currentLang = lang;
             const t = translations[lang];
             
-            const switcher = document.getElementById('languageSwitcher');
-            switcher.classList.remove('lang-en', 'lang-id');
-            switcher.classList.add(`lang-${lang}`);
+            const backBtn = document.getElementById('backToCatalogText');
+            if(backBtn) backBtn.textContent = t.backToCatalogText;
 
             // Update Text (Text Only)
             ['appTitle', 'headerTitle', 'labelCurrentSavings', 'descCurrentSavings', 'labelMonthlyWithdrawal', 

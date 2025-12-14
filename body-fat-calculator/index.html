@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
-    <meta name="description" content="Kalkulator Persentase Lemak Tubuh (BFP) Metode Navy yang akurat. Hitung komposisi tubuh Anda (Pria & Wanita) dan nilai risiko kesehatan saat BMI menyesatkan." />
+    <meta name="description" content="Calculate your Body Fat Percentage accurately using the US Navy Method. Determine your body composition (Essential vs Storage Fat) and health category." />
+    
+    <meta name="keywords" content="Body Fat Calculator, Navy Method Calculator, Body Fat Percentage, Body Composition Analysis, US Navy Formula, Kalkulator Lemak Tubuh, Persentase Lemak Tubuh, Hitung Lemak Badan, Kadar Lemak Ideal, Fitness Calculator" />
  
-    <title id="appTitle">Body Fat Percentage Calculator</title>
+    <title id="appTitle">Body Fat Percentage Calculator (Navy Method) - Digital Tools ID</title>
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/body-fat-calculator/" />
+    <link rel="icon" href="data:,"> <link rel="apple-touch-icon" href="/icon-192.png">
     
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../output.css">
@@ -15,7 +19,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1e3a8a">
-    <link rel="apple-touch-icon" href="/icon-192.png">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -26,14 +29,8 @@
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
-    <script>
-        window.headerCategory = 'health';
-    </script>
-    
     <style>
-        /* CSS LOKAL (Hanya untuk halaman ini) */
-
-        /* Gaya Kustom untuk hasil */
+        /* CSS LOKAL (Kalkulator) */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -47,170 +44,172 @@
             padding: 1.5rem; 
         }
         
-        /* Untuk daftar aksi */
         .action-list {
             list-style-type: disc;
             margin-left: 1.5rem;
             margin-top: 0.5rem;
         }
-        .action-list li {
-            margin-bottom: 0.25rem;
-        }
+        .action-list li { margin-bottom: 0.25rem; }
 
-        /* Gaya untuk tabel klasifikasi */
         .classification-table th, .classification-table td {
             padding: 0.5rem 1rem;
             text-align: left;
         }
+        
+        /* Hover effects for tool cards */
+        .tool-card:hover {
+            border-color: #3b82f6; /* Blue-500 */
+            transform: translateY(-2px);
+        }
+        
+        /* Dynamic Text Highlight */
+        .dynamic-text:hover {
+            color: #2563eb;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'health'; </script>
 
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8 border border-gray-100">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-3">Body Fat Percentage Calculator (Navy Method)</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3"></h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
-                Quickly assess your body composition. Use this calculator for advanced analysis when BMI may be misleading (e.g., high muscle mass).
-            </p>
+            <p id="toolSubtitle" class="text-sm text-gray-600 mb-6 leading-relaxed"></p>
             
             <div class="space-y-4">
                 
                 <div class="relative">
-                    <label for="genderSelect" class="block text-sm font-medium text-gray-700 mb-1" id="labelGender">Gender</label>
-                    <select id="genderSelect" onchange="toggleFemaleInputs()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150 appearance-none bg-white">
+                    <label for="genderSelect" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelGender"></label>
+                    <select id="genderSelect" onchange="toggleFemaleInputs()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white">
                         <option value="male" id="genderMale">Male</option>
                         <option value="female" id="genderFemale">Female</option>
                     </select>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400 mt-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="relative">
-                        <label for="heightInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelHeight">Height (cm)</label>
-                        <input type="number" id="heightInput" placeholder="E.g.: 175" step="1" min="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                        <label for="heightInput" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelHeight"></label>
+                        <input type="number" id="heightInput" placeholder="175" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     
                     <div class="relative">
-                        <label for="ageInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelAge">Age (Years)</label>
-                        <input type="number" id="ageInput" placeholder="E.g.: 30" step="1" min="1" max="100" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                        <label for="ageInput" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelAge"></label>
+                        <input type="number" id="ageInput" placeholder="30" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="relative">
-                        <label for="neckInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelNeck">Neck Circumference (cm)</label>
-                        <input type="number" id="neckInput" placeholder="E.g.: 38" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                        <label for="neckInput" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelNeck"></label>
+                        <input type="number" id="neckInput" placeholder="38" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="relative">
-                        <label for="waistInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelWaist">Waist Circumference (cm)</label>
-                        <input type="number" id="waistInput" placeholder="E.g.: 90" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                        <label for="waistInput" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelWaist"></label>
+                        <input type="number" id="waistInput" placeholder="90" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
 
                 <div class="relative" id="hipInputGroup" style="display: none;">
-                    <label for="hipInput" class="block text-sm font-medium text-gray-700 mb-1" id="labelHip">Hip Circumference (cm)</label>
-                    <input type="number" id="hipInput" placeholder="E.g.: 100" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150" required>
+                    <label for="hipInput" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelHip"></label>
+                    <input type="number" id="hipInput" placeholder="100" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-                <button id="calculateButton" onclick="calculateBodyFat()" class="w-full bg-secondary text-white font-semibold py-3 rounded-xl shadow-md hover:bg-primary transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50">
-                    Calculate Body Fat
-                </button>
+                <button id="calculateButton" onclick="calculateBodyFat()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md hover:bg-blue-700 transition duration-300 transform hover:translate-y-px">
+                    </button>
                 
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span id="errorText" class="block sm:inline"></span>
+                <div id="errorAlert" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 text-sm" role="alert">
+                    <span id="errorText"></span>
                 </div>
             </div>
 
-            <div id="resultBox" class="result-box mt-6 bg-green-50 border border-green-200 rounded-xl shadow-lg">
+            <div id="resultBox" class="result-box mt-6 bg-gray-50 border border-gray-200 rounded-xl">
                 <div class="grid grid-cols-2 gap-4 border-b pb-4 mb-4">
                     <div class="text-center">
-                        <p id="labelBodyFat" class="text-sm text-gray-600 font-medium">Your Body Fat</p>
-                        <p id="bfResult" class="text-4xl font-bold text-green-600 mt-1">--%</p>
+                        <p id="labelBodyFat" class="text-xs text-gray-500 font-bold uppercase"></p>
+                        <p id="bfResult" class="text-4xl font-extrabold text-blue-600 mt-1">--%</p>
                     </div>
                     <div class="text-center">
-                        <p id="labelCategory" class="text-sm text-gray-600 font-medium">Category</p>
-                        <p id="categoryResult" class="text-xl font-semibold mt-1 text-primary-dark">--</p>
+                        <p id="labelCategory" class="text-xs text-gray-500 font-bold uppercase"></p>
+                        <p id="categoryResult" class="text-xl font-bold mt-2 text-gray-800">--</p>
                     </div>
                 </div>
 
-                <div id="bfAdviceBox" class="p-3 mt-4 mb-4 rounded-lg bg-white border border-gray-300 hidden">
-                    <p id="adviceText" class="text-sm text-gray-800 font-medium"></p>
+                <div id="bfAdviceBox" class="p-4 mt-4 mb-4 rounded-lg bg-white border-l-4 border-blue-500 hidden shadow-sm">
+                    <p id="adviceText" class="text-sm text-gray-700"></p>
                 </div>
                 
-                <h3 id="classificationTitle" class="lg font-bold mb-3 text-primary border-b pb-2">Body Fat Classification (ACSM Standard)</h3>
-                <table class="classification-table w-full text-sm text-gray-700 rounded-lg overflow-hidden">
-                    <thead class="text-gray-700 border-b-2 border-green-200 bg-green-50">
-                        <tr>
-                            <th id="tableHeaderCategory" class="p-3 text-left font-bold">Category</th>
-                            <th id="tableHeaderMale" class="p-3 text-center font-bold">Male (%)</th>
-                            <th id="tableHeaderFemale" class="p-3 text-center font-bold">Female (%)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b bg-red-50">
-                            <td id="catEssential">Essential Fat</td>
-                            <td class="text-center">2 – 5%</td>
-                            <td class="text-center">10 – 13%</td>
-                        </tr>
-                        <tr class="border-b bg-yellow-50">
-                            <td id="catAthlete">Athletes</td>
-                            <td class="text-center">6 – 13%</td>
-                            <td class="text-center">14 – 20%</td>
-                        </tr>
-                        <tr class="border-b bg-green-50">
-                            <td id="catFitness">Fitness</td>
-                            <td class="text-center">14 – 17%</td>
-                            <td class="text-center">21 – 24%</td>
-                        </tr>
-                        <tr class="border-b bg-blue-50">
-                            <td id="catAverage">Average</td>
-                            <td class="text-center">18 – 24%</td>
-                            <td class="text-center">25 – 31%</td>
-                        </tr>
-                        <tr class="bg-red-100">
-                            <td id="catObese" class="rounded-bl-lg">Obese</td>
-                            <td class="text-center">&ge; 25%</td>
-                            <td class="text-center rounded-br-lg">&ge; 32%</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h3 id="classificationTitle" class="text-sm font-bold mb-3 text-gray-800 border-b pb-2"></h3>
+                <div class="overflow-x-auto">
+                    <table class="classification-table w-full text-xs text-gray-600">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th id="tableHeaderCategory"></th>
+                                <th id="tableHeaderMale" class="text-center"></th>
+                                <th id="tableHeaderFemale" class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td id="catEssential" class="font-medium text-red-600"></td>
+                                <td class="text-center">2 – 5%</td>
+                                <td class="text-center">10 – 13%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td id="catAthlete" class="font-medium text-green-600"></td>
+                                <td class="text-center">6 – 13%</td>
+                                <td class="text-center">14 – 20%</td>
+                            </tr>
+                            <tr class="border-b bg-green-50">
+                                <td id="catFitness" class="font-bold text-green-700"></td>
+                                <td class="text-center font-bold">14 – 17%</td>
+                                <td class="text-center font-bold">21 – 24%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td id="catAverage" class="font-medium text-yellow-600"></td>
+                                <td class="text-center">18 – 24%</td>
+                                <td class="text-center">25 – 31%</td>
+                            </tr>
+                            <tr>
+                                <td id="catObese" class="font-medium text-red-600"></td>
+                                <td class="text-center">&ge; 25%</td>
+                                <td class="text-center">&ge; 32%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
-            <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">BMI vs. Body Fat: Kapan Menggunakan yang Mana?</h2>
-                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+            <section class="mt-8 pt-6 border-t border-gray-200">
+                <h2 id="sectionHeader1" class="text-lg font-bold text-gray-900 mb-2"></h2>
+                <div id="content1" class="text-sm text-gray-600 leading-relaxed text-justify mb-4"></div>
 
-                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">The Difference Between Essential and Storage Fat</h3>
+                <h3 id="sectionHeader2" class="text-base font-bold text-gray-800 mb-2 mt-4"></h3>
+                <p id="content2Intro" class="text-sm text-gray-600 mb-2"></p>
                 
-                <div id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
-                    <p id="content2Intro"></p>
-                    <h4 class="text-base font-semibold mt-0 text-primary-dark" id="essentialHeader">Essential Fat</h4>
-                    <p id="essentialDesc"></p>
-                    
-                    <h4 class="text-base font-semibold mt-4 text-primary-dark" id="storageHeader">Storage Fat</h4>
-                    <p id="storageDesc"></p>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                        <h4 class="text-sm font-bold text-blue-800" id="essentialHeader"></h4>
+                        <p id="essentialDesc" class="text-xs text-gray-600 mt-1"></p>
+                    </div>
+                    <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-100">
+                        <h4 class="text-sm font-bold text-yellow-800" id="storageHeader"></h4>
+                        <p id="storageDesc" class="text-xs text-gray-600 mt-1"></p>
+                    </div>
                 </div>
 
-                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">How to Reduce Body Fat Effectively</h3>
-                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+                <h3 id="sectionHeader3" class="text-base font-bold text-gray-800 mb-2 mt-6"></h3>
+                <p id="content3" class="text-sm text-gray-600 mb-3"></p>
                 
-                <div id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
-                    <h4 class="text-base font-semibold mt-0 text-primary-dark" id="actionHeader">Three Key Actions</h4>
-                    <ul class="action-list list-disc ml-4 space-y-1" id="actionList">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h4 class="text-sm font-bold text-gray-800 mb-2" id="actionHeader"></h4>
+                    <ul class="action-list list-disc ml-4 space-y-1 text-xs text-gray-600" id="actionList">
+                        </ul>
                 </div>
             </section>
 
@@ -219,78 +218,24 @@
 
     <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
-            <h2 class="text-xl font-bold text-gray-800" 
-                data-en="Health & Lifestyle Tools" 
-                data-id="Alat Kesehatan & Gaya Hidup">
-                Health & Lifestyle Tools
-            </h2>
+            <div class="w-1 h-7 bg-blue-600 mr-3 rounded"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Health & Lifestyle Tools" data-id="Alat Kesehatan Lainnya">Health & Lifestyle Tools</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="BMI Calculator"
-                    data-id="Kalkulator BMI">
-                    BMI Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Calculate Body Mass Index & Daily Calorie Needs."
-                    data-id="Hitung Indeks Massa Tubuh & Kebutuhan Kalori Harian.">
-                    Calculate Body Mass Index & Daily Calorie Needs.
-                </p>
+            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-sm font-bold mb-1 text-gray-800 group-hover:text-blue-600" data-en="BMI Calculator" data-id="Kalkulator BMI">BMI Calculator</h3>
+                <p class="text-xs text-gray-500" data-en="Calculate Body Mass Index & Calories." data-id="Hitung BMI & Kalori Harian.">Calculate Body Mass Index & Calories.</p>
             </a>
 
-            <a href="../kalkulator-air-harian/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Daily Water Intake Calculator"
-                    data-id="Kalkulator Asupan Air Harian">
-                    Daily Water Intake Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Calculate your minimum daily hydration needs."
-                    data-id="Hitung kebutuhan hidrasi harian minimum Anda.">
-                    Calculate your minimum daily hydration needs.
-                </p>
+            <a href="../kalkulator-kebutuhan-protein/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-sm font-bold mb-1 text-gray-800 group-hover:text-blue-600" data-en="Protein Calculator" data-id="Kalkulator Protein">Protein Calculator</h3>
+                <p class="text-xs text-gray-500" data-en="Daily protein needs for muscle/diet." data-id="Kebutuhan protein untuk otot/diet.">Daily protein needs for muscle/diet.</p>
             </a>
 
-            <a href="../kalkulator-kebutuhan-protein/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Daily Protein Needs Calculator"
-                    data-id="Kalkulator Kebutuhan Protein">
-                    Daily Protein Needs Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Determine ideal protein intake for muscle building or diet."
-                    data-id="Tentukan asupan protein ideal untuk pembentukan otot atau diet.">
-                    Determine ideal protein intake for muscle building or diet.
-                </p>
-            </a>
-
-            <a href="../kalkulator-denyut-jantung/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Target Heart Rate Calculator"
-                    data-id="Kalkulator Detak Jantung Target">
-                    Target Heart Rate Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Calculate Fat Burn and Aerobic zones using Karvonen method."
-                    data-id="Hitung zona Pembakaran Lemak & Aerobik (Metode Karvonen).">
-                    Calculate Fat Burn and Aerobic zones using Karvonen method.
-                </p>
-            </a>
-
-            <a href="../kalkulator-siklus-menstruasi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Menstrual & Ovulation Cycle"
-                    data-id="Kalkulator Siklus Menstruasi">
-                    Menstrual & Ovulation Cycle
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Estimate your next period and fertile window."
-                    data-id="Perkirakan periode haid berikutnya dan masa subur.">
-                    Estimate your next period and fertile window.
-                </p>
+            <a href="../kalkulator-air-harian/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-400">
+                <h3 class="text-sm font-bold mb-1 text-gray-800 group-hover:text-blue-600" data-en="Water Intake Calc" data-id="Kalkulator Air Minum">Water Intake Calc</h3>
+                <p class="text-xs text-gray-500" data-en="Daily hydration requirements." data-id="Kebutuhan hidrasi harian.">Daily hydration requirements.</p>
             </a>
         </div>
 
@@ -302,8 +247,8 @@
             </h3>
             <ul class="space-y-3">
                 <li>
-                    <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-sm hover:underline group text-gray-600 hover:text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="Understanding BMI and TDEE: Your Daily Calorie Needs" 
                               data-id="Memahami BMI dan TDEE: Kebutuhan Kalori Harian Anda">
                             Understanding BMI and TDEE: Your Daily Calorie Needs
@@ -311,8 +256,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/panduan_lingkar_pinggang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/panduan_lingkar_pinggang.html" class="flex items-center text-sm hover:underline group text-gray-600 hover:text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="Complete Guide to Measuring Ideal Waist Circumference" 
                               data-id="Panduan Lengkap Mengukur Lingkar Pinggang Ideal">
                             Complete Guide to Measuring Ideal Waist Circumference
@@ -320,8 +265,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-sm hover:underline group text-gray-600 hover:text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="The Complete Guide: How to Read a Nutrition Facts Label" 
                               data-id="Panduan Lengkap: Cara Membaca Label Informasi Nilai Gizi">
                             The Complete Guide: How to Read a Nutrition Facts Label
@@ -329,8 +274,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/protein-penurunan-berat-badan.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/protein-penurunan-berat-badan.html" class="flex items-center text-sm hover:underline group text-gray-600 hover:text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="The Critical Role of Protein in Weight Loss Strategy" 
                               data-id="Peran Kritis Protein dalam Strategi Penurunan Berat Badan">
                             The Critical Role of Protein in Weight Loss Strategy
@@ -338,8 +283,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/strategi_menurunkan_berat_badan.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/strategi_menurunkan_berat_badan.html" class="flex items-center text-sm hover:underline group text-gray-600 hover:text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
                         <span data-en="5 Sustainable Weight Loss Strategies" 
                               data-id="5 Strategi Penurunan Berat Badan yang Berkelanjutan">
                             5 Sustainable Weight Loss Strategies
@@ -351,23 +296,16 @@
     </section>
     
     <div id="global-footer-container"></div>
-    
     <script src="../components.js"></script>
 
     <script>
-        // **********************************************
-        // LOGIKA BARU UNTUK KALKULATOR PERSENTASE LEMAK TUBUH
-        // Menggunakan US Navy Method (cm)
-        // **********************************************
-
         const translations = {
             id: {
                 appTitle: "Kalkulator Persentase Lemak Tubuh",
-                headerTitle: "Kalkulator Persentase Lemak Tubuh (Metode Navy)",
-                toolSubtitle: "Dapatkan penilaian komposisi tubuh yang akurat. Gunakan kalkulator ini untuk analisis mendalam saat BMI mungkin menyesatkan (misalnya, massa otot tinggi).",
-                backToCatalogText: "Kembali ke Katalog Alat",
+                headerTitle: "Kalkulator Lemak Tubuh (Metode Navy)",
+                toolSubtitle: "Hitung komposisi tubuh Anda secara akurat (Lemak vs Otot). Solusi jika BMI kurang akurat untuk tipe tubuh atletis.",
+                backToCatalogText: "Kembali ke Katalog",
                 
-                // Form Labels
                 labelGender: "Jenis Kelamin",
                 genderMale: "Pria",
                 genderFemale: "Wanita",
@@ -375,139 +313,103 @@
                 labelAge: "Usia (Tahun)",
                 labelNeck: "Lingkar Leher (cm)",
                 labelWaist: "Lingkar Pinggang (cm)",
-                labelHip: "Lingkar Pinggul (cm)", // Hanya Wanita
+                labelHip: "Lingkar Pinggul (cm)",
                 calculateButton: "Hitung Lemak Tubuh",
-                inputError: "Mohon masukkan semua nilai yang valid untuk perhitungan (tinggi, usia, dan pengukuran harus > 0).",
-                placeholderHeight: "Contoh: 175",
-                placeholderAge: "Contoh: 30",
-                placeholderNeck: "Contoh: 38",
-                placeholderWaist: "Contoh: 90",
-                placeholderHip: "Contoh: 100",
+                inputError: "Mohon isi semua data dengan benar (angka > 0).",
                 
-                // Hasil
-                labelBodyFat: "Lemak Tubuh Anda",
+                labelBodyFat: "Lemak Tubuh",
                 labelCategory: "Kategori",
-                classificationTitle: "Klasifikasi Lemak Tubuh (Standar ACSM)",
+                classificationTitle: "Klasifikasi (Standar ACSM)",
                 tableHeaderCategory: "Kategori",
-                tableHeaderMale: "Pria (%)",
-                tableHeaderFemale: "Wanita (%)",
-                catEssential: "Lemak Esensial",
+                tableHeaderMale: "Pria",
+                tableHeaderFemale: "Wanita",
+                
+                catEssential: "Esensial (Kritis)",
                 catAthlete: "Atlet",
-                catFitness: "Kebugaran",
+                catFitness: "Kebugaran (Fit)",
                 catAverage: "Rata-Rata",
                 catObese: "Obesitas",
 
-                // Saran Kategori
-                adviceEssential: "Persentase lemak tubuh Anda sangat rendah, mungkin terlalu rendah. Ini berbahaya bagi fungsi organ. Segera konsultasikan dengan ahli gizi.",
-                adviceAthlete: "Tingkat lemak tubuh Atlet/Rendah. Ini sangat baik! Lanjutkan diet dan latihan ketat Anda.",
-                adviceFitness: "Tingkat lemak tubuh Kebugaran/Sehat. Ini adalah kisaran ideal untuk kesehatan jangka panjang dan pencegahan penyakit.",
-                adviceAverage: "Tingkat lemak tubuh Rata-Rata. Ada risiko kesehatan ringan, terutama di atas batas 24% (Pria) / 31% (Wanita). Pertimbangkan sedikit penurunan.",
-                adviceObese: "Persentase lemak tubuh Obesitas/Tinggi. Tingkat ini secara signifikan meningkatkan risiko penyakit jantung dan diabetes. Untuk menurunkan lemak tubuh, Anda wajib menciptakan keseimbangan energi negatif yaitu dengan mengurangi jumlah kalori dari makanan yang Anda konsumsi sambil meningkatkan kalori yang Anda bakar melalui olahraga teratur.",
+                adviceEssential: "Bahaya: Lemak tubuh terlalu rendah. Konsultasikan ke dokter.",
+                adviceAthlete: "Luar biasa! Kondisi tubuh atletis dan sangat ramping.",
+                adviceFitness: "Sangat Sehat! Pertahankan level ini untuk kesehatan optimal.",
+                adviceAverage: "Normal. Sedikit di atas ideal atlet, tapi masih sehat.",
+                adviceObese: "Tinggi. Risiko kesehatan meningkat. Perlu defisit kalori & olahraga.",
 
-                // Konten Edukasi Wajib
-                sectionHeader1: "BMI vs. Body Fat: Kapan Menggunakan yang Mana?",
-                content1: "Kalkulator Indeks Massa Tubuh (BMI) yang juga tersedia di situs ini adalah alat <em>skrining cepat</em> yang baik untuk mengidentifikasi kategori berat badan pada populasi umum. Namun, BMI tidak dapat membedakan antara massa otot dan massa lemak. <br><br> <strong>Kapan Gunakan BMI:</strong> <br>1. Sebagai titik awal yang cepat dan mudah. <br>2. Untuk memantau perubahan berat badan secara umum bagi mayoritas orang dewasa. <br><br> <strong>Kapan Gunakan Persentase Lemak Tubuh (PLT):</strong> <br>1. Jika Anda seorang atlet atau binaragawan dengan massa otot tinggi (BMI Anda kemungkinan akan melebih-lebihkan tingkat risiko Anda). <br>2. Jika tujuan Anda adalah komposisi tubuh (mengurangi lemak, membangun otot). <br>3. Untuk mendapatkan penilaian risiko kesehatan metabolik yang lebih akurat, karena PLT secara langsung mencerminkan proporsi lemak—terutama lemak viseral yang berbahaya—di tubuh Anda.",
+                sectionHeader1: "BMI vs Body Fat: Apa Bedanya?",
+                content1: "BMI hanya mengukur berat vs tinggi, tidak bisa membedakan otot dan lemak. <strong>Persentase Lemak Tubuh (BFP)</strong> jauh lebih akurat untuk mengetahui komposisi tubuh sebenarnya, terutama jika Anda sering berolahraga.",
                 
-                sectionHeader2: "Perbedaan Antara Lemak Esensial dan Lemak Penyimpanan",
-                content2Intro: `Tidak semua lemak itu buruk. Tubuh kita membutuhkan lemak, yang dapat dibagi menjadi dua kategori utama. Memahami perbedaannya sangat penting dalam menetapkan tujuan kesehatan yang realistis.`,
-                
-                essentialHeader: "Lemak Esensial (Essential Fat)",
-                essentialDesc: "Lemak esensial adalah lemak yang dibutuhkan tubuh untuk bertahan hidup dan berfungsi secara normal. Lemak ini ditemukan di otak, sumsum tulang, saraf, dan membran. Lemak esensial memainkan peran kunci dalam regulasi hormon, penyerapan vitamin, dan reproduksi. Tingkat lemak esensial yang terlalu rendah (terutama pada wanita) dapat menyebabkan masalah hormon dan infertilitas. Inilah mengapa wanita secara alami memiliki persentase lemak esensial yang lebih tinggi (10-13%) daripada pria (2-5%).",
-                
-                storageHeader: "Lemak Penyimpanan (Storage Fat)",
-                storageDesc: "Lemak penyimpanan, atau lemak yang terakumulasi, melindungi organ internal dan menyediakan energi yang dapat digunakan. Sebagian lemak ini berada tepat di bawah kulit (subkutan), sementara sebagian lagi berada jauh di dalam, di sekitar organ (viseral). Lemak viseral sangat berbahaya bagi kesehatan dan dikaitkan dengan resistensi insulin dan penyakit jantung. Lemak penyimpanan inilah yang ditargetkan untuk dikurangi ketika seseorang ingin menurunkan berat badan.",
+                sectionHeader2: "Lemak Esensial vs Lemak Cadangan",
+                content2Intro: "Tubuh kita memiliki dua jenis lemak:",
+                essentialHeader: "1. Lemak Esensial",
+                essentialDesc: "Wajib ada untuk fungsi otak & hormon. Pria butuh 2-5%, Wanita butuh 10-13%.",
+                storageHeader: "2. Lemak Cadangan (Storage)",
+                storageDesc: "Lemak di bawah kulit atau perut. Ini yang perlu dikurangi jika berlebihan.",
 
-                sectionHeader3: "Cara Menurunkan Lemak Tubuh Secara Efektif",
-                content3: "Menurunkan persentase lemak tubuh membutuhkan pendekatan gizi dan olahraga yang strategis. Ini bukan hanya tentang 'menurunkan berat badan' (seperti yang diukur oleh timbangan), tetapi secara spesifik tentang 'menurunkan lemak' sambil mempertahankan atau bahkan membangun massa otot.",
-                
-                actionHeader: "Tiga Tindakan Kunci untuk Menurunkan PLT",
-                actionList1: "Defisit Kalori yang Konsisten: Gunakan kalkulator TDEE kami untuk mengetahui Target Pemeliharaan Anda, lalu kurangi 500-750 kalori per hari untuk mencapai defisit yang aman dan berkelanjutan.",
-                actionList2: "Latihan Ketahanan (Resistance Training) Wajib: Angkat beban atau latihan berat badan. Ini mempertahankan massa otot Anda, yang penting untuk menjaga metabolisme tetap tinggi saat Anda mengurangi kalori.",
-                actionList3: "Tingkatkan Asupan Protein: Protein memiliki efek termal yang lebih tinggi (membakar lebih banyak kalori saat dicerna) dan penting untuk pemulihan otot. Targetkan asupan 1.6-2.2g per kg berat badan setiap hari.",
-
-                // TERJEMAHAN FOOTER MODULAR
-                footerPrivacy: "Kebijakan Privasi",
-                footerTerms: "Syarat Ketentuan",
-                footerAbout: "Tentang Kami",
-                footerContact: "Hubungi Kami",
-                footerDev: "Dikembangkan oleh DTID Analytics.",
+                sectionHeader3: "Cara Menurunkan Lemak Tubuh",
+                content3: "Kunci menurunkan lemak (fat loss) tanpa kehilangan otot:",
+                actionHeader: "3 Langkah Utama:",
+                actionList1: "<strong>Defisit Kalori:</strong> Kurangi 500 kalori dari TDEE.",
+                actionList2: "<strong>Angkat Beban:</strong> Wajib untuk menjaga massa otot.",
+                actionList3: "<strong>Protein Tinggi:</strong> Makan 1.6-2.2g protein per kg berat badan."
             },
             en: {
                 appTitle: "Body Fat Percentage Calculator",
-                headerTitle: "Body Fat Percentage Calculator (Navy Method)",
-                toolSubtitle: "Quickly assess your body composition. Use this calculator for advanced analysis when BMI may be misleading (e.g., high muscle mass).",
-                backToCatalogText: "Back to Tools Catalog",
+                headerTitle: "Body Fat Calculator (Navy Method)",
+                toolSubtitle: "Calculate your body composition accurately. Use this when BMI is misleading (e.g., for athletes with high muscle mass).",
+                backToCatalogText: "Back to Catalog",
 
-                // Form Labels
                 labelGender: "Gender",
                 genderMale: "Male",
                 genderFemale: "Female",
                 labelHeight: "Height (cm)",
                 labelAge: "Age (Years)",
-                labelNeck: "Neck Circumference (cm)",
-                labelWaist: "Waist Circumference (cm)",
-                labelHip: "Hip Circumference (cm)", // Female Only
+                labelNeck: "Neck (cm)",
+                labelWaist: "Waist (cm)",
+                labelHip: "Hip (cm)",
                 calculateButton: "Calculate Body Fat",
-                inputError: "Please enter all valid values for calculation (height, age, and measurements must be > 0).",
-                placeholderHeight: "E.g.: 175",
-                placeholderAge: "E.g.: 30",
-                placeholderNeck: "E.g.: 38",
-                placeholderWaist: "E.g.: 90",
-                placeholderHip: "E.g.: 100",
+                inputError: "Please enter valid values (> 0).",
                 
-                // Results
-                labelBodyFat: "Your Body Fat",
+                labelBodyFat: "Body Fat %",
                 labelCategory: "Category",
-                classificationTitle: "Body Fat Classification (ACSM Standard)",
+                classificationTitle: "Classification (ACSM Standard)",
                 tableHeaderCategory: "Category",
-                tableHeaderMale: "Male (%)",
-                tableHeaderFemale: "Female (%)",
+                tableHeaderMale: "Male",
+                tableHeaderFemale: "Female",
+                
                 catEssential: "Essential Fat",
                 catAthlete: "Athletes",
                 catFitness: "Fitness",
                 catAverage: "Average",
                 catObese: "Obese",
 
-                // Category Advice
-                adviceEssential: "Your body fat percentage is critically low, possibly too low. This is dangerous for organ function. Consult a nutritionist immediately.",
-                adviceAthlete: "Athlete/Low body fat level. This is excellent! Continue your strict diet and training regimen.",
-                adviceFitness: "Fitness/Healthy body fat level. This is the ideal range for long-term health and disease prevention.",
-                adviceAverage: "Average body fat level. There is a slight health risk, especially above the 24% (Male) / 31% (Female) threshold. Consider moderate reduction.",
-                adviceObese: "Obese/High body fat percentage. This level significantly increases the risk of heart disease and diabetes. To reduce body fat, you must create a negative energy balance by reducing the amount of calories from the food you consume while increasing the calories you burn through regular exercise.",
+                adviceEssential: "Critical: Body fat is too low. Consult a doctor.",
+                adviceAthlete: "Excellent! Athletic and very lean physique.",
+                adviceFitness: "Great! This is the ideal range for health.",
+                adviceAverage: "Normal. Slightly above athletic, but healthy.",
+                adviceObese: "High. Increased health risk. Needs calorie deficit & exercise.",
 
-                // Mandatory Educational Content
-                sectionHeader1: "BMI vs. Body Fat: When to Use Which?",
-                content1: "The Body Mass Index (BMI) calculator, also available on this site, is a good <em>quick screening</em> tool for identifying weight categories in the general population. However, BMI cannot distinguish between muscle mass and fat mass. <br><br> <strong>When to Use BMI:</strong> <br>1. As a fast, easy starting point. <br>2. To monitor general weight changes for the majority of adults. <br><br> <strong>When to Use Body Fat Percentage (BFP):</strong> <br>1. If you are an athlete or bodybuilder with high muscle mass (your BMI will likely overestimate your risk level). <br>2. If your goal is body composition (reducing fat, building muscle). <br>3. To get a more accurate assessment of metabolic health risk, as BFP directly reflects the proportion of fat—especially harmful visceral fat—in your body.",
+                sectionHeader1: "BMI vs Body Fat: The Difference",
+                content1: "BMI only measures weight vs height. <strong>Body Fat Percentage (BFP)</strong> is far more accurate for body composition, distinguishing between muscle mass and fat mass.",
                 
-                sectionHeader2: "The Difference Between Essential and Storage Fat",
-                content2Intro: `Not all fat is bad. Our body needs fat, which can be divided into two main categories. Understanding the difference is crucial in setting realistic health goals.`,
-                
-                essentialHeader: "Essential Fat",
-                essentialDesc: "Essential fat is the fat your body needs to survive and function normally. It is found in the brain, bone marrow, nerves, and membranes. Essential fat plays a key role in hormone regulation, vitamin absorption, and reproduction. Critically low levels of essential fat (especially in women) can lead to hormonal issues and infertility. This is why women naturally have a higher essential fat percentage (10-13%) than men (2-5%).",
-                
-                storageHeader: "Storage Fat",
-                storageDesc: "Storage fat, or accumulated fat, protects internal organs and provides usable energy. Some of this fat is just beneath the skin (subcutaneous), while some is deep inside, surrounding the organs (visceral). Visceral fat is particularly dangerous to health and is linked to insulin resistance and heart disease. Storage fat is what is targeted for reduction when someone aims to lose weight.",
+                sectionHeader2: "Essential vs Storage Fat",
+                content2Intro: "Our body has two types of fat:",
+                essentialHeader: "1. Essential Fat",
+                essentialDesc: "Vital for brain & hormones. Men need 2-5%, Women 10-13%.",
+                storageHeader: "2. Storage Fat",
+                storageDesc: "Accumulated energy under skin/belly. This is what you burn.",
 
-                sectionHeader3: "How to Reduce Body Fat Effectively",
-                content3: "Reducing body fat percentage requires a strategic nutritional and exercise approach. It is not just about 'losing weight' (as measured by the scale), but specifically about 'losing fat' while retaining or even building muscle mass.",
-                
-                actionHeader: "Three Key Actions to Reduce BFP",
-                actionList1: "Consistent Calorie Deficit: Use our TDEE calculator to find your Maintenance Target, then reduce by 500-750 calories per day to achieve a safe and sustainable deficit.",
-                actionList2: "Mandatory Resistance Training: Lift weights or do bodyweight exercises. This preserves your muscle mass, which is critical for keeping your metabolism high while you restrict calories.",
-                actionList3: "Increase Protein Intake: Protein has a higher thermic effect (burns more calories to digest) and is vital for muscle recovery. Target an intake of 1.6-2.2g per kg of body weight daily.",
-
-                // TERJEMAHAN FOOTER MODULAR
-                footerPrivacy: "Privacy Policy",
-                footerTerms: "Terms of Service",
-                footerAbout: "About Us",
-                footerContact: "Contact Us",
-                footerDev: "Developed by DTID Analytics.",
+                sectionHeader3: "How to Reduce Body Fat",
+                content3: "Keys to fat loss without muscle loss:",
+                actionHeader: "3 Key Steps:",
+                actionList1: "<strong>Calorie Deficit:</strong> Cut 500 cal from TDEE.",
+                actionList2: "<strong>Lift Weights:</strong> Crucial to preserve muscle mass.",
+                actionList3: "<strong>High Protein:</strong> Eat 1.6-2.2g protein per kg bodyweight."
             }
         };
 
         let currentLang = 'en';
 
-        // Fungsi untuk menampilkan/menyembunyikan input Lingkar Pinggul (Hanya Wanita)
         function toggleFemaleInputs() {
             const gender = document.getElementById('genderSelect').value;
             const hipInputGroup = document.getElementById('hipInputGroup');
@@ -516,178 +418,90 @@
                 hipInputGroup.style.display = 'block';
             } else {
                 hipInputGroup.style.display = 'none';
-                // Kosongkan nilai pinggul saat beralih ke pria untuk menghindari kesalahan perhitungan
                 document.getElementById('hipInput').value = '';
             }
-            
-            // Sembunyikan hasil saat beralih gender
             document.getElementById('resultBox').classList.remove('visible');
             document.getElementById('errorAlert').classList.add('hidden');
         }
 
-        // Fungsi untuk menentukan kategori Persentase Lemak Tubuh dan warna
         function getBodyFatCategory(bfp, gender, lang) {
             let categoryKey = '';
-            let colorClass = 'text-gray-700';
             
             if (gender === 'male') {
-                if (bfp <= 5) {
-                    categoryKey = 'essential';
-                    colorClass = 'text-red-700';
-                } else if (bfp <= 13) {
-                    categoryKey = 'athlete';
-                    colorClass = 'text-yellow-700';
-                } else if (bfp <= 17) {
-                    categoryKey = 'fitness';
-                    colorClass = 'text-green-600';
-                } else if (bfp <= 24) {
-                    categoryKey = 'average';
-                    colorClass = 'text-blue-700';
-                } else { // >= 25%
-                    categoryKey = 'obese';
-                    colorClass = 'text-red-900';
-                }
-            } else { // female
-                if (bfp <= 13) {
-                    categoryKey = 'essential';
-                    colorClass = 'text-red-700';
-                } else if (bfp <= 20) {
-                    categoryKey = 'athlete';
-                    colorClass = 'text-yellow-700';
-                } else if (bfp <= 24) {
-                    categoryKey = 'fitness';
-                    colorClass = 'text-green-600';
-                } else if (bfp <= 31) {
-                    categoryKey = 'average';
-                    colorClass = 'text-blue-700';
-                } else { // >= 32%
-                    categoryKey = 'obese';
-                    colorClass = 'text-red-900';
-                }
+                if (bfp <= 5) categoryKey = 'essential';
+                else if (bfp <= 13) categoryKey = 'athlete';
+                else if (bfp <= 17) categoryKey = 'fitness';
+                else if (bfp <= 24) categoryKey = 'average';
+                else categoryKey = 'obese';
+            } else { 
+                if (bfp <= 13) categoryKey = 'essential';
+                else if (bfp <= 20) categoryKey = 'athlete';
+                else if (bfp <= 24) categoryKey = 'fitness';
+                else if (bfp <= 31) categoryKey = 'average';
+                else categoryKey = 'obese';
             }
             
-            const categoryText = translations[lang]['cat' + categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)];
-            const adviceText = translations[lang]['advice' + categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)];
-            
-            return { categoryText, colorClass, adviceText };
+            return { 
+                categoryText: translations[lang]['cat' + categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)],
+                adviceText: translations[lang]['advice' + categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)]
+            };
         }
 
-        // Fungsi utama untuk menghitung Persentase Lemak Tubuh (US Navy Method)
         function calculateBodyFat() {
             const gender = document.getElementById('genderSelect').value;
-            const height = parseFloat(document.getElementById('heightInput').value); // cm
+            const height = parseFloat(document.getElementById('heightInput').value);
             const age = parseFloat(document.getElementById('ageInput').value);
-            const neck = parseFloat(document.getElementById('neckInput').value); // cm
-            const waist = parseFloat(document.getElementById('waistInput').value); // cm
-            const hip = (gender === 'female') ? parseFloat(document.getElementById('hipInput').value) : 0; // cm - Hanya untuk wanita
+            const neck = parseFloat(document.getElementById('neckInput').value);
+            const waist = parseFloat(document.getElementById('waistInput').value);
+            const hip = (gender === 'female') ? parseFloat(document.getElementById('hipInput').value) : 0;
 
             const lang = currentLang;
             const resultBox = document.getElementById('resultBox');
             const errorAlert = document.getElementById('errorAlert');
             const bfAdviceBox = document.getElementById('bfAdviceBox');
             
-            // 1. Validasi Input LENGKAP
-            let isValid = !isNaN(height) && height > 0 && !isNaN(age) && age > 0 && !isNaN(neck) && neck > 0 && !isNaN(waist) && waist > 0;
-            if (gender === 'female') {
-                isValid = isValid && !isNaN(hip) && hip > 0;
-            }
-
-            if (!isValid) {
+            if (!height || !age || !neck || !waist || (gender === 'female' && !hip)) {
                 document.getElementById('errorText').textContent = translations[lang].inputError;
                 errorAlert.classList.remove('hidden');
                 resultBox.classList.remove('visible');
-                bfAdviceBox.classList.add('hidden');
                 return;
             }
             
             errorAlert.classList.add('hidden');
-            let bfp = 0; // Body Fat Percentage
+            let bfp = 0;
             
-            // Rumus US Navy (dalam cm)
             if (gender === 'male') {
-                const measurementDiff = waist - neck;
-                if (measurementDiff <= 0) {
-                    document.getElementById('errorText').textContent = lang === 'id' ? "Lingkar pinggang harus lebih besar dari lingkar leher." : "Waist circumference must be greater than neck circumference.";
-                    errorAlert.classList.remove('hidden');
-                    resultBox.classList.remove('visible');
-                    bfAdviceBox.classList.add('hidden');
-                    return;
-                }
-                bfp = 86.010 * Math.log10(measurementDiff) - 70.041 * Math.log10(height) + 36.76;
-            } else { // female
-                const measurementSumDiff = waist + hip - neck;
-                if (measurementSumDiff <= 0) {
-                    document.getElementById('errorText').textContent = lang === 'id' ? "Jumlah lingkar pinggang dan pinggul harus lebih besar dari lingkar leher." : "The sum of waist and hip circumference must be greater than the neck circumference.";
-                    errorAlert.classList.remove('hidden');
-                    resultBox.classList.remove('visible');
-                    bfAdviceBox.classList.add('hidden');
-                    return;
-                }
-                bfp = 163.205 * Math.log10(measurementSumDiff) - 97.684 * Math.log10(height) - 104.912;
+                bfp = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76;
+            } else {
+                bfp = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 104.912;
             }
 
-            // Batasi persentase agar realistis
-            if (isNaN(bfp)) {
-                document.getElementById('errorText').textContent = lang === 'id' ? "Terjadi kesalahan perhitungan. Pastikan pengukuran pinggang tidak terlalu dekat atau lebih kecil dari leher." : "Calculation error. Ensure the waist measurement is not too close to or smaller than the neck.";
+            if (isNaN(bfp) || bfp < 0) {
+                document.getElementById('errorText').textContent = "Error: Check measurements.";
                 errorAlert.classList.remove('hidden');
-                resultBox.classList.remove('visible');
-                bfAdviceBox.classList.add('hidden');
                 return;
             }
             
-            bfp = Math.max(5, Math.min(60, bfp));
+            bfp = Math.max(2, Math.min(60, bfp));
             const formattedBfp = bfp.toFixed(1);
 
-            // --- TAMPILKAN HASIL ---
-            const { categoryText, colorClass, adviceText } = getBodyFatCategory(bfp, gender, lang);
+            const { categoryText, adviceText } = getBodyFatCategory(bfp, gender, lang);
             document.getElementById('bfResult').textContent = `${formattedBfp}%`;
-            document.getElementById('bfResult').className = `text-4xl font-bold mt-1 ${colorClass}`;
-
-            const categoryResultElement = document.getElementById('categoryResult');
-            categoryResultElement.textContent = categoryText;
-            categoryResultElement.className = `text-xl font-semibold mt-1 ${colorClass}`;
-
-            // --- TAMPILKAN SARAN ---
+            document.getElementById('categoryResult').textContent = categoryText;
             document.getElementById('adviceText').textContent = adviceText;
+            
             bfAdviceBox.classList.remove('hidden');
-
-            // 7. Tampilkan kotak hasil
             resultBox.classList.add('visible');
         }
 
-
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
             
-            // --- LOGIKA BARU UNTUK HEADER & FOOTER MODULAR ---
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            if(languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
-
-            // Update Header Global (Jika ada)
-            const backBtn = document.getElementById('backToCatalogText');
-            if(backBtn) backBtn.textContent = t.backToCatalogText;
-            
-            // Update Footer Global (Jika ada)
-            if(document.getElementById('footerPrivacy')) {
-                document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
-                document.getElementById('footerTerms').textContent = t.footerTerms;
-                document.getElementById('footerAbout').textContent = t.footerAbout;
-                document.getElementById('footerContact').textContent = t.footerContact;
-                const devSpan = document.getElementById('footerDev');
-                if(devSpan) devSpan.textContent = t.footerDev;
-            }
-
-            // Update teks statis halaman
             document.getElementById('appTitle').textContent = t.appTitle;
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('toolSubtitle').textContent = t.toolSubtitle;
             
-            // Update label formulir dan tombol
             document.getElementById('labelGender').textContent = t.labelGender;
             document.getElementById('genderMale').textContent = t.genderMale;
             document.getElementById('genderFemale').textContent = t.genderFemale;
@@ -698,14 +512,6 @@
             document.getElementById('labelHip').textContent = t.labelHip;
             document.getElementById('calculateButton').textContent = t.calculateButton;
 
-            // Update placeholder
-            document.getElementById('heightInput').placeholder = t.placeholderHeight;
-            document.getElementById('ageInput').placeholder = t.placeholderAge;
-            document.getElementById('neckInput').placeholder = t.placeholderNeck;
-            document.getElementById('waistInput').placeholder = t.placeholderWaist;
-            document.getElementById('hipInput').placeholder = t.placeholderHip;
-            
-            // Update label hasil dan klasifikasi
             document.getElementById('labelBodyFat').textContent = t.labelBodyFat;
             document.getElementById('labelCategory').textContent = t.labelCategory;
             document.getElementById('classificationTitle').textContent = t.classificationTitle;
@@ -719,24 +525,18 @@
             document.getElementById('catAverage').textContent = t.catAverage;
             document.getElementById('catObese').textContent = t.catObese;
             
-            // Update Konten Edukasi Wajib
             document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
             document.getElementById('content1').innerHTML = t.content1;
             document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
             document.getElementById('content2Intro').innerHTML = t.content2Intro;
             
-            // Lemak Esensial
             document.getElementById('essentialHeader').textContent = t.essentialHeader;
             document.getElementById('essentialDesc').innerHTML = t.essentialDesc;
-            
-            // Lemak Penyimpanan
             document.getElementById('storageHeader').textContent = t.storageHeader;
             document.getElementById('storageDesc').innerHTML = t.storageDesc;
 
             document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
             document.getElementById('content3').innerHTML = t.content3;
-            
-            // Aksi
             document.getElementById('actionHeader').textContent = t.actionHeader;
             document.getElementById('actionList').innerHTML = `
                 <li>${t.actionList1}</li>
@@ -744,85 +544,28 @@
                 <li>${t.actionList3}</li>
             `;
             
-            // Perbarui hasil yang sudah ada (jika sudah dihitung)
-            const bfResultElement = document.getElementById('bfResult');
-            if (bfResultElement.textContent !== '--%') {
-                 calculateBodyFat();
+            if (document.getElementById('resultBox').classList.contains('visible')) {
+                calculateBodyFat();
             }
 
-             // Pastikan error message diupdate
-            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
-                document.getElementById('errorText').textContent = t.inputError;
-            }
-
-            // [MODULAR] Update Related Tools Translation
-            updateRelatedContent(lang);
-        }
-
-        // ============================================================
-        // LOGIKA BAHASA: BAGIAN RELATED TOOLS & ARTICLES (NEW)
-        // ============================================================
-        function updateRelatedContent(lang) {
-            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
-            translatableElements.forEach(el => {
-                const newText = el.getAttribute(`data-${lang}`);
-                if (newText) {
-                    el.textContent = newText;
-                }
+            // Update Related Tools and Articles
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
             });
         }
 
-        // ============================================================
-        // LOGIKA WARNA DINAMIS (THEME MANAGER) (NEW)
-        // ============================================================
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'health'; 
-            
-            const themes = {
-                health: {
-                    bg: 'bg-blue-600', text: 'text-blue-600',
-                    border: 'hover:border-blue-400', hoverText: 'group-hover:text-blue-700',
-                    bgGroup: 'group-hover:bg-blue-500'
-                },
-                finance: {
-                    bg: 'bg-green-600', text: 'text-green-600',
-                    border: 'hover:border-green-400', hoverText: 'group-hover:text-green-700',
-                    bgGroup: 'group-hover:bg-green-500'
-                },
-                productivity: {
-                    bg: 'bg-purple-600', text: 'text-purple-600',
-                    border: 'hover:border-purple-400', hoverText: 'group-hover:text-purple-700',
-                    bgGroup: 'group-hover:bg-purple-500'
-                }
-            };
-            const theme = themes[category] || themes.health;
-
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
-        }
-
-        // ============================================================
-        // OBSERVER BAHASA (Agar Konten Lokal Merespon Header) (NEW)
-        // ============================================================
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    const currentLang = document.documentElement.lang || 'en';
-                    setLanguage(currentLang);
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
         });
         observer.observe(document.documentElement, { attributes: true });
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
             setLanguage('en'); 
             toggleFemaleInputs(); 
-            document.getElementById('bfAdviceBox').classList.add('hidden');
-            applyDynamicTheme(); // Terapkan tema warna
         });
     </script>
 </body>

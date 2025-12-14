@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="canonical" href="https://digitaltoolsid.github.io/articles/bunga-efektif-sebenarnya.html" />
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/articles/bunga-efektif-sebenarnya.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/articles/bunga-efektif-sebenarnya.html" />
-
-    <meta name="description" content="Pahami perbedaan Bunga Flat vs Bunga Efektif yang sebenarnya! Ketahui cara menghitung suku bunga pinjaman yang akurat dan maksimalkan penghematan cicilan Anda." />
-
-    <!-- Judul akan di-set oleh JS -->
-    <title id="appTitle">Artikel: Bunga Flat vs Bunga Efektif</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:,">
+   
+    <meta name="description" content="Flat Rate vs Effective Rate (APR/EIR): Understand the true cost of your loan. Learn how to calculate accurate interest rates and save on your installments." />
+    <meta name="keywords" content="Flat vs Effective Interest Rate, APR Calculation, EIR Formula, Loan Interest Calculator, True Cost of Borrowing, Mortgage Rates, Car Loan Interest, Bunga Flat vs Efektif, Cara Hitung Bunga Pinjaman" />
+   
+    <title id="appTitle">Flat vs Effective Interest Rate: True Loan Cost - Digital Tools ID</title>
     
-    <!-- Kode Google Analytic dan Adsense -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -22,353 +25,252 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-     crossorigin="anonymous"></script>     
-
-    <!-- Konfigurasi Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'primary-dark': '#1e3a8a', 
-                        'finance-color': '#27ae60', // Hijau untuk Keuangan
-                    }
-                }
-            }
-        }
-    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* Gaya Toggle Bahasa (Sama seperti alat lain) */
-        .lang-toggle-container {
-            position: relative;
-            display: inline-flex;
-            background-color: #e5e7eb; 
-            border-radius: 9999px; 
-            padding: 4px;
+        /* CSS LOKAL - STANDAR BARU */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
         }
-        .lang-toggle-btn {
-            padding: 6px 14px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-            color: #6b7280; 
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .lang-toggle-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            height: calc(100% - 8px);
-            width: calc(50% - 4px); 
-            background-color: #1e3a8a; /* Primary-dark */
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .lang-toggle-container.lang-en .lang-toggle-slider { transform: translateX(0%); }
-        .lang-toggle-container.lang-id .lang-toggle-slider { transform: translateX(100%); }
-        .lang-toggle-container.lang-en #lang-en { color: white; }
-        .lang-toggle-container.lang-id #lang-id { color: white; }
-        
-        /* Gaya untuk tombol CTA */
-        .cta-button {
-            box-shadow: 0 4px #1e8449; /* Warna hijau yang lebih gelap */
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px #1e8449;
-        }
-        .cta-button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px #1e8449;
-        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .tool-link-card { display: block; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s; background: white; }
+        .tool-link-card:hover { border-color: #3498db; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); transform: translateY(-2px); }
+        .tag-finance { color: #16a34a; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+        .tag-health { color: #2563eb; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+        .tag-productivity { color: #4f46e5; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
     </style>
 </head>
 
-<!-- Body dengan kode pengaman -->
-<body class="bg-gray-50 flex flex-col min-h-screen font-sans" oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
-    <!-- Header -->
-    <header class="bg-primary-dark text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            
-            <a href="../index.html" class="text-lg font-semibold tracking-tight text-gray-200 hover:text-white transition duration-150">
-                &larr; <span id="backToCatalogText">Back to Tools Catalog</span>
-            </a>
-            
-            <div id="languageSwitcher" class="lang-toggle-container lang-en">
-                <div id="langToggleSlider" class="lang-toggle-slider"></div>
-                <button id="lang-en" onclick="setLanguage('en')" class="lang-toggle-btn">
-                    EN
-                </button>
-                <button id="lang-id" onclick="setLanguage('id')" class="lang-toggle-btn">
-                    ID
-                </button>
-            </div>
-            </div>
-    </header>
+    <div id="global-header-container"></div>
+    <script> window.headerCategory = 'finance'; </script>
 
-    <!-- Main Content (Konten Artikel) -->
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-10 border border-gray-100">
             
-            <!-- Judul Artikel -->
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-primary-dark mb-4"></h1>
+            <h1 id="headerTitle" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 leading-tight"></h1>
             
-            <!-- Konten Artikel -->
-            <article class="prose prose-lg max-w-none">
-                <p id="contentIntro" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+            <div class="text-gray-700 text-sm leading-relaxed text-justify space-y-4 mb-8">
+                <p id="contentIntro" class="border-b pb-4 mb-4"></p>
 
-                <h2 id="sectionHeader1" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
-                <p id="content1_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
-                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                <h2 id="sectionHeader1" class="text-lg font-bold text-gray-900 mt-6 mb-2"></h2>
+                <p id="content1_1"></p>
+                <ul class="list-disc list-inside bg-red-50 p-3 rounded-lg border-l-4 border-red-500 text-xs sm:text-sm">
                     <li id="content1_2"></li>
                     <li id="content1_3"></li>
                 </ul>
-                <p id="content1_4" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+                <p id="content1_4" class="mt-2"></p>
 
-                <h2 id="sectionHeader2" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
-                <p id="content2_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
-                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                <h2 id="sectionHeader2" class="text-lg font-bold text-gray-900 mt-6 mb-2"></h2>
+                <p id="content2_1"></p>
+                <ul class="list-disc list-inside bg-green-50 p-3 rounded-lg border-l-4 border-green-500 text-xs sm:text-sm">
                     <li id="content2_2"></li>
                     <li id="content2_3"></li>
                 </ul>
-                <p id="content2_4" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
+                <p id="content2_4" class="mt-2"></p>
 
-                <h2 id="sectionHeader3" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
-                <p id="content3_1" class="text-gray-700 text-base leading-relaxed text-justify mb-4"></p>
-                <ol class="list-decimal list-inside space-y-2 text-gray-700 mb-6">
+                <h2 id="sectionHeader3" class="text-lg font-bold text-gray-900 mt-6 mb-2"></h2>
+                <p id="content3_1"></p>
+                <ul class="list-disc list-inside bg-yellow-50 p-3 rounded-lg border-l-4 border-yellow-500 text-xs sm:text-sm">
                     <li id="content3_2"></li>
                     <li id="content3_3"></li>
                     <li id="content3_4"></li>
-                </ol>
-                <p id="content3_5" class="text-gray-700 text-base leading-relaxed text-justify mb-6"></p>
-
-                <h2 id="sectionHeader4" class="text-2xl font-bold text-gray-800 mt-8 mb-3"></h2>
-                <ol class="list-decimal list-inside space-y-2 text-gray-700 mb-6">
+                </ul>
+                <p id="content3_5" class="mt-2"></p>
+                
+                <h2 id="sectionHeader4" class="text-lg font-bold text-gray-900 mt-6 mb-2"></h2>
+                <ol class="list-decimal list-inside space-y-2 ml-1">
                     <li id="content4_1"></li>
                     <li id="content4_2"></li>
                 </ol>
-            </article>
+            </div>
 
-            <!-- Paragraf Penutup "Keren" dan Tombol CTA -->
-            <div class="mt-12 pt-6 border-t border-gray-200 text-center">
-                <p id="contentCTA" class="text-lg text-gray-800 font-medium mb-6"></p>
+            <div class="bg-gray-50 rounded-xl p-6 text-center mb-8 border border-gray-200">
+                <p id="contentCTA" class="text-sm text-gray-700 mb-4"></p>
+                <a href="../kalkulator-bunga-efektif/index.html" id="buttonCTA" class="cta-button inline-block bg-green-600 text-white font-bold py-2.5 px-6 rounded-full hover:bg-green-700 shadow-md text-sm">
+                    </a>
+            </div>
+
+            <div class="border-t border-gray-100 pt-6">
+                <h3 class="text-base font-bold text-gray-900 mb-4 border-l-4 border-green-500 pl-3" id="relatedTitle">Explore Popular Tools</h3>
                 
-                <a href="../kalkulator-bunga-efektif/index.html" id="buttonCTA" class="cta-button inline-block bg-finance-color text-white font-semibold py-3 px-8 rounded-xl hover:bg-green-700 transition duration-300 ease-in-out transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50 text-lg">
-                    <!-- Teks diisi oleh JS -->
-                </a>
+                <h4 class="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Finance & Business</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <a href="../kalkulator-bunga-efektif/index.html" class="tool-link-card group">
+                        <span class="tag-finance">Loan Analysis</span>
+                        <h5 class="font-bold text-sm text-gray-800 group-hover:text-green-600" id="tool_fin_1">Effective Rate Calculator</h5>
+                    </a>
+                    <a href="../kalkulator-pph/index.html" class="tool-link-card group">
+                        <span class="tag-finance">Tax</span>
+                        <h5 class="font-bold text-sm text-gray-800 group-hover:text-green-600" id="tool_fin_2">Income Tax (PPh 21)</h5>
+                    </a>
+                    <a href="../kalkulator-kpr/index.html" class="tool-link-card group">
+                        <span class="tag-finance">Loan</span>
+                        <h5 class="font-bold text-sm text-gray-800 group-hover:text-green-600" id="tool_fin_3">Mortgage (KPR) Simulator</h5>
+                    </a>
+                    <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-link-card group">
+                        <span class="tag-finance">Budgeting</span>
+                        <h5 class="font-bold text-sm text-gray-800 group-hover:text-green-600" id="tool_fin_4">Monthly Budget (50/30/20)</h5>
+                    </a>
+                </div>
+
+                <h4 class="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Health & Productivity</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="../BMI/index.html" class="tool-link-card group">
+                        <span class="tag-health">Health</span>
+                        <h5 class="font-bold text-sm text-gray-800 group-hover:text-blue-600" id="tool_health_1">BMI & Calorie Analyzer</h5>
+                    </a>
+                    <a href="../universal-convert/index.html" class="tool-link-card group">
+                        <span class="tag-productivity">Productivity</span>
+                        <h5 class="font-bold text-sm text-gray-800 group-hover:text-indigo-600" id="tool_prod_1">Universal Unit Converter</h5>
+                    </a>
+                </div>
             </div>
 
         </div>
     </main>
     
-    <!-- Footer (Sama seperti alat lain) -->
-    <footer class="mt-12 py-6 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="footerLinks" class="flex flex-wrap justify-center space-x-4 sm:space-x-8 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" id="linkPrivacy" class="hover:text-secondary transition duration-150 ease-in-out">Privacy Policy</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../terms-of-service.html" id="linkTerms" class="hover:text-secondary transition duration-150 ease-in-out">Terms of Service</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../about-us.html" id="linkAbout" class="hover:text-secondary transition duration-150 ease-in-out">About Us</a>
-                <span aria-hidden="true" class="hidden sm:inline">|</span>
-                <a href="../contact-us.html" id="linkContact" class="hover:text-secondary transition duration-150 ease-in-out">Contact Us</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                <span id="footerCopyright">&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.</span>
-            </div>
-        </div>
-    </footer>
+    <div id="global-footer-container"></div>
+    <script src="../components.js"></script>
     
     <script>
-        // **********************************************
-        // LOGIKA TRANSLATE KONTEN ARTIKEL
-        // **********************************************
-
         const translations = {
             id: {
                 appTitle: "Artikel: Bunga Flat vs Bunga Efektif",
-                backToCatalogText: "Kembali ke Katalog Alat",
-                
-                // Konten Artikel (Bahasa Indonesia) - Diubah ke format HTML murni
                 headerTitle: "Bunga Flat vs. Bunga Efektif: Cara Mengetahui Biaya Pinjaman Anda yang Sebenarnya",
-                contentIntro: "Ketika Anda mengajukan pinjaman, baik itu Kredit Pemilikan Rumah (KPR), kredit kendaraan, atau pinjaman serbaguna lainnya, Anda pasti akan dihadapkan pada istilah \"suku bunga.\" Bagi kebanyakan orang, angka ini terlihat sederhana. Namun, ada perbedaan besar yang harus Anda pahami: perbedaan antara <strong>Bunga Flat</strong> dan <strong>Bunga Efektif (APR/EIR)</strong>. Memahami perbedaan ini bukan hanya soal terminologi, melainkan soal melindungi dompet Anda dan memastikan Anda membayar harga yang wajar.",
+                contentIntro: "Ketika mengajukan pinjaman, Anda akan dihadapkan pada istilah \"suku bunga.\" Namun, ada perbedaan besar antara <strong>Bunga Flat</strong> dan <strong>Bunga Efektif (APR/EIR)</strong>. Memahami ini penting untuk melindungi dompet Anda.",
                 
                 sectionHeader1: "1. Apa Itu Bunga Flat (Flat Rate)?",
-                content1_1: "Bunga <em>flat</em> (rata) adalah metode perhitungan bunga yang paling sering digunakan oleh penjual produk. Dalam metode ini, bunga dihitung dari <strong>pokok pinjaman awal</strong> selama keseluruhan masa tenor pinjaman, dan jumlahnya tidak pernah berubah.",
-                content1_2: "<strong>Sifat:</strong> Angka yang terlihat rendah dan stabil.",
-                content1_3: "<strong>Kelemahan:</strong> Tidak mencerminkan kondisi sebenarnya, di mana pokok pinjaman Anda terus berkurang setiap bulannya.",
-                content1_4: "Misalnya, jika Anda meminjam Rp 10.000.000 dengan bunga <em>flat</em> 10% per tahun selama 2 tahun, bunga yang Anda bayar setiap bulannya akan sama dari bulan pertama hingga terakhir, seolah-olah pokok pinjaman Anda masih utuh Rp 10.000.000.",
+                content1_1: "Bunga <em>flat</em> dihitung dari <strong>pokok pinjaman awal</strong> selama masa tenor. Jumlahnya tidak pernah berubah.",
+                content1_2: "<strong>Sifat:</strong> Terlihat rendah dan stabil.",
+                content1_3: "<strong>Kelemahan:</strong> Tidak mencerminkan kondisi sebenarnya di mana pokok pinjaman berkurang.",
+                content1_4: "Contoh: Pinjaman 10 juta bunga flat 10%, Anda tetap bayar bunga dari angka 10 juta di bulan terakhir.",
 
                 sectionHeader2: "2. Mengenal Bunga Efektif (Effective Interest Rate / APR)",
-                content2_1: "Bunga efektif, atau sering disebut APR (<em>Annual Percentage Rate</em>), adalah standar industri yang disarankan oleh regulator keuangan. Bunga ini mencerminkan biaya pinjaman yang lebih akurat karena dihitung berdasarkan <strong>sisa pokok pinjaman</strong> Anda dari waktu ke waktu. Setiap kali Anda membayar angsuran bulanan, sebagian dari pembayaran itu mengurangi sisa pokok pinjaman. Bulan berikutnya, bunga hanya dihitung dari sisa pokok yang lebih kecil tersebut.",
-                content2_2: "<strong>Sifat:</strong> Angka yang menunjukkan bunga yang sebenarnya Anda bayarkan.",
-                content2_3: "<strong>Keunggulan:</strong> Memberikan perbandingan yang adil antar produk pinjaman.",
-                content2_4: "Inilah mengapa Bunga Efektif hampir selalu terlihat lebih tinggi daripada Bunga Flat yang diiklankan. Bunga Efektif menunjukkan <strong>biaya bunga sesungguhnya</strong> setelah pokok pinjaman Anda terus melunasinya.",
+                content2_1: "Bunga efektif dihitung berdasarkan <strong>sisa pokok pinjaman</strong>. Ini adalah standar industri yang lebih adil.",
+                content2_2: "<strong>Sifat:</strong> Menunjukkan biaya bunga yang sebenarnya.",
+                content2_3: "<strong>Keunggulan:</strong> Perbandingan yang adil antar produk.",
+                content2_4: "Bunga Efektif hampir selalu terlihat lebih tinggi angkanya daripada Bunga Flat, tapi itulah biaya aslinya.",
 
-                sectionHeader3: "3. Biaya Tersembunyi yang Membuat Bunga Anda Lebih Mahal",
-                content3_1: "Masalah tidak berhenti pada Bunga Flat vs. Efektif. Banyak pinjaman di Indonesia (terutama KPR dan kredit kendaraan) memiliki biaya-biaya awal yang harus Anda bayar di muka, seperti:",
-                content3_2: "<strong>Biaya Provisi:</strong> Persentase tertentu dari pinjaman yang diambil sebagai komisi bank.",
-                content3_3: "<strong>Biaya Administrasi:</strong> Biaya pengurusan dokumen.",
-                content3_4: "<strong>Biaya Asuransi:</strong> Dibayar di awal untuk menutupi risiko pinjaman.",
-                content3_5: "Semua biaya awal ini, meskipun dibayar terpisah, mengurangi jumlah uang bersih yang benar-benar Anda terima. Jika Anda menerima dana lebih sedikit, tetapi membayar angsuran tetap yang sama, secara matematis, <strong>suku bunga efektif Anda akan naik lebih tinggi lagi</strong>. Intinya: Jangan hanya fokus pada Angsuran Bulanan. Fokuslah pada total uang yang Anda bayar kembali, dibagi dengan total uang yang benar-benar Anda terima.",
+                sectionHeader3: "3. Biaya Tersembunyi: Provisi & Admin",
+                content3_1: "Selain bunga, ada biaya awal yang harus dibayar di muka:",
+                content3_2: "<strong>Biaya Provisi:</strong> Komisi bank dari persentase pinjaman.",
+                content3_3: "<strong>Biaya Administrasi:</strong> Pengurusan dokumen.",
+                content3_4: "<strong>Biaya Asuransi:</strong> Risiko kredit.",
+                content3_5: "Biaya ini mengurangi uang yang Anda terima. Secara matematis, ini membuat <strong>bunga efektif Anda naik lebih tinggi lagi</strong>.",
+
+                sectionHeader4: "4. Cara Mendapatkan Perbandingan Adil",
+                content4_1: "<strong>Minta Detail Lengkap:</strong> Tanyakan Pokok, Angsuran, Tenor, dan SEMUA Biaya Awal.",
+                content4_2: "<strong>Hitung APR Sebenarnya:</strong> Gunakan kalkulator untuk mengonversi data tersebut menjadi Bunga Efektif.",
                 
-                sectionHeader4: "4. Cara Mendapatkan Kekuatan Perbandingan",
-                content4_1: "<strong>Dapatkan Detail Pinjaman:</strong> Minta penyedia kredit (bank atau <em>dealer</em>) untuk merincikan semua komponen: Pokok Pinjaman, Angsuran Bulanan Tetap, Jangka Waktu (Bulan), dan <strong>SEMUA</strong> Biaya Awal (Administrasi, Provisi, Asuransi).",
-                content4_2: "<strong>Hitung Bunga Efektif Sebenarnya:</strong> Dengan data-data tersebut, Anda dapat menghitung Bunga Efektif Tahunan (APR) yang sesungguhnya. Inilah satu-satunya cara untuk membandingkan Pinjaman A dari bank X dengan Pinjaman B dari dealer Y secara adil.",
-
-                // Paragraf "Keren" dan Tombol CTA
-                contentCTA: "Untuk menghitung berapa sebenarnya bunga efektif tahunan (APR) pinjaman Anda setelah semua biaya awal diperhitungkan, Anda dapat menggunakan kalkulator di bawah ini.",
+                contentCTA: "Hitung berapa sebenarnya bunga efektif tahunan (APR) pinjaman Anda:",
                 buttonCTA: "Hitung APR Anda Sekarang",
-
-                // Footer
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi. Dikembangkan oleh DTID Analytics."
+                
+                relatedTitle: "Jelajahi Alat Populer Lainnya",
+                tool_fin_1: "Kalkulator Bunga Efektif",
+                tool_fin_2: "Pajak Penghasilan (PPh 21)",
+                tool_fin_3: "Simulasi KPR",
+                tool_fin_4: "Anggaran Bulanan",
+                tool_health_1: "Analisis BMI & Kalori",
+                tool_prod_1: "Konverter Unit Universal"
             },
             en: {
                 appTitle: "Article: Flat Rate vs. Effective Rate",
-                backToCatalogText: "Back to Tools Catalog",
-                
-                // Konten Artikel (Bahasa Inggris) - Diubah ke format HTML murni
                 headerTitle: "Flat Rate vs. Effective Rate: How to Know the True Cost of Your Loan",
-                contentIntro: "When you apply for a loan, whether it's a Mortgage (KPR), vehicle loan, or other multipurpose loans, you will inevitably face the term \"interest rate.\" To most people, this number seems simple. However, there is a huge difference you must understand: the difference between a <strong>Flat Rate</strong> and an <strong>Effective Rate (APR/EIR)</strong>. Understanding this difference isn't just about terminology; it's about protecting your wallet and ensuring you pay a fair price.",
+                contentIntro: "When applying for a loan, you face the term \"interest rate.\" However, there is a huge difference between <strong>Flat Rate</strong> and <strong>Effective Rate (APR/EIR)</strong>. Understanding this is key to protecting your wallet.",
                 
                 sectionHeader1: "1. What is a Flat Rate?",
-                content1_1: "A <em>flat</em> rate is the interest calculation method most often used by product sellers. In this method, interest is calculated based on the <strong>initial loan principal</strong> for the entire loan term, and the amount never changes.",
-                content1_2: "<strong>Nature:</strong> An angka that looks low and stable.",
-                content1_3: "<strong>Weakness:</strong> It doesn't reflect the real situation, where your principal balance decreases every month.",
-                content1_4: "For example, if you borrow IDR 10,000,000 with a 10% <em>flat</em> rate per year for 2 years, the interest you pay monthly will be the same from the first month to the last, as if your principal balance were still the full IDR 10,000,000.",
+                content1_1: "A <em>flat</em> rate is calculated based on the <strong>initial loan principal</strong>. The amount never changes.",
+                content1_2: "<strong>Nature:</strong> Looks low and stable.",
+                content1_3: "<strong>Weakness:</strong> Doesn't reflect the decreasing principal balance.",
+                content1_4: "Example: A 10k loan at 10% flat rate means you pay interest on 10k even in the final month.",
 
                 sectionHeader2: "2. Understanding Effective Interest Rate (APR)",
-                content2_1: "The effective rate, or often called APR (<em>Annual Percentage Rate</em>), is the industry standard recommended by financial regulators. This rate reflects the cost of borrowing more accurately because it is calculated based on your <strong>remaining loan principal</strong> over time. Every time you make a monthly payment, a portion of that payment reduces the remaining principal. The following month, interest is only calculated on that smaller remaining balance.",
-                content2_2: "<strong>Nature:</strong> The number that shows the real interest you are paying.",
-                content2_3: "<strong>Advantage:</strong> Provides a fair comparison between loan products.",
-                content2_4: "This is why the Effective Rate almost always looks higher than the advertised Flat Rate. The Effective Rate shows the <strong>true cost of interest</strong> as your loan principal is paid down.",
+                content2_1: "Effective rate is calculated based on your <strong>remaining loan principal</strong>. This is the fair industry standard.",
+                content2_2: "<strong>Nature:</strong> Shows the real cost of borrowing.",
+                content2_3: "<strong>Advantage:</strong> Fair comparison between products.",
+                content2_4: "Effective rates usually look higher than flat rates, but they represent the true cost.",
 
-                sectionHeader3: "3. Hidden Fees That Make Your Interest More Expensive",
-                content3_1: "The problem doesn't stop at Flat vs. Effective rates. Many loans in Indonesia (especially mortgages and vehicle loans) have upfront fees that you must pay, such as:",
-                content3_2: "<strong>Provision Fees:</strong> A certain percentage of the loan taken as a bank commission.",
-                content3_3: "<strong>Administration Fees:</strong> Document processing fees.",
-                content3_4: "<strong>Insurance Fees:</strong> Paid at the beginning to cover the loan risk.",
-                content3_5: "All these upfront fees, even if paid separately, reduce the net amount of money you actually receive. If you receive less funds but pay the same fixed installment, mathematically, <strong>your effective interest rate will be even higher</strong>. The bottom line: Don't just focus on the Monthly Installment. Focus on the total money you pay back, divided by the total money you actually receive.",
+                sectionHeader3: "3. Hidden Fees: Provision & Admin",
+                content3_1: "Besides interest, there are upfront fees:",
+                content3_2: "<strong>Provision Fees:</strong> Bank commission.",
+                content3_3: "<strong>Administration Fees:</strong> Document processing.",
+                content3_4: "<strong>Insurance Fees:</strong> Credit risk cover.",
+                content3_5: "These fees reduce the net cash you receive, mathematically <strong>pushing your effective rate even higher</strong>.",
+
+                sectionHeader4: "4. How to Compare Fairly",
+                content4_1: "<strong>Get Full Details:</strong> Ask for Principal, Installment, Term, and ALL Upfront Fees.",
+                content4_2: "<strong>Calculate True APR:</strong> Use a calculator to convert this data into an Effective Rate.",
                 
-                sectionHeader4: "4. How to Gain the Power of Comparison",
-                content4_1: "<strong>Get the Loan Details:</strong> Ask the credit provider (bank or <em>dealer</em>) to itemize all components: Pokok Pinjaman, Angsuran Bulanan Tetap, Jangka Waktu (Bulan), dan <strong>SEMUA</strong> Biaya Awal (Administrasi, Provisi, Asuransi).",
-                content4_2: "<strong>Calculate the True Effective Rate:</strong> With this data, you can calculate the true Annual Percentage Rate (APR) that is the only way to fairly compare Loan A from bank X with Loan B from dealer Y.",
-
-                // Paragraf "Keren" dan Tombol CTA
-                contentCTA: "To calculate what your actual annual effective interest rate (APR) is after all upfront fees are factored in, you can use the calculator below.",
+                contentCTA: "Calculate the true Annual Percentage Rate (APR) of your loan:",
                 buttonCTA: "Calculate Your APR Now",
-
-                // Footer
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics."
+                
+                relatedTitle: "Explore Popular Tools",
+                tool_fin_1: "Effective Rate Calculator",
+                tool_fin_2: "Income Tax (PPh 21)",
+                tool_fin_3: "Mortgage Simulator",
+                tool_fin_4: "Monthly Budget",
+                tool_health_1: "BMI & Calorie Analyzer",
+                tool_prod_1: "Universal Unit Converter"
             }
         };
 
-        let currentLang = 'en'; // Default language
-
-        // Fungsi untuk mengubah semua teks UI berdasarkan bahasa
         function setLanguage(lang) {
-            currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
+            
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('contentIntro').innerHTML = t.contentIntro;
+            
+            document.getElementById('sectionHeader1').textContent = t.sectionHeader1;
+            document.getElementById('content1_1').innerHTML = t.content1_1;
+            document.getElementById('content1_2').innerHTML = t.content1_2;
+            document.getElementById('content1_3').innerHTML = t.content1_3;
+            document.getElementById('content1_4').textContent = t.content1_4;
 
-            // Update status toggle
-            languageSwitcher.classList.remove('lang-en', 'lang-id');
-            languageSwitcher.classList.add(`lang-${lang}`);
-            document.documentElement.lang = lang; 
+            document.getElementById('sectionHeader2').textContent = t.sectionHeader2;
+            document.getElementById('content2_1').textContent = t.content2_1;
+            document.getElementById('content2_2').innerHTML = t.content2_2;
+            document.getElementById('content2_3').innerHTML = t.content2_3;
+            document.getElementById('content2_4').textContent = t.content2_4;
 
-            // Daftar ID elemen dan kunci terjemahan
-            const elementsToTranslate = [
-                { id: 'appTitle', key: 'appTitle' },
-                { id: 'backToCatalogText', key: 'backToCatalogText' },
-                { id: 'headerTitle', key: 'headerTitle' },
-                { id: 'contentIntro', key: 'contentIntro' },
-                { id: 'sectionHeader1', key: 'sectionHeader1' },
-                { id: 'content1_1', key: 'content1_1' },
-                { id: 'content1_2', key: 'content1_2' },
-                { id: 'content1_3', key: 'content1_3' },
-                { id: 'content1_4', key: 'content1_4' },
-                { id: 'sectionHeader2', key: 'sectionHeader2' },
-                { id: 'content2_1', key: 'content2_1' },
-                { id: 'content2_2', key: 'content2_2' },
-                { id: 'content2_3', key: 'content2_3' },
-                { id: 'content2_4', key: 'content2_4' },
-                { id: 'sectionHeader3', key: 'sectionHeader3' },
-                { id: 'content3_1', key: 'content3_1' },
-                { id: 'content3_2', key: 'content3_2' },
-                { id: 'content3_3', key: 'content3_3' },
-                { id: 'content3_4', key: 'content3_4' },
-                { id: 'content3_5', key: 'content3_5' },
-                { id: 'sectionHeader4', key: 'sectionHeader4' },
-                { id: 'content4_1', key: 'content4_1' },
-                { id: 'content4_2', key: 'content4_2' },
-                { id: 'contentCTA', key: 'contentCTA' },
-                { id: 'buttonCTA', key: 'buttonCTA' },
-                { id: 'linkPrivacy', key: 'linkPrivacy' },
-                { id: 'linkTerms', key: 'linkTerms' },
-                { id: 'linkAbout', key: 'linkAbout' },
-                { id: 'linkContact', key: 'linkContact' },
-                { id: 'footerCopyright', key: 'footerCopyright' }
-            ];
+            document.getElementById('sectionHeader3').textContent = t.sectionHeader3;
+            document.getElementById('content3_1').textContent = t.content3_1;
+            document.getElementById('content3_2').innerHTML = t.content3_2;
+            document.getElementById('content3_3').innerHTML = t.content3_3;
+            document.getElementById('content3_4').innerHTML = t.content3_4;
+            document.getElementById('content3_5').innerHTML = t.content3_5;
 
-            // Loop untuk menerjemahkan
-            elementsToTranslate.forEach(item => {
-                const element = document.getElementById(item.id);
-                if (element) {
-                    // Gunakan innerHTML untuk elemen yang mengandung tag HTML (seperti <strong>, <em>, dll.)
-                    if (['contentIntro', 'content1_1', 'content1_2', 'content1_3', 'content1_4', 'content2_1', 'content2_2', 'content2_3', 'content2_4', 'content3_1', 'content3_2', 'content3_3', 'content3_4', 'content3_5', 'content4_1', 'content4_2', 'contentCTA', 'footerCopyright'].includes(item.id)) {
-                        element.innerHTML = t[item.key];
-                    } else {
-                        // Gunakan textContent untuk elemen lain (judul, label, dll)
-                        element.textContent = t[item.key];
-                    }
+            document.getElementById('sectionHeader4').textContent = t.sectionHeader4;
+            document.getElementById('content4_1').innerHTML = t.content4_1;
+            document.getElementById('content4_2').innerHTML = t.content4_2;
+
+            document.getElementById('contentCTA').textContent = t.contentCTA;
+            document.getElementById('buttonCTA').textContent = t.buttonCTA;
+            document.getElementById('relatedTitle').textContent = t.relatedTitle;
+
+            document.getElementById('tool_fin_1').textContent = t.tool_fin_1;
+            document.getElementById('tool_fin_2').textContent = t.tool_fin_2;
+            document.getElementById('tool_fin_3').textContent = t.tool_fin_3;
+            document.getElementById('tool_fin_4').textContent = t.tool_fin_4;
+            document.getElementById('tool_health_1').textContent = t.tool_health_1;
+            document.getElementById('tool_prod_1').textContent = t.tool_prod_1;
+        }
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
-        }
-        
-        // Event listener untuk perubahan bahasa
-        document.getElementById('languageSwitcher').addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                const newLang = event.target.id === 'lang-en' ? 'en' : 'id';
-                if (newLang !== currentLang) {
-                    setLanguage(newLang);
-                }
-            }
         });
+        observer.observe(document.documentElement, { attributes: true });
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
-            // Logika Deteksi Bahasa Awal
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-            setLanguage(defaultLang); 
+            setLanguage(document.documentElement.lang || 'en');
         });
-
     </script>
 </body>
 </html>

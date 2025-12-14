@@ -50,7 +50,7 @@ module.exports = {
         'accent': '#e74c3c',
         'health-color': '#3498db',
         'finance-color': '#27ae60',
-        'productivity-color': '#9b59b6',
+        'productivity-color': '#3730a3', // <-- DIGANTI DARI #9b59b6 (Ungu) menjadi Indigo 800
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

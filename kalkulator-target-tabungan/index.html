@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-target-tabungan/" />
-    <meta name="description" content="Kalkulator Target Tabungan membantu Anda merencanakan tujuan finansial spesifik. Hitung berapa yang harus ditabung bulanan untuk mencapai target (rumah, mobil, liburan) dalam jangka waktu yang ditetapkan." />
-    
     <link rel="icon" href="data:,">
+    
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-target-tabungan/" />
+    
+    <meta name="description" content="Savings Goal Calculator. Calculate the monthly deposit needed to reach specific financial targets like a house down payment, wedding, or vacation within a set timeframe." />
+    <meta name="keywords" content="Savings Goal Calculator, Sinking Fund Calculator, Financial Planner, Investment Goal, Future Value Calculator, Kalkulator Target Tabungan, Simulasi Tabungan Nikah, Hitung Dana Rumah, Target Investasi, Tabungan Umroh, Cara hitung setoran bulanan, strategi menabung efektif, berapa harus menabung per bulan">
  
     <title id="appTitle">Savings Goal Calculator</title>
     
@@ -27,6 +29,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -110,12 +123,13 @@
     <div id="global-header-container"></div>
 
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="layout-article-fixed w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Savings Goal Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-               </p>
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+               Accurately calculate how much fund you need to set aside monthly to achieve large financial goals, such as a down payment for a house, wedding costs, or a dream vacation.
+            </p>
             
             <form id="savingsGoalForm" onsubmit="calculateSavings(event)" class="space-y-6">
                 
@@ -127,7 +141,7 @@
                             <label for="goalAmount" class="block text-sm font-medium text-gray-700 mb-1">
                                 <span id="labelGoalAmount">Required Target Fund</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
                             </label>
-                            <input type="text" id="goalAmount" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" value="300.000.000" required>
+                            <input type="text" id="goalAmount" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-sm" value="300.000.000" required>
                             <p class="text-xs text-gray-500 mt-1" id="descGoalAmount">Total amount needed (e.g. Down Payment).</p>
                         </div>
                         
@@ -135,7 +149,7 @@
                             <label for="currentSavings" class="block text-sm font-medium text-gray-700 mb-1">
                                 <span id="labelCurrentSavings">Current Savings Balance</span> <span class="currency-label font-normal text-gray-500">(Rp/$)</span>
                             </label>
-                            <input type="text" id="currentSavings" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" value="50.000.000" required>
+                            <input type="text" id="currentSavings" inputmode="numeric" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-sm" value="50.000.000" required>
                         </div>
                     </div>
                 </div>
@@ -146,12 +160,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="yearsToGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelYearsToGoal">Timeline (Years)</label>
-                            <input type="number" id="yearsToGoal" inputmode="numeric" min="0.5" step="0.5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" value="5" required>
+                            <input type="number" id="yearsToGoal" inputmode="numeric" min="0.5" step="0.5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-sm" value="5" required>
                         </div>
                         
                         <div class="relative">
                             <label for="annualInterestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelAnnualInterestRate">Est. Annual Return (%)</label>
-                            <input type="number" id="annualInterestRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" value="6" required>
+                            <input type="number" id="annualInterestRate" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-sm" value="6" required>
                             <p class="text-xs text-gray-500 mt-1" id="descAnnualInterestRate">Average annual return/interest.</p>
                         </div>
                     </div>
@@ -162,7 +176,7 @@
                 </button>
                 
                 <div id="errorAlert" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span id="errorText" class="block sm:inline"></span>
+                    <span id="errorText" class="block sm:inline text-sm"></span>
                 </div>
             </form>
 
@@ -180,7 +194,7 @@
 
                 <div id="resultSummaryText" class="p-4 rounded-lg mb-4 bg-white border border-purple-100 shadow-sm">
                     <p class="text-lg font-bold mb-2 text-purple-700" id="summaryTitle"></p>
-                    <p id="summaryText" class="text-gray-700 text-sm leading-relaxed"></p>
+                    <p id="summaryText" class="text-gray-700 text-sm leading-relaxed text-justify"></p>
                 </div>
 
                 <h3 id="metricsHeader" class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">Contribution Details</h3>
@@ -215,7 +229,7 @@
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full max-w-2xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
@@ -260,7 +274,7 @@
 
         const translations = {
             id: {
-                appTitle: "Kalkulator Target Tabungan & Investasi",
+                appTitle: "Kalkulator Target Tabungan",
                 headerTitle: "Kalkulator Target Tabungan",
                 toolSubtitle: "Hitung secara akurat berapa dana yang perlu Anda sisihkan setiap bulan untuk mencapai tujuan finansial besar, seperti uang muka rumah, biaya pernikahan, atau liburan impian.",
                 backToCatalogText: "Kembali ke Katalog Alat",
@@ -297,12 +311,6 @@
                 content1: "Menetapkan tujuan tabungan yang jelas mengubah proses menabung dari kewajiban menjadi misi yang terukur. Dengan mengetahui jumlah pasti yang harus disetor bulanan, Anda dapat mengintegrasikannya ke dalam anggaran (seperti 50/30/20) dan mengukur progres secara realistis, yang meningkatkan motivasi Anda untuk mencapainya tepat waktu.",
                 sectionHeader2: "Pilih Instrumen yang Tepat",
                 content2: "Untuk tujuan jangka pendek (di bawah 3 tahun), instrumen dengan risiko rendah seperti deposito, tabungan berjangka, atau reksa dana pasar uang seringkali ideal. Untuk tujuan jangka menengah (3-5 tahun), pertimbangkan reksa dana pendapatan tetap atau campuran untuk potensi imbal hasil yang lebih tinggi. Pastikan imbal hasil yang Anda masukkan di kalkulator sesuai dengan instrumen yang Anda pilih.",
-                
-                linkPrivacy: "Kebijakan Privasi",
-                linkTerms: "Ketentuan Layanan",
-                linkAbout: "Tentang Kami",
-                linkContact: "Hubungi Kami",
-                footerCopyright: "&copy; 2025 Digital Tools ID. Semua hak dilindungi."
             },
             en: {
                 appTitle: "Savings Goal Calculator",
@@ -342,12 +350,6 @@
                 content1: "Setting clear savings goals transforms saving from an obligation into a measurable mission. By knowing the exact amount to deposit monthly, you can integrate it into your budget (like 50/30/20) and measure progress realistically, which boosts your motivation to achieve it on time.",
                 sectionHeader2: "Choose the Right Instrument",
                 content2: "For short-term goals (under 3 years), low-risk instruments like deposits, fixed-term savings, or money market funds are often ideal. For mid-term goals (3-5 years), consider fixed-income or mixed mutual funds for higher potential returns. Ensure the return rate you enter in the calculator matches the instrument you choose.",
-                
-                linkPrivacy: "Privacy Policy",
-                linkTerms: "Terms of Service",
-                linkAbout: "About Us",
-                linkContact: "Contact Us",
-                footerCopyright: "&copy; 2025 Digital Tools ID. All rights reserved."
             }
         };
 
@@ -387,7 +389,7 @@
         }
 
         function calculateSavings(event) {
-            event.preventDefault();
+            if(event) event.preventDefault();
             const t = translations[currentLang];
 
             const goalAmount = cleanInput(document.getElementById('goalAmount').value);
@@ -522,7 +524,7 @@
             });
 
             if(document.getElementById('resultBox').classList.contains('visible')){
-                calculateSavings({preventDefault:()=>{}});
+                calculateSavings();
             }
         }
 
@@ -536,10 +538,7 @@
         observer.observe(document.documentElement, { attributes: true });
 
         document.addEventListener('DOMContentLoaded', () => {
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) defaultLang = 'id';
-            setLanguage(defaultLang);
+            setLanguage(document.documentElement.lang || 'en');
         });
     </script>
 </body>

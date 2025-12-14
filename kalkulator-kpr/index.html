@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-kpr/" />
-    <meta name="description" content="Kalkulator KPR akurat. Hitung Cicilan Bulanan KPR Anda, Total Bunga yang dibayar, dan dapatkan Jadwal Amortisasi lengkap.">
     
-    <title id="appTitle">Kalkulator Cicilan KPR</title>
+    <meta name="description" content="Mortgage Loan Calculator (KPR). Calculate monthly installments, total interest paid, and view the complete amortization schedule.">
+    <meta name="keywords" content="Mortgage Calculator, Home Loan Simulator, Amortization Schedule, Kalkulator KPR, Simulasi Kredit Rumah, Hitung Bunga KPR, how to calculate monthly mortgage, cara hitung cicilan rumah">
+    
+    <link rel="icon" href="data:,">
+    
+    <title id="appTitle">Mortgage Loan Calculator</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -21,6 +25,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* CSS LOKAL: Khusus untuk Tabel Amortisasi */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -77,12 +92,13 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Mortgage Loan (KPR) Calculator</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed">
-                Hitung angsuran bulanan, total bunga, dan lihat jadwal pelunasan (amortisasi) pinjaman rumah Anda.
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Mortgage Loan (KPR) Calculator</h1>
+            
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+                Calculate monthly installments, total interest, and view the amortization schedule for your home loan.
             </p>
             
             <form id="kprForm" onsubmit="calculateKpr(event)" class="space-y-6">
@@ -96,19 +112,19 @@
                                 <span class="currency-label font-normal text-gray-500">($)</span>
                             </label>
                             <input type="text" id="loanAmount" inputmode="numeric" value="500.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
-                            <p class="text-xs text-gray-500 mt-1" id="descLoanAmount">Total pokok pinjaman.</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descLoanAmount">Total principal amount.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInterestRate">Annual Interest Rate (%)</label>
                             <input type="number" id="interestRate" min="0" step="0.1" value="8" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
-                            <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Suku bunga tahunan (contoh: 8).</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Annual effective interest rate.</p>
                         </div>
                         
                         <div class="relative">
                             <label for="loanTermYears" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTerm">Loan Term (Years)</label>
                             <input type="number" id="loanTermYears" min="1" max="30" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
-                            <p class="text-xs text-gray-500 mt-1" id="descLoanTerm">Jangka waktu (Maks. 30 Tahun).</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descLoanTerm">Duration (Max 30 Years).</p>
                         </div>
                     </div>
                 </div>
@@ -189,29 +205,29 @@
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
-            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Alat Keuangan Terkait</h2>
+            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Related Finance Tools</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
             <a href="../kalkulator-cicilan-mobil/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Car Loan Calculator" data-id="Kalkulator Cicilan Mobil">Kalkulator Cicilan Mobil</h3>
-                <p class="text-xs text-gray-600" data-en="Estimate monthly car payments." data-id="Hitung simulasi kredit mobil.">Hitung simulasi kredit mobil.</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Car Loan Calculator" data-id="Kalkulator Cicilan Mobil">Car Loan Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Estimate monthly car payments." data-id="Hitung simulasi kredit mobil.">Estimate monthly car payments.</p>
             </a>
             <a href="../kalkulator-kapasitas-cicilan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Loan Affordability" data-id="Kapasitas Cicilan">Kapasitas Cicilan</h3>
-                <p class="text-xs text-gray-600" data-en="How much can you borrow safely?" data-id="Berapa pinjaman yang aman?">Berapa pinjaman yang aman?</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Loan Affordability" data-id="Kapasitas Cicilan">Loan Affordability</h3>
+                <p class="text-xs text-gray-600" data-en="How much can you borrow safely?" data-id="Berapa pinjaman yang aman?">How much can you borrow safely?</p>
             </a>
         </div>
         
         <div class="border-t border-gray-100 pt-8">
-            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Artikel Terkait:</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
             <ul class="space-y-3">
                 <li>
                     <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
                         <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
-                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategi Mempercepat Pelunasan Utang</span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
                     </a>
                 </li>
             </ul>
@@ -271,6 +287,13 @@
                 tip3: "Perhatikan Biaya Awal: Provisi, notaris, dan pajak.",
                 sectionHeader4: "Penting (Disclaimer)",
                 content4: "Hasil ini adalah estimasi menggunakan metode anuitas. Biaya real mungkin berbeda tergantung kebijakan bank.",
+                
+                // Footer
+                footerPrivacy: "Kebijakan Privasi",
+                footerTerms: "Syarat & Ketentuan",
+                footerAbout: "Tentang Kami",
+                footerContact: "Hubungi Kami",
+                footerDev: "Dikembangkan oleh DTID Analytics."
             },
             en: {
                 appTitle: "Mortgage Loan Calculator",
@@ -316,6 +339,13 @@
                 tip3: "Mind Upfront Costs: Notary fees, taxes, etc.",
                 sectionHeader4: "Disclaimer",
                 content4: "These results are estimates using standard annuity formulas. Actual bank costs may vary.",
+                
+                // Footer
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                footerAbout: "About Us",
+                footerContact: "Contact Us",
+                footerDev: "Developed by DTID Analytics."
             }
         };
 
@@ -333,7 +363,7 @@
             const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
             return num.toLocaleString(locale, {
                 style: 'currency', currency: currencyCode, minimumFractionDigits: 0, maximumFractionDigits: 0
-            }); // .replace('IDR', 'Rp') dihapus agar otomatis mengikuti locale
+            }); 
         }
 
         function formatInput(inputElement) {

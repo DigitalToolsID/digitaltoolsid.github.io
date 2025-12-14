@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pelunasan-utang/" />
-    <meta name="description" content="Kalkulator Prioritas Pelunasan Utang. Bandingkan metode Snowball vs Avalanche untuk menentukan urutan pelunasan utang terbaik bagi Anda." />
-    <meta name="keywords" content="kalkulator utang, snowball vs avalanche, manajemen utang, bebas utang, simulasi kredit" />
+    
+    <meta name="description" content="Debt Payoff Calculator. Compare Snowball vs Avalanche strategies to find the fastest and cheapest way to get out of debt.">
+    <meta name="keywords" content="Debt Snowball Calculator, Debt Avalanche Calculator, Debt Payoff Planner, Kalkulator Pelunasan Utang, Strategi Bebas Utang, Manajemen Utang, Cara melunasi hutang menumpuk, how to pay off debt faster, snowball method vs avalanche">
     
     <link rel="icon" href="data:,">
 
@@ -28,6 +29,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -102,12 +114,12 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Debt Payoff Priority Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Debt Payoff Priority Calculator</h1>
            
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                </p>
             
             <form id="debtForm" onsubmit="calculateStrategies(event)" class="space-y-6">
@@ -195,22 +207,22 @@
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Monthly Budget" data-id="Anggaran Bulanan">Monthly Budget</h3>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Monthly Budget" data-id="Anggaran Bulanan">Monthly Budget</h3>
                 <p class="text-xs text-gray-600" data-en="Manage 50/30/20 rule." data-id="Kelola aturan 50/30/20.">Manage 50/30/20 rule.</p>
             </a>
             <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</h3>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</h3>
                 <p class="text-xs text-gray-600" data-en="Calculate investment growth." data-id="Hitung pertumbuhan investasi.">Calculate investment growth.</p>
             </a>
             <a href="../kalkulator-dpp-ppn-pph/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Tax Calculator" data-id="Kalkulator Pajak">Tax Calculator</h3>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Tax Calculator" data-id="Kalkulator Pajak">Tax Calculator</h3>
                 <p class="text-xs text-gray-600" data-en="Calculate VAT & Income Tax." data-id="Hitung PPN & PPh.">Calculate VAT & Income Tax.</p>
             </a>
         </div>
@@ -219,14 +231,14 @@
             <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles" data-id="Artikel Terkait">Related Articles</h3>
             <ul class="space-y-3">
                 <li>
-                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
                         <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../kalkulator-anggaran-bulanan/index.html" class="flex items-center text-sm text-blue-600 hover:underline group">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                    <a href="../kalkulator-anggaran-bulanan/index.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
                         <span data-en="Manage Your Cashflow with 50/30/20 Rule" data-id="Kelola Arus Kas dengan Aturan 50/30/20">Manage Your Cashflow with 50/30/20 Rule</span>
                     </a>
                 </li>
@@ -592,7 +604,7 @@
             document.querySelectorAll('.delete-btn').forEach(e => e.textContent = t.btnDelete);
 
             // Related Articles & Tools
-            document.querySelectorAll('[data-en]').forEach(el => {
+            document.querySelectorAll('#related-tools-section [data-en]').forEach(el => {
                 const text = el.getAttribute(`data-${lang}`);
                 if (text) el.textContent = text;
             });

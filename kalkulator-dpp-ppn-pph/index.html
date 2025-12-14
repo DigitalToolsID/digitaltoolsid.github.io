@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../output.css">
+    <meta name="description" content="Calculate Tax Base (DPP), VAT (PPN), and Withholding Tax (PPh) accurately. Supports Gross-up method and flexible rates for service contracts." />
+    
+    <meta name="keywords" content="Tax Base Calculator, VAT Calculator Indonesia, Withholding Tax Calculator, Gross Up Method, Service Tax Calculation, Kalkulator PPN PPh, Hitung DPP, Pajak Kontrak, PPh 23, PPh 4 ayat 2, Cara Hitung Pajak Mundur" />
+ 
+    <title id="appTitle">Contract Tax Calculator (DPP, PPN, PPh) - Digital Tools ID</title>
 
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-dpp-ppn-pph/" />
-    <meta name="description" content="Kalkulator Pajak Kontrak Fleksibel (DPP, PPN, PPh). Sesuaikan tarif pajak dan uji 3 skema pembayaran untuk akurasi keuangan proyek Anda.">
- 
-    <title id="pageTitle">Kalkulator Pajak Kontrak Fleksibel (DPP, PPN, PPh)</title>
-   
+    <link rel="icon" href="data:,"> <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-dpp-ppn-pph/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-dpp-ppn-pph/index.html" />
+
+    <meta name="theme-color" content="#16a34a"> <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -23,6 +28,13 @@
 
     <style>
         /* CSS LOKAL */
+        
+        /* Layout Hard Lock 50% Desktop */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
+        }
+
         .result-box {
             transition: all 0.3s ease;
         }
@@ -30,9 +42,7 @@
             border-left-width: 4px;
         }
         
-        /* GRID LOGIC: 
-           - Mobile (<640px): 1 Kolom (Vertikal)
-           - [cite_start]Tablet & Desktop (>=640px): 2 Kolom (2x2) [cite: 166-168] */
+        /* GRID LOGIC */
         .result-grid {
             display: grid;
             grid-template-columns: 1fr; /* Mobile: Stack ke bawah */
@@ -43,30 +53,43 @@
                 grid-template-columns: repeat(2, 1fr); /* Desktop: Grid 2x2 */
             }
         }
+        
+        /* Hover effects for tool cards */
+        .tool-card:hover {
+            border-color: #16a34a;
+            transform: translateY(-2px);
+        }
+        
+        /* Dynamic Text Highlight */
+        .dynamic-text-hover:hover {
+            color: #15803d;
+        }
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'finance'; </script>
 
-    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
-        
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-8 border border-gray-100">
             
-            <h1 id="mainHeading" class="text-3xl font-extrabold text-gray-800 mb-2 dynamic-text">Hitung DPP, PPN, dan PPh Kontrak Otomatis</h1>
-            <p id="subHeading" class="text-gray-500 mb-6">Alat hitung fleksibel untuk berbagai tarif PPN dan PPh sesuai kebutuhan proyek Anda.</p>
+            <h1 id="mainHeading" class="text-3xl font-extrabold text-gray-900 mb-2">Contract Tax Calculator (DPP, PPN, PPh)</h1>
+            <p id="subHeading" class="text-sm text-gray-600 mb-6 text-justify">
+                Flexible tool to calculate Tax Base (DPP), VAT (PPN), and Income Tax (PPh) based on different contract scenarios.
+            </p>
 
             <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
                 <div class="flex flex-col gap-6">
                     
                     <div class="w-full relative">
-                        <label for="nilaiKontrak" id="labelNilaiKontrak" class="block text-sm font-medium text-gray-700 mb-1">Nilai Kontrak (Rp)</label>
+                        <label for="nilaiKontrak" id="labelNilaiKontrak" class="block text-xs font-bold text-gray-700 uppercase mb-1">Contract Value (Rp)</label>
                         <input type="text" id="nilaiKontrak" value="100.000.000" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-right font-mono text-lg font-bold text-gray-800" inputmode="numeric">
                     </div>
 
                     <div class="flex gap-4 w-full">
                         <div class="w-1/2 relative">
-                            <label for="tarifPPN" id="labelTarifPPN" class="block text-sm font-medium text-gray-700 mb-1">PPN (%)</label>
+                            <label for="tarifPPN" id="labelTarifPPN" class="block text-xs font-bold text-gray-700 uppercase mb-1">VAT/PPN (%)</label>
                             <div class="relative">
                                 <input type="number" id="tarifPPN" value="11" step="0.1" min="0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-center font-bold text-gray-800">
                                 <span class="absolute right-3 top-3 text-gray-400 text-sm">%</span>
@@ -74,7 +97,7 @@
                         </div>
 
                         <div class="w-1/2 relative">
-                            <label for="tarifPPh" id="labelTarifPPh" class="block text-sm font-medium text-gray-700 mb-1">PPh (%)</label>
+                            <label for="tarifPPh" id="labelTarifPPh" class="block text-xs font-bold text-gray-700 uppercase mb-1">WHT/PPh (%)</label>
                             <div class="relative">
                                 <input type="number" id="tarifPPh" value="4.5" step="0.1" min="0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-center font-bold text-gray-800">
                                 <span class="absolute right-3 top-3 text-gray-400 text-sm">%</span>
@@ -85,102 +108,104 @@
                 </div>
             </div>
 
-            <h2 id="skema1Title" class="text-xl font-bold text-green-600 mb-2">Skema 1: Jika Harga Kontrak = DPP</h2>
-            <p id="skema1Desc" class="text-gray-600 text-sm mb-4">Harga belum termasuk pajak. PPN ditambahkan di atas harga, PPh dipotong dari harga.</p>
+            <h2 id="skema1Title" class="text-lg font-bold text-green-700 mb-2">Scheme 1: Contract Price is DPP (Base)</h2>
+            <p id="skema1Desc" class="text-gray-600 text-sm mb-4 text-justify">Price excludes tax. VAT is added on top, WHT is deducted from base.</p>
             <div class="result-grid mb-10">
                 <div class="result-box bg-green-50 border border-green-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelDPP1" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">DPP (Dasar)</span>
-                    <span id="resultDPP1" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
+                    <span id="labelDPP1" class="text-xs font-bold text-gray-500 uppercase tracking-wide">DPP (Base)</span>
+                    <span id="resultDPP1" class="text-lg font-bold text-green-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-green-50 border border-green-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelPPN1" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">PPN</span>
-                    <span id="resultPPN1" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
+                    <span id="labelPPN1" class="text-xs font-bold text-gray-500 uppercase tracking-wide">VAT (+)</span>
+                    <span id="resultPPN1" class="text-lg font-bold text-green-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-green-50 border border-green-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelPPh1" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">PPh (Potong)</span>
-                    <span id="resultPPh1" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
+                    <span id="labelPPh1" class="text-xs font-bold text-gray-500 uppercase tracking-wide">WHT (-)</span>
+                    <span id="resultPPh1" class="text-lg font-bold text-green-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-green-100 border-2 border-green-400 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelNet1" class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Bersih Diterima</span>
+                    <span id="labelNet1" class="text-xs font-bold text-gray-600 uppercase tracking-wide">Net Received</span>
                     <span id="resultNet1" class="text-xl font-extrabold text-green-700 mt-1">Rp0</span>
                 </div>
             </div>
 
-            <h2 id="skema2Title" class="text-xl font-bold text-green-600 mb-2">Skema 2: Jika Harga Kontrak = DPP + PPN</h2>
-            <p id="skema2Desc" class="text-gray-600 text-sm mb-4">Harga sudah termasuk PPN (Gross PPN). PPh dipotong dari nilai DPP.</p>
+            <h2 id="skema2Title" class="text-lg font-bold text-yellow-700 mb-2">Scheme 2: Contract Price Includes VAT</h2>
+            <p id="skema2Desc" class="text-gray-600 text-sm mb-4 text-justify">Price includes VAT (Gross VAT). WHT is deducted from the DPP value.</p>
             <div class="result-grid mb-10">
                 <div class="result-box bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelDPP2" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">DPP (Gross-Up)</span>
-                    <span id="resultDPP2" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
+                    <span id="labelDPP2" class="text-xs font-bold text-gray-500 uppercase tracking-wide">DPP (Gross-Up)</span>
+                    <span id="resultDPP2" class="text-lg font-bold text-yellow-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelPPN2" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">PPN</span>
-                    <span id="resultPPN2" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
+                    <span id="labelPPN2" class="text-xs font-bold text-gray-500 uppercase tracking-wide">VAT (+)</span>
+                    <span id="resultPPN2" class="text-lg font-bold text-yellow-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelPPh2" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">PPh (Potong)</span>
-                    <span id="resultPPh2" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
+                    <span id="labelPPh2" class="text-xs font-bold text-gray-500 uppercase tracking-wide">WHT (-)</span>
+                    <span id="resultPPh2" class="text-lg font-bold text-yellow-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-yellow-100 border-2 border-yellow-400 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelNet2" class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Bersih Diterima</span>
-                    <span id="resultNet2" class="text-xl font-extrabold text-green-700 mt-1">Rp0</span>
+                    <span id="labelNet2" class="text-xs font-bold text-gray-600 uppercase tracking-wide">Net Received</span>
+                    <span id="resultNet2" class="text-xl font-extrabold text-yellow-700 mt-1">Rp0</span>
                 </div>
             </div>
 
-            <h2 id="skema3Title" class="text-xl font-bold text-green-600 mb-2">Skema 3: Jika Harga Kontrak = DPP + PPN - PPh</h2>
-            <p id="skema3Desc" class="text-gray-600 text-sm mb-4">Harga adalah nilai bersih (Netto) yang harus diterima. Dilakukan Gross-Up ganda.</p>
+            <h2 id="skema3Title" class="text-lg font-bold text-blue-700 mb-2">Scheme 3: Contract Price is Net Clean</h2>
+            <p id="skema3Desc" class="text-gray-600 text-sm mb-4 text-justify">Price is the net amount to be received. Double Gross-Up is performed.</p>
             <div class="result-grid">
                 <div class="result-box bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelDPP3" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">DPP (Gross-Up)</span> 
+                    <span id="labelDPP3" class="text-xs font-bold text-gray-500 uppercase tracking-wide">DPP (Gross-Up)</span> 
                     <span id="resultDPP3" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelPPN3" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">PPN</span>
+                    <span id="labelPPN3" class="text-xs font-bold text-gray-500 uppercase tracking-wide">VAT (+)</span>
                     <span id="resultPPN3" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelPPh3" class="text-xs font-semibold text-gray-500 uppercase tracking-wide">PPh (Potong)</span>
+                    <span id="labelPPh3" class="text-xs font-bold text-gray-500 uppercase tracking-wide">WHT (-)</span>
                     <span id="resultPPh3" class="text-lg font-bold text-blue-900 mt-1">Rp0</span>
                 </div>
                 <div class="result-box bg-blue-100 border-2 border-blue-400 rounded-lg p-4 flex flex-row justify-between items-center md:block">
-                    <span id="labelNet3" class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Nilai Bersih</span>
-                    <span id="resultNet3" class="text-xl font-extrabold text-green-700 mt-1">Rp0</span>
+                    <span id="labelNet3" class="text-xs font-bold text-gray-600 uppercase tracking-wide">Net Value</span>
+                    <span id="resultNet3" class="text-xl font-extrabold text-blue-700 mt-1">Rp0</span>
                 </div>
             </div>
 
-            <div class="mt-12 bg-green-50 border-green-500 text-gray-700 note-box p-4 rounded-r-lg">
-                <h3 id="useCaseTitle" class="font-bold text-lg text-green-600 mb-2">Kapan Kalkulator ini Digunakan?</h3>
-                <p id="useCaseDesc" class="text-sm mb-3">
-                    Gunakan alat ini saat merancang kontrak jasa. Ubah tarif PPN dan PPh sesuai regulasi terbaru atau jenis jasa (misal: Jasa Konstruksi, Konsultasi, dll). Alat ini membantu menghindari selisih bayar akibat salah interpretasi klausul "Harga Termasuk Pajak".
-                </p>
+            <div class="mt-8 pt-4 border-t border-gray-200 font-sans">
+                <div class="bg-gray-50 border-l-4 border-green-500 text-gray-700 p-4 rounded-r-lg">
+                    <h3 id="useCaseTitle" class="font-bold text-base text-green-800 mb-2">When to Use This Calculator?</h3>
+                    <p id="useCaseDesc" class="text-sm leading-relaxed text-justify">
+                        Use this tool when drafting service contracts. Adjust VAT and WHT rates according to latest regulations or service types. This tool helps avoid payment discrepancies due to misinterpreting 'Tax Inclusive' clauses.
+                    </p>
+                </div>
             </div>
 
         </div>
     </main>
 
-    <section id="related-tools-section" class="w-full max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg bg-green-600"></div> 
+            <div class="w-1 h-7 mr-3 bg-green-600 rounded"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
                 data-en="Related Finance Tools" 
                 data-id="Alat Keuangan Terkait">
-                Alat Keuangan Terkait
+                Related Finance Tools
             </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-            <a href="../kalkulator-pph/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 dynamic-text text-green-600 group-hover:text-green-700" data-en="Income Tax Calculator (PPh 21)" data-id="Kalkulator PPh 21">Kalkulator PPh 21</h3>
-                <p class="text-xs text-gray-600 leading-relaxed" data-en="Calculate your monthly income tax easily." data-id="Hitung pajak penghasilan bulanan Anda dengan mudah.">Hitung pajak penghasilan bulanan Anda dengan mudah.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <a href="../kalkulator-pph/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text-hover text-gray-800 group-hover:text-green-600" data-en="Income Tax Calculator (PPh 21)" data-id="Kalkulator PPh 21">Income Tax Calculator (PPh 21)</h3>
+                <p class="text-xs text-gray-600 leading-relaxed" data-en="Calculate your monthly income tax easily." data-id="Hitung pajak penghasilan bulanan Anda dengan mudah.">Calculate your monthly income tax easily.</p>
             </a>
-            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 dynamic-text text-green-600 group-hover:text-green-700" data-en="Monthly Budget Calculator" data-id="Kalkulator Anggaran Bulanan">Kalkulator Anggaran Bulanan</h3>
-                <p class="text-xs text-gray-600 leading-relaxed" data-en="Plan your monthly finances effectively." data-id="Rencanakan keuangan bulanan Anda secara efektif.">Rencanakan keuangan bulanan Anda secara efektif.</p>
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text-hover text-gray-800 group-hover:text-green-600" data-en="Monthly Budget Calculator" data-id="Kalkulator Anggaran Bulanan">Monthly Budget Calculator</h3>
+                <p class="text-xs text-gray-600 leading-relaxed" data-en="Plan your monthly finances effectively." data-id="Rencanakan keuangan bulanan Anda secara efektif.">Plan your monthly finances effectively.</p>
             </a>
-            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 dynamic-text text-green-600 group-hover:text-green-700" data-en="Compound Interest Calculator" data-id="Kalkulator Bunga Majemuk">Kalkulator Bunga Majemuk</h3>
-                <p class="text-xs text-gray-600 leading-relaxed" data-en="Calculate investment growth over time." data-id="Hitung pertumbuhan investasi dari waktu ke waktu.">Hitung pertumbuhan investasi dari waktu ke waktu.</p>
+            <a href="../kalkulator-bunga-majemuk/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text-hover text-gray-800 group-hover:text-green-600" data-en="Compound Interest Calculator" data-id="Kalkulator Bunga Majemuk">Compound Interest Calculator</h3>
+                <p class="text-xs text-gray-600 leading-relaxed" data-en="Calculate investment growth over time." data-id="Hitung pertumbuhan investasi dari waktu ke waktu.">Calculate investment growth over time.</p>
             </a>
         </div>
 
@@ -188,24 +213,24 @@
             <h3 class="text-xl font-bold text-gray-800 mb-4" 
                 data-en="Related Articles:" 
                 data-id="Artikel Terkait:">
-                Artikel Terkait:
+                Related Articles:
             </h3>
             <ul class="space-y-3">
                 <li>
-                    <a href="../articles/klausul-perpajakan-kontrak.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group group-hover:bg-green-500"></span>
+                    <a href="../articles/klausul-perpajakan-kontrak.html" class="flex items-center text-sm hover:underline group dynamic-text-hover text-gray-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
                         <span data-en="Understanding Tax Clauses in Contracts" 
                               data-id="Memahami Klausul Perpajakan dalam Kontrak">
-                            Memahami Klausul Perpajakan dalam Kontrak
+                            Understanding Tax Clauses in Contracts
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group group-hover:bg-green-500"></span>
+                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group dynamic-text-hover text-gray-600">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
                         <span data-en="Strategies to Accelerate Debt Repayment" 
                               data-id="Strategi Mempercepat Pelunasan Utang">
-                            Strategi Mempercepat Pelunasan Utang
+                            Strategies to Accelerate Debt Repayment
                         </span>
                     </a>
                 </li>
@@ -215,16 +240,13 @@
 
     <div id="global-footer-container"></div>
 
-    <script>
-        window.headerCategory = 'finance';
-    </script>
     <script src="../components.js"></script>
 
     <script>
         // Objek Terjemahan
         const translations = {
             id: {
-                pageTitle: "Kalkulator Pajak Kontrak Fleksibel (DPP, PPN, PPh)",
+                appTitle: "Kalkulator Pajak Kontrak Fleksibel (DPP, PPN, PPh)",
                 mainHeading: "Hitung DPP, PPN, dan PPh Kontrak Otomatis",
                 subHeading: "Alat hitung fleksibel untuk berbagai tarif PPN dan PPh sesuai kebutuhan proyek Anda.",
                 labelNilaiKontrak: "Nilai Kontrak (Rp)",
@@ -237,7 +259,7 @@
                 labelDPP1: "DPP (Dasar)",
                 labelPPN1: "PPN",
                 labelPPh1: "PPh (Potong)",
-                labelNet1: "Bersih Diterima",
+                labelNet1: "Net Diterima",
                 
                 // Skema 2
                 skema2Title: "Skema 2: Jika Harga Kontrak = DPP + PPN",
@@ -245,7 +267,7 @@
                 labelDPP2: "DPP (Gross-Up)",
                 labelPPN2: "PPN",
                 labelPPh2: "PPh (Potong)",
-                labelNet2: "Bersih Diterima",
+                labelNet2: "Net Diterima",
                 
                 // Skema 3
                 skema3Title: "Skema 3: Jika Harga Kontrak = DPP + PPN - PPh",
@@ -253,15 +275,15 @@
                 labelDPP3: "DPP (Gross-Up)", 
                 labelPPN3: "PPN",
                 labelPPh3: "PPh (Potong)",
-                labelNet3: "Nilai Bersih",
+                labelNet3: "Net Diterima",
 
                 // Edukasi
                 useCaseTitle: "Kapan Kalkulator ini Digunakan?",
                 useCaseDesc: "Gunakan alat ini saat merancang kontrak jasa. Ubah tarif PPN dan PPh sesuai regulasi terbaru atau jenis jasa (misal: Jasa Konstruksi, Konsultasi, dll). Alat ini membantu menghindari selisih bayar akibat salah interpretasi klausul 'Harga Termasuk Pajak'.",
             },
             en: {
-                pageTitle: "Flexible Contract Tax Calculator (DPP, VAT, WHT)",
-                mainHeading: "Automatic Contract Tax Calculator",
+                appTitle: "Contract Tax Calculator (DPP, PPN, PPh)",
+                mainHeading: "Contract Tax Calculator (DPP, PPN, PPh)",
                 subHeading: "Flexible tool for various VAT and WHT rates according to your project needs.",
                 labelNilaiKontrak: "Contract Value (Rp)",
                 labelTarifPPN: "VAT (%)",
@@ -289,7 +311,7 @@
                 labelDPP3: "DPP (Gross-Up)", 
                 labelPPN3: "VAT",
                 labelPPh3: "WHT (Withheld)",
-                labelNet3: "Net Value",
+                labelNet3: "Net Received",
 
                 // Edukasi
                 useCaseTitle: "When to Use This Calculator?",
@@ -297,11 +319,11 @@
             }
         };
 
-        let currentLang = 'id';
+        let currentLang = 'en';
 
         const formatRupiah = (number) => {
             if (isNaN(number) || number === null) return 'Rp0';
-            const formatter = new Intl.NumberFormat('id-ID', {
+            const formatter = new Intl.NumberFormat(currentLang === 'id' ? 'id-ID' : 'en-US', {
                 style: 'currency',
                 currency: 'IDR',
                 minimumFractionDigits: 0,
@@ -312,13 +334,13 @@
 
         const formatNumberInput = (number) => {
             if (isNaN(number) || number === null) return '0';
-            return new Intl.NumberFormat('id-ID').format(number);
+            return new Intl.NumberFormat(currentLang === 'id' ? 'id-ID' : 'en-US').format(number);
         };
 
         // Fungsi Utama Kalkulasi
         const calculateTax = () => {
-            const nilaiKontrakRaw = document.getElementById('nilaiKontrak').value.replace(/\./g, '');
-            const nilaiKontrak = parseFloat(nilaiKontrakRaw) || 0;
+            const rawVal = document.getElementById('nilaiKontrak').value.replace(/[^\d]/g, '');
+            const nilaiKontrak = parseFloat(rawVal) || 0;
             
             // Ambil Input Persentase PPN dan PPh
             const ppnPercent = parseFloat(document.getElementById('tarifPPN').value) || 0;
@@ -367,7 +389,7 @@
             const t = translations[lang];
 
             const elementsToTranslate = [
-                { id: 'pageTitle', key: 'pageTitle' },
+                { id: 'appTitle', key: 'pageTitle' },
                 { id: 'mainHeading', key: 'mainHeading' },
                 { id: 'subHeading', key: 'subHeading' },
                 { id: 'labelNilaiKontrak', key: 'labelNilaiKontrak' },
@@ -411,6 +433,12 @@
 
             document.getElementById('useCaseDesc').innerHTML = t.useCaseDesc;
             updateRelatedContent(lang);
+            
+            // Re-format Input value
+            const inputVal = document.getElementById('nilaiKontrak');
+            const rawVal = parseFloat(inputVal.value.replace(/[^\d]/g, '')) || 0;
+            inputVal.value = formatNumberInput(rawVal);
+            
             calculateTax();
         };
 
@@ -424,46 +452,29 @@
             });
         }
 
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'health'; 
-            const themes = {
-                health: { bg: 'bg-blue-600', text: 'text-blue-600', border: 'hover:border-blue-400', hoverText: 'group-hover:text-blue-700', bgGroup: 'group-hover:bg-blue-500' },
-                finance: { bg: 'bg-green-600', text: 'text-green-600', border: 'hover:border-green-400', hoverText: 'group-hover:text-green-700', bgGroup: 'group-hover:bg-green-500' },
-                productivity: { bg: 'bg-purple-600', text: 'text-purple-600', border: 'hover:border-purple-400', hoverText: 'group-hover:text-purple-700', bgGroup: 'group-hover:bg-purple-500' }
-            };
-            const theme = themes[category] || themes.health;
-
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            // Tambahan untuk bg group
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const nilaiKontrakInput = document.getElementById('nilaiKontrak');
             const tarifPPNInput = document.getElementById('tarifPPN');
             const tarifPPhInput = document.getElementById('tarifPPh');
 
-            nilaiKontrakInput.value = formatNumberInput(parseFloat(nilaiKontrakInput.value.replace(/\./g, '')) || 0);
+            // Initial Format
+            const initialRaw = parseFloat(nilaiKontrakInput.value.replace(/\./g, '')) || 0;
+            nilaiKontrakInput.value = formatNumberInput(initialRaw);
 
             nilaiKontrakInput.addEventListener('input', function() {
                 let rawValue = this.value.replace(/\D/g, ''); 
                 if (rawValue.length > 15) {
                     rawValue = rawValue.substring(0, 15);
                 }
-                const formattedValue = formatNumberInput(parseInt(rawValue));
-                this.value = formattedValue;
+                const num = parseInt(rawValue);
+                this.value = formatNumberInput(num);
                 calculateTax();
             });
 
-            // Trigger kalkulasi saat tarif berubah
             tarifPPNInput.addEventListener('input', calculateTax);
             tarifPPhInput.addEventListener('input', calculateTax);
             
-            setLanguage('id');
-            applyDynamicTheme();
+            setLanguage('en');
         });
 
         const observer = new MutationObserver((mutations) => {

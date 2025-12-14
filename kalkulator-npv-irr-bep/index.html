@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-npv-irr-bep/" />
-    <meta name="description" content="Kalkulator Kelayakan Bisnis. Hitung BEP, NPV, dan IRR sekaligus. Dapatkan Laporan Manajemen yang mengungkap risiko dan potensi Nilai Masa Depan investasi Anda.">
+    
+    <meta name="description" content="Business Viability Calculator. Calculate Break-Even Point (BEP), Net Present Value (NPV), and Internal Rate of Return (IRR) simultaneously for smart investment decisions.">
+    <meta name="keywords" content="NPV Calculator, IRR Calculator, Break Even Analysis, Business Viability Tool, Investment Appraisal, Kalkulator Kelayakan Bisnis, Hitung Balik Modal, Studi Kelayakan Usaha, Analisis Modal Awal, Rumus ROI dan BEP, is my business profitable, cara hitung resiko investasi, simulasi untung rugi usaha">
+
+    <link rel="icon" href="data:,">
 
     <title id="appTitle">Business Viability Analyzer (BEP, NPV, IRR)</title>
 
@@ -21,6 +25,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* CSS LOKAL (Spesifik Alat Ini) */
         
         /* Input khusus untuk Arus Kas */
@@ -50,15 +65,6 @@
             padding: 1.5rem; 
         }
 
-        /* Referensi Artikel Box (Legacy Style - Optional, bisa disesuaikan) */
-        .article-reference {
-            padding: 1.5rem;
-            background-color: #ecfdf5; 
-            border: 1px solid #a7f3d0; 
-            border-radius: 0.75rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
         .input-description { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
     </style>
 </head>
@@ -67,11 +73,14 @@
 
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8 mt-4">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3">Business Viability Analyzer</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">Calculate BEP, NPV, and IRR simultaneously to get a clear Executive Summary Report.</p>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3 text-center">Business Viability Analyzer</h1>
+            
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+                Calculate BEP, NPV, and IRR simultaneously to get a clear Executive Summary Report.
+            </p>
              
             <form id="viabilityForm" onsubmit="calculateAllMetrics(event)" class="space-y-6">
 
@@ -188,7 +197,7 @@
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
@@ -510,8 +519,12 @@
             elements.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
-                    if(['content1','content2','content3','content4','toolSubtitle'].includes(id)) el.innerHTML = t[id];
-                    else el.textContent = t[id];
+                    if(['content1','content2','content3','content4','toolSubtitle'].includes(id)) {
+                        el.innerHTML = t[id];
+                        // Update class for typography if changed by language
+                    } else {
+                        el.textContent = t[id];
+                    }
                 }
             });
 

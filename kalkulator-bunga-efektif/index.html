@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../output.css">
+    
+    <meta name="description" content="Effective Interest Rate (APR) Calculator: Unmask the true cost of your loan including admin & provision fees. Compare Flat vs Effective rates accurately." />
+    
+    <meta name="keywords" content="Effective Interest Rate Calculator, APR Calculator, True Cost of Loan, Flat vs Effective Rate, Loan Fee Calculator, Kalkulator Bunga Efektif, Hitung Bunga Pinjaman, Bunga Flat ke Efektif, Biaya Provisi Admin, KPR Mobil Motor" />
+ 
+    <title id="appTitle">Effective Interest Rate (APR) Calculator - Digital Tools ID</title>
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-bunga-efektif/" />
-    <meta name="description" content="Kalkulator Bunga Efektif (APR) akurat. Hitung suku bunga pinjaman sebenarnya, di luar bunga flat/nominal, untuk membuat perbandingan dan keputusan finansial yang transparan." />
- 
-    <title id="appTitle">Kalkulator Bunga Efektif</title>
+    <link rel="icon" href="data:,"> <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-bunga-efektif/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-bunga-efektif/index.html" />
 
+    <meta name="theme-color" content="#27ae60"> <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,21 +27,23 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* --- CSS LOKAL (Sesuai Pedoman V.2) --- */
-        /* Mempertahankan identitas warna spesifik alat ini (#27ae60) */
+        /* CSS LOKAL (Hard Lock & Theme) */
         
+        /* Layout Hard Lock 50% Desktop */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
+        }
+
         .bg-finance-color { background-color: #27ae60; }
         .text-finance-color { color: #27ae60; }
         .border-finance-color { border-color: #27ae60; }
-        
-        /* Background transparansi */
         .bg-finance-color\/5 { background-color: rgba(39, 174, 96, 0.05); }
         .border-finance-color\/30 { border-color: rgba(39, 174, 96, 0.3); }
 
-        /* Gaya Tombol Aksi (Accent Button) */
         .calculate-button {
-            background-color: #27ae60; /* Hijau Khas Alat Ini */
-            box-shadow: 0 4px #1e8449; /* Shadow Hijau Gelap */
+            background-color: #27ae60;
+            box-shadow: 0 4px #1e8449;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
@@ -48,7 +56,6 @@
             box-shadow: 0 2px #1e8449;
         }
 
-        /* Gaya Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -61,44 +68,56 @@
             max-height: 1200px; 
             padding: 1.5rem; 
         }
+        
+        /* Hover effects for tool cards */
+        .tool-card:hover {
+            border-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        /* Dynamic Text Highlight */
+        .dynamic-text:hover {
+            color: #16a34a; /* Green-600 */
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'finance'; </script>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-8 border border-gray-100">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Effective Annual Interest Rate (APR) Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-sm text-gray-600 mb-6 leading-relaxed text-justify">
                  Unmask the true cost of your fixed-installment loans (KPR, car, multipurpose) by calculating the real annual effective interest rate (APR/EIR), including hidden upfront fees.
             </p>
             
             <form id="aprForm" onsubmit="calculateAPR(event)" class="space-y-4">
                 
                 <div class="relative">
-                    <label for="principal" class="block text-sm font-medium text-gray-700 mb-1" id="labelPrincipal">Loan Principal (Pokok Pinjaman)</label>
-                    <input type="text" id="principal" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
-                    <p class="text-xs text-gray-500 mt-1" id="descPrincipal">Jumlah dana pinjaman yang Anda terima sebelum dipotong biaya apa pun.</p>
+                    <label for="principal" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelPrincipal">Loan Principal</label>
+                    <input type="text" id="principal" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
+                    <p class="text-xs text-gray-500 mt-1" id="descPrincipal">Total loan amount before fees.</p>
                 </div>
             
                 <div class="relative">
-                    <label for="monthlyInstallment" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyInstallment">Monthly Installment (Angsuran Tetap Bulanan)</label>
-                    <input type="text" id="monthlyInstallment" inputmode="numeric" value="300.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
-                    <p class="text-xs text-gray-500 mt-1" id="descMonthlyInstallment">Jumlah tetap yang harus Anda bayar setiap bulan ke bank/penyedia kredit.</p>
+                    <label for="monthlyInstallment" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelMonthlyInstallment">Monthly Installment</label>
+                    <input type="text" id="monthlyInstallment" inputmode="numeric" value="300.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
+                    <p class="text-xs text-gray-500 mt-1" id="descMonthlyInstallment">Fixed monthly payment amount.</p>
                 </div>
 
                 <div class="relative">
-                    <label for="loanTermMonths" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTermMonths">Loan Term (Total Bulan)</label>
-                    <input type="number" id="loanTermMonths" min="1" max="360" value="48" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
-                    <p class="text-xs text-gray-500 mt-1" id="descLoanTermMonths">Total periode pembayaran angsuran dalam hitungan bulan (misalnya: 4 tahun = 48 bulan).</p>
+                    <label for="loanTermMonths" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelLoanTermMonths">Loan Term (Months)</label>
+                    <input type="number" id="loanTermMonths" min="1" max="360" value="48" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
+                    <p class="text-xs text-gray-500 mt-1" id="descLoanTermMonths">Total duration in months (e.g., 4 years = 48 months).</p>
                 </div>
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <p id="feesHeader" class="text-sm font-bold text-gray-700 mb-3">Upfront Fees (Biaya Awal yang Dipotong/Dibayar di Muka)</p>
+                    <p id="feesHeader" class="text-xs font-bold text-gray-700 mb-3 uppercase">Upfront Fees (Deducted)</p>
 
                     <div class="relative mb-2">
                         <label for="adminFee" class="block text-xs font-medium text-gray-600 mb-1" id="labelAdminFee">Administration Fee</label>
@@ -116,55 +135,55 @@
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-bold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-sm">
                     Calculate True APR
                 </button>
                 
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-xs" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
             <div id="resultBox" class="result-box mt-6 bg-finance-color/5 border border-finance-color/30 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Effective Rate Calculation Result</h3>
+                <h3 id="resultHeader" class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Effective Rate Calculation Result</h3>
                 
                 <div class="space-y-4">
-                    <div class="p-4 bg-white border border-green-200 rounded-lg shadow-sm">
-                        <p id="labelEffectiveAPR" class="text-sm text-green-800 font-medium mb-1">True Annual Effective Interest Rate (APR)</p>
-                        <p id="effectiveAPRResult" class="text-3xl font-extrabold text-finance-color">0.00%</p>
+                    <div class="p-4 bg-white border border-green-200 rounded-lg shadow-sm text-center">
+                        <p id="labelEffectiveAPR" class="text-xs text-green-800 font-bold uppercase mb-1">True Annual Effective Interest Rate (APR)</p>
+                        <p id="effectiveAPRResult" class="text-4xl font-extrabold text-finance-color">0.00%</p>
                     </div>
                     
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                            <p id="labelNetPrincipal" class="text-xs text-gray-800 font-medium mb-1">Net Principal Received</p>
-                            <p id="netPrincipalResult" class="text-lg font-bold text-gray-700">0</p>
+                        <div class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-center">
+                            <p id="labelNetPrincipal" class="text-xs text-gray-500 font-bold uppercase mb-1">Net Principal</p>
+                            <p id="netPrincipalResult" class="text-base font-bold text-gray-800">0</p>
                         </div>
-                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <p id="labelTotalInterestCost" class="text-xs text-yellow-800 font-medium mb-1">Total Interest + Fees Cost</p>
-                            <p id="totalInterestCostResult" class="text-lg font-bold text-yellow-700">0</p>
+                        <div class="p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+                            <p id="labelTotalInterestCost" class="text-xs text-yellow-800 font-bold uppercase mb-1">Total Cost (Interest+Fees)</p>
+                            <p id="totalInterestCostResult" class="text-base font-bold text-yellow-700">0</p>
                         </div>
                     </div>
                 </div>
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Unmasking the True Cost: APR vs. Flat Rate</h2>
+                <h2 id="sectionHeader1" class="text-lg font-bold text-gray-800 mb-3">Unmasking the True Cost: APR vs. Flat Rate</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
-                <h3 id="sectionHeaderCase" class="text-lg font-bold text-gray-800 mb-2">Contoh Kasus: Perbandingan Kredit (Flat vs. Efektif Sebenarnya)</h3>
+                <h3 id="sectionHeaderCase" class="text-base font-bold text-gray-800 mb-2">Case Study: Loan Comparison</h3>
                 <p id="contentCaseIntro" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
                 
-                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
-                    <p id="caseInputs" class="text-gray-700 text-sm font-semibold mb-2"></p>
-                    <p id="caseResultText" class="text-blue-800 text-sm leading-relaxed"></p>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6 text-sm">
+                    <p id="caseInputs" class="text-gray-700 font-semibold mb-2"></p>
+                    <p id="caseResultText" class="text-blue-800 leading-relaxed"></p>
                 </div>
 
-                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Why APR is the Key Metric</h3>
+                <h3 id="sectionHeader2" class="text-base font-bold text-gray-800 mb-2">Why APR is the Key Metric</h3>
                 <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
-                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
-                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+                <h3 id="sectionHeader3" class="text-base font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content3" class="text-gray-600 text-xs leading-relaxed text-justify mb-6 italic"></p>
             </section>
 
         </div>
@@ -172,17 +191,17 @@
     
     <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <div class="w-1 h-7 bg-green-600 mr-3 rounded"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
-                data-en="Financial Planning Tools" 
-                data-id="Alat Perencanaan Keuangan">
-                Financial Planning Tools
+                data-en="Finance & Planning Tools" 
+                data-id="Alat Keuangan & Perencanaan">
+                Finance & Planning Tools
             </h2>
         </div>
     
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             
-            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Monthly Budget Calculator"
                     data-id="Kalkulator Anggaran Bulanan">
@@ -195,20 +214,7 @@
                 </p>
             </a>
 
-            <a href="../kalkulator-dana-darurat/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Emergency Fund Calculator"
-                    data-id="Kalkulator Dana Darurat">
-                    Emergency Fund Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Calculate savings needed for unexpected events."
-                    data-id="Hitung tabungan yang dibutuhkan untuk kejadian tak terduga.">
-                    Calculate savings needed for unexpected events.
-                </p>
-            </a>
-    
-            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Mortgage Simulator (KPR)"
                     data-id="Simulasi KPR & Bunga">
@@ -220,17 +226,39 @@
                     Estimate monthly mortgage payments.
                 </p>
             </a>
+
+            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+                    data-en="Debt Payoff Calculator"
+                    data-id="Kalkulator Pelunasan Utang">
+                    Debt Payoff Calculator
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed"
+                    data-en="Snowball vs Avalanche strategy comparison."
+                    data-id="Perbandingan strategi Snowball vs Avalanche.">
+                    Snowball vs Avalanche strategy comparison.
+                </p>
+            </a>
         </div>
     
         <div class="border-t border-gray-100 pt-8">
             <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
             <ul class="space-y-3">
                 <li>
+                    <a href="../articles/bunga-efektif-sebenarnya.html" class="flex items-center text-sm hover:underline group dynamic-text">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
+                        <span data-en="Flat Rate vs. Effective Rate: The True Cost" 
+                              data-id="Bunga Flat vs. Bunga Efektif: Biaya Sebenarnya">
+                            Flat Rate vs. Effective Rate: The True Cost
+                        </span>
+                    </a>
+                </li>
+                <li>
                     <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
-                        <span data-en="Debt Repayment Strategies: Snowball vs Avalanche" 
-                              data-id="Strategi Pelunasan Utang: Snowball vs Avalanche">
-                            Debt Repayment Strategies: Snowball vs Avalanche
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" 
+                              data-id="Strategi Mempercepat Pelunasan Utang">
+                            Strategies to Accelerate Debt Repayment
                         </span>
                     </a>
                 </li>
@@ -239,23 +267,14 @@
     </section>
 
     <div id="global-footer-container"></div>
-    
-    <script>
-        window.headerCategory = 'finance';
-    </script>
     <script src="../components.js"></script>
 
     <script>
-        // **********************************************
-        // LOGIKA KALKULATOR BUNGA EFEKTIF (APR/EIR)
-        // **********************************************
-
         const translations = {
             id: {
                 appTitle: "Kalkulator Bunga Efektif (APR)",
                 headerTitle: "Kalkulator Bunga Efektif Tahunan (APR/EIR)",
                 toolSubtitle: "Ketahui biaya pinjaman angsuran tetap (KPR, mobil, serbaguna) dengan menghitung suku bunga efektif tahunan (APR/EIR) yang sesungguhnya, termasuk biaya awal tersembunyi.",
-                backToCatalogText: "Kembali ke Katalog Alat",
                 
                 labelPrincipal: "Pokok Pinjaman (Loan Principal)",
                 descPrincipal: "Jumlah dana pinjaman yang Anda terima sebelum dipotong biaya apa pun.",
@@ -287,20 +306,12 @@
                 content2: "APR adalah metrik terpenting untuk membandingkan tawaran pinjaman. Ketika Anda ditawari dua pinjaman dengan 'bunga 10%', tetapi salah satunya memiliki biaya provisi dan asuransi yang besar, pinjaman dengan biaya awal yang lebih tinggi akan memiliki APR yang lebih tinggi pula. Kalkulator ini memberikan kekuatan untuk membuat keputusan finansial yang lebih cerdas dan menghemat uang dalam jangka panjang.",
 
                 sectionHeader3: "Penting (Disclaimer)",
-                content3: "Kalkulator ini menggunakan metode matematika iteratif (Trial and Error) untuk memperkirakan Bunga Efektif Tahunan (APR) yang akurat. Hasil ini adalah estimasi teoretis. Hasil aktual pinjaman dapat sedikit berbeda tergantung pada metode pembulatan bank dan hari pencairan. Selalu verifikasi perhitungan Anda dengan dokumen pinjaman resmi dari penyedia kredit.",
-
-                // Footer Global Keys (Di-handle components.js, tapi disiapkan untuk jaga-jaga)
-                footerPrivacy: "Kebijakan Privasi",
-                footerTerms: "Syarat Ketentuan",
-                footerAbout: "Tentang Kami",
-                footerContact: "Hubungi Kami",
-                footerDev: "Dikembangkan oleh DTID Analytics."
+                content3: "Kalkulator ini menggunakan metode matematika iteratif (Trial and Error) untuk memperkirakan Bunga Efektif Tahunan (APR) yang akurat. Hasil ini adalah estimasi teoretis. Hasil aktual pinjaman dapat sedikit berbeda tergantung pada metode pembulatan bank dan hari pencairan. Selalu verifikasi perhitungan Anda dengan dokumen pinjaman resmi dari penyedia kredit."
             },
             en: {
                 appTitle: "Effective Annual Interest Rate Calculator (APR)",
                 headerTitle: "Effective Annual Interest Rate (APR/EIR) Calculator",
                 toolSubtitle: "Unmask the true cost of your fixed-installment loans (Mortgage, car, multipurpose) by calculating the real annual effective interest rate (APR/EIR), including hidden upfront fees.",
-                backToCatalogText: "Back to Tools Catalog",
                 
                 labelPrincipal: "Loan Principal (Pokok Pinjaman)",
                 descPrincipal: "The total principal amount of the loan before any fees or deductions.",
@@ -332,13 +343,7 @@
                 content2: "APR is the most important metric for comparing loan offers. When you are offered two loans at '10% interest,' but one has large provision and insurance fees, the loan with higher upfront costs will have a much higher APR. This calculator gives you the power to make smarter financial decisions and save money in the long run.",
 
                 sectionHeader3: "Disclaimer",
-                content3: "This calculator uses an iterative mathematical method (Trial and Error) to estimate the accurate Annual Effective Interest Rate (APR). The result is a theoretical estimate. The actual loan result may differ slightly depending on the bank's rounding method and disbursement day. Always verify your calculations with the official loan documents from the credit provider.",
-
-                footerPrivacy: "Privacy Policy",
-                footerTerms: "Terms of Service",
-                footerAbout: "About Us",
-                footerContact: "Contact Us",
-                footerDev: "Developed by DTID Analytics."
+                content3: "This calculator uses an iterative mathematical method (Trial and Error) to estimate the accurate Annual Effective Interest Rate (APR). The result is a theoretical estimate. The actual loan result may differ slightly depending on the bank's rounding method and disbursement day. Always verify your calculations with the official loan documents from the credit provider."
             }
         };
 
@@ -441,45 +446,25 @@
             resultBox.classList.add('visible');
         }
 
-        // --- LANGUAGE & THEME MANAGER ---
+        // --- LANGUAGE MANAGER ---
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
 
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            if(languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
 
-            const backBtn = document.getElementById('backToCatalogText');
-            if(backBtn) backBtn.textContent = t.backToCatalogText;
-            
-            if(document.getElementById('footerPrivacy')) {
-                document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
-                document.getElementById('footerTerms').textContent = t.footerTerms;
-                document.getElementById('footerAbout').textContent = t.footerAbout;
-                document.getElementById('footerContact').textContent = t.footerContact;
-                const devSpan = document.getElementById('footerDev');
-                if(devSpan) devSpan.textContent = t.footerDev;
-            }
-
-            // Update Input Values (Format)
-            const pValue = cleanInput(document.getElementById('principal').value);
-            const mValue = cleanInput(document.getElementById('monthlyInstallment').value);
-            const aValue = cleanInput(document.getElementById('adminFee').value);
-            const prValue = cleanInput(document.getElementById('provisionFee').value);
-            const iValue = cleanInput(document.getElementById('insuranceFee').value);
-
-            // Update Texts
+            // Update Input Labels
             const ids = [
-                'appTitle', 'headerTitle', 'toolSubtitle', 'labelPrincipal', 'descPrincipal',
-                'labelMonthlyInstallment', 'descMonthlyInstallment', 'labelLoanTermMonths', 'descLoanTermMonths',
-                'feesHeader', 'labelAdminFee', 'labelProvisionFee', 'labelInsuranceFee', 'calculateButton',
-                'resultHeader', 'labelEffectiveAPR', 'labelNetPrincipal', 'labelTotalInterestCost',
-                'sectionHeader1', 'sectionHeaderCase', 'caseInputs', 'caseResultText', 
-                'sectionHeader2', 'sectionHeader3'
+                'labelPrincipal', 'descPrincipal', 'labelMonthlyInstallment', 'descMonthlyInstallment',
+                'labelLoanTermMonths', 'descLoanTermMonths', 'feesHeader', 'labelAdminFee', 
+                'labelProvisionFee', 'labelInsuranceFee', 'calculateButton', 'resultHeader',
+                'labelEffectiveAPR', 'labelNetPrincipal', 'labelTotalInterestCost',
+                'sectionHeader1', 'sectionHeaderCase', 'contentCaseIntro', 'caseInputs', 
+                'caseResultText', 'sectionHeader2', 'sectionHeader3'
             ];
+            
             ids.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.textContent = t[id];
@@ -487,79 +472,40 @@
 
             // HTML Content
             document.getElementById('content1').innerHTML = t.content1;
-            document.getElementById('contentCaseIntro').innerHTML = t.contentCaseIntro;
             document.getElementById('content2').innerHTML = t.content2;
             document.getElementById('content3').innerHTML = t.content3;
 
-            // Update Format Inputs
-            document.getElementById('principal').value = formatNumber(pValue);
-            document.getElementById('monthlyInstallment').value = formatNumber(mValue);
-            document.getElementById('adminFee').value = formatNumber(aValue);
-            document.getElementById('provisionFee').value = formatNumber(prValue);
-            document.getElementById('insuranceFee').value = formatNumber(iValue);
+            // Re-format Inputs
+            const inputs = ['principal', 'monthlyInstallment', 'adminFee', 'provisionFee', 'insuranceFee'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = formatNumber(cleanInput(el.value));
+            });
 
             // Re-calc if result visible
-            const resultElement = document.getElementById('effectiveAPRResult');
-            if (resultElement.textContent !== '0.00%') {
+            if (document.getElementById('resultBox').classList.contains('visible')) {
                  calculateAPR({ preventDefault: () => {} });
             }
 
-            if (!document.getElementById('errorAlert').classList.contains('hidden')) {
-                document.getElementById('errorText').textContent = t.inputError;
-            }
-            
-            // Update Related Tools
-            updateRelatedContent(lang);
-        }
-        
-        function updateRelatedContent(lang) {
-            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
-            translatableElements.forEach(el => {
+            // Update Related Section
+            document.querySelectorAll('#related-tools-section [data-en]').forEach(el => {
                 const newText = el.getAttribute(`data-${lang}`);
                 if (newText) el.textContent = newText;
             });
-        }
-        
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'finance';
-            const themes = {
-                finance: {
-                    bg: 'bg-green-600',
-                    text: 'text-green-600',
-                    border: 'hover:border-green-400',
-                    hoverText: 'group-hover:text-green-700',
-                    bgGroup: 'group-hover:bg-green-500'
-                }
-            };
-            const theme = themes[category];
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
         }
 
         // --- OBSERVER & INIT ---
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    const currentLang = document.documentElement.lang || 'en';
-                    setLanguage(currentLang);
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             observer.observe(document.documentElement, { attributes: true });
-            
-            applyDynamicTheme();
-            
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-            setLanguage(defaultLang); 
+            setLanguage('en'); 
         });
     </script>
 </body>

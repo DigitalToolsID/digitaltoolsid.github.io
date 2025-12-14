@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-online/" />
-    <meta name="description" content="Kalkulator Dagang Online: Hitung cepat, cetak struk PDF, riwayat otomatis, dan fitur terbilang rupiah. Simpan URL di Home Screen untuk akses cepat."
- />
     
-    <meta name="keywords" content="Kalkulator Dagang, Kalkulator Bisnis, Kalkulator Cetak Struk, Kalkulator PDF, Terbilang Rupiah, Online Calculator, Receipt Calculator, Business Tool">
+    <meta name="description" content="Online Business Calculator. Features receipt printing (PDF), calculation history, and number-to-words conversion (Rupiah/Dollar). Ideal for small business owners." />
+    <meta name="keywords" content="Online Business Calculator, Receipt Calculator, PDF Receipt Generator, Number to Words, Kalkulator Bisnis Online, Kalkulator Dagang, Cetak Struk PDF, Terbilang Rupiah, Kalkulator Kasir, Kalkulator Warung, how to print receipt from calculator, cara hitung total belanja, aplikasi kasir sederhana">
  
+    <link rel="icon" href="data:,">
+
     <title id="appTitle">Kalkulator Dagang Online, Cetak Struk PDF & Terbilang Rupiah - Digital Tools ID</title>
     
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-online/index.html" />
 
-    <link rel="icon" href="data:,">
-    
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../output.css"> 
     
@@ -24,135 +23,125 @@
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
-      window.dataLayer = window.dataLayer ||
- [];
+      window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
- </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
-
+    </script>
     <style>
-        /* ========================================== */
-        /* CSS LOKAL UNTUK FIX LAYOUT & WARNA TOMBOL */
-        /* ========================================== */
-        body { background-color: #f4f4f4;
- -webkit-tap-highlight-color: transparent; }
-        
-        /* Layout Utama: Maksimal 1000px untuk memberi ruang iklan di kiri/kanan */
-        .main-container {
-            max-width: 1000px;
- margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            margin-top: 1.5rem;
- /* HILANGKAN RUANG KOSONG DI BAWAH */
-            margin-bottom: 0;
- padding-bottom: 0;
+        /* CSS LOKAL */
+        body { 
+            background-color: #f4f4f4;
+            -webkit-tap-highlight-color: transparent; 
         }
-        
-        /* Layout Kalkulator & Riwayat dalam 1 Kolom Vertikal (Rata Tengah) */
+
+        /* Layout Utama Flex */
         .calc-content-wrapper {
             display: flex;
- flex-direction: column;
+            flex-direction: column;
             align-items: center;
-            gap: 24px; /* Jarak antar blok (kalkulator, history, save url) */
+            gap: 24px; 
+            width: 100%;
         }
+
+        /* --- PENGATURAN LEBAR RESPONSIF --- */
         
-        /* Wrapper Kalkulator UI (Dibuat lebih gelap dari background halaman) */
+        /* 1. DEFAULT (MOBILE FIRST): Lebar Penuh agar enak di HP */
+        .calc-ui-wrapper,
+        .receipt-paper,
+        #install-card {
+            width: 100%; 
+        }
+
+        /* 2. DESKTOP ONLY: Hard Lock Container 50% & Box Kalkulator 70% */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /* Di Desktop, box kalkulator & history jadi 70% dari container konten */
+            .calc-ui-wrapper,
+            .receipt-paper,
+            #install-card {
+                width: 70% !important; 
+            }
+        }
+        /* ---------------------------------- */
+
+        /* Wrapper Kalkulator UI */
         .calc-ui-wrapper {
-            max-width: 400px;
- width: 100%;
-            background-color: #e5e7eb; /* Abu-abu muda agar menonjol dari putih */
+            background-color: #e5e7eb; 
             padding: 16px;
- border-radius: 16px;
+            border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border: 2px solid #ccc;
- }
+        }
 
-        /* Layar Kalkulator: Ditegaskan */
+        /* Layar Kalkulator */
         #display {
             font-family: 'Courier New', monospace;
- letter-spacing: 1px;
-            border: 3px solid #888; /* Batas layar angka dipertegas */
-            /* PERBAIKAN TAMPILAN ANGKA PANJANG */
-            overflow-x: auto; /* Memungkinkan scroll horizontal jika teks terlalu panjang */
-            white-space: nowrap; /* Memastikan teks tidak wrapping */
+            letter-spacing: 1px;
+            border: 3px solid #888;
+            overflow-x: auto; 
+            white-space: nowrap; 
         }
         
         /* Tombol Kalkulator */
         button.calc-btn {
             height: 60px;
- font-size: 1.25rem;
+            font-size: 1.25rem;
             border-radius: 12px;
             transition: all 0.1s;
             box-shadow: 0 4px 0 #374151;
- /* Efek 3D */
             font-weight: 600;
             color: white;
- }
+        }
         button.calc-btn:active {
             transform: translateY(4px);
- box-shadow: 0 0 0 #374151;
+            box-shadow: 0 0 0 #374151;
         }
         
-        /* Override Warna Khusus */
-        .btn-red { background-color: #ef4444 !important;
- box-shadow: 0 4px 0 #b91c1c !important;} /* Merah */
-        .btn-gray-dark { background-color: #374151 !important;
- }
-        .btn-yellow { background-color: #f59e0b !important;
- box-shadow: 0 4px 0 #d97706 !important;} /* Kuning/Orange */
-        .btn-blue { background-color: #3b82f6 !important;
- box-shadow: 0 4px 0 #1d4ed8 !important;} /* Biru */
-        .btn-green { background-color: #10b981 !important;
- box-shadow: 0 4px 0 #047857 !important;} /* Hijau */
+        /* Warna Tombol */
+        .btn-red { background-color: #ef4444 !important; box-shadow: 0 4px 0 #b91c1c !important;} 
+        .btn-gray-dark { background-color: #374151 !important; }
+        .btn-yellow { background-color: #f59e0b !important; box-shadow: 0 4px 0 #d97706 !important;} 
+        .btn-blue { background-color: #3b82f6 !important; box-shadow: 0 4px 0 #1d4ed8 !important;} 
+        .btn-green { background-color: #10b981 !important; box-shadow: 0 4px 0 #047857 !important;} 
 
         /* Kertas Struk (History) Style */
         .receipt-paper {
-            max-width: 400px;
- /* Lebar sama dengan kalkulator */
-            width: 100%;
- background-color: #fff;
+            background-color: #fff;
             border: 1px solid #e5e7eb;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             position: relative;
- }
-        
-        /* Scrollbar kustom untuk riwayat */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px;
- }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1;
- }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px;
- }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a8a8a8;
- }
-
-        /* iOS/PWA Gimmick Pop-up Animation */
-        @keyframes slideInUp {
-            from { transform: translateY(100%);
- }
-            to { transform: translateY(0);
- }
         }
-        /* Modal Style */
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
         #ios-modal > div, #non-ios-modal > div { animation: slideInUp 0.3s ease-out; }
         
-        /* PERBAIKAN Z-INDEX DAN POSISI MODAL */
         #ios-modal, #non-ios-modal {
-            z-index: 1000; /* Pastikan di atas semua elemen, termasuk header */
+            z-index: 1000; 
         }
         #non-ios-modal {
-            /* Mengganti align-items: flex-end (default di mobile) menjadi center di desktop */
             align-items: center !important; 
         }
         
-        /* Hapus Margin Bottom dari Related Tools Section */
         #related-tools-section {
             margin-bottom: 0 !important;
- }
+            width: 100%;
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
@@ -160,178 +149,142 @@
     <script>window.headerCategory = 'productivity';</script>
     <div id="global-header-container"></div>
 
-    <main class="main-container flex-grow">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
         
-        <div class="calc-content-wrapper">
-            
-            <div class="text-center w-full max-w-lg">
-                <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-800 mb-2" data-id="Kalkulator Dagang Online" data-en="Online Business Calculator">Online Business Calculator</h1>
-  
-               <p id="appDescription" class="text-sm text-gray-600 mb-4 px-4" data-id="Alat hitung standar yang diperkaya fitur riwayat, narasi terbilang rupiah, dan dapat mencetak struk sederhana dalam format PDF."
- data-en="A standard calculator enhanced with history, rupiah spell-out feature, and the ability to print simple receipts in PDF format.">
-                    A standard calculator enhanced with history, rupiah spell-out feature, and the ability to print simple receipts in PDF format.
- </p>
-            </div>
-
-            <div class="calc-ui-wrapper">
+            <div class="calc-content-wrapper">
                 
-                <div class="mb-4">
-                    <input type="text" id="display" readonly value="0" class="w-full h-16 bg-[#D1D5DB] text-right text-3xl font-bold text-gray-900 p-3 rounded-xl focus:outline-none overflow-hidden placeholder-gray-500" style="border: 3px solid #888;">
-  
-                   <div id="terbilang" class="bg-gray-700 text-yellow-400 text-xs text-right p-2 mt-1 rounded italic min-h-[30px] leading-tight" data-id="Nol Rupiah" data-en="Zero Dollar">
-                        Zero Dollar
-                    </div>
+                <div class="text-center w-full">
+                    <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-800 mb-2" data-id="Kalkulator Bisnis Online" data-en="Online Business Calculator">Online Business Calculator</h1>
+      
+                   <p id="appDescription" class="text-sm text-gray-600 mb-4 px-1 text-justify leading-relaxed" 
+                      data-id="Alat hitung standar yang diperkaya fitur riwayat, narasi terbilang rupiah, dan dapat mencetak struk sederhana dalam format PDF."
+                      data-en="A standard calculator enhanced with history, spell-out feature, and the ability to print simple receipts in PDF format.">
+                        A standard calculator enhanced with history, spell-out feature, and the ability to print simple receipts in PDF format.
+                   </p>
                 </div>
 
-     
-                <div id="keypad" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                    <button class="calc-btn btn-red" onclick="clearDisplay()">C</button>
-                    <button class="calc-btn btn-gray-dark" onclick="deleteLast()">⌫</button>
-                    <button class="calc-btn btn-yellow" onclick="appendToDisplay('/')">÷</button>
-      
-        <button class="calc-btn btn-yellow" onclick="appendToDisplay('*')">×</button>
-
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('7')">7</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('8')">8</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('9')">9</button>
-             
-        <button 
- class="calc-btn btn-yellow" onclick="appendToDisplay('-')">-</button>
-
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('4')">4</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('5')">5</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('6')">6</button>
-                    
- <button class="calc-btn btn-yellow" onclick="appendToDisplay('+')">+</button>
-
-      
-               <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('1')">1</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('2')">2</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('3')">3</button>
-                    <button class="calc-btn btn-blue" onclick="copyResult()">📋 COPY</button>
-
-   
-           
-        <button class="calc-btn btn-gray-dark" style="grid-column: span 2;"
- onclick="appendToDisplay('0')">0</button>
-                    <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('.')">.</button>
-                    <button class="calc-btn btn-green" onclick="calculate()">=</button>
-                </div>
-                
-                <button onclick="printCurrentPDF()" class="mt-4 w-full bg-white text-gray-800 
- font-bold py-3 rounded-xl hover:bg-gray-200 transition flex items-center justify-center gap-2" data-id="Cetak / Simpan PDF (Hitungan Ini)" data-en="Print / Save PDF (This Calculation)">
-                    <span>🖨️</span> Print / Save PDF (This Calculation)
-                </button>
-            </div>
-            
-            <div 
- class="receipt-paper 
- rounded-xl flex flex-col h-[500px]">
-                <div class="bg-gray-100 p-3 rounded-t-xl border-b border-gray-200 flex justify-between items-center">
-                    <h3 class="font-mono font-bold text-gray-700 flex items-center gap-2" id="labelHistoryHeader" data-id="RIWAYAT" data-en="HISTORY">
-                        <span>🧾</span> HISTORY
-                 
- </h3>
-                    <button onclick="clearHistory()" class="text-xs text-red-500 hover:text-red-700 font-bold uppercase tracking-wide border border-red-200 px-2 py-1 rounded bg-white" data-id="Hapus" data-en="Clear">
-                        Clear
-                    </button>
-                </div>
-  
-             
-                <div id="history-list" class="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar bg-white font-mono text-sm">
-                    </div>
-            </div>
-
-            <div id="install-card" class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded shadow-sm w-full" style="max-width: 400px;">
-      
-        <div class="flex justify-between items-start">
-                    <div class="flex gap-3">
-                        <div class="text-2xl">📱</div>
-                        <div>
-               
-          <h3 class="font-bold text-gray-800 text-sm" id="labelInstallTitle" data-id="Simpan URL di Home Screen" data-en="Save URL to Home Screen">Save URL to Home Screen</h3>
-                            <p class="text-xs text-gray-600 mt-1 leading-relaxed" id="labelInstallDesc" data-id="Untuk memudahkan penggunaan di kemudian hari, simpan URL alat ini.
- Manfaat: <strong>Gratis, Tanpa ribet download, Tanpa makan memori HP, Tanpa akses data sensitif, dan Aman.</strong>" data-en="To ensure easy reuse, save this tool's URL.
- Benefits: <strong>Free, No hassle download, No phone memory usage, No sensitive data access, and Safe.</strong>">
-                                To ensure easy reuse, save this tool's URL. Benefits: **Free, No hassle download, No phone memory usage, No sensitive data access, and Safe.**
-                            </p>
-    
-                            <button id="installBtn" onclick="showInstallInstructions()" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded transition" data-id="Petunjuk Simpan ke Layar Utama" data-en="Instructions to Save to Home Screen">
-                                Instructions to Save to Home Screen
-             
-            </button>
+                <div class="calc-ui-wrapper">
+                    <div class="mb-4">
+                        <input type="text" id="display" readonly value="0" class="w-full h-16 bg-[#D1D5DB] text-right text-3xl font-bold text-gray-900 p-3 rounded-xl focus:outline-none overflow-hidden placeholder-gray-500" style="border: 3px solid #888;">
+                       <div id="terbilang" class="bg-gray-700 text-yellow-400 text-xs text-right p-2 mt-1 rounded italic min-h-[30px] leading-tight" data-id="Nol Rupiah" data-en="Zero Dollar">
+                            Zero Dollar
                         </div>
                     </div>
-                    <button onclick="document.getElementById('install-card').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">&times;</button>
-                </div>
- 
-        </div>
 
-            <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center" data-en="Most Popular Tools" data-id="Alat Terpopuler Lainnya">Most Popular Tools</h2>
+                    <div id="keypad" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        <button class="calc-btn btn-red" onclick="clearDisplay()">C</button>
+                        <button class="calc-btn btn-gray-dark" onclick="deleteLast()">⌫</button>
+                        <button class="calc-btn btn-yellow" onclick="appendToDisplay('/')">÷</button>
+                        <button class="calc-btn btn-yellow" onclick="appendToDisplay('*')">×</button>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('7')">7</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('8')">8</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('9')">9</button>
+                        <button class="calc-btn btn-yellow" onclick="appendToDisplay('-')">-</button>
+
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('4')">4</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('5')">5</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('6')">6</button>
+                        <button class="calc-btn btn-yellow" onclick="appendToDisplay('+')">+</button>
+
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('1')">1</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('2')">2</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('3')">3</button>
+                        <button class="calc-btn btn-blue" onclick="copyResult()">📋 COPY</button>
+
+                        <button class="calc-btn btn-gray-dark" style="grid-column: span 2;" onclick="appendToDisplay('0')">0</button>
+                        <button class="calc-btn btn-gray-dark" onclick="appendToDisplay('.')">.</button>
+                        <button class="calc-btn btn-green" onclick="calculate()">=</button>
+                    </div>
                     
- <div class="p-4 rounded-xl border border-gray-200 bg-gray-50">
-  
-                       <h3 class="font-bold mb-2 text-green-600" data-en="Finance" data-id="Keuangan">Finance</h3>
-                        <ul class="space-y-1 text-sm text-gray-600">
-                            <li><a href="../kalkulator-bunga-majemuk/index.html" class="hover:underline" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</a></li>
-   
-                  <li><a href="../kalkulator-pinjaman-multi-tujuan/index.html" class="hover:underline" data-en="Loan/KPR Calculator" data-id="Kalkulator Pinjaman (KPR)">Loan/KPR Calculator</a></li>
-                        </ul>
+                    <button onclick="printCurrentPDF()" class="mt-4 w-full bg-white text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-200 transition flex items-center justify-center gap-2" data-id="Cetak / Simpan PDF (Hitungan Ini)" data-en="Print / Save PDF (This Calculation)">
+                        <span>🖨️</span> Print / Save PDF (This Calculation)
+                    </button>
+                </div>
+                
+                <div class="receipt-paper rounded-xl flex flex-col h-[500px]">
+                    <div class="bg-gray-100 p-3 rounded-t-xl border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="font-mono font-bold text-gray-700 flex items-center gap-2" id="labelHistoryHeader" data-id="RIWAYAT" data-en="HISTORY">
+                            <span>🧾</span> HISTORY
+                        </h3>
+                        <button onclick="clearHistory()" class="text-xs text-red-500 hover:text-red-700 font-bold uppercase tracking-wide border border-red-200 px-2 py-1 rounded bg-white" data-id="Hapus" data-en="Clear">
+                            Clear
+                        </button>
                     </div>
-
-                    <div class="p-4 
- rounded-xl border border-gray-200 bg-gray-50">
       
-                   <h3 class="font-bold mb-2 text-red-600" data-en="Health" data-id="Kesehatan">Health</h3>
-                        <ul class="space-y-1 text-sm text-gray-600">
-                            <li><a href="../kalkulator-bmi/index.html" class="hover:underline" data-en="BMI Calculator" data-id="Kalkulator BMI">BMI Calculator</a></li>
-     
-              <li><a href="../kalkulator-bmr/index.html" class="hover:underline" data-en="BMR Calculator" data-id="Kalkulator BMR">BMR Calculator</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="p-4 rounded-xl border border-gray-200 
- bg-gray-50">
-           
-              <h3 class="font-bold mb-2 text-purple-600" data-en="Productivity" data-id="Produktivitas">Productivity</h3>
-                        <ul class="space-y-1 text-sm text-gray-600">
-                            <li><a href="../kalkulator-konversi-satuan/index.html" class="hover:underline" data-en="Unit Converter" data-id="Konversi Satuan">Unit Converter</a></li>
-        
-             
-         <li><a href="../kalkulator-online/index.html" 
- class="hover:underline font-bold" data-en="Business Calculator (You Are Here)" data-id="Kalkulator Dagang (Anda Disini)">Business Calculator (You Are Here)</a></li>
-                        </ul>
+                    <div id="history-list" class="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar bg-white font-mono text-sm">
                     </div>
                 </div>
-   
-          </section>
-    
-     </div>
 
+                <div id="install-card" class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div class="flex gap-3">
+                            <div class="text-2xl">📱</div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-sm" id="labelInstallTitle" data-id="Simpan URL di Home Screen" data-en="Save URL to Home Screen">Save URL to Home Screen</h3>
+                                <p class="text-xs text-gray-600 mt-1 leading-relaxed" id="labelInstallDesc" 
+                                   data-id="Untuk memudahkan penggunaan di kemudian hari, simpan URL alat ini.<br>Manfaat: <strong>Gratis, Tanpa download, Tanpa memori HP, Aman.</strong>" 
+                                   data-en="To ensure easy reuse, save this tool's URL.<br>Benefits: <strong>Free, No download, No phone memory usage, Safe.</strong>">
+                                    To ensure easy reuse, save this tool's URL.<br>Benefits: <strong>Free, No download, No phone memory usage, Safe.</strong>
+                                </p>
+        
+                                <button id="installBtn" onclick="showInstallInstructions()" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded transition" data-id="Petunjuk Simpan ke Layar Utama" data-en="Instructions to Save to Home Screen">
+                                    Instructions to Save to Home Screen
+                                </button>
+                            </div>
+                        </div>
+                        <button onclick="document.getElementById('install-card').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">&times;</button>
+                    </div>
+                </div>
+
+                <section id="related-tools-section" class="w-full mt-8 pt-4 border-t border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 text-center" data-en="Most Popular Tools" data-id="Alat Terpopuler Lainnya">Most Popular Tools</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                        
+                        <div class="p-4 rounded-xl border border-gray-200 bg-gray-50">
+                           <h3 class="font-bold mb-2 text-green-600" data-en="Finance" data-id="Keuangan">Finance</h3>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li><a href="../kalkulator-bunga-majemuk/index.html" class="hover:underline" data-en="Compound Interest" data-id="Bunga Majemuk">Compound Interest</a></li>
+                                <li><a href="../kalkulator-pinjaman-multi-tujuan/index.html" class="hover:underline" data-en="Loan/KPR Calculator" data-id="Kalkulator Pinjaman (KPR)">Loan/KPR Calculator</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-gray-200 bg-gray-50">
+                           <h3 class="font-bold mb-2 text-red-600" data-en="Health" data-id="Kesehatan">Health</h3>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li><a href="../kalkulator-bmi/index.html" class="hover:underline" data-en="BMI Calculator" data-id="Kalkulator BMI">BMI Calculator</a></li>
+                                <li><a href="../kalkulator-bmr/index.html" class="hover:underline" data-en="BMR Calculator" data-id="Kalkulator BMR">BMR Calculator</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-gray-200 bg-gray-50">
+                            <h3 class="font-bold mb-2 text-purple-600" data-en="Productivity" data-id="Produktivitas">Productivity</h3>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li><a href="../kalkulator-konversi-satuan/index.html" class="hover:underline" data-en="Unit Converter" data-id="Konversi Satuan">Unit Converter</a></li>
+                                <li><a href="../kalkulator-online/index.html" class="hover:underline font-bold" data-en="Business Calculator (Here)" data-id="Kalkulator Dagang (Disini)">Business Calculator (Here)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+        
+            </div>
+        </div>
     </main>
     
     <div id="ios-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-end sm:items-center justify-center p-4">
         <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-800" id="iosModalTitle" data-id="Petunjuk Simpan URL (iOS)" data-en="Instructions to Save URL (iOS)">Instructions to Save 
- URL (iOS)</h3>
-             
-    <button onclick="closeIosModal()" class="text-gray-500 
- text-2xl">&times;</button>
+                <h3 class="text-lg font-bold text-gray-800" id="iosModalTitle" data-id="Petunjuk Simpan URL (iOS)" data-en="Instructions to Save URL (iOS)">Instructions to Save URL (iOS)</h3>
+                <button onclick="closeIosModal()" class="text-gray-500 text-2xl">&times;</button>
             </div>
-            <div class="space-y-4 text-gray-600" id="iosModalContent" data-id="<p>1.
- Tekan tombol <strong>Share</strong> di bar bawah Safari.</p><p>2. Pilih <strong>'Add to Home Screen'</strong> (Tambah ke Layar Utama).</p><p>3. Tekan <strong>Add</strong>.</p>" data-en="<p>1.
- Tap the <strong>Share</strong> button at the bottom of Safari.</p><p>2. Select <strong>'Add to Home Screen'</strong>.</p><p>3.
- Tap <strong>Add</strong>.</p>">
+            <div class="space-y-4 text-gray-600" id="iosModalContent" data-id="<p>1. Tekan tombol <strong>Share</strong> di bar bawah Safari.</p><p>2. Pilih <strong>'Add to Home Screen'</strong> (Tambah ke Layar Utama).</p><p>3. Tekan <strong>Add</strong>.</p>" data-en="<p>1. Tap the <strong>Share</strong> button at the bottom of Safari.</p><p>2. Select <strong>'Add to Home Screen'</strong>.</p><p>3. Tap <strong>Add</strong>.</p>">
                 <p>1. Tekan tombol <strong>Share</strong> di bar bawah Safari.</p>
                 <p>2. Pilih <strong>"Add to Home Screen"</strong> (Tambah ke Layar Utama).</p>
                 <p>3. Tekan <strong>Add</strong>.</p>
             </div>
-            <button onclick="closeIosModal()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-xl" 
- data-id="Tutup" data-en="Close">Close</button>
+            <button onclick="closeIosModal()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-xl" data-id="Tutup" data-en="Close">Close</button>
         </div>
     </div>
 
@@ -339,9 +292,7 @@
         <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-bold text-gray-800" id="nonIosModalTitle" data-id="Petunjuk Simpan URL" data-en="Save URL Instructions">Save URL Instructions</h3>
-             
-    <button onclick="closeNonIosModal()" class="text-gray-500 
- text-2xl">&times;</button>
+                <button onclick="closeNonIosModal()" class="text-gray-500 text-2xl">&times;</button>
             </div>
             <div class="space-y-4 text-gray-600" id="nonIosModalContent" 
                  data-id="<p>Fitur Simpan ke Layar Utama (Instalasi PWA) biasanya tersedia di menu browser Anda.</p><p>1. Cari ikon <strong>tiga titik vertikal (⋮)</strong> atau ikon <strong>Share</strong> di sudut kanan atas browser.</p><p>2. Pilih opsi <strong>'Instal Aplikasi'</strong> atau <strong>'Tambahkan ke Layar Utama'</strong>.</p><p>3. Untuk <strong>Desktop</strong>, gunakan fitur <strong>Bookmark</strong> atau cari opsi 'Instal' di Address Bar.</p>"
@@ -351,28 +302,28 @@
                 <p>2. Select the option <strong>'Install App'</strong> or <strong>'Add to Home Screen'</strong>.</p>
                 <p>3. For <strong>Desktop</strong>, use the <strong>Bookmark</strong> feature or look for the 'Install' option in the Address Bar.</p>
             </div>
-            <button onclick="closeNonIosModal()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-xl" 
- data-id="Tutup" data-en="Close">Close</button>
+            <button onclick="closeNonIosModal()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-xl" data-id="Tutup" data-en="Close">Close</button>
         </div>
     </div>
 
-
     <div id="global-footer-container"></div>
+
+    <script>
+    window.headerCategory = 'productivity';
+    </script>
+
     <script src="../components.js"></script>
 
     <script>
         // ==========================================
-        // 1. FUNGSI TERBILANG (RUPIAH/DOLLAR) - TELAH DIPERBAIKI
+        // 1. FUNGSI TERBILANG (RUPIAH/DOLLAR)
         // ==========================================
         function terbilangID(a) {
             var bilangan = ['','Satu','Dua','Tiga','Empat','Lima','Enam','Tujuh','Delapan','Sembilan','Sepuluh','Sebelas'];
-            var kalimat 
- = "";
-           
+            var kalimat = "";
             a = Math.floor(a);
             if(a === 0) return "Nol";
             if(a < 0) return "Minus " + terbilangID(Math.abs(a));
-            // Logika Rekursi
             if(a < 12) { kalimat = bilangan[a]; } 
             else if (a < 20) { kalimat = terbilangID(a-10) + ' Belas'; } 
             else if (a < 100) { kalimat = terbilangID(Math.floor(a/10)) + ' Puluh ' + terbilangID(a%10); } 
@@ -383,10 +334,7 @@
             else if (a < 1000000000) { kalimat = terbilangID(Math.floor(a/1000000)) + ' Juta ' + terbilangID(a%1000000); } 
             else if (a < 1000000000000) { kalimat = terbilangID(Math.floor(a/1000000000)) + ' Milyar ' + terbilangID(a%1000000000); } 
             else if (a < 1000000000000000) { kalimat = terbilangID(Math.floor(a/1000000000000)) + ' Triliun ' + terbilangID(a%1000000000000); }
-            
-            // PERBAIKAN: Bersihkan kata 'Nol' yang tidak perlu dari hasil rekursi (misal: "Puluh Nol", "Ratus Nol")
             kalimat = kalimat.replace(/\sNol/g, '');
-            // Bersihkan spasi ganda dan trim
             return kalimat.replace(/\s+/g, ' ').trim();
         }
         
@@ -404,7 +352,6 @@
                 n = Math.floor(n / 1000);
                 i++;
             }
-
             function terbilangHundreds(num) {
                 let current = '';
                 if (num % 100 < 20) {
@@ -421,7 +368,6 @@
                 }
                 return current.trim();
             }
-
             return result.replace(/\s+/g, ' ').trim();
         }
 
@@ -433,27 +379,23 @@
         const historyList = document.getElementById('history-list');
         let lastResultRaw = 0; 
         let currentLang = 'en';
-        // FIX: Memastikan format ribuan ada di display
+
         function formatDisplayValue(raw) {
             const parts = raw.split(/([\+\-\*\/])/);
             const formattedParts = parts.map(part => {
                 if (['+', '-', '*', '/'].includes(part)) { return part.replace('*', '×').replace('/', '÷'); }
                 if (!isNaN(part) && part !== '') {
                     const numberParts = part.split('.');
-                    // Menggunakan 'id-ID' untuk 
                     const integerPart = parseInt(numberParts[0] || '0').toLocaleString('id-ID'); 
                     return numberParts.length > 1 ? `${integerPart},${numberParts[1]}` : integerPart;
                 }
                 return part;
             });
-            // Menggunakan join tanpa spasi di sini, spasi sudah ditambahkan di HTML/CSS jika perlu
             return formattedParts.join(' ');
         }
 
         function updateDisplay() {
             display.value = formatDisplayValue(currentInput);
-            
-            // PERBAIKAN TAMPILAN ANGKA PANJANG: Gulir ke kanan saat input baru
             display.scrollLeft = display.scrollWidth;
         }
 
@@ -649,7 +591,6 @@
             doc.save(`struk-${Date.now()}.pdf`);
         }
 
-        // PERBAIKAN: Menambahkan konfirmasi sebelum mencetak PDF
         function printCurrentPDF() {
             if (!confirm(currentLang === 'id' ? "Apakah Anda yakin ingin mencetak/menyimpan PDF untuk hitungan ini?" : "Are you sure you want to print/save the PDF for this calculation?")) {
                 return;
@@ -662,7 +603,6 @@
 
             const history = JSON.parse(localStorage.getItem('calc_history') || '[]');
             if (history.length > 0) {
-                 // Memberikan sedikit penundaan (delay) untuk stabilitas di mobile browser
                  setTimeout(() => {
                     generateReceiptPDF(history[0].calcRaw, history[0].result);
                  }, 50);
@@ -679,7 +619,6 @@
             if (!confirm(currentLang === 'id' ? "Apakah Anda yakin ingin mencetak/menyimpan PDF untuk riwayat ini?" : "Are you sure you want to print/save the PDF for this history item?")) {
                 return;
             }
-            // Memberikan sedikit penundaan (delay) untuk stabilitas di mobile browser
             setTimeout(() => {
                 generateReceiptPDF(calcRaw, result);
             }, 50);
@@ -688,7 +627,6 @@
         function closeIosModal() { document.getElementById('ios-modal').classList.add('hidden'); }
         function closeNonIosModal() { document.getElementById('non-ios-modal').classList.add('hidden'); }
 
-        // FUNGSI DETEKSI DAN TAMPILKAN INSTRUKSI (Perbaikan untuk Android/iOS)
         function isIOS() {
             const userAgent = window.navigator.userAgent.toLowerCase();
             return /iphone|ipad|ipod/.test(userAgent) && !window.MSStream;
@@ -700,53 +638,42 @@
              const nonIosModal = document.getElementById('non-ios-modal');
              
              if (isIOS()) {
-                 // HANYA tampilkan modal iOS jika terdeteksi iOS
                  iosModal.classList.remove('hidden');
              } else {
-                 // Tampilkan modal generik untuk Android/Desktop
                  nonIosModal.classList.remove('hidden');
              }
              
-             // Sembunyikan kartu promosi utama setelah diklik
              if (installCard) {
                 installCard.classList.add('hidden'); 
              }
         }
 
         // ==========================================
-        // 4. TRANSLATION LOGIC (UPDATED with SEO Titles)
+        // 4. TRANSLATION LOGIC
         // ==========================================
-        const translations = {
+        const translationData = {
             id: {
-                // Judul baru untuk SEO Bahasa Indonesia
-                appTitle: "Kalkulator Dagang Online, Cetak Struk PDF & Terbilang Rupiah - Digital Tools ID",
-                headerTitle: "Kalkulator Dagang Online",
+                appTitle: "Kalkulator Bisnis Online, Cetak Struk PDF & Terbilang Rupiah - Digital Tools ID",
+                headerTitle: "Kalkulator Bisnis Online",
             },
             en: {
-                // Judul baru untuk SEO Bahasa Inggris
                 appTitle: "Business & Receipt Calculator, PDF Receipt & Spell Out Feature - Digital Tools ID",
                 headerTitle: "Online Business Calculator",
             }
         };
         
         function setLanguage(lang) {
-            // Hapus document.documentElement.lang = lang; dari sini untuk menghindari loop
             currentLang = lang;
+            const t = translationData[lang];
             
-            const t = translations[lang];
-            // 1. Update Title (Menggunakan textContent karena Title tidak memiliki atribut data-lang)
             document.getElementById('appTitle').textContent = t.appTitle;
             
-            // 2. Update Semua Elemen dengan Atribut data-lang
             document.querySelectorAll('[data-id], [data-en]').forEach(el => {
                 const text = el.getAttribute(`data-${lang}`);
-                
-                // --- PERBAIKAN LOGIKA TEXT (labelInstallDesc) ---
                 const isInstallDesc = (el.id === 'labelInstallDesc');
                 
                 if (text) { 
                     if (isInstallDesc) {
-                         // Gunakan innerHTML untuk merender tag <strong> (Fix Markup Leak)
                          el.innerHTML = text; 
                     } else {
                          el.textContent = text; 
@@ -754,33 +681,24 @@
                 }
             });
             
-            // 3. Update Konten dengan HTML (Modal iOS & Non-iOS)
             const iosContent = document.getElementById('iosModalContent');
             if (iosContent) {
                 const contentHtml = iosContent.getAttribute(`data-${lang}`);
-                if (contentHtml) {
-                    iosContent.innerHTML = contentHtml;
-                }
+                if (contentHtml) iosContent.innerHTML = contentHtml;
             }
             const nonIosContent = document.getElementById('nonIosModalContent');
             if (nonIosContent) {
                 const contentHtml = nonIosContent.getAttribute(`data-${lang}`);
-                if (contentHtml) {
-                    nonIosContent.innerHTML = contentHtml;
-                }
+                if (contentHtml) nonIosContent.innerHTML = contentHtml;
             }
             
-            // 4. Trigger re-render untuk elemen dinamis
             updateDisplay();
             renderHistory(); 
 
-            // Update Terbilang
             if (lastResultRaw === 0) {
-                document.getElementById('terbilang').textContent = lang === 'id' ?
-                'Nol Rupiah' : 'Zero Dollar';
+                document.getElementById('terbilang').textContent = lang === 'id' ? 'Nol Rupiah' : 'Zero Dollar';
             } else {
-                const terbilangFunc = lang === 'id' ?
-                terbilangID : terbilangEN;
+                const terbilangFunc = lang === 'id' ? terbilangID : terbilangEN;
                 const currencyText = lang === 'id' ? " Rupiah" : " Dollar";
                 const textTerbilang = terbilangFunc(Math.floor(lastResultRaw)) + currencyText;
                 document.getElementById('terbilang').textContent = textTerbilang;
@@ -788,31 +706,20 @@
         }
 
         // ==========================================
-        // 5. INISIALISASI & MUTATION OBSERVER (FINAL AMAN)
+        // 5. INISIALISASI & MUTATION OBSERVER
         // ==========================================
-        
-        // 5a. MutationObserver: Hanya untuk merespon perubahan LANG attribute dari components.js (SLIDER)
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    // Ambil nilai bahasa baru dari HTML tag
                     const newLang = document.documentElement.lang || 'en';
-                    // Panggil fungsi penerjemahan
                     setLanguage(newLang);
                 }
             });
         });
-
-        // Aktifkan pemantauan pada tag <html> untuk perubahan atribut 'lang'
         observer.observe(document.documentElement, { attributes: true });
 
-
-        // 5b. Inisialisasi Saat Halaman Dimuat (HANYA SEKALI)
         document.addEventListener('DOMContentLoaded', () => {
             let initialLang = 'en'; 
-            
-            // Tidak perlu menyembunyikan kartu instalasi secara default di sini
-            
             const initialHtmlLang = document.documentElement.lang;
             const browserLang = navigator.language || navigator.userLanguage;
 
@@ -821,8 +728,6 @@
             } else if (browserLang.toLowerCase().startsWith('id')) {
                 initialLang = 'id';
             }
-            
-            // Panggil setLanguage untuk pertama kali.
             setLanguage(initialLang); 
         });
     </script>

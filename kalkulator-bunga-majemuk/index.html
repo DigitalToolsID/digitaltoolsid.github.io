@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../output.css">
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
-
-    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-bunga-majemuk/" />
-    <title id="appTitle">Kalkulator Bunga Majemuk</title>
+    <meta name="description" content="Compound Interest Calculator: Calculate the future value of your investments with monthly or yearly compounding. Visualize the power of exponential growth." />
+    
+    <meta name="keywords" content="Compound Interest Calculator, Future Value Calculator, Investment Return Calculator, Savings Growth, Kalkulator Bunga Majemuk, Hitung Bunga Berbunga, Simulasi Investasi, Tabungan Berjangka, Bunga Deposito, Rumus Bunga Majemuk" />
  
-    <meta name="description" content="Kalkulator Bunga Majemuk terbaik. Hitung Nilai Masa Depan total investasi Anda (pokok, kontribusi, dan bunga) dan manfaatkan kekuatan penggandaan jangka panjang." />
+    <title id="appTitle">Compound Interest Calculator (Future Value) - Digital Tools ID</title>
+    
+    <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-bunga-majemuk/" />
+    <link rel="icon" href="data:,"> <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-bunga-majemuk/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-bunga-majemuk/index.html" />
+
+    <meta name="theme-color" content="#27ae60"> <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -23,7 +27,14 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* --- CSS LOKAL --- */
+        /* CSS LOKAL (Hard Lock & Theme) */
+        
+        /* Layout Hard Lock 50% Desktop */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
+        }
+
         /* Warna Spesifik Alat (Finance Green) */
         .text-finance-color { color: #27ae60; }
         .bg-finance-color { background-color: #27ae60; }
@@ -63,11 +74,21 @@
             padding: 1.5rem; 
         }
         
-        /* Input Description */
         .input-description {
             font-size: 0.75rem;
             color: #6b7280;
             margin-top: 0.25rem;
+        }
+        
+        /* Hover effects for tool cards */
+        .tool-card:hover {
+            border-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        /* Dynamic Text Highlight */
+        .dynamic-text:hover {
+            color: #16a34a; /* Green-600 */
         }
     </style>
 </head>
@@ -75,45 +96,46 @@
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'finance'; </script>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-10 border border-gray-100">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Compound Interest Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-sm text-gray-600 mb-6 leading-relaxed text-justify">
                 Calculate the future value of your investments and harness the power of compounding.
             </p>
             
             <form id="compoundForm" onsubmit="calculateCompoundInterest(event)" class="space-y-4">
                 
                 <div class="relative">
-                    <label for="initialPrincipal" class="block text-sm font-medium text-gray-700 mb-1" id="labelPrincipal">Initial Investment</label>
-                    <input type="text" id="initialPrincipal" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <label for="initialPrincipal" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelPrincipal">Initial Investment</label>
+                    <input type="text" id="initialPrincipal" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                     <p class="input-description" id="descPrincipal">The initial sum of money you deposit on the first day.</p>
                 </div>
                  
                 <div class="relative">
-                    <label for="annualContribution" class="block text-sm font-medium text-gray-700 mb-1" id="labelContribution">Annual Contribution</label>
-                    <input type="text" id="annualContribution" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <label for="annualContribution" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelContribution">Annual Contribution</label>
+                    <input type="text" id="annualContribution" inputmode="numeric" value="1.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                     <p class="input-description" id="descContribution">Total amount you add each year (divided monthly).</p>
                 </div>
 
                 <div class="relative">
-                    <label for="annualRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelRate">Annual Interest Rate (%)</label>
-                    <input type="number" id="annualRate" min="0" step="0.1" value="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <label for="annualRate" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelRate">Annual Interest Rate (%)</label>
+                    <input type="number" id="annualRate" min="0" step="0.1" value="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                     <p class="input-description" id="descRate">Expected average return per year.</p>
                 </div>
                 
                 <div class="relative">
-                    <label for="years" class="block text-sm font-medium text-gray-700 mb-1" id="labelYears">Investment Period (Years)</label>
-                    <input type="number" id="years" min="1" max="50" value="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-finance-color focus:border-finance-color transition duration-150" required>
+                    <label for="years" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelYears">Investment Period (Years)</label>
+                    <input type="number" id="years" min="1" max="50" value="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                     <p class="input-description" id="descYears">Total duration of your investment.</p>
                 </div>
 
                 <div class="relative">
-                    <label for="compoundingFrequency" class="block text-sm font-medium text-gray-700 mb-1" id="labelFrequency">Compounding Frequency</label>
-                    <select id="compoundingFrequency" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-finance-color focus:border-finance-color bg-white transition duration-150">
+                    <label for="compoundingFrequency" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelFrequency">Compounding Frequency</label>
+                    <select id="compoundingFrequency" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 bg-white transition duration-150 text-sm">
                         <option value="1" id="optAnnually">Annually (1x/year)</option>
                         <option value="2" id="optSemiAnnually">Semi-Annually (2x/year)</option>
                         <option value="4" id="optQuarterly">Quarterly (4x/year)</option>
@@ -122,43 +144,43 @@
                     <p class="input-description" id="descFrequency">How often interest is added back to principal.</p>
                 </div>
 
-                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-bold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-sm">
                     Calculate Future Value
                 </button>
                 
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-xs" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
 
             <div id="resultBox" class="result-box mt-6 bg-finance-color/5 border border-finance-color/30 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Investment Growth Summary</h3>
+                <h3 id="resultHeader" class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Investment Growth Summary</h3>
                 
                 <div class="space-y-4">
-                    <div class="p-4 bg-white border border-green-200 rounded-lg shadow-sm">
-                        <p id="labelFutureValue" class="text-sm text-green-800 font-medium mb-1">Total Future Value</p>
-                        <p id="futureValueResult" class="text-3xl font-extrabold text-finance-color">0</p>
+                    <div class="p-4 bg-white border border-green-200 rounded-lg shadow-sm text-center">
+                        <p id="labelFutureValue" class="text-sm text-green-800 font-bold uppercase mb-1">Total Future Value</p>
+                        <p id="futureValueResult" class="text-4xl font-extrabold text-finance-color">0</p>
                     </div>
                     
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                            <p id="labelTotalPrincipal" class="text-xs text-gray-800 font-medium mb-1">Total Principal Invested</p>
-                            <p id="totalPrincipalResult" class="text-lg font-bold text-gray-700">0</p>
+                        <div class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-center">
+                            <p id="labelTotalPrincipal" class="text-xs text-gray-500 font-bold uppercase mb-1">Total Principal Invested</p>
+                            <p id="totalPrincipalResult" class="text-base font-bold text-gray-700">0</p>
                         </div>
-                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <p id="labelTotalInterest" class="text-xs text-yellow-800 font-medium mb-1">Total Interest Earned</p>
-                            <p id="totalInterestResult" class="text-lg font-bold text-yellow-700">0</p>
+                        <div class="p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+                            <p id="labelTotalInterest" class="text-xs text-yellow-800 font-bold uppercase mb-1">Total Interest Earned</p>
+                            <p id="totalInterestResult" class="text-base font-bold text-yellow-700">0</p>
                         </div>
                     </div>
                 </div>
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">The Magic of Compounding</h2>
+                <h2 id="sectionHeader1" class="text-lg font-bold text-gray-800 mb-3">The Magic of Compounding</h2>
                 <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
-                <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2">Contoh Kasus dan Implementasi Kalkulator</h3>
+                <h3 id="sectionHeader4" class="text-base font-bold text-gray-800 mb-2">Case Study</h3>
                 <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
                 <ul id="caseExampleList" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
                     <li id="exampleType"></li>
@@ -168,18 +190,18 @@
                     <li id="exampleResult"></li>
                 </ul>
 
-                <h3 id="sectionHeader5" class="text-lg font-bold text-gray-800 mb-2">Investasi Relevan dengan Kalkulator Bunga Majemuk</h3>
+                <h3 id="sectionHeader5" class="text-base font-bold text-gray-800 mb-2">Relevant Investments</h3>
                 <p id="content5" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
                 <ul id="relevantInvestmentList" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
                     <li id="relevant1"></li>
                     <li id="relevant2"></li>
                 </ul>
 
-                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">Why Compounding Frequency Matters</h3>
+                <h3 id="sectionHeader2" class="text-base font-bold text-gray-800 mb-2">Why Compounding Frequency Matters</h3>
                 <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
 
-                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
-                <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+                <h3 id="sectionHeader3" class="text-base font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content3" class="text-gray-600 text-xs leading-relaxed text-justify mb-6 italic"></p>
             </section>
 
         </div>
@@ -187,7 +209,7 @@
     
     <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <div class="w-1 h-7 bg-green-600 mr-3 rounded"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
                 data-en="More Finance Tools" 
                 data-id="Alat Keuangan Lainnya">
@@ -196,8 +218,7 @@
         </div>
     
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            
-            <a href="../kalkulator-networth/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../kalkulator-networth/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Net Worth Calculator"
                     data-id="Kalkulator Kekayaan Bersih">
@@ -210,7 +231,7 @@
                 </p>
             </a>
 
-            <a href="../kalkulator-dana-darurat/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../kalkulator-dana-darurat/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Emergency Fund Calculator"
                     data-id="Kalkulator Dana Darurat">
@@ -223,7 +244,7 @@
                 </p>
             </a>
             
-            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
                 <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
                     data-en="Monthly Budget Calculator"
                     data-id="Kalkulator Anggaran Bulanan">
@@ -241,11 +262,11 @@
             <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
             <ul class="space-y-3">
                 <li>
-                    <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
-                        <span data-en="Debt Repayment Strategies: Snowball vs Avalanche" 
-                              data-id="Strategi Pelunasan Utang: Snowball vs Avalanche">
-                            Debt Repayment Strategies: Snowball vs Avalanche
+                    <a href="../articles/analisis-titik-impas-bisnis.html" class="flex items-center text-sm hover:underline group dynamic-text">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
+                        <span data-en="Business Viability Analysis: BEP, NPV & IRR" 
+                              data-id="Analisis Kelayakan Bisnis: BEP, NPV & IRR">
+                            Business Viability Analysis: BEP, NPV & IRR
                         </span>
                     </a>
                 </li>
@@ -254,23 +275,15 @@
     </section>
 
     <div id="global-footer-container"></div>
-    
-    <script>
-        window.headerCategory = 'finance';
-    </script>
     <script src="../components.js"></script>
 
     <script>
-        // **********************************************
-        // LOGIKA KALKULATOR BUNGA MAJEMUK
-        // **********************************************
-
+        // TRANSLATION & LOGIC
         const translations = {
             id: {
                 appTitle: "Kalkulator Bunga Majemuk",
                 headerTitle: "Kalkulator Bunga Majemuk",
                 toolSubtitle: "Hitung nilai masa depan investasi Anda dan manfaatkan kekuatan penggandaan.",
-                backToCatalogText: "Kembali ke Katalog Alat",
                 
                 labelPrincipal: "Modal Awal",
                 descPrincipal: "Jumlah uang yang Anda masukkan pertama kali (modal awal) di hari pertama investasi.",
@@ -320,7 +333,6 @@
                 appTitle: "Compound Interest Calculator",
                 headerTitle: "Compound Interest Calculator",
                 toolSubtitle: "Calculate the future value of your investments and harness the power of compounding.",
-                backToCatalogText: "Back to Tools Catalog",
                 
                 labelPrincipal: "Initial Investment",
                 descPrincipal: "The initial sum of money you deposit on the first day of the investment.",
@@ -432,26 +444,22 @@
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            const languageSwitcher = document.getElementById('languageSwitcher');
-
-            if (languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
-            const backBtn = document.getElementById('backToCatalogText');
-            if (backBtn) backBtn.textContent = t.backToCatalogText;
+            
+            document.getElementById('appTitle').textContent = t.appTitle;
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('toolSubtitle').innerHTML = t.toolSubtitle;
             
             const pValue = cleanInput(document.getElementById('initialPrincipal').value);
             const aValue = cleanInput(document.getElementById('annualContribution').value);
 
             const ids = [
-                'appTitle', 'headerTitle', 'toolSubtitle', 'labelPrincipal', 'descPrincipal',
-                'labelContribution', 'descContribution', 'labelRate', 'descRate', 'labelYears',
-                'descYears', 'labelFrequency', 'descFrequency', 'optAnnually', 'optSemiAnnually',
-                'optQuarterly', 'optMonthly', 'calculateButton', 'resultHeader', 'labelFutureValue',
-                'labelTotalPrincipal', 'labelTotalInterest', 'sectionHeader1', 'sectionHeader4',
-                'exampleType', 'example1', 'example2', 'example3', 'exampleResult', 'sectionHeader5',
-                'relevant1', 'relevant2', 'sectionHeader2', 'sectionHeader3'
+                'labelPrincipal', 'descPrincipal', 'labelContribution', 'descContribution', 
+                'labelRate', 'descRate', 'labelYears', 'descYears', 'labelFrequency', 'descFrequency', 
+                'optAnnually', 'optSemiAnnually', 'optQuarterly', 'optMonthly', 'calculateButton', 
+                'resultHeader', 'labelFutureValue', 'labelTotalPrincipal', 'labelTotalInterest', 
+                'sectionHeader1', 'sectionHeader4', 'exampleType', 'example1', 'example2', 
+                'example3', 'exampleResult', 'sectionHeader5', 'relevant1', 'relevant2', 
+                'sectionHeader2', 'sectionHeader3'
             ];
             ids.forEach(id => {
                 const el = document.getElementById(id);
@@ -475,52 +483,24 @@
                 document.getElementById('errorText').textContent = t.inputError;
             }
             
-            updateRelatedContent(lang);
-        }
-        
-        function updateRelatedContent(lang) {
-            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
-            translatableElements.forEach(el => {
+            // Translate Related Section
+            document.querySelectorAll('#related-tools-section [data-en]').forEach(el => {
                 const newText = el.getAttribute(`data-${lang}`);
                 if (newText) el.textContent = newText;
             });
-        }
-        
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'finance';
-            const themes = {
-                finance: {
-                    bg: 'bg-green-600',
-                    text: 'text-green-600',
-                    border: 'hover:border-green-400',
-                    hoverText: 'group-hover:text-green-700',
-                    bgGroup: 'group-hover:bg-green-500'
-                }
-            };
-            const theme = themes[category];
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
         }
 
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    const currentLang = document.documentElement.lang || 'en';
-                    setLanguage(currentLang);
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             observer.observe(document.documentElement, { attributes: true });
-            applyDynamicTheme();
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) defaultLang = 'id';
-            setLanguage(defaultLang); 
+            setLanguage('en'); 
         });
     </script>
 </body>

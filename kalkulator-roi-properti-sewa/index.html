@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-roi-properti-sewa/" />
-    <meta name="description" content="Kalkulator ROI Properti Sewa. Hitung Cash Flow, Cap Rate, dan Cash on Cash Return (Tunai vs KPR) untuk investasi properti Anda secara akurat.">
+    
+    <meta name="description" content="Rental Property ROI Calculator. Calculate Cash Flow, Cap Rate, and Cash on Cash Return accurately. Compare Mortgage vs Cash purchase scenarios for real estate investment.">
+    <meta name="keywords" content="Rental Property ROI Calculator, Real Estate Investment Analysis, Cap Rate Calculator, Cash on Cash Return, Investment Property Cash Flow, Kalkulator ROI Properti, Hitung Keuntungan Sewa Rumah, Investasi Kos-kosan, Simulasi Bisnis Kontrakan, Analisis Balik Modal Properti, cara hitung keuntungan beli rumah untuk disewakan, apakah investasi properti menguntungkan, hitung cash flow kontrakan vs kpr">
     
     <title id="appTitle">Rental Property ROI Calculator</title>
     
@@ -21,7 +25,18 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
-        /* CSS LOKAL: Untuk animasi hasil & override warna tombol jika tailwind macet */
+        /* STANDAR TAMPILAN: Hard Lock 50% Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* CSS LOKAL: Animasi & Override */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -35,7 +50,7 @@
             padding: 1.5rem; 
         }
         
-        /* Override warna tombol finance agar pasti hijau */
+        /* Override warna tombol finance */
         .calculate-button {
             background-color: #16a34a !important; /* Green-600 */
             color: white !important;
@@ -67,11 +82,11 @@
     <div id="global-header-container"></div>
 
     <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <div class="layout-article-fixed w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Rental Property ROI Calculator</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
-                </p>
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+            </p>
             
             <form id="roiForm" onsubmit="calculateROI(event)" class="space-y-6">
                 
@@ -96,31 +111,31 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative md:col-span-2">
                             <label for="propertyPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelPropertyPrice">Property Price</label>
-                            <input type="text" id="propertyPrice" inputmode="numeric" value="1.000.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" required>
+                            <input type="text" id="propertyPrice" inputmode="numeric" value="1.000.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descPropertyPrice">Total harga pembelian properti.</p>
                         </div>
                         
                         <div id="loanInputsContainer" class="contents">
                             <div class="relative">
                                 <label for="downPayment" class="block text-sm font-medium text-gray-700 mb-1" id="labelDownPayment">Down Payment (%)</label>
-                                <input type="number" id="downPayment" min="0" max="100" step="1" value="20" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                                <input type="number" id="downPayment" min="0" max="100" step="1" value="20" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm">
                                 <p class="text-xs text-gray-500 mt-1" id="descDownPayment">Persentase uang muka.</p>
                             </div>
                             <div class="relative">
                                 <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInterestRate">Interest Rate (%)</label>
-                                <input type="number" id="interestRate" min="0" step="0.1" value="9.5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                                <input type="number" id="interestRate" min="0" step="0.1" value="9.5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm">
                                 <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Suku bunga tahunan.</p>
                             </div>
                             <div class="relative">
                                 <label for="loanTerm" class="block text-sm font-medium text-gray-700 mb-1" id="labelLoanTerm">Loan Term (Years)</label>
-                                <input type="number" id="loanTerm" min="1" max="30" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                                <input type="number" id="loanTerm" min="1" max="30" value="15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm">
                                 <p class="text-xs text-gray-500 mt-1" id="descLoanTerm">Durasi pinjaman.</p>
                             </div>
                         </div>
 
                         <div class="relative">
                             <label for="closingCosts" class="block text-sm font-medium text-gray-700 mb-1" id="labelClosingCosts">Closing/Repair Costs</label>
-                            <input type="text" id="closingCosts" inputmode="numeric" value="50.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                            <input type="text" id="closingCosts" inputmode="numeric" value="50.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm">
                             <p class="text-xs text-gray-500 mt-1" id="descClosingCosts">Biaya notaris, pajak, renovasi awal.</p>
                         </div>
                     </div>
@@ -131,17 +146,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
                             <label for="monthlyRent" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyRent">Monthly Rental Income</label>
-                            <input type="text" id="monthlyRent" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" required>
+                            <input type="text" id="monthlyRent" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descMonthlyRent">Pendapatan sewa kotor.</p>
                         </div>
                         <div class="relative">
                             <label for="vacancyRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelVacancyRate">Vacancy Rate (%)</label>
-                            <input type="number" id="vacancyRate" min="0" max="100" step="1" value="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                            <input type="number" id="vacancyRate" min="0" max="100" step="1" value="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm">
                             <p class="text-xs text-gray-500 mt-1" id="descVacancyRate">Estimasi kekosongan/tahun.</p>
                         </div>
                         <div class="relative md:col-span-2">
                             <label for="monthlyExpenses" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthlyExpenses">Total Monthly Expenses</label>
-                            <input type="text" id="monthlyExpenses" inputmode="numeric" value="1.500.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" required>
+                            <input type="text" id="monthlyExpenses" inputmode="numeric" value="1.500.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm" required>
                             <p class="text-xs text-gray-500 mt-1" id="descMonthlyExpenses">Biaya operasional (IPL, PBB, Maintenance). <b>Jangan masukkan cicilan KPR.</b></p>
                         </div>
                     </div>
@@ -182,8 +197,8 @@
 
                 <div class="mb-6 bg-white p-4 rounded-lg border border-green-200">
                     <h4 id="headerInterpretation" class="text-sm font-bold text-gray-800 mb-2">Interpretation</h4>
-                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed">
-                        </p>
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed text-justify">
+                    </p>
                 </div>
 
                 <h4 id="detailHeader" class="text-lg font-bold text-gray-800 mb-3">Annual Breakdown</h4>
@@ -237,7 +252,7 @@
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full max-w-2xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Related Finance Tools</h2>
@@ -279,6 +294,7 @@
                 appTitle: "Kalkulator ROI Properti Sewa",
                 headerTitle: "Kalkulator ROI Properti Sewa",
                 toolSubtitle: "Analisis lengkap keuntungan investasi properti Anda. Hitung Cash Flow dan ROI, baik untuk pembelian secara <b>Kredit (KPR)</b> maupun <b>Tunai Keras (Cash)</b>.",
+                // Back to Catalog dihapus dari tampilan HTML, string dibiarkan di JS agar aman
                 backToCatalogText: "Kembali ke Katalog Alat",
                 // Payment Method
                 labelPaymentMethod: "Metode Pembayaran",

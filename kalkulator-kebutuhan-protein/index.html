@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-kebutuhan-protein/" />
  
-    <meta name="description" content="Kalkulator Kebutuhan Protein Harian akurat. Hitung gram protein ideal Anda berdasarkan Tujuan Kebugaran (Membangun Otot/Defisit Kalori) dan Berat Badan." />
+    <meta name="description" content="Daily Protein Intake Calculator. Calculate your ideal protein grams based on fitness goals (Muscle Building/Fat Loss) and body weight." />
+    <meta name="keywords" content="Daily Protein Intake Calculator, Macro Calculator, Protein Requirement, Kalkulator Protein Harian, Hitung Kebutuhan Protein, Diet Tinggi Protein, how much protein do i need, cara hitung gram protein harian, muscle building diet">
  
+    <link rel="icon" href="data:,">
+
     <title id="appTitle">Daily Protein Intake Calculator</title>
     <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-kebutuhan-protein/index.html" />
     <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-kebutuhan-protein/index.html" />
@@ -31,6 +34,17 @@
     </script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Gaya Kustom untuk hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -61,12 +75,12 @@
 
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-blue-800 mb-3">Daily Protein Intake Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-blue-800 mb-3 text-center">Daily Protein Intake Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 text-justify leading-relaxed">
                 Calculate your precise daily protein requirement based on your body weight and fitness goals.
             </p>
             
@@ -91,7 +105,7 @@
                     </div>
                 </div>
 
-                <button id="calculateButton" onclick="calculateProteinIntake()" class="w-full bg-secondary text-white font-semibold py-3 rounded-xl shadow-md hover:bg-primary-dark transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50">
+                <button id="calculateButton" onclick="calculateProteinIntake()" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
                     Calculate Protein Need
                 </button>
                 
@@ -108,8 +122,8 @@
                 </div>
 
                 <div id="adviceBox" class="p-3 mt-4 rounded-lg bg-white border border-gray-300">
-                    <p id="adviceHeader" class="text-md font-bold text-primary-dark mb-2">Important Advice</p>
-                    <p id="adviceText" class="text-sm text-gray-700"></p>
+                    <p id="adviceHeader" class="text-md font-bold text-blue-800 mb-2">Important Advice</p>
+                    <p id="adviceText" class="text-sm text-gray-700 text-justify leading-relaxed"></p>
                 </div>
             </div>
             
@@ -121,17 +135,17 @@
                 
                 <div id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
                     <p id="content2Intro"></p>
-                    <h4 class="text-base font-semibold mt-0 text-primary-dark" id="teiHeader">The Thermic Effect of Food (TEF)</h4>
+                    <h4 class="text-base font-semibold mt-0 text-blue-800" id="teiHeader">The Thermic Effect of Food (TEF)</h4>
                     <p id="teiDesc"></p>
                     
-                    <h4 class="text-base font-semibold mt-4 text-primary-dark" id="satietyHeader">Protein for Satiety and Fat Loss</h4>
+                    <h4 class="text-base font-semibold mt-4 text-blue-800" id="satietyHeader">Protein for Satiety and Fat Loss</h4>
                     <p id="satietyDesc"></p>
                 </div>
 
                 <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Practical Strategy: Spreading Your Intake</h3>
                 <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
                 <div id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6 space-y-4">
-                    <h4 class="text-base font-semibold mt-0 text-primary-dark" id="strategyHeader">Key Tips for Maximizing Protein Absorption</h4>
+                    <h4 class="text-base font-semibold mt-0 text-blue-800" id="strategyHeader">Key Tips for Maximizing Protein Absorption</h4>
                     <ul class="action-list list-disc ml-4 space-y-1" id="strategyList">
                         <li></li>
                         <li></li>
@@ -143,9 +157,9 @@
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <div class="w-1 h-7 mr-3 bg-blue-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
                 data-en="Health & Lifestyle Tools" 
                 data-id="Alat Kesehatan & Gaya Hidup">
@@ -154,8 +168,8 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+            <a href="../BMI/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text text-blue-600 group-hover:text-blue-700"
                     data-en="BMI Calculator"
                     data-id="Kalkulator BMI">
                     BMI Calculator
@@ -167,8 +181,8 @@
                 </p>
             </a>
 
-            <a href="../body-fat-calculator/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+            <a href="../body-fat-calculator/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text text-blue-600 group-hover:text-blue-700"
                     data-en="Body Fat Percentage"
                     data-id="Persentase Lemak Tubuh">
                     Body Fat Percentage
@@ -180,8 +194,8 @@
                 </p>
             </a>
 
-            <a href="../kalkulator-air-harian/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+            <a href="../kalkulator-air-harian/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text text-blue-600 group-hover:text-blue-700"
                     data-en="Daily Water Intake Calculator"
                     data-id="Kalkulator Asupan Air Harian">
                     Daily Water Intake Calculator
@@ -193,8 +207,8 @@
                 </p>
             </a>
 
-            <a href="../kalkulator-denyut-jantung/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+            <a href="../kalkulator-denyut-jantung/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text text-blue-600 group-hover:text-blue-700"
                     data-en="Target Heart Rate Calculator"
                     data-id="Kalkulator Detak Jantung Target">
                     Target Heart Rate Calculator
@@ -206,8 +220,8 @@
                 </p>
             </a>
 
-            <a href="../kalkulator-siklus-menstruasi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
+            <a href="../kalkulator-siklus-menstruasi/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border hover:border-blue-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text text-blue-600 group-hover:text-blue-700"
                     data-en="Menstrual & Ovulation Cycle"
                     data-id="Kalkulator Siklus Menstruasi">
                     Menstrual & Ovulation Cycle
@@ -228,8 +242,8 @@
             </h3>
             <ul class="space-y-3">
                 <li>
-                    <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-sm hover:underline group dynamic-text text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group group-hover:bg-blue-500"></span>
                         <span data-en="Understanding BMI and TDEE: Your Daily Calorie Needs" 
                               data-id="Memahami BMI dan TDEE: Kebutuhan Kalori Harian Anda">
                             Understanding BMI and TDEE: Your Daily Calorie Needs
@@ -237,8 +251,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/panduan_lingkar_pinggang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/panduan_lingkar_pinggang.html" class="flex items-center text-sm hover:underline group dynamic-text text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group group-hover:bg-blue-500"></span>
                         <span data-en="Complete Guide to Measuring Ideal Waist Circumference" 
                               data-id="Panduan Lengkap Mengukur Lingkar Pinggang Ideal">
                             Complete Guide to Measuring Ideal Waist Circumference
@@ -246,8 +260,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-sm hover:underline group dynamic-text text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group group-hover:bg-blue-500"></span>
                         <span data-en="The Complete Guide: How to Read a Nutrition Facts Label" 
                               data-id="Panduan Lengkap: Cara Membaca Label Informasi Nilai Gizi">
                             The Complete Guide: How to Read a Nutrition Facts Label
@@ -255,8 +269,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../articles/protein-penurunan-berat-badan.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
+                    <a href="../articles/protein-penurunan-berat-badan.html" class="flex items-center text-sm hover:underline group dynamic-text text-blue-600 hover:text-blue-800">
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group group-hover:bg-blue-500"></span>
                         <span data-en="The Critical Role of Protein in Weight Loss Strategy" 
                               data-id="Peran Kritis Protein dalam Strategi Penurunan Berat Badan">
                             The Critical Role of Protein in Weight Loss Strategy
@@ -272,7 +286,7 @@
     <script src="../components.js"></script>
     <script>
         // **********************************************
-        // LOGIKA BARU UNTUK KALKULATOR KEBUTUHAN PROTEIN HARIAN
+        // LOGIKA KALKULATOR KEBUTUHAN PROTEIN HARIAN
         // **********************************************
 
         const translations = {
@@ -317,7 +331,6 @@
                 strategyList2: "Pastikan Anda mengonsumsi protein tinggi dalam waktu 1-2 jam setelah sesi latihan beban Anda untuk pemulihan otot yang maksimal.",
                 strategyList3: "Pilih sumber protein berkualitas tinggi dan lengkap, seperti daging tanpa lemak, telur, produk susu (whey protein), dan kacang-kacangan.",
                 
-                // [MODULAR] Terjemahan Global Footer
                 footerPrivacy: "Kebijakan Privasi",
                 footerTerms: "Syarat Ketentuan",
                 footerAbout: "Tentang Kami",
@@ -365,7 +378,6 @@
                 strategyList2: "Ensure you consume high-quality protein within 1-2 hours after your resistance training session for maximum muscle recovery.",
                 strategyList3: "Choose high-quality, complete protein sources, such as lean meats, eggs, dairy products (whey protein), and legumes.",
 
-                // [MODULAR] Global Footer
                 footerPrivacy: "Privacy Policy",
                 footerTerms: "Terms of Service",
                 footerAbout: "About Us",
@@ -418,13 +430,6 @@
             currentLang = lang;
             const t = translations[lang];
             
-            // [MODULAR] Update Toggle Header jika ada (via Components)
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            if(languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
-
             // Update Header Global (Safety Check)
             const backBtn = document.getElementById('backToCatalogText');
             if(backBtn) backBtn.textContent = t.backToCatalogText;
@@ -488,13 +493,10 @@
                 document.getElementById('errorText').textContent = t.inputError;
             }
 
-            // [MODULAR] Update Related Tools Translation
+            // Update Related Tools Translation
             updateRelatedContent(lang);
         }
 
-        // ============================================================
-        // LOGIKA BAHASA: BAGIAN RELATED TOOLS & ARTICLES (NEW)
-        // ============================================================
         function updateRelatedContent(lang) {
             const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
             translatableElements.forEach(el => {
@@ -506,38 +508,7 @@
         }
 
         // ============================================================
-        // LOGIKA WARNA DINAMIS (THEME MANAGER) (NEW)
-        // ============================================================
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'health'; 
-            const themes = {
-                health: {
-                    bg: 'bg-blue-600', text: 'text-blue-600',
-                    border: 'hover:border-blue-400', hoverText: 'group-hover:text-blue-700',
-                    bgGroup: 'group-hover:bg-blue-500'
-                },
-                finance: {
-                    bg: 'bg-green-600', text: 'text-green-600',
-                    border: 'hover:border-green-400', hoverText: 'group-hover:text-green-700',
-                    bgGroup: 'group-hover:bg-green-500'
-                },
-                productivity: {
-                    bg: 'bg-purple-600', text: 'text-purple-600',
-                    border: 'hover:border-purple-400', hoverText: 'group-hover:text-purple-700',
-                    bgGroup: 'group-hover:bg-purple-500'
-                }
-            };
-            const theme = themes[category] || themes.health;
-
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
-        }
-
-        // ============================================================
-        // OBSERVER BAHASA (Agar Konten Lokal Merespon Header) (NEW)
+        // OBSERVER BAHASA (Agar Konten Lokal Merespon Header)
         // ============================================================
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
@@ -551,8 +522,7 @@
 
         // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
-            setLanguage('en'); 
-            applyDynamicTheme(); // Apply color theme
+            setLanguage(document.documentElement.lang || 'en'); 
         });
     </script>
 </body>

@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../output.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-networth/" />
-    <meta name="description" content="Kalkulator Nilai Bersih akurat. Hitung Aset dikurangi Kewajiban Anda dan dapatkan nasehat personal untuk meningkatkan Kesehatan Finansial dan kekayaan bersih Anda." />
+    
+    <meta name="description" content="Personal Net Worth Calculator. Calculate Assets minus Liabilities to determine your financial health and wealth status accurately." />
+    <meta name="keywords" content="Net Worth Calculator, Financial Health Assessment, Wealth Calculator, Kalkulator Kekayaan Bersih, Cek Kesehatan Finansial, Hitung Aset Bersih, how to calculate net worth, cara hitung total kekayaan, am I wealthy enough">
  
+    <link rel="icon" href="data:,">
+
     <title id="appTitle">Personal Net Worth & Financial Health Calculator</title>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
@@ -22,6 +25,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* --- CSS LOKAL (Sesuai Pedoman V.2) --- */
         
         /* Definisi Warna Lokal */
@@ -96,12 +110,12 @@
 
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-2">Personal Net Worth & Financial Health Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-2 text-center">Personal Net Worth & Financial Health Calculator</h1>
             
-            <p id="valueProposition" class="text-lg text-finance-color font-semibold mb-6 border-b pb-4">
+            <p id="valueProposition" class="text-sm text-finance-color font-semibold mb-6 border-b pb-4 text-justify leading-relaxed">
                 Know your net worth value and get personalized advice on what adjustments you need to make going forward.
             </p>
 
@@ -129,7 +143,7 @@
                     </div>
                 </section>
                 
-                <button type="submit" id="calculateButton" class="calculate-button w-full bg-finance-color text-white font-semibold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-semibold py-3 rounded-xl transform focus:outline-none focus:ring-4 focus:ring-finance-color focus:ring-opacity-50">
                     Calculate Net Worth
                 </button>
             </form>
@@ -151,15 +165,15 @@
                 <h2 id="descriptionTitle" class="text-xl font-bold text-gray-800 mb-3">Understanding Your Net Worth</h2>
                 <p id="descriptionP1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
                 <p id="descriptionP2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
-                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-gray-400 text-gray-600 p-4 rounded-lg text-xs mt-4"></div>
+                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-gray-400 text-gray-600 p-4 rounded-lg text-xs mt-4 text-justify"></div>
             </section>
 
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
+            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
                 data-en="Financial Planning Tools" 
                 data-id="Alat Perencanaan Keuangan">

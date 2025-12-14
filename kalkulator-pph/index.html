@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="../output.css">
 
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pph/" />
-    <meta name="description" content="Hitung PPh 21 & PPh Tahunan Anda secara akurat (Karyawan/Freelancer). Menggunakan PTKP Terbaru dan Tarif Progresif PPh Pasal 17 (UU HPP).">
+    
+    <meta name="description" content="Indonesia Income Tax (PPh 21) Calculator. Calculate monthly tax deduction and annual tax return for employees and freelancers based on latest PTKP and progressive rates (UU HPP).">
+    <meta name="keywords" content="Income Tax Calculator Indonesia, PPh 21 Calculator, Tax Return Calculator, Kalkulator PPh 21, Hitung Pajak Penghasilan, Pajak Karyawan, Pajak Freelancer, PTKP Terbaru 2025, how to calculate PPh 21, cara lapor SPT tahunan">
  
-    <title id="appTitle">Kalkulator Pajak Penghasilan (PPh) 21 & Tahunan Indonesia Terbaru</title>
+    <link rel="icon" href="data:,">
+
+    <title id="appTitle">Kalkulator Pajak Penghasilan (PPh) 21 Indonesia</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -21,6 +25,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* CSS LOKAL */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -35,16 +50,15 @@
             padding: 1.5rem; 
         }
         
-        /* TOMBOL HIJAU FINANCE (Sesuai SOP Terbaru) */
-        /* Menggunakan !important untuk memastikan warna keluar */
+        /* TOMBOL HIJAU FINANCE */
         .calculate-button {
-            background-color: #16a34a !important; /* Green-600 */
+            background-color: #16a34a !important; 
             color: white !important;
-            box-shadow: 0 4px #14532d; /* Green-900 shadow */
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            box-shadow: 0 4px #14532d; 
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .calculate-button:hover {
-            background-color: #15803d !important; /* Green-700 */
+            background-color: #15803d !important; 
             transform: translateY(-2px);
             box-shadow: 0 6px #14532d;
         }
@@ -65,12 +79,12 @@
 
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3">Kalkulator Pajak Penghasilan (PPh) 21</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3 text-center">Kalkulator Pajak Penghasilan (PPh) 21</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                 Simulasikan perhitungan PPh Pasal 21 untuk karyawan tetap dan PPh Tahunan untuk pekerja bebas (freelancer) sesuai peraturan perpajakan yang berlaku di Indonesia.
             </p>
 
@@ -145,17 +159,17 @@
                         <p id="pphAnnualResult" class="text-3xl font-extrabold text-red-700">0</p>
                     </div>
                     
-                    <div id="monthlyPphBox" class="p-4 bg-green-50 border border-green-200 rounded-lg">
-                        <p class="text-sm text-green-800 font-medium mb-1" id="labelPphMonthly">Estimasi PPh Pasal 21 Bulanan</p>
-                        <p id="pphMonthlyResult" class="text-2xl font-bold text-green-700">0</p>
-                        <p class="input-description mt-1 text-green-600" id="descPphMonthly">*Angka ini adalah pembulatan PPh Tahunan dibagi 12.</p>
+                    <div id="monthlyPphBox" class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-sm text-red-800 font-medium mb-1" id="labelPphMonthly">Estimasi PPh Pasal 21 Bulanan</p>
+                        <p id="pphMonthlyResult" class="text-2xl font-bold text-red-700">0</p>
+                        <p class="input-description mt-1 text-red-600" id="descPphMonthly">*Angka ini adalah pembulatan PPh Tahunan dibagi 12.</p>
                     </div>
                 </div>
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
                 <h2 class="text-xl font-bold text-gray-800 mb-3" id="disclaimerTitle">Pernyataan Penting (Disclaimer)</h2>
-                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg text-sm" id="disclaimerContent"></div>
+                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg text-sm leading-relaxed text-justify" id="disclaimerContent"></div>
             </section>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans" id="educationSection">
@@ -170,7 +184,7 @@
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
@@ -196,9 +210,9 @@
 
             <a href="../kalkulator-konversi-gaji/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
                 <h3 class="text-base font-bold mb-1 text-green-700 group-hover:text-green-800 dynamic-text"
-                    data-en="Salary Converter (Hourly/Yearly)"
-                    data-id="Konversi Gaji (Jam/Tahun)">
-                    Salary Converter (Hourly/Yearly)
+                    data-en="Salary Converter"
+                    data-id="Konversi Gaji">
+                    Salary Converter
                 </h3>
                 <p class="text-xs text-gray-600 leading-relaxed"
                     data-en="Convert between hourly, monthly, and annual salary."

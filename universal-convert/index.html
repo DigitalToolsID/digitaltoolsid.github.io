@@ -3,32 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" href="data:,">
     <link rel="canonical" href="https://digitaltoolsid.github.io/universal-convert/" />
  
-    <meta name="description" content="Universal Unit Converter akurat. Konversi satuan instan untuk Cooking, Digital Data, Time & Zone, dan Engineering. Solusi global untuk semua kebutuhan konversi Anda." />
+    <meta name="description" content="Universal Unit Converter. Accurate conversion for Cooking (Grams/Cups), Engineering, Digital Storage, and Global Time Zones. Smarter than a standard calculator." />
+    <meta name="keywords" content="Universal Unit Converter, Cooking Unit Converter, Digital Storage Calculator, Time Zone Converter, Engineering Unit Converter, Konverter Satuan Lengkap, Konversi Gram ke Sendok, Alat Hitung Takaran Masak, Konversi Zona Waktu WIB, Cek ukuran harddisk, cara hitung konversi berat bahan kue, konversi waktu dunia online">
  
-    <title>Universal Unit Converter - Digital Tools ID</title>
+    <title id="pageTitle">Universal Unit Converter - Cooking, Engineering & Time</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': '#2c3e50', 
-                        'secondary': '#3498db', 
-                        'accent': '#e67e22', 
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
 
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -36,644 +22,724 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864"
-         crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
+        /* --- STYLE LOKAL --- */
         body { font-family: 'Inter', sans-serif; }
         
+        :root {
+            --color-primary: #1e1b4b;   /* Indigo 950 */
+            --color-secondary: #4338ca; /* Indigo 700 */
+            --color-accent: #f97316;    /* Orange 500 */
+        }
+
+        /* STANDAR TAMPILAN: Hard Lock 50% Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         .tool-panel { 
-            border: 1px solid #e5e7eb; 
+            border: 1px solid #e5e7eb;
             border-radius: 12px; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
-            min-height: 400px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
+            min-height: 350px;
             background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Navigasi Kategori (Horizontal Grid) */
+        .nav-category-wrapper {
+            width: 100%;
+            background-color: white; 
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb; 
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        @media (min-width: 640px) {
+            .nav-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         .nav-item {
             cursor: pointer;
-            padding: 12px 16px;
+            padding: 10px;
             border-radius: 8px;
-            margin-bottom: 8px;
             transition: all 0.2s ease;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            color: #4b5563;
+            justify-content: center;
+            gap: 6px;
+            background-color: #f8fafc; 
+            border: 1px solid #e2e8f0;
+            color: #64748b;
             font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
         }
         
         .nav-item:hover {
-            background-color: #f3f4f6;
-            color: #2c3e50;
+            background-color: #e0e7ff; 
+            color: #4338ca;
+            border-color: #c7d2fe;
         }
         
         .nav-item.active {
-            background-color: #3498db;
+            background-color: var(--color-secondary); 
             color: white;
             font-weight: 600;
-            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 6px -1px rgba(67, 56, 202, 0.3);
+            border-color: var(--color-secondary);
         }
-        
-        .nav-item.pro-feature {
-            color: #d35400;
+
+        /* Input Styles */
+        input[type="number"], input[type="time"], select {
+            height: 48px;
+            padding: 0.75rem 1rem;
+            border: 2px solid #ef4444; /* Merah */
+            box-shadow: none; 
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        input[type="number"]:focus, input[type="time"]:focus, select:focus {
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
         }
 
         .result-display {
-            padding: 1rem;
-            background-color: #f8fafc;
-            border: 2px solid #3498db;
+            padding: 0.75rem 1rem;
+            height: 48px;
+            background-color: #f0fdf4; 
+            border: 2px solid #16a34a; /* Hijau */
             border-radius: 0.5rem;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: #2c3e50;
-            text-align: center;
-            min-height: 60px;
+            color: #15803d;
+            text-align: right;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             word-break: break-all;
         }
 
-        .category-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb;
-        }
+        /* Alignment */
+        input[type="number"], input[type="time"] { text-align: right; }
+        select { text-align: left; }
 
-        /* Lang Switcher */
-        .lang-btn {
-            padding: 4px 8px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            border-radius: 4px;
+        /* Tabs Internal */
+        .tab-button {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
             transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-size: 0.85rem;
         }
-        .lang-btn.active {
-            background-color: white;
-            color: #2c3e50;
-        }
-        .lang-btn:not(.active) {
-            color: #94a3b8;
-        }
-        .lang-btn:not(.active):hover {
+        .tab-button.active {
+            background-color: var(--color-accent); 
             color: white;
+            box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+        }
+        .tab-button:not(.active) {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        .tab-button:not(.active):hover {
+            background-color: #e2e8f0;
+            color: #334155;
         }
 
-        input[type="number"], select, input[type="time"] {
-            transition: border-color 0.2s, box-shadow 0.2s;
+        #suggestionArea {
+            border-left: 4px solid var(--color-accent);
+            color: #9a3412;
+            background-color: #fff7ed; 
         }
-        input[type="number"]:focus, select:focus, input[type="time"]:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+
+        /* Typography Article */
+        .prose h3 {
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .prose p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        /* CTA BOX */
+        .cta-box {
+            background-color: #312e81; /* Indigo 900 */
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(49, 46, 129, 0.4);
+            margin-bottom: 2.5rem;
+        }
+        .cta-button {
+            background-color: white;
+            color: #312e81;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-block;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .cta-button:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans text-gray-800">
 
-    <!-- Header -->
-    <header class="bg-primary text-white py-4 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            
-            <!-- KIRI: Tombol Kembali -->
-            <a href="../index.html" class="text-sm text-gray-300 hover:text-white transition duration-150 flex items-center gap-1 w-1/3">
-                &larr; <span data-i18n="backToCatalog">Back to Tools Catalog</span>
-            </a>
+    <div id="global-header-container"></div>
+    <script>window.headerCategory = 'productivity';</script>
 
-            <!-- TENGAH: Judul Brand -->
-            <div class="flex justify-center items-center gap-2 w-1/3">
-                <span class="text-xl font-bold tracking-tight whitespace-nowrap">Digital Tools ID</span>
-            </div>
-
-            <!-- KANAN: Toggle Bahasa -->
-            <div class="flex justify-end w-1/3">
-                <div class="bg-gray-700/50 p-1 rounded-md flex gap-1">
-                    <button class="lang-btn" id="btn-id" onclick="setLanguage('id')">ID</button>
-                    <button class="lang-btn active" id="btn-en" onclick="setLanguage('en')">EN</button>
+    <main class="layout-article-fixed w-full max-w-2xl px-4 mt-8 mb-12 flex-grow">
+        
+        <div class="mb-8 text-center">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-indigo-950 mb-2" data-i18n="mainTitle">Universal Unit Converter</h1>
+            <p class="text-sm sm:text-base text-gray-600" data-i18n="mainSlogan">Precise Unit Conversion for Cooking, Engineering, and Global Time Zones. Smarter than your standard calculator.</p>
+        </div>
+        
+        <div class="nav-category-wrapper">
+            <nav id="category-nav">
+                <ul class="nav-grid list-none p-0 m-0">
+                    <li class="nav-item active" data-category="cooking">
+                        <span class="text-xl">🍳</span> 
+                        <span class="text-sm" data-i18n="catCooking">Cooking</span>
+                    </li>
+                    <li class="nav-item" data-category="digital-data">
+                        <span class="text-xl">💾</span> 
+                        <span class="text-sm" data-i18n="catDigital">Digital Data</span>
+                    </li>
+                    <li class="nav-item" data-category="time-zone">
+                        <span class="text-xl">⏰</span> 
+                        <span class="text-sm" data-i18n="catTime">Time & Zone</span>
+                    </li>
+                    <li class="nav-item" data-category="engineering">
+                        <span class="text-xl">⚙️</span> 
+                        <span class="text-sm" data-i18n="catEng">Engineering</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="tool-panel p-6 sm:p-8 mb-10">
+            <div id="converter-ui-dynamic-area">
+                <div class="flex flex-col items-center justify-center h-64 text-gray-400 animate-pulse">
+                    <p>Loading Converter Interface...</p>
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-12 flex-grow">
-        
-        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg border border-gray-100">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary mb-8 border-b pb-4" data-i18n="mainTitle">Universal Unit Converter</h1>
-            
-            <div class="flex flex-col lg:flex-row gap-8">
-                
-                <!-- Sidebar Navigasi -->
-                <aside class="lg:w-1/4 xl:w-1/5">
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 sticky top-4">
-                        <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 px-2" data-i18n="categories">Categories</h2>
-                        <nav id="category-nav">
-                            <ul>
-                                <li class="nav-item active" data-category="cooking">
-                                    <span>🍳</span> <span data-i18n="catCooking">Cooking</span>
-                                </li>
-                                <li class="nav-item" data-category="digital-data">
-                                    <span>💾</span> <span data-i18n="catDigital">Digital Data</span>
-                                </li>
-                                <li class="nav-item" data-category="time-zone">
-                                    <span>⏰</span> <span data-i18n="catTime">Time & Zone</span>
-                                </li>
-                                <li class="nav-item" data-category="engineering">
-                                    <span>⚙️</span> <span data-i18n="catEng">Engineering</span>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </aside>
-                
-                <!-- Area Konverter -->
-                <section class="lg:w-3/4 xl:w-4/5 flex flex-col lg:flex-row gap-8">
-
-                    <!-- UI Dinamis -->
-                    <div class="lg:w-2/3 tool-panel p-6">
-                        <div id="converter-ui-dynamic-area">
-                            <!-- Konten akan dimuat di sini oleh JavaScript -->
-                            <div class="flex flex-col items-center justify-center h-full text-gray-400">
-                                <p>Loading Converter...</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Sidebar Kanan (Info & Kontak) -->
-                    <aside class="lg:w-1/3 space-y-6">
-                        <div class="p-5 bg-secondary text-white rounded-xl shadow-md">
-                            <h3 class="font-bold text-lg mb-2" data-i18n="sidebarRequestTitle">Need a Custom Converter?</h3>
-                            <p class="text-sm opacity-90 mb-4" data-i18n="sidebarRequestDesc">We prioritize developing tools based on user needs. Let us know what unit conversion you use most!</p>
-                            <a href="../contact-us.html" class="inline-block bg-white text-secondary px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-50 transition" data-i18n="sidebarContactBtn">Contact Us</a>
-                        </div>
-
-                        <div class="p-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-600 text-sm">
-                            <h4 class="font-bold text-gray-800 mb-2" data-i18n="sidebarFactTitle">Did You Know?</h4>
-                            <p data-i18n="sidebarFactDesc">In the culinary world, precise conversion is key. 1 cup of flour weighs significantly less than 1 cup of sugar/water.</p>
-                        </div>
-                    </aside>
-
-                </section>
+        <article class="prose max-w-none text-sm text-justify bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-10">
+            <h2 class="text-xl font-bold text-indigo-950 mb-4 border-b pb-2" data-i18n="eduTitle">Understanding Conversion Logic</h2>
+            <div id="education-content">
+                <p>Loading educational content...</p>
             </div>
-            
-            <!-- Artikel SEO -->
-            <section class="mt-16 pt-10 border-t border-gray-200 text-gray-700 leading-relaxed">
-                <h2 class="text-2xl font-bold text-primary mb-4" data-i18n="seoTitle">The Essential Guide to Universal Unit Conversion</h2>
-                
-                <p class="mb-4" data-i18n="seoP1">Unit conversion is not just a mathematical exercise; it is a fundamental pillar that ensures accuracy, consistency, and safe communication across global industries. In an increasingly globalized world where standards vary—from Imperial to Metric—a reliable universal converter is an indispensable asset.</p>
-                
-                <h3 class="text-xl font-semibold text-primary mt-6 mb-3" data-i18n="seoSub1">Why Accuracy Matters</h3>
-                <p class="mb-4" data-i18n="seoP2">In fields like engineering or cooking, even a minor error can lead to significant consequences. Our Universal Converter is built upon rigorously tested algorithms.</p>
+        </article>
 
-                <h3 class="text-xl font-semibold text-primary mt-6 mb-3" data-i18n="seoSub2">Available Categories</h3>
-                <ul class="list-disc pl-5 space-y-2 mb-6">
-                    <li><strong data-i18n="catCooking">Cooking</strong>: <span data-i18n="seoList1">Converting volume, mass, and temperature for international recipes.</span></li>
-                    <li><strong data-i18n="catDigital">Digital Data</strong>: <span data-i18n="seoList2">Translating between bits, bytes, kilobytes, megabytes, and gigabytes.</span></li>
-                    <li><strong data-i18n="catTime">Time & Zone</strong>: <span data-i18n="seoList3">Managing global time zones and time difference.</span></li>
-                    <li><strong data-i18n="catEng">Engineering</strong>: <span data-i18n="seoList4">Handling conversions for length and distance.</span></li>
-                </ul>
-            </section>
-
+        <div class="cta-box">
+            <h3 class="text-2xl font-bold mb-3" data-i18n="ctaTitle">Need a Custom Digital Tool?</h3>
+            <p class="text-indigo-100 mb-6 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed" data-i18n="ctaDesc">
+                We specialize in building tailored calculators and digital solutions for your business needs. 
+                Whether it's for finance, health, or logistics, we can build it.
+            </p>
+            <a href="../contact-us.html" class="cta-button">
+                <span data-i18n="ctaBtn">Contact Our Team</span>
+            </a>
         </div>
+
     </main>
-    
-    <!-- Footer -->
-    <footer class="mt-12 py-8 border-t border-gray-200 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-600">
-                <a href="../privacy-policy.html" class="hover:text-secondary transition" data-i18n="linkPrivacy">Privacy Policy</a>
-                <span class="hidden sm:inline text-gray-300">|</span>
-                <a href="../terms-of-service.html" class="hover:text-secondary transition" data-i18n="linkTerms">Terms of Service</a>
-                <span class="hidden sm:inline text-gray-300">|</span>
-                <a href="../about-us.html" class="hover:text-secondary transition" data-i18n="linkAbout">About Us</a>
-                <span class="hidden sm:inline text-gray-300">|</span>
-                <a href="../contact-us.html" class="hover:text-secondary transition" data-i18n="linkContact">Contact Us</a>
-            </div>
-            
-            <div class="mt-6 text-center text-xs text-gray-500">
-                &copy; 2025 Digital Tools ID. All rights reserved. Developed by DTID Analytics.
-            </div>
+
+    <section id="related-tools-section" class="layout-article-fixed w-full max-w-2xl mx-auto px-4 py-8 mb-4 border-t border-gray-200">
+        <div class="flex items-center mb-5">
+            <div class="w-1 h-7 mr-3 bg-indigo-600"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Related Tools" data-id="Alat Terkait">Related Tools</h2>
         </div>
-    </footer>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <a href="../kalkulator-online/index.html" class="p-4 bg-white border border-indigo-200 rounded-xl shadow-sm hover:shadow-md transition-all hover:border-indigo-400 group block">
+                <span class="text-xs font-bold text-indigo-600 uppercase mb-1 block" data-en="Productivity" data-id="Produktivitas">Productivity</span>
+                <h4 class="font-bold text-gray-800 group-hover:text-indigo-700 transition" data-en="Online Business Calculator" data-id="Kalkulator Bisnis Online">Online Business Calculator</h4>
+                <p class="text-xs text-gray-500 mt-1" data-en="Features history tape & PDF receipt printing." data-id="Fitur pita riwayat & cetak struk PDF.">Features history tape & PDF receipt printing.</p>
+            </a>
+            <a href="../BMI/index.html" class="p-4 bg-white border border-blue-200 rounded-xl shadow-sm hover:shadow-md transition-all hover:border-blue-400 group block">
+                <span class="text-xs font-bold text-blue-600 uppercase mb-1 block" data-en="Health" data-id="Kesehatan">Health</span>
+                <h4 class="font-bold text-gray-800 group-hover:text-blue-700 transition" data-en="BMI & Calorie Analyzer" data-id="Analisis BMI & Kalori">BMI & Calorie Analyzer</h4>
+                <p class="text-xs text-gray-500 mt-1" data-en="Determine ideal weight & TDEE." data-id="Tentukan berat ideal & TDEE.">Determine ideal weight & TDEE.</p>
+            </a>
+            <a href="../body-fat-calculator/index.html" class="p-4 bg-white border border-blue-200 rounded-xl shadow-sm hover:shadow-md transition-all hover:border-blue-400 group block">
+                <span class="text-xs font-bold text-blue-600 uppercase mb-1 block" data-en="Health" data-id="Kesehatan">Health</span>
+                <h4 class="font-bold text-gray-800 group-hover:text-blue-700 transition" data-en="Body Fat Percentage" data-id="Persentase Lemak Tubuh">Body Fat Percentage</h4>
+                <p class="text-xs text-gray-500 mt-1" data-en="US Navy method analysis." data-id="Analisis metode Angkatan Laut AS.">US Navy method analysis.</p>
+            </a>
+            <a href="../kalkulator-kpr/index.html" class="p-4 bg-white border border-green-200 rounded-xl shadow-sm hover:shadow-md transition-all hover:border-green-400 group block">
+                <span class="text-xs font-bold text-green-600 uppercase mb-1 block" data-en="Finance" data-id="Keuangan">Finance</span>
+                <h4 class="font-bold text-gray-800 group-hover:text-green-700 transition" data-en="Mortgage Simulator (KPR)" data-id="Simulasi KPR">Mortgage Simulator (KPR)</h4>
+                <p class="text-xs text-gray-500 mt-1" data-en="Calculate mortgage payments." data-id="Hitung cicilan rumah.">Calculate mortgage payments.</p>
+            </a>
+        </div>
+
+        <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
+            <h4 class="text-sm font-bold text-gray-800 mb-2" data-en="Helpful Guides" data-id="Panduan Bermanfaat">Helpful Guides</h4>
+            <ul class="space-y-2 text-sm">
+                <li>
+                    <a href="../articles/panduan-label-nutrisi.html" class="flex items-center text-blue-600 hover:text-blue-800 hover:underline">
+                        <span class="mr-2">📄</span>
+                        <span data-en="How to Read Nutrition Facts Labels" data-id="Cara Membaca Label Nutrisi">How to Read Nutrition Facts Labels</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../articles/definisi_bmi_tdee.html" class="flex items-center text-blue-600 hover:text-blue-800 hover:underline">
+                        <span class="mr-2">📄</span>
+                        <span data-en="Understanding Daily Calorie Needs (TDEE)" data-id="Memahami Kebutuhan Kalori Harian (TDEE)">Understanding Daily Calorie Needs (TDEE)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    
+    <div id="global-footer-container"></div>
+
+    <script src="../components.js"></script>
 
     <script>
         // --- TRANSLATION DATA ---
         let currentLang = 'en';
         const translations = {
             en: {
-                backToCatalog: "Back to Tools Catalog",
                 mainTitle: "Universal Unit Converter",
-                categories: "Categories",
-                catCooking: "Cooking",
-                catDigital: "Digital Data",
-                catTime: "Time & Zone",
-                catEng: "Engineering",
+                mainSlogan: "Precise Unit Conversion for Cooking, Engineering, and Global Time Zones. Smarter than your standard calculator.", 
+                catCooking: "Cooking", catDigital: "Digital", catTime: "Time & Zone", catEng: "Engineering",
                 
-                // UI Labels
-                labelEnterValue: "Enter Value",
-                labelFromUnit: "From Unit",
-                labelToUnit: "To Unit",
-                labelResult: "Result",
-                labelTimeInput: "Enter Time",
+                labelEnterValue: "Value", labelFromUnit: "From Unit", labelToUnit: "To Unit", labelResult: "Result", labelTimeInput: "Enter Time",
+                tabCookingMass: "Volume/Mass", tabCookingTemp: "Temperature", labelIngredient: "Ingredient Type", 
                 
-                // Descriptions
-                descCooking: "Convert approximate volume and weight for common cooking tasks (based on water density).",
-                descDigital: "Convert storage sizes based on binary standards (1 KB = 1024 Bytes).",
-                descTime: "Convert current time between different global time zones.",
-                descEng: "Convert length and distance measurements (Metric & Imperial).",
-                
-                // Engineering Units
-                unit_m: "Meter (m)",
-                unit_km: "Kilometer (km)",
-                unit_cm: "Centimeter (cm)",
-                unit_mm: "Millimeter (mm)",
-                unit_mi: "Mile (mi)",
-                unit_yd: "Yard (yd)",
-                unit_ft: "Foot (ft)",
-                unit_in: "Inch (in)",
+                adviceWater: "Using water density (1 ml = 1g). For accurate results, select specific ingredients like Flour or Sugar.", 
+                adviceFlour: "Based on typical all-purpose flour density. Always double-check against your specific recipe.", 
+                adviceBakingTemp: "Baking Tip: Most cakes bake between 350°F (175°C) and 375°F (190°C).", 
 
-                // Sidebar
-                sidebarRequestTitle: "Need a Custom Converter?",
-                sidebarRequestDesc: "We prioritize developing tools based on user needs. Let us know what unit conversion you use most!",
-                sidebarContactBtn: "Contact Us",
-                sidebarFactTitle: "Did You Know?",
-                sidebarFactDesc: "In the culinary world, precise conversion is key. 1 cup of flour weighs significantly less than 1 cup of sugar/water.",
+                descCookingMass: "Convert volume and mass for common cooking tasks. Select ingredient for higher accuracy.", 
+                descCookingTemp: "Convert between Celsius, Fahrenheit, and Kelvin instantly.", 
+                descDigital: "Instant conversion between digital data units (Bit, Byte, MB, GB, TB).",
+                descTime: "Convert Today's Time across Global Time Zones.",
+                descEng: "Comprehensive Engineering Converter: Length, Area, Volume, and Pressure.", 
                 
-                // SEO
-                seoTitle: "The Essential Guide to Universal Unit Conversion",
-                seoP1: "Unit conversion is not just a mathematical exercise; it is a fundamental pillar that ensures accuracy, consistency, and safe communication across global industries.",
-                seoSub1: "Why Accuracy Matters",
-                seoP2: "In fields like engineering or cooking, even a minor error can lead to significant consequences. Our Universal Converter is built upon rigorously tested algorithms.",
-                seoSub2: "Available Categories",
-                seoList1: "Converting volume, mass, and temperature for international recipes.",
-                seoList2: "Translating between bits, bytes, kilobytes, megabytes, and gigabytes.",
-                seoList3: "Managing global time zones and time difference.",
-                seoList4: "Handling conversions for length and distance."
+                // Units Engineering
+                unit_m: "Meter (m)", unit_km: "Kilometer (km)", unit_cm: "Centimeter (cm)", unit_mm: "Millimeter (mm)",
+                unit_mi: "Mile (mi)", unit_yd: "Yard (yd)", unit_ft: "Foot (ft)", unit_in: "Inch (in)",
+                unit_sqm: "Square Meter (m²)", unit_sqft: "Square Foot (ft²)", unit_hectare: "Hectare", unit_acre: "Acre", 
+                unit_m3: "Cubic Meter (m³)", unit_liter: "Liter (L)", unit_gallon: "Gallon (gal)", 
+                unit_pa: "Pascal (Pa)", unit_bar: "Bar", unit_psi: "PSI", 
+                unit_c: "Celsius (°C)", unit_f: "Fahrenheit (°F)", unit_k: "Kelvin (K)", 
+                
+                // Education
+                eduTitle: "Understanding Conversion Logic",
+                eduContent: `
+                    <h3>1. The Physics of Cooking: Volume vs. Weight</h3>
+                    <p>In the culinary arts, especially baking, "a cup" is not a standard unit of weight. A cup of lead weighs far more than a cup of feathers. Similarly, <strong>1 cup of packed brown sugar (approx. 220g)</strong> is much heavier than <strong>1 cup of sifted flour (approx. 120g)</strong>. Our calculator uses <em>Specific Gravity</em> data to bridge this gap, allowing you to convert milliliters (volume) to grams (weight) accurately based on the ingredient selected.</p>
+                    
+                    <h3>2. Digital Storage: Binary vs. Decimal</h3>
+                    <p>Why does your 1TB hard drive only show 931GB on your computer? This tool helps you understand the difference between decimal marketing units (1 TB = 1,000,000,000,000 bytes) and binary computing units (1 TiB = 2<sup>40</sup> bytes). We use the standard binary conversion (1024 base) commonly used by operating systems.</p>
+
+                    <h3>3. Engineering Precision</h3>
+                    <p>For engineering tasks, we offer conversions for Pressure (Pascal, Bar, PSI) and vast area measurements. This is critical for civil engineering estimations where converting between Hectares and Acres defines project scopes.</p>
+                `,
+
+                // CTA Section
+                ctaTitle: "Need a Custom Digital Tool?",
+                ctaDesc: "We specialize in building tailored calculators and digital solutions for your business needs. Whether it's for finance, health, or logistics, we can build it.",
+                ctaBtn: "Contact Our Team"
             },
             id: {
-                backToCatalog: "Kembali ke Katalog Alat",
                 mainTitle: "Konverter Unit Universal",
-                categories: "Kategori",
-                catCooking: "Masak (Dapur)",
-                catDigital: "Data Digital",
-                catTime: "Waktu & Zona",
-                catEng: "Teknik (Engineering)",
+                mainSlogan: "Konversi Unit Akurat untuk Dapur, Teknik, dan Waktu Global. Lebih cerdas dari kalkulator standar.", 
+                catCooking: "Masak", catDigital: "Digital", catTime: "Waktu", catEng: "Teknik",
                 
-                // UI Labels
-                labelEnterValue: "Masukkan Nilai",
-                labelFromUnit: "Dari Satuan",
-                labelToUnit: "Ke Satuan",
-                labelResult: "Hasil",
-                labelTimeInput: "Masukkan Waktu",
+                labelEnterValue: "Nilai", labelFromUnit: "Dari Satuan", labelToUnit: "Ke Satuan", labelResult: "Hasil", labelTimeInput: "Waktu",
+                tabCookingMass: "Volume/Massa", tabCookingTemp: "Suhu", labelIngredient: "Jenis Bahan Baku", 
                 
-                // Descriptions
-                descCooking: "Konversi volume dan berat untuk memasak (berdasarkan kepadatan air).",
-                descDigital: "Konversi ukuran penyimpanan data standar biner (1 KB = 1024 Byte).",
-                descTime: "Konversi waktu saat ini antar zona waktu global yang berbeda.",
-                descEng: "Konversi pengukuran panjang dan jarak (Metrik & Imperial).",
-                
-                // Engineering Units
-                unit_m: "Meter (m)",
-                unit_km: "Kilometer (km)",
-                unit_cm: "Sentimeter (cm)",
-                unit_mm: "Milimeter (mm)",
-                unit_mi: "Mil (mi)",
-                unit_yd: "Yard (yd)",
-                unit_ft: "Kaki (ft)",
-                unit_in: "Inci (in)",
+                adviceWater: "Menggunakan kepadatan air (1 ml = 1g). Untuk hasil akurat, pilih bahan baku spesifik seperti Tepung.", 
+                adviceFlour: "Berdasarkan kepadatan tepung terigu umum. Selalu cek resep spesifik Anda.", 
+                adviceBakingTemp: "Tips Memanggang: Kebanyakan kue dipanggang antara 175°C (350°F) dan 190°C (375°F).", 
 
-                // Sidebar
-                sidebarRequestTitle: "Butuh Konverter Khusus?",
-                sidebarRequestDesc: "Kami memprioritaskan pengembangan alat berdasarkan kebutuhan pengguna. Beri tahu kami konversi apa yang Anda butuhkan!",
-                sidebarContactBtn: "Hubungi Kami",
-                sidebarFactTitle: "Tahukah Anda?",
-                sidebarFactDesc: "Dalam dunia kuliner, konversi yang tepat adalah kunci. 1 cangkir tepung jauh lebih ringan daripada 1 cangkir gula/air.",
+                descCookingMass: "Konversi volume dan massa untuk tugas memasak umum. Pilih bahan baku agar lebih akurat.", 
+                descCookingTemp: "Konversi instan antara Celsius, Fahrenheit, dan Kelvin.", 
+                descDigital: "Konversi instan antar unit data digital (Bit, Byte, MB, GB, TB).",
+                descTime: "Konversi Waktu Hari Ini antar Zona Waktu Global.",
+                descEng: "Konverter Teknik Komprehensif: Panjang, Luas, Volume, dan Tekanan.", 
                 
-                // SEO
-                seoTitle: "Panduan Penting Konversi Unit Universal",
-                seoP1: "Konversi unit bukan sekadar matematika; ini adalah pilar dasar yang memastikan akurasi dan konsistensi di berbagai industri global.",
-                seoSub1: "Mengapa Akurasi Penting",
-                seoP2: "Di bidang teknik atau memasak, kesalahan kecil bisa berakibat fatal. Konverter Universal kami dibangun dengan algoritma teruji.",
-                seoSub2: "Kategori Tersedia",
-                seoList1: "Konversi volume, massa, dan suhu untuk resep internasional.",
-                seoList2: "Menerjemahkan antara bit, byte, kilobyte, megabyte, dan gigabyte.",
-                seoList3: "Mengelola zona waktu global dan perbedaan waktu.",
-                seoList4: "Menangani konversi panjang dan jarak."
+                // Units Engineering
+                unit_m: "Meter (m)", unit_km: "Kilometer (km)", unit_cm: "Sentimeter (cm)", unit_mm: "Milimeter (mm)",
+                unit_mi: "Mil (mi)", unit_yd: "Yard (yd)", unit_ft: "Kaki (ft)", unit_in: "Inci (in)",
+                unit_sqm: "Meter Persegi (m²)", unit_sqft: "Kaki Persegi (ft²)", unit_hectare: "Hektar", unit_acre: "Acre", 
+                unit_m3: "Meter Kubik (m³)", unit_liter: "Liter (L)", unit_gallon: "Galon (gal)", 
+                unit_pa: "Pascal (Pa)", unit_bar: "Bar", unit_psi: "PSI", 
+                unit_c: "Celsius (°C)", unit_f: "Fahrenheit (°F)", unit_k: "Kelvin (K)", 
+                
+                // Education
+                eduTitle: "Memahami Logika Konversi",
+                eduContent: `
+                    <h3>1. Fisika Memasak: Volume vs Berat</h3>
+                    <p>Dalam seni kuliner, "satu cangkir" bukanlah satuan berat yang baku. <strong>1 cangkir gula merah padat (sekitar 220g)</strong> jauh lebih berat daripada <strong>1 cangkir tepung yang diayak (sekitar 120g)</strong>. Kalkulator kami menggunakan data <em>Berat Jenis</em> untuk menjembatani hal ini, memungkinkan Anda mengonversi mililiter (volume) ke gram (berat) secara akurat berdasarkan bahan yang dipilih.</p>
+                    
+                    <h3>2. Penyimpanan Digital: Biner vs Desimal</h3>
+                    <p>Mengapa hard drive 1TB Anda hanya terbaca 931GB di komputer? Alat ini membantu Anda memahami perbedaan antara satuan pemasaran desimal (1 TB = 1 triliun byte) dan satuan komputasi biner (1 TiB = 2<sup>40</sup> byte). Kami menggunakan standar konversi biner (basis 1024) yang umum digunakan oleh sistem operasi.</p>
+
+                    <h3>3. Presisi Teknik</h3>
+                    <p>Untuk tugas teknik, kami menawarkan konversi Tekanan (Pascal, Bar, PSI) dan pengukuran luas lahan. Ini sangat penting untuk estimasi teknik sipil di mana konversi antara Hektar dan Acre menentukan cakupan proyek.</p>
+                `,
+
+                // CTA Section
+                ctaTitle: "Butuh Alat Digital Khusus?",
+                ctaDesc: "Kami mengkhususkan diri dalam membuat kalkulator dan solusi digital yang disesuaikan untuk kebutuhan bisnis Anda. Baik untuk keuangan, kesehatan, atau logistik.",
+                ctaBtn: "Hubungi Tim Kami"
             }
         };
 
-        // --- DATA KONVERSI & FAKTOR ---
+        // --- DATA LOGIC KONVERSI ---
+        const INGREDIENT_DENSITY = { 'water': 1.0, 'flour': 0.47, 'sugar': 0.85, 'butter': 0.96 };
+        const tempConversion = {
+            'c_to_f': (c) => (c * 9/5) + 32, 'f_to_c': (f) => (f - 32) * 5/9,
+            'c_to_k': (c) => c + 273.15, 'k_to_c': (k) => k - 273.15,
+            'f_to_k': (f) => tempConversion.c_to_k(tempConversion.f_to_c(f)),
+            'k_to_f': (k) => tempConversion.c_to_f(tempConversion.k_to_c(k))
+        };
         const conversionFactors = {
-            'cooking': {
-                units: ['gram', 'ml', 'cup', 'oz', 'pound', 'tbsp', 'tsp'],
-                base: 'ml', 
-                rates: {
-                    'ml': 1, 'gram': 1, 
-                    'cup': 240, 'oz': 29.57, 'pound': 453.59, 
-                    'tbsp': 15, 'tsp': 5
-                }
-            },
-            'digital-data': {
-                units: ['bit', 'byte', 'kb', 'mb', 'gb', 'tb'],
-                base: 'bit',
-                rates: {
-                    'bit': 1, 
-                    'byte': 8, 
-                    'kb': 8192, 
-                    'mb': 8388608, 
-                    'gb': 8589934592,
-                    'tb': 8796093022208
-                }
-            },
-            'engineering': {
-                units: ['m', 'km', 'cm', 'mm', 'mi', 'yd', 'ft', 'in'],
-                base: 'm',
-                rates: {
-                    'm': 1, 'km': 1000, 'cm': 0.01, 'mm': 0.001,
-                    'mi': 1609.34, 'yd': 0.9144, 'ft': 0.3048, 'in': 0.0254
-                }
-            }
+            'cooking_mass': { units: ['gram', 'ml', 'cup', 'oz', 'pound', 'tbsp', 'tsp'], base: 'ml', rates: { 'ml': 1, 'gram': 1, 'cup': 240, 'oz': 29.57, 'pound': 453.59, 'tbsp': 15, 'tsp': 5 } },
+            'cooking_temp': { units: ['c', 'f', 'k'] },
+            'digital-data': { units: ['bit', 'byte', 'kb', 'mb', 'gb', 'tb'], base: 'bit', rates: { 'bit': 1, 'byte': 8, 'kb': 8192, 'mb': 8388608, 'gb': 8589934592, 'tb': 8796093022208 } },
+            'engineering_length': { units: ['m', 'km', 'cm', 'mm', 'mi', 'yd', 'ft', 'in'], base: 'm', rates: { 'm': 1, 'km': 1000, 'cm': 0.01, 'mm': 0.001, 'mi': 1609.34, 'yd': 0.9144, 'ft': 0.3048, 'in': 0.0254 } },
+            'engineering_area': { units: ['sqm', 'sqft', 'hectare', 'acre'], base: 'sqm', rates: { 'sqm': 1, 'sqft': 0.092903, 'hectare': 10000, 'acre': 4046.86 } },
+            'engineering_volume': { units: ['m3', 'liter', 'gallon'], base: 'm3', rates: { 'm3': 1, 'liter': 0.001, 'gallon': 0.00378541 } },
+            'engineering_pressure': { units: ['pa', 'bar', 'psi'], base: 'pa', rates: { 'pa': 1, 'bar': 100000, 'psi': 6894.76 } }
         };
-
-        // Timezone Data
         const timeZones = [
-            { val: 'UTC', label: 'UTC (Universal Time)' },
-            { val: 'Asia/Jakarta', label: 'WIB (Jakarta)' },
-            { val: 'Asia/Makassar', label: 'WITA (Makassar)' },
-            { val: 'Asia/Jayapura', label: 'WIT (Jayapura)' },
-            { val: 'America/New_York', label: 'EST (New York)' },
-            { val: 'Europe/London', label: 'GMT (London)' },
-            { val: 'Europe/Paris', label: 'CET (Paris)' },
-            { val: 'Asia/Tokyo', label: 'JST (Tokyo)' },
+            { val: 'UTC', label: 'UTC' }, { val: 'Asia/Jakarta', label: 'WIB (Jakarta)' },
+            { val: 'Asia/Makassar', label: 'WITA (Makassar)' }, { val: 'Asia/Jayapura', label: 'WIT (Jayapura)' },
+            { val: 'America/New_York', label: 'EST (New York)' }, { val: 'Europe/London', label: 'GMT (London)' },
+            { val: 'Europe/Paris', label: 'CET (Paris)' }, { val: 'Asia/Tokyo', label: 'JST (Tokyo)' },
             { val: 'Australia/Sydney', label: 'AEDT (Sydney)' }
         ];
 
-        // --- FUNGSI RENDER UI ---
+        function getLabel(key) { return translations[currentLang][key] || key; }
 
-        function getLabel(key) {
-            return translations[currentLang][key] || key;
+        function displayCookingAdvice(ingredient, category) {
+            const elSuggestion = document.getElementById('suggestionArea');
+            let advice = '';
+            if (category === 'cooking_temp') advice = getLabel('adviceBakingTemp');
+            else if (category === 'cooking_mass') {
+                if (ingredient === 'water') advice = getLabel('adviceWater');
+                else if (ingredient === 'flour') advice = getLabel('adviceFlour');
+            }
+            if (advice) { elSuggestion.textContent = advice; elSuggestion.classList.remove('hidden'); }
+            else elSuggestion.classList.add('hidden');
         }
 
-        function createStandardUI(category, titleKey, descKey) {
+        // --- RENDER UI (GRID LAYOUT) ---
+        function createStandardUI(category, titleKey, descKey, subCategory = null) {
             const data = conversionFactors[category];
-            // Generate Options dengan Label Terjemahan (khusus Engineering)
+            let ingredientSelector = '';
+
+            if (category === 'cooking_mass') {
+                const ingredients = Object.keys(INGREDIENT_DENSITY).map(key => ({ val: key, label: key.charAt(0).toUpperCase() + key.slice(1) }));
+                const opts = ingredients.map(i => `<option value="${i.val}">${i.label}</option>`).join('');
+                ingredientSelector = `
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelIngredient">${getLabel('labelIngredient')}</label>
+                        <select id="ingredientType" class="w-full bg-white rounded-lg border-2 border-gray-300 focus:border-indigo-500">${opts}</select>
+                    </div>
+                `;
+            }
+
             const unitOptions = data.units.map(u => {
                 let label = u.toUpperCase();
-                if (category === 'engineering') {
-                    label = getLabel(`unit_${u}`);
-                }
+                if (category.startsWith('engineering') || category === 'cooking_temp') label = getLabel(`unit_${u}`);
                 return `<option value="${u}">${label}</option>`;
             }).join('');
-            
+
             return `
-                <h2 class="category-title" data-i18n="${titleKey}">${getLabel(titleKey)}</h2>
-                <p class="mb-6 text-gray-600" data-i18n="${descKey}">${getLabel(descKey)}</p>
-                <div class="space-y-6">
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelEnterValue">${getLabel('labelEnterValue')}</label>
-                            <input type="number" id="inputVal" value="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-lg">
+                <h2 class="text-xl font-bold text-indigo-950 mb-2" data-i18n="${titleKey}">${getLabel(titleKey)}</h2>
+                ${subCategory ? `<div class="flex flex-wrap gap-2 mb-6" id="sub-nav-wrapper">${subCategory}</div>` : ''}
+
+                <p class="mb-6 text-gray-500 text-sm" data-i18n="${descKey}">${getLabel(descKey)}</p>
+
+                ${ingredientSelector}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelFromUnit">${getLabel('labelFromUnit')}</label>
+                            <select id="unitFrom" class="w-full bg-white rounded-lg">${unitOptions}</select>
                         </div>
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelFromUnit">${getLabel('labelFromUnit')}</label>
-                            <select id="unitFrom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-lg bg-white">
-                                ${unitOptions}
-                            </select>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelEnterValue">${getLabel('labelEnterValue')}</label>
+                            <input type="number" id="inputVal" value="1" class="w-full rounded-lg font-mono text-lg">
                         </div>
-                    </div>
-                    
-                    <div class="flex justify-center text-gray-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelResult">${getLabel('labelResult')}</label>
-                            <div class="result-display">
-                                <span id="resultVal">0</span>
-                            </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelToUnit">${getLabel('labelToUnit')}</label>
+                            <select id="unitTo" class="w-full bg-white rounded-lg">${unitOptions}</select>
                         </div>
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelToUnit">${getLabel('labelToUnit')}</label>
-                            <select id="unitTo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-lg bg-white">
-                                ${unitOptions}
-                            </select>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelResult">${getLabel('labelResult')}</label>
+                            <div class="result-display">
+                                <span id="resultVal" class="font-mono">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
+                <div class="mt-4 p-3 rounded-lg text-sm hidden font-medium" id="suggestionArea"></div>
             `;
+        }
+
+        function createCookingUI() {
+            const tempTab = `<button class="tab-button" data-type="temp" data-i18n="tabCookingTemp">${getLabel('tabCookingTemp')}</button>`;
+            const massTab = `<button class="tab-button active" data-type="mass" data-i18n="tabCookingMass">${getLabel('tabCookingMass')}</button>`;
+            return createStandardUI('cooking_mass', 'catCooking', 'descCookingMass', `${massTab}${tempTab}`);
+        }
+
+        function createEngineeringUI() {
+            const tabs = [
+                {t:'length', l:'unit_m'}, {t:'area', l:'unit_sqm'}, 
+                {t:'volume', l:'unit_m3'}, {t:'pressure', l:'unit_pa'}
+            ].map(x => `<button class="tab-button ${x.t==='length'?'active':''}" data-type="${x.t}" data-i18n="${x.l}">${getLabel(x.l)}</button>`).join('');
+            return createStandardUI('engineering_length', 'catEng', 'descEng', tabs);
         }
 
         function createTimeZoneUI() {
-            const options = timeZones.map(z => `<option value="${z.val}">${z.label}</option>`).join('');
-            
+            const opts = timeZones.map(z => `<option value="${z.val}">${z.label}</option>`).join('');
             return `
-                <h2 class="category-title" data-i18n="catTime">${getLabel('catTime')}</h2>
-                <p class="mb-6 text-gray-600" data-i18n="descTime">${getLabel('descTime')}</p>
-                <div class="space-y-6">
-                    <!-- Waktu Input -->
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelTimeInput">${getLabel('labelTimeInput')}</label>
-                            <input type="time" id="timeInput" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary text-lg">
+                <h2 class="text-xl font-bold text-indigo-950 mb-2" data-i18n="catTime">${getLabel('catTime')}</h2>
+                <p class="mb-6 text-gray-500 text-sm" data-i18n="descTime">${getLabel('descTime')}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelFromUnit">${getLabel('labelFromUnit')}</label>
+                            <select id="zoneFrom" class="w-full bg-white rounded-lg border-2 border-red-500">${opts}</select>
                         </div>
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelFromUnit">${getLabel('labelFromUnit')}</label>
-                            <select id="zoneFrom" class="w-full p-3 border border-gray-300 rounded-lg bg-white text-lg">${options}</select>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelTimeInput">${getLabel('labelTimeInput')}</label>
+                            <input type="time" id="timeInput" class="w-full rounded-lg border-2 border-red-500 p-2">
                         </div>
                     </div>
-
-                    <div class="flex justify-center text-gray-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    </div>
-
-                    <!-- Hasil -->
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelResult">${getLabel('labelResult')}</label>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelToUnit">${getLabel('labelToUnit')}</label>
+                            <select id="zoneTo" class="w-full bg-white rounded-lg border-2 border-red-500">${opts}</select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="labelResult">${getLabel('labelResult')}</label>
                             <div class="result-display bg-gray-50">
-                                <span id="timeResult">--:--</span>
+                                <span id="timeResult" class="font-mono">--:--</span>
                             </div>
-                        </div>
-                        <div class="w-full sm:w-1/2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="labelToUnit">${getLabel('labelToUnit')}</label>
-                            <select id="zoneTo" class="w-full p-3 border border-gray-300 rounded-lg bg-white text-lg">${options}</select>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // --- LOGIKA KONVERSI STANDAR (Unit ke Unit) ---
+        // --- HELPER FORMATTING (NEW) ---
+        function formatResult(value) {
+            if (value === 0) return '0';
+            
+            // Gunakan scientific notation HANYA jika angka sangat ekstrim (sangat kecil atau sangat besar > 1 Triliun)
+            if (Math.abs(value) < 1e-7 || Math.abs(value) >= 1e12) {
+                return value.toExponential(4);
+            }
+        
+            // Format standar dengan pemisah ribuan sesuai bahasa (ID/EN)
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            return value.toLocaleString(locale, {
+                maximumFractionDigits: 6, // Batasi desimal agar rapi
+                minimumFractionDigits: 0
+            });
+        }
+
+        // --- CORE LOGIC ---
         function calculateStandard(category) {
             const val = parseFloat(document.getElementById('inputVal').value);
             const from = document.getElementById('unitFrom').value;
             const to = document.getElementById('unitTo').value;
             const elResult = document.getElementById('resultVal');
-
-            if (isNaN(val)) { elResult.textContent = "-"; return; }
-
-            const rates = conversionFactors[category].rates;
             
             let result;
-            // Konversi via Base Unit (m, ml, etc)
-            const valInBase = val * rates[from];
-            result = valInBase / rates[to];
-            
-            if (result > 10000 || (result < 0.001 && result !== 0)) {
-                elResult.textContent = result.toExponential(4);
-            } else {
-                elResult.textContent = parseFloat(result.toFixed(6));
-            }
-        }
+            if (isNaN(val)) { elResult.textContent = "-"; document.getElementById('suggestionArea').classList.add('hidden'); return; }
 
-        // --- LOGIKA KONVERSI WAKTU ---
+            if (category === 'cooking_temp') {
+                const k = `${from}_to_${to}`;
+                if (from === to) result = val;
+                else if (tempConversion[k]) result = tempConversion[k](val);
+                else {
+                    let c = tempConversion[`${from}_to_c`](val);
+                    result = tempConversion[`c_to_${to}`](c);
+                }
+                displayCookingAdvice(null, category); 
+            } else {
+                const rates = conversionFactors[category].rates;
+                let valInBase = val * rates[from];
+                result = valInBase / rates[to];
+
+                if (category === 'cooking_mass') {
+                    const densityKey = document.getElementById('ingredientType').value;
+                    const isVol = ['ml', 'cup', 'tbsp', 'tsp'];
+                    const isMass = ['gram', 'pound', 'oz'];
+                    const fromVol = isVol.includes(from), toMass = isMass.includes(to);
+                    const fromMass = isMass.includes(from), toVol = isVol.includes(to);
+
+                    if ((fromVol && toMass) || (fromMass && toVol)) {
+                        const d = INGREDIENT_DENSITY[densityKey];
+                        if (fromVol && toMass) result = valInBase * d / rates[to];
+                        else if (fromMass && toVol) result = valInBase / d / rates[to];
+                    }
+                    displayCookingAdvice(densityKey, category); 
+                } else document.getElementById('suggestionArea').classList.add('hidden'); 
+            }
+            
+            // Terapkan fungsi format baru
+            elResult.textContent = formatResult(result);
+        }
+        
         function calculateTime() {
-            const timeStr = document.getElementById('timeInput').value; // HH:MM
+            const timeStr = document.getElementById('timeInput').value;
             const zoneFrom = document.getElementById('zoneFrom').value;
             const zoneTo = document.getElementById('zoneTo').value;
             const elResult = document.getElementById('timeResult');
 
             if (!timeStr) { elResult.textContent = "--:--"; return; }
-
             try {
-                const [hours, minutes] = timeStr.split(':');
-                
-                // Workaround sederhana untuk konversi waktu statis tanpa library Moment.js
-                // 1. Buat Date object 'Sekarang' di Browser
+                const [h, m] = timeStr.split(':');
                 const now = new Date();
+                const dFrom = new Date(now.toLocaleString('en-US', { timeZone: zoneFrom }));
+                const dTo = new Date(now.toLocaleString('en-US', { timeZone: zoneTo }));
+                const diff = dTo - dFrom;
                 
-                // 2. Dapatkan Offset String Zona Asal & Tujuan (via toLocaleString)
-                // Trik: Bandingkan waktu "Sekarang" di kedua zona untuk dapat selisih jam
-                const strFrom = new Date().toLocaleString('en-US', { timeZone: zoneFrom });
-                const strTo = new Date().toLocaleString('en-US', { timeZone: zoneTo });
+                const iDate = new Date(); iDate.setHours(h, m, 0, 0);
+                const rDate = new Date(iDate.getTime() + diff);
                 
-                const dateFrom = new Date(strFrom);
-                const dateTo = new Date(strTo);
-                
-                // Selisih waktu (ms) antara kedua zona
-                const diffMs = dateTo - dateFrom; 
-                
-                // 3. Terapkan selisih ke Input User
-                // Anggap input user adalah waktu di "Zona Asal" pada hari ini
-                const inputDate = new Date();
-                inputDate.setHours(hours, minutes, 0, 0);
-                
-                // Tambahkan selisih
-                const resultDate = new Date(inputDate.getTime() + diffMs);
-                
-                let resultHours = resultDate.getHours();
-                const resultMinutes = resultDate.getMinutes().toString().padStart(2, '0');
-                const ampm = resultHours >= 12 ? 'PM' : 'AM';
-                resultHours = resultHours % 12;
-                resultHours = resultHours ? resultHours : 12; // the hour '0' should be '12'
-                const strHours = resultHours.toString().padStart(2, '0');
-                
-                elResult.textContent = `${strHours}:${resultMinutes} ${ampm}`;
-                
-            } catch (e) {
-                elResult.textContent = "Error";
-            }
+                let rH = rDate.getHours(), rM = rDate.getMinutes().toString().padStart(2, '0');
+                const ampm = rH >= 12 ? 'PM' : 'AM';
+                rH = rH % 12; rH = rH ? rH : 12;
+                elResult.textContent = `${rH.toString().padStart(2, '0')}:${rM} ${ampm}`;
+            } catch (e) { elResult.textContent = "Error"; }
         }
 
-        // --- PENGELOLAAN UI & EVENT ---
-        
+        // --- LOAD & EVENTS ---
         function loadConverterUI(category) {
             const dynamicArea = document.getElementById('converter-ui-dynamic-area');
-            let uiHtml = '';
-            let attachEvents = null;
+            let uiHtml = '', attachEvents = null;
+
+            const attachStd = (cat) => {
+                ['inputVal','unitFrom','unitTo'].forEach(id => document.getElementById(id).addEventListener(id==='inputVal'?'input':'change', () => calculateStandard(cat)));
+                if (cat === 'cooking_mass') document.getElementById('ingredientType').addEventListener('change', () => calculateStandard(cat));
+                calculateStandard(cat);
+            };
+            
+            const reattachTabs = (cat) => {
+                 document.querySelectorAll('#sub-nav-wrapper .tab-button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const type = e.currentTarget.dataset.type;
+                        
+                        e.currentTarget.parentNode.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                        e.currentTarget.classList.add('active');
+
+                        let newCat = (cat === 'engineering') ? 'engineering_' + type : 'cooking_' + type;
+                        
+                        dynamicArea.innerHTML = createStandardUI(newCat, translations[currentLang].mainTitle, translations[currentLang].mainSlogan, e.currentTarget.parentNode.outerHTML);
+                        
+                        reattachTabs(cat);
+                        attachStd(newCat);
+                    });
+                });
+            };
 
             if (category === 'cooking') {
-                uiHtml = createStandardUI('cooking', 'catCooking', 'descCooking');
-                attachEvents = () => {
-                    document.getElementById('inputVal').addEventListener('input', () => calculateStandard('cooking'));
-                    document.getElementById('unitFrom').addEventListener('change', () => calculateStandard('cooking'));
-                    document.getElementById('unitTo').addEventListener('change', () => calculateStandard('cooking'));
-                    calculateStandard('cooking');
-                };
+                uiHtml = createCookingUI();
+                attachEvents = () => { attachStd('cooking_mass'); reattachTabs('cooking'); };
+            } else if (category === 'engineering') {
+                uiHtml = createEngineeringUI();
+                attachEvents = () => { attachStd('engineering_length'); reattachTabs('engineering'); };
             } else if (category === 'digital-data') {
                 uiHtml = createStandardUI('digital-data', 'catDigital', 'descDigital');
-                attachEvents = () => {
-                    document.getElementById('inputVal').addEventListener('input', () => calculateStandard('digital-data'));
-                    document.getElementById('unitFrom').addEventListener('change', () => calculateStandard('digital-data'));
-                    document.getElementById('unitTo').addEventListener('change', () => calculateStandard('digital-data'));
-                    calculateStandard('digital-data');
-                };
-            } else if (category === 'engineering') {
-                uiHtml = createStandardUI('engineering', 'catEng', 'descEng');
-                attachEvents = () => {
-                    document.getElementById('inputVal').addEventListener('input', () => calculateStandard('engineering'));
-                    document.getElementById('unitFrom').addEventListener('change', () => calculateStandard('engineering'));
-                    document.getElementById('unitTo').addEventListener('change', () => calculateStandard('engineering'));
-                    calculateStandard('engineering');
-                };
+                attachEvents = () => attachStd('digital-data');
             } else if (category === 'time-zone') {
                 uiHtml = createTimeZoneUI();
                 attachEvents = () => {
                     const now = new Date();
-                    const timeString = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-                    document.getElementById('timeInput').value = timeString;
-                    
-                    document.getElementById('timeInput').addEventListener('input', calculateTime);
-                    document.getElementById('zoneFrom').addEventListener('change', calculateTime);
-                    document.getElementById('zoneTo').addEventListener('change', calculateTime);
+                    document.getElementById('timeInput').value = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+                    ['timeInput','zoneFrom','zoneTo'].forEach(id => document.getElementById(id).addEventListener(id==='timeInput'?'input':'change', calculateTime));
                     calculateTime();
                 };
             }
-
             dynamicArea.innerHTML = uiHtml;
             if (attachEvents) attachEvents();
         }
         
-        function handleCategoryClick(event) {
-            const clickedItem = event.currentTarget;
-            const category = clickedItem.dataset.category;
-            
-            document.querySelectorAll('#category-nav .nav-item').forEach(item => {
-                item.classList.remove('active');
+        function updateRelatedContent(lang) {
+            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
+            translatableElements.forEach(el => {
+                const newText = el.getAttribute(`data-${lang}`);
+                if (newText) el.textContent = newText;
             });
-            clickedItem.classList.add('active');
-            
-            loadConverterUI(category);
         }
 
         function setLanguage(lang) {
             currentLang = lang;
-            
-            // Toggle Button Style
-            document.getElementById('btn-id').className = lang === 'id' ? 'lang-btn active' : 'lang-btn';
-            document.getElementById('btn-en').className = lang === 'en' ? 'lang-btn active' : 'lang-btn';
-
-            // Update Text Elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
+                if (translations[lang][key]) el.textContent = translations[lang][key];
             });
+            document.getElementById('education-content').innerHTML = translations[lang]['eduContent'];
 
-            // Reload UI saat ini untuk refresh label input (seperti di Engineering/Currency)
-            const activeCat = document.querySelector('#category-nav .nav-item.active').dataset.category;
-            loadConverterUI(activeCat);
+            loadConverterUI(document.querySelector('#category-nav .nav-item.active').dataset.category);
+            updateRelatedContent(lang);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const navItems = document.querySelectorAll('#category-nav .nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', handleCategoryClick);
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                    setLanguage(document.documentElement.lang || 'en');
+                }
             });
-            
-            // Default: Cooking
-            loadConverterUI('cooking');
         });
+        observer.observe(document.documentElement, { attributes: true });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('#category-nav .nav-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    document.querySelectorAll('#category-nav .nav-item').forEach(i => i.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    loadConverterUI(e.currentTarget.dataset.category);
+                });
+            });
+            setLanguage(document.documentElement.lang || 'en');
+        });
     </script>
-
 </body>
 </html>

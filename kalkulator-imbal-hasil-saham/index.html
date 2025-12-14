@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../output.css">
+    
+    <meta name="description" content="Stock Return Calculator: Calculate your Net Profit, ROI, and Break-Even Point accurately. Accounts for broker commissions, tax, and dividends." />
+    
+    <meta name="keywords" content="Stock Return Calculator, Stock Profit Calculator, ROI Calculator, Break Even Point Stock, Investment Return Tool, Kalkulator Saham, Hitung Keuntungan Saham, Net Profit Saham, Biaya Broker Saham, Dividen Yield Calculator" />
+
+    <title id="appTitle">Stock Return & Profit Calculator - Digital Tools ID</title>
 
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-imbal-hasil-saham/" />
-    <meta name="description" content="Kalkulator Imbal Hasil Saham (Stock Return Calculator). Hitung keuntungan bersih (net profit), ROI, dan titik impas investasi saham Anda setelah potongan komisi broker dan pajak.">
- 
-    <title id="appTitle">Stock Return Calculator - Net Profit & ROI Analysis</title>
+    <link rel="icon" href="data:,"> <link rel="alternate" hreflang="id" href="https://digitaltoolsid.github.io/kalkulator-imbal-hasil-saham/index.html" />
+    <link rel="alternate" hreflang="en" href="https://digitaltoolsid.github.io/kalkulator-imbal-hasil-saham/index.html" />
+
+    <meta name="theme-color" content="#16a34a"> <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../output.css">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -21,7 +27,14 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
-        /* CSS LOKAL (Spesifik Alat Ini) */
+        /* CSS LOKAL */
+        
+        /* Layout Hard Lock 50% Desktop */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
+        }
+
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -49,18 +62,30 @@
             color: #6b7280;
             margin-top: 0.25rem;
         }
+        
+        /* Hover effects for tool cards */
+        .tool-card:hover {
+            border-color: #16a34a; /* Green-600 */
+            transform: translateY(-2px);
+        }
+        
+        /* Dynamic Text Highlight */
+        .dynamic-text:hover {
+            color: #15803d; /* Green-700 */
+        }
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'finance'; </script>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-8 border border-gray-100">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-green-700 mb-3">Stock Return Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+            <p id="toolSubtitle" class="text-sm text-gray-600 mb-6 leading-relaxed text-justify">
                Calculate your true Net Profit, ROI, and Break-Even Point by accounting for broker commissions and taxes.
             </p>
             
@@ -71,26 +96,26 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         
                         <div class="relative">
-                            <label for="buyPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelBuyPrice">Buy Price (per Share)</label>
-                            <input type="text" id="buyPrice" inputmode="numeric" placeholder="e.g. 5,000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
+                            <label for="buyPrice" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelBuyPrice">Buy Price (per Share)</label>
+                            <input type="text" id="buyPrice" inputmode="numeric" placeholder="e.g. 5,000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                             <p class="input-description" id="descBuyPrice">The price at which you bought the stock.</p>
                         </div>
                         
                         <div class="relative">
-                            <label for="sellPrice" class="block text-sm font-medium text-gray-700 mb-1" id="labelSellPrice">Sell Price (per Share)</label>
-                            <input type="text" id="sellPrice" inputmode="numeric" placeholder="e.g. 5,500" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
+                            <label for="sellPrice" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelSellPrice">Sell Price (per Share)</label>
+                            <input type="text" id="sellPrice" inputmode="numeric" placeholder="e.g. 5,500" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                             <p class="input-description" id="descSellPrice">The price at which you sold (or plan to sell).</p>
                         </div>
 
                         <div class="relative sm:col-span-2">
                             <div class="flex justify-between mb-1 items-center">
-                                <label for="sharesCount" class="block text-sm font-medium text-gray-700" id="labelSharesCount">Quantity</label>
+                                <label for="sharesCount" class="block text-xs font-bold text-gray-700 uppercase" id="labelSharesCount">Quantity</label>
                                 <select id="shareUnit" class="text-xs border-none bg-transparent text-green-600 font-bold focus:ring-0 cursor-pointer pr-5 unit-select uppercase tracking-wide" onchange="updateUnitLabel()">
                                     <option value="lot">Lot (100)</option>
                                     <option value="share">Shares (Lbr)</option>
                                 </select>
                             </div>
-                            <input type="text" id="sharesCount" inputmode="numeric" placeholder="e.g. 100" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" required>
+                            <input type="text" id="sharesCount" inputmode="numeric" placeholder="e.g. 100" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm" required>
                             <p class="input-description" id="descSharesCount">Number of lots traded (1 Lot = 100 Shares).</p>
                         </div>
                     </div>
@@ -100,28 +125,28 @@
                     <h2 class="text-lg font-bold mb-4 text-green-800" id="headerFees">2. Broker Fees & Taxes</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="relative">
-                            <label for="buyCommission" class="block text-sm font-medium text-gray-700 mb-1" id="labelBuyComm">Buy Commission (%)</label>
-                            <input type="number" id="buyCommission" min="0" step="0.01" value="0.15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
+                            <label for="buyCommission" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelBuyComm">Buy Commission (%)</label>
+                            <input type="number" id="buyCommission" min="0" step="0.01" value="0.15" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm">
                         </div>
              
                         <div class="relative">
-                            <label for="sellCommission" class="block text-sm font-medium text-gray-700 mb-1" id="labelSellComm">Sell Commission (%)</label>
-                            <input type="number" id="sellCommission" min="0" step="0.01" value="0.25" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
+                            <label for="sellCommission" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelSellComm">Sell Commission (%)</label>
+                            <input type="number" id="sellCommission" min="0" step="0.01" value="0.25" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm">
                         </div>
                         
                         <div class="relative sm:col-span-2">
-                            <label for="dividends" class="block text-sm font-medium text-gray-700 mb-1" id="labelDividends">Dividends Received (Optional)</label>
-                            <input type="text" id="dividends" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
+                            <label for="dividends" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="labelDividends">Dividends Received (Optional)</label>
+                            <input type="text" id="dividends" inputmode="numeric" value="0" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 text-sm">
                             <p class="input-description" id="descDividends">Total cash dividends received.</p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="calculateButton" class="w-full bg-green-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
+                <button type="submit" id="calculateButton" class="w-full bg-green-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-sm">
                     Calculate Return
                 </button>
                 
-                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-sm" role="alert">
                     <span id="errorText" class="block sm:inline"></span>
                 </div>
             </form>
@@ -132,12 +157,12 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-center">
                     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <p id="labelNetProfit" class="text-sm font-bold text-gray-600 uppercase tracking-wider">Net Profit / Loss</p>
+                        <p id="labelNetProfit" class="text-xs font-bold text-gray-600 uppercase tracking-wider">Net Profit / Loss</p>
                         <p id="resultNetProfit" class="text-3xl font-extrabold text-gray-800 mt-2">0</p>
                         <p class="text-xs text-gray-500 mt-1" id="descNetProfit">After all fees & taxes</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <p id="labelROI" class="text-sm font-bold text-gray-600 uppercase tracking-wider">Return on Investment (ROI)</p>
+                        <p id="labelROI" class="text-xs font-bold text-gray-600 uppercase tracking-wider">Return on Investment (ROI)</p>
                         <p id="resultROI" class="text-3xl font-extrabold text-gray-800 mt-2">0%</p>
                         <p class="text-xs text-gray-500 mt-1" id="descROI">Percentage gain/loss</p>
                     </div>
@@ -170,22 +195,22 @@
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="sectionHeader1" class="text-xl font-bold text-gray-800 mb-3">Calculating Stock Returns</h2>
-                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+                <h2 id="sectionHeader1" class="text-lg font-bold text-gray-800 mb-2">Calculating Stock Returns</h2>
+                <p id="content1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
 
-                <h3 id="sectionHeader2" class="text-lg font-bold text-gray-800 mb-2">The Impact of Broker Fees</h3>
-                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+                <h3 id="sectionHeader2" class="text-base font-bold text-gray-800 mb-2">The Impact of Broker Fees</h3>
+                <p id="content2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
 
-                <h3 id="sectionHeader3" class="text-lg font-bold text-gray-800 mb-2">Trading Tips</h3>
+                <h3 id="sectionHeader3" class="text-base font-bold text-gray-800 mb-2">Trading Tips</h3>
                 <p id="content3" class="text-gray-600 text-sm leading-relaxed text-justify mb-2"></p>
-                <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-6 list-disc ml-6 space-y-1">
+                <ul class="text-gray-600 text-sm leading-relaxed text-justify mb-4 list-disc ml-6 space-y-1">
                     <li id="tip1"></li>
                     <li id="tip2"></li>
                     <li id="tip3"></li>
                 </ul>
 
-                <h3 id="sectionHeader4" class="text-lg font-bold text-gray-800 mb-2">Disclaimer</h3>
-                <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-6"></p>
+                <h3 id="sectionHeader4" class="text-base font-bold text-gray-800 mb-2">Disclaimer</h3>
+                <p id="content4" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
             </section>
 
         </div>
@@ -193,7 +218,7 @@
 
     <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
+            <div class="w-1 h-7 mr-3 bg-green-600 rounded"></div> 
             <h2 class="text-xl font-bold text-gray-800" 
                 data-en="Investment & Finance Tools" 
                 data-id="Alat Investasi & Keuangan">

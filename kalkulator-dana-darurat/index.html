@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-dana-darurat/" />
-    <meta name="description" content="Kalkulator Dana Darurat Ideal. Hitung target dana minimum Anda berdasarkan Biaya Hidup Wajib dan Periode Aman (3-12 bulan). Amankan stabilitas finansial Anda sekarang." />
+    <link rel="icon" href="data:,"> <meta name="description" content="Calculate your ideal Emergency Fund target based on essential monthly expenses. Secure your financial stability with our 3 to 12-month safety net calculator." />
+    <meta name="keywords" content="Emergency Fund Calculator, Safety Net Calculator, Financial Stability Tool, Monthly Expenses Calculator, Kalkulator Dana Darurat, Hitung Dana Cadangan, Tabungan Darurat, Tips Keuangan Pribadi, Financial Planning Indonesia" />
 
-    <title id="appTitle">Ideal Emergency Fund Calculator</title>
+    <title id="appTitle">Ideal Emergency Fund Calculator - Digital Tools ID</title>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -18,22 +19,22 @@
       gtag('js', new Date());
       gtag('config', 'G-7M8E7QRYNY');
     </script>
-    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
-        /* --- CSS LOKAL (Sesuai Pedoman V.2) --- */
+        /* CSS LOKAL */
+        .layout-article-fixed { width: 100%; }
+        @media (min-width: 1024px) {
+            .layout-article-fixed { width: 50% !important; margin-left: auto !important; margin-right: auto !important; }
+        }
         
-        /* Definisi Warna Lokal (Agar aman tanpa rebuild Tailwind) */
-        .text-finance-color { color: #27ae60; } /* Hijau Keuangan */
+        .text-finance-color { color: #27ae60; }
         .bg-finance-color { background-color: #27ae60; }
-        .text-debt-color { color: #e74c3c; } /* Merah Utang/Kekurangan */
+        .text-debt-color { color: #e74c3c; }
         
-        /* Background Transparan Kustom */
         .bg-finance-soft { background-color: rgba(39, 174, 96, 0.1); }
         .bg-debt-soft { background-color: rgba(231, 76, 60, 0.1); }
 
-        /* Animasi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
             transform-origin: top center;
@@ -47,32 +48,31 @@
             padding: 1.5rem; 
         }
 
-        /* Input Description */
-        .input-description {
-            font-size: 0.75rem;
-            color: #6b7280; 
-            margin-top: 0.25rem;
-        }
+        .input-description { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+        
+        .tool-card:hover { border-color: #27ae60; transform: translateY(-2px); }
+        .dynamic-text:hover { color: #15803d; }
     </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
 
     <div id="global-header-container"></div>
+    <script> window.headerCategory = 'finance'; </script>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 mx-auto layout-article-fixed">
+        <div class="w-full bg-white shadow-xl rounded-xl p-6 sm:p-8 border border-gray-100">
             
             <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-2">Ideal Emergency Fund Calculator</h1>
             
-            <p id="valueProposition" class="text-lg text-finance-color font-semibold mb-6 border-b pb-4">
+            <p id="valueProposition" class="text-sm text-finance-color font-semibold mb-6 border-b pb-4 leading-relaxed text-justify">
                 Calculate your minimum cash fund to meet emergency conditions and get tips on how to manage that fund.
             </p>
 
             <form id="emergencyFundForm" onsubmit="calculateEmergencyFund(event)" class="space-y-6">
 
                 <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
-                    <h2 id="expenseTitle" class="text-xl font-bold dynamic-text mb-3">1. Monthly Essential Expenses</h2>
+                    <h2 id="expenseTitle" class="text-lg font-bold text-gray-800 mb-3">1. Monthly Essential Expenses</h2>
                     <p id="expenseDesc" class="input-description mb-4">Enter your absolute required monthly costs to maintain your basic lifestyle.</p>
                     
                     <div id="expensesInputContainer" class="space-y-3">
@@ -85,7 +85,7 @@
                 </section>
 
                 <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
-                    <h2 id="periodTitle" class="text-xl font-bold dynamic-text mb-3">2. Safety Net Period</h2>
+                    <h2 id="periodTitle" class="text-lg font-bold text-gray-800 mb-3">2. Safety Net Period</h2>
                     <p id="periodDesc" class="input-description mb-4">Select how many months of expenses your emergency fund should cover.</p>
                     <div id="safetyPeriodContainer" class="flex flex-wrap gap-4">
                         </div>
@@ -96,56 +96,59 @@
                 </section>
 
                 <section class="border border-gray-300 p-4 rounded-lg bg-gray-50">
-                    <h2 id="currentFundTitle" class="text-xl font-bold dynamic-text mb-3">3. Current Emergency Fund (Optional)</h2>
+                    <h2 id="currentFundTitle" class="text-lg font-bold text-gray-800 mb-3">3. Current Emergency Fund (Optional)</h2>
                     <p id="currentFundDesc" class="input-description mb-4">Enter the amount you currently have saved specifically for emergencies.</p>
                     <div class="relative">
-                        <label for="currentFund" class="block text-sm font-medium text-gray-700 mb-1" id="currentFundInputLabel">Current Fund Amount</label>
+                        <label for="currentFund" class="block text-xs font-bold text-gray-700 uppercase mb-1" id="currentFundInputLabel">Current Fund Amount</label>
                         <input type="text" id="currentFund" inputmode="numeric" value="0" 
-                               oninput="formatInput(this, true)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 current-fund-input">
+                               oninput="formatInput(this, true)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 current-fund-input text-sm">
                     </div>
                 </section>
 
-                <button type="submit" id="calculateButton" class="w-full bg-finance-color text-white font-semibold py-3 rounded-xl shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-[1.01]">
+                <button type="submit" id="calculateButton" class="w-full bg-finance-color text-white font-bold py-3 rounded-xl shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-[1.01] text-sm">
                     Calculate Fund Target
                 </button>
             </form>
 
             <div id="resultBox" class="result-box mt-6 bg-gray-50 border border-gray-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Emergency Fund Summary</h3>
+                <h3 id="resultHeader" class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Emergency Fund Summary</h3>
                 
                 <div class="space-y-4">
-                    <div class="flex justify-between items-center p-3 border-b border-gray-200">
-                        <p id="totalExpensesLabel" class="text-base text-gray-600">Total Monthly Essential Expenses:</p>
-                        <p id="outputTotalExpenses" class="text-lg font-bold text-gray-900">IDR 0</p>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 border-b border-gray-200 gap-1">
+                        <p id="totalExpensesLabel" class="text-sm text-gray-600">Total Monthly Essential Expenses:</p>
+                        <p id="outputTotalExpenses" class="text-base font-bold text-gray-900 sm:text-right">IDR 0</p>
                     </div>
-                    <div class="flex justify-between items-center p-3 rounded-lg bg-finance-soft border border-green-200">
-                        <p id="targetLabel" class="text-lg font-semibold text-finance-color">Ideal Emergency Fund Target:</p>
-                        <p id="outputTarget" class="text-2xl font-extrabold text-finance-color">IDR 0</p>
+                    
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 rounded-lg bg-finance-soft border border-green-200 gap-1">
+                        <p id="targetLabel" class="text-sm font-bold text-finance-color">Ideal Emergency Fund Target:</p>
+                        <p id="outputTarget" class="text-xl font-extrabold text-finance-color sm:text-right">IDR 0</p>
                     </div>
-                    <div class="flex justify-between items-center p-3 border-b border-gray-200">
-                        <p id="currentFundLabel" class="text-base text-gray-600">Current Fund Saved:</p>
-                        <p id="outputCurrentFund" class="text-lg font-bold text-gray-900">IDR 0</p>
+                    
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 border-b border-gray-200 gap-1">
+                        <p id="currentFundLabel" class="text-sm text-gray-600">Current Fund Saved:</p>
+                        <p id="outputCurrentFund" class="text-base font-bold text-gray-900 sm:text-right">IDR 0</p>
                     </div>
-                    <div class="flex justify-between items-center p-3 rounded-lg" id="gapContainer">
-                        <p id="gapLabel" class="text-xl font-bold text-gray-700">The Gap:</p>
-                        <p id="outputGap" class="text-2xl font-extrabold text-gray-900">IDR 0</p>
+                    
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 rounded-lg gap-2" id="gapContainer">
+                        <p id="gapLabel" class="text-sm font-bold text-gray-700">The Gap:</p>
+                        <p id="outputGap" class="text-2xl font-extrabold text-gray-900 sm:text-right">IDR 0</p>
                     </div>
                 </div>
 
                 <div id="adviceContainer" class="mt-6 p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50 text-gray-800">
-                    <p id="adviceCTA" class="font-bold mb-1 text-blue-800">Quick Action Plan:</p>
-                    <p id="adviceText" class="text-sm leading-relaxed">Your calculated target is a crucial financial milestone. Deposit this amount into a separate, high-yield savings account or money market account. Avoid touching it for non-emergencies. Review this goal annually.</p>
+                    <p id="adviceCTA" class="font-bold mb-1 text-blue-800 text-sm">Quick Action Plan:</p>
+                    <p id="adviceText" class="text-xs leading-relaxed text-justify">Your calculated target is a crucial financial milestone. Deposit this amount into a separate, high-yield savings account. Avoid touching it for non-emergencies.</p>
                 </div>
                 
             </div>
             
             <section class="mt-8 pt-4 border-t border-gray-200 font-sans">
-                <h2 id="descriptionTitle" class="text-xl font-bold text-gray-800 mb-3">The Purpose of an Emergency Fund</h2>
+                <h2 id="descriptionTitle" class="text-lg font-bold text-gray-800 mb-3">The Purpose of an Emergency Fund</h2>
                 <p id="descriptionP1" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
                 <p id="descriptionP2" class="text-gray-600 text-sm leading-relaxed text-justify mb-4"></p>
                 
-                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-gray-400 text-gray-600 p-4 rounded-lg text-xs mt-4"></div>
+                <div id="disclaimerBox" class="bg-gray-100 border-l-4 border-gray-400 text-gray-600 p-4 rounded-lg text-xs mt-4 italic text-justify"></div>
             </section>
 
         </div>
@@ -153,66 +156,30 @@
     
     <section id="related-tools-section" class="max-w-4xl mx-auto px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 dynamic-bg"></div> 
-            <h2 class="text-xl font-bold text-gray-800" 
-                data-en="Financial Planning Tools" 
-                data-id="Alat Perencanaan Keuangan">
-                Financial Planning Tools
-            </h2>
+            <div class="w-1 h-7 mr-3 bg-green-600 rounded"></div> 
+            <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
-    
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            
-            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Monthly Budget Calculator"
-                    data-id="Kalkulator Anggaran Bulanan">
-                    Monthly Budget Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Manage your money using the 50/30/20 rule."
-                    data-id="Kelola uang Anda menggunakan aturan 50/30/20.">
-                    Manage your money using the 50/30/20 rule.
-                </p>
+            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text" data-en="Monthly Budget Calculator" data-id="Kalkulator Anggaran Bulanan">Monthly Budget Calculator</h3>
+                <p class="text-xs text-gray-600 leading-relaxed" data-en="Manage 50/30/20 budget." data-id="Atur anggaran 50/30/20.">Manage 50/30/20 budget.</p>
             </a>
-
-            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Mortgage Simulator (KPR)"
-                    data-id="Simulasi KPR & Bunga">
-                    Mortgage Simulator (KPR)
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Estimate monthly mortgage payments and interest."
-                    data-id="Estimasi cicilan KPR bulanan dan total bunga.">
-                    Estimate monthly mortgage payments and interest.
-                </p>
+            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text" data-en="Mortgage Simulator" data-id="Simulasi KPR">Mortgage Simulator</h3>
+                <p class="text-xs text-gray-600 leading-relaxed" data-en="Estimate home loan payments." data-id="Estimasi cicilan rumah.">Estimate home loan payments.</p>
             </a>
-            
-            <a href="../kalkulator-networth/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 dynamic-border">
-                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text"
-                    data-en="Net Worth Calculator"
-                    data-id="Kalkulator Kekayaan Bersih">
-                    Net Worth Calculator
-                </h3>
-                <p class="text-xs text-gray-600 leading-relaxed"
-                    data-en="Track your total assets minus liabilities."
-                    data-id="Lacak total aset dikurangi kewajiban hutang Anda.">
-                    Track your total assets minus liabilities.
-                </p>
+            <a href="../kalkulator-networth/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 dynamic-text dynamic-hover-text" data-en="Net Worth Calculator" data-id="Kalkulator Kekayaan">Net Worth Calculator</h3>
+                <p class="text-xs text-gray-600 leading-relaxed" data-en="Track your total assets." data-id="Lacak total aset Anda.">Track your total assets.</p>
             </a>
         </div>
-    
         <div class="border-t border-gray-100 pt-8">
             <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
             <ul class="space-y-3">
                 <li>
                     <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group dynamic-text">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 dynamic-bg-group"></span>
-                        <span data-en="Debt Repayment Strategies: Snowball vs Avalanche" 
-                              data-id="Strategi Pelunasan Utang: Snowball vs Avalanche">
-                            Debt Repayment Strategies: Snowball vs Avalanche
-                        </span>
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
+                        <span data-en="Debt Repayment Strategies" data-id="Strategi Pelunasan Utang">Debt Repayment Strategies</span>
                     </a>
                 </li>
             </ul>
@@ -220,43 +187,31 @@
     </section>
 
     <div id="global-footer-container"></div>
-    
-    <script>
-        window.headerCategory = 'finance';
-    </script>
     <script src="../components.js"></script>
 
     <script>
-        // **********************************************
-        // CONFIGURATION & LOGIC
-        // **********************************************
-
-        let currentLang = 'en'; // Default English
+        let currentLang = 'en'; 
 
         const FinancialConfig = {
-            // Kategori Biaya Hidup Bulanan Wajib (Essential Expenses)
             ESSENTIAL_EXPENSES: [
-                { id: 'housing', label_en: 'Housing/Rent/Mortgage', label_id: 'Tempat Tinggal/Sewa/KPR', default: 5000000 },
-                { id: 'groceries', label_en: 'Groceries (Absolute Minimum)', label_id: 'Kebutuhan Pangan (Minimum Absolut)', default: 1500000 },
-                { id: 'utilities', label_en: 'Utilities (Electric, Water, Internet)', label_id: 'Utilitas (Listrik, Air, Internet)', default: 1000000 },
-                { id: 'insurance', label_en: 'Insurance Premiums (Health, Life)', label_id: 'Premi Asuransi (Kesehatan, Jiwa)', default: 800000 },
-                { id: 'minDebt', label_en: 'Minimum Debt Payments (Mandatory)', label_id: 'Pembayaran Utang Minimum (Wajib)', default: 2000000 },
-                { id: 'transport', label_en: 'Essential Transportation (e.g., Gas/Public)', label_id: 'Transportasi Esensial', default: 500000 },
-                { id: 'otherEssential', label_en: 'Other Absolute Essential Costs', label_id: 'Biaya Esensial Absolut Lain', default: 0 },
+                { id: 'housing', label_en: 'Housing/Rent', label_id: 'Tempat Tinggal/Sewa', default: 5000000 },
+                { id: 'groceries', label_en: 'Groceries', label_id: 'Kebutuhan Pangan', default: 1500000 },
+                { id: 'utilities', label_en: 'Utilities', label_id: 'Utilitas (Listrik/Air)', default: 1000000 },
+                { id: 'insurance', label_en: 'Insurance', label_id: 'Asuransi', default: 800000 },
+                { id: 'minDebt', label_en: 'Debt Payments', label_id: 'Cicilan Utang', default: 2000000 },
+                { id: 'transport', label_en: 'Transport', label_id: 'Transportasi', default: 500000 },
+                { id: 'otherEssential', label_en: 'Others', label_id: 'Lainnya', default: 0 },
             ],
-            
-            // Opsi Periode Aman (Safety Net Periods)
             SAFETY_PERIODS: [
-                { id: 3, label_en: '3 Months (Minimum)', label_id: '3 Bulan (Minimum)', recommended: false },
-                { id: 6, label_en: '6 Months (Standard)', label_id: '6 Bulan (Standar)', recommended: true },
-                { id: 12, label_en: '12 Months (Conservative)', label_id: '12 Bulan (Konservatif)', recommended: false },
+                { id: 3, label_en: '3 Months (Min)', label_id: '3 Bulan (Min)', recommended: false },
+                { id: 6, label_en: '6 Months (Std)', label_id: '6 Bulan (Std)', recommended: true },
+                { id: 12, label_en: '12 Months (Safe)', label_id: '12 Bulan (Aman)', recommended: false },
             ],
         };
 
         const translations = {
             en: {
                 appTitle: "Ideal Emergency Fund Calculator",
-                backToCatalogText: "Back to Tools Catalog",
                 headerTitle: "Ideal Emergency Fund Calculator",
                 valueProposition: "Calculate your minimum cash fund to meet emergency conditions and get tips on how to manage that fund.",
                 expenseTitle: "1. Monthly Essential Expenses",
@@ -270,21 +225,19 @@
                 currentFundInputLabel: "Current Fund Amount",
                 calculateButton: "Calculate Fund Target",
                 resultHeader: "Emergency Fund Summary",
-                totalExpensesLabel: "Total Monthly Essential Expenses:",
-                targetLabel: "Ideal Emergency Fund Target:",
-                currentFundLabel: "Current Fund Saved:",
-                gapLabel: "The Gap:",
+                totalExpensesLabel: "Total Monthly Expenses:",
+                targetLabel: "Ideal Fund Target:",
+                currentFundLabel: "Current Saved:",
+                gapLabel: "The Gap", 
                 adviceCTA: "Quick Action Plan:",
-                adviceText: "Your calculated target is a crucial financial milestone. Deposit this amount into a separate, high-yield savings account or money market account. Avoid touching it for non-emergencies. Review this goal annually.",
+                adviceText: "Your calculated target is a crucial financial milestone. Deposit this amount into a separate, high-yield savings account. Avoid touching it for non-emergencies.",
                 descriptionTitle: "The Purpose of an Emergency Fund",
-                descriptionP1: "An emergency fund is a liquidity reserve specifically designed to cover unexpected, essential expenses like job loss, medical crises, or major home repairs. It protects you from high-interest debt and keeps your long-term investments safe, ensuring you maintain financial stability during unforeseen circumstances.",
-                descriptionP2: `The calculation for your Ideal Emergency Fund Target is straightforward: <strong>Total Monthly Essential Expenses</strong> multiplied by your selected <strong>Safety Net Period</strong> (in months). For example, if your essential expenses are IDR 10,000,000 and you select a 6-month safety period, your target fund is IDR 60,000,000. This method ensures your target is directly based on your specific lifestyle and required level of security.`,
-                disclaimerBox: `<strong>Disclaimer:</strong> This tool is intended solely for simulation and tracking purposes. The results are based purely on the values you input and do not constitute professional financial advice, tax, or legal consultation. Always consult certified financial professionals for personalized planning.`,
-                // Footer handled globally
+                descriptionP1: "An emergency fund is a liquidity reserve specifically designed to cover unexpected expenses like job loss or medical crises. It protects you from high-interest debt.",
+                descriptionP2: "The calculation is straightforward: Total Monthly Essential Expenses multiplied by your selected Safety Net Period.",
+                disclaimerBox: "<strong>Disclaimer:</strong> This tool is for simulation purposes only. Consult a professional financial advisor.",
             },
             id: {
                 appTitle: "Kalkulator Dana Darurat Ideal",
-                backToCatalogText: "Kembali ke Katalog Alat",
                 headerTitle: "Kalkulator Dana Darurat Ideal",
                 valueProposition: "Hitung dana tunai minimum Anda agar cukup memenuhi kondisi darurat dan tips bagaimana mengelola dana tersebut.",
                 expenseTitle: "1. Biaya Hidup Bulanan Wajib",
@@ -298,27 +251,23 @@
                 currentFundInputLabel: "Jumlah Dana Saat Ini",
                 calculateButton: "Hitung Target Dana",
                 resultHeader: "Ringkasan Dana Darurat",
-                totalExpensesLabel: "Total Biaya Hidup Bulanan Wajib:",
+                totalExpensesLabel: "Total Biaya Bulanan Hidup Wajib:",
                 targetLabel: "Target Dana Darurat Ideal:",
-                currentFundLabel: "Dana Saat Ini yang Tersimpan:",
-                gapLabel: "Selisih (Kekurangan/Kelebihan):",
+                currentFundLabel: "Dana Saat Ini:",
+                gapLabel: "Selisih", // Label diperpendek untuk Mobile
                 adviceCTA: "Rencana Tindakan Cepat:",
-                adviceText: "Target yang Anda hitung adalah tonggak finansial yang krusial. Simpan jumlah ini ke dalam rekening tabungan terpisah dengan imbal hasil tinggi atau rekening pasar uang. Hindari menggunakannya untuk hal-hal yang bukan keadaan darurat. Tinjau kembali tujuan ini setiap tahun.",
+                adviceText: "Target yang Anda hitung adalah tonggak finansial krusial. Simpan jumlah ini di rekening terpisah. Hindari penggunaannya untuk hal non-darurat.",
                 descriptionTitle: "Tujuan Dana Darurat",
-                descriptionP1: "Dana darurat adalah cadangan likuiditas yang dirancang khusus untuk menutupi pengeluaran tak terduga dan esensial seperti kehilangan pekerjaan, krisis medis, atau perbaikan besar rumah. Ini melindungi Anda dari utang berbunga tinggi dan menjaga investasi jangka panjang Anda tetap aman, memastikan Anda mempertahankan stabilitas finansial selama keadaan yang tidak terduga.",
-                descriptionP2: `Perhitungan untuk Target Dana Darurat Ideal Anda sangat sederhana: <strong>Total Biaya Hidup Bulanan Wajib</strong> dikalikan dengan <strong>Periode Aman</strong> yang Anda pilih (dalam bulan). Contohnya, jika biaya esensial Anda adalah IDR 10.000.000 dan Anda memilih periode aman 6 bulan, maka target dana Anda adalah IDR 60.000.000. Metode ini memastikan target Anda didasarkan langsung pada gaya hidup dan tingkat keamanan spesifik Anda.`,
-                disclaimerBox: `<strong>Penafian:</strong> Alat ini ditujukan semata-mata untuk tujuan simulasi dan pelacakan. Hasil didasarkan murni pada nilai yang Anda masukkan dan bukan merupakan nasihat keuangan profesional, konsultasi pajak, atau hukum. Selalu konsultasikan dengan profesional keuangan bersertifikat untuk perencanaan yang dipersonalisasi.`,
+                descriptionP1: "Dana darurat adalah cadangan likuiditas untuk menutupi pengeluaran tak terduga seperti kehilangan pekerjaan atau krisis medis.",
+                descriptionP2: "Perhitungannya sederhana: Total Biaya Bulanan Hidup Wajib dikalikan Periode Aman yang Anda pilih.",
+                disclaimerBox: "<strong>Penafian:</strong> Alat ini hanya untuk simulasi. Konsultasikan dengan profesional keuangan.",
             }
         };
 
-        // --- UTILITY FUNCTIONS ---
         function formatNumber(amount) {
             if (typeof amount !== 'number') return '0';
-            const locale = 'id-ID'; 
-            return new Intl.NumberFormat(locale, {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-            }).format(Math.round(amount));
+            const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+            return new Intl.NumberFormat(locale).format(Math.round(amount));
         }
 
         function cleanInput(formattedValue) {
@@ -328,64 +277,45 @@
         function formatInput(inputElement, isOptional = false) {
             let rawValue = inputElement.value.replace(/\D/g, '');
             if (!isOptional) {
-                if (!rawValue || parseInt(rawValue, 10) === 0) {
-                     // Do nothing if zero/empty to allow typing
-                } else {
-                    const numericValue = parseInt(rawValue, 10);
-                    inputElement.value = formatNumber(numericValue);
+                if (parseInt(rawValue, 10)) {
+                    inputElement.value = formatNumber(parseInt(rawValue, 10));
                 }
                 updateSubtotals();
             } else {
-                if (rawValue) {
-                    const numericValue = parseInt(rawValue, 10);
-                    inputElement.value = formatNumber(numericValue);
-                } else {
-                    inputElement.value = '0';
-                }
+                inputElement.value = rawValue ? formatNumber(parseInt(rawValue, 10)) : '0';
             }
         }
 
-        // --- UI GENERATION ---
         function generateInputFields() {
             const expensesContainer = document.getElementById('expensesInputContainer');
             const periodContainer = document.getElementById('safetyPeriodContainer');
-
             expensesContainer.innerHTML = '';
             periodContainer.innerHTML = '';
-
             const lang = currentLang;
             
-            // 1. Generate Expense Inputs
             FinancialConfig.ESSENTIAL_EXPENSES.forEach(item => {
-                const labelKey = `label_${lang}`;
-                const labelText = item[labelKey] || item.label_en; 
-
+                const labelText = lang === 'id' ? item.label_id : item.label_en;
                 const div = document.createElement('div');
                 div.className = 'relative';
                 div.innerHTML = `
-                    <label for="${item.id}" class="block text-sm font-medium text-gray-700 mb-1">${labelText}</label>
+                    <label for="${item.id}" class="block text-xs font-bold text-gray-700 uppercase mb-1">${labelText}</label>
                     <input type="text" id="${item.id}" inputmode="numeric" value="${formatNumber(item.default)}" 
-                           oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 expense-input" required>
+                           oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-sm expense-input" required>
                 `;
                 expensesContainer.appendChild(div);
             });
 
-            // 2. Generate Safety Period Radios
             FinancialConfig.SAFETY_PERIODS.forEach(item => {
-                const labelKey = `label_${lang}`;
-                const labelText = item[labelKey] || item.label_en; 
+                const labelText = lang === 'id' ? item.label_id : item.label_en;
                 const checked = item.recommended ? 'checked' : '';
-
                 const radioDiv = document.createElement('div');
                 radioDiv.className = 'flex items-center';
                 radioDiv.innerHTML = `
-                    <input type="radio" id="period-${item.id}" name="safetyPeriod" value="${item.id}" ${checked}
-                           class="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500" onchange="updateSelectedPeriod()">
+                    <input type="radio" id="period-${item.id}" name="safetyPeriod" value="${item.id}" ${checked} class="h-4 w-4 text-green-600 focus:ring-green-500" onchange="updateSelectedPeriod()">
                     <label for="period-${item.id}" class="ml-2 block text-sm font-medium text-gray-700">${labelText}</label>
                 `;
                 periodContainer.appendChild(radioDiv);
             });
-
             document.getElementById('currentFundInputLabel').textContent = translations[lang].currentFundInputLabel;
             updateSubtotals();
             updateSelectedPeriod();
@@ -393,181 +323,105 @@
 
         function updateSubtotals() {
             let total = 0;
-            document.querySelectorAll('.expense-input').forEach(input => {
-                total += cleanInput(input.value);
-            });
-            document.getElementById('totalExpenses').textContent = `IDR ${formatNumber(total)}`;
+            document.querySelectorAll('.expense-input').forEach(input => total += cleanInput(input.value));
+            const currency = currentLang === 'id' ? 'IDR' : '$';
+            document.getElementById('totalExpenses').textContent = `${currency} ${formatNumber(total)}`;
         }
         
         function updateSelectedPeriod() {
             const selectedRadio = document.querySelector('input[name="safetyPeriod"]:checked');
-            const periodDisplay = document.getElementById('selectedPeriod');
-            
             if (selectedRadio) {
                 const selectedId = parseInt(selectedRadio.value);
                 const periodConfig = FinancialConfig.SAFETY_PERIODS.find(p => p.id === selectedId);
-                const labelKey = `label_${currentLang}`;
-                periodDisplay.textContent = periodConfig[labelKey] || periodConfig.label_en;
+                document.getElementById('selectedPeriod').textContent = currentLang === 'id' ? periodConfig.label_id : periodConfig.label_en;
             }
         }
 
-        // --- CALCULATION LOGIC ---
         function calculateEmergencyFund(event) {
-            event.preventDefault();
+            if(event) event.preventDefault();
             const t = translations[currentLang];
-            let totalEssentialExpenses = 0;
-
-            document.querySelectorAll('.expense-input').forEach(input => {
-                totalEssentialExpenses += cleanInput(input.value);
-            });
+            let totalExpenses = 0;
+            document.querySelectorAll('.expense-input').forEach(input => totalExpenses += cleanInput(input.value));
             
             const selectedPeriodRadio = document.querySelector('input[name="safetyPeriod"]:checked');
             const safetyPeriod = selectedPeriodRadio ? parseInt(selectedPeriodRadio.value) : 6; 
-            const currentFundInput = document.getElementById('currentFund').value;
-            const currentFund = cleanInput(currentFundInput);
+            const currentFund = cleanInput(document.getElementById('currentFund').value);
 
-            const idealTarget = totalEssentialExpenses * safetyPeriod;
+            const idealTarget = totalExpenses * safetyPeriod;
             const gap = idealTarget - currentFund;
+            const currency = currentLang === 'id' ? 'IDR' : '$';
+
+            document.getElementById('outputTotalExpenses').textContent = `${currency} ${formatNumber(totalExpenses)}`;
+            document.getElementById('outputCurrentFund').textContent = `${currency} ${formatNumber(currentFund)}`;
+            document.getElementById('outputTarget').textContent = `${currency} ${formatNumber(idealTarget)}`;
             
-            const resultBox = document.getElementById('resultBox');
-            const outputTarget = document.getElementById('outputTarget');
             const outputGap = document.getElementById('outputGap');
             const gapContainer = document.getElementById('gapContainer');
-
-            document.getElementById('outputTotalExpenses').textContent = `IDR ${formatNumber(totalEssentialExpenses)}`;
-            document.getElementById('outputCurrentFund').textContent = `IDR ${formatNumber(currentFund)}`;
-            outputTarget.textContent = `IDR ${formatNumber(idealTarget)}`;
+            outputGap.textContent = `${currency} ${formatNumber(Math.abs(gap))}`;
             
-            outputGap.textContent = `IDR ${formatNumber(Math.abs(gap))}`;
-            outputGap.classList.remove('text-finance-color', 'text-debt-color', 'text-gray-900');
-
+            // Logic Status GAP
+            let statusText = "";
             if (gap > 0) {
-                // Shortfall (Kekurangan)
-                gapContainer.className = 'flex justify-between items-center p-3 rounded-lg bg-debt-soft border border-red-200';
-                outputGap.className = 'text-2xl font-extrabold text-debt-color';
-                document.getElementById('gapLabel').textContent = `${t.gapLabel} (${currentLang === 'en' ? 'Shortfall' : 'Kekurangan'}):`;
+                // Shortfall
+                statusText = currentLang === 'en' ? "(Shortfall)" : "(Kekurangan)";
+                gapContainer.className = 'flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 rounded-lg bg-debt-soft border border-red-200 gap-1';
+                outputGap.className = 'text-2xl font-extrabold text-debt-color sm:text-right';
             } else if (gap < 0) {
-                // Surplus (Kelebihan)
-                gapContainer.className = 'flex justify-between items-center p-3 rounded-lg bg-finance-soft border border-green-200';
-                outputGap.className = 'text-2xl font-extrabold text-finance-color';
-                document.getElementById('gapLabel').textContent = `${t.gapLabel} (${currentLang === 'en' ? 'Surplus' : 'Kelebihan'}):`;
+                // Surplus
+                statusText = currentLang === 'en' ? "(Surplus)" : "(Kelebihan)";
+                gapContainer.className = 'flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 rounded-lg bg-finance-soft border border-green-200 gap-1';
+                outputGap.className = 'text-2xl font-extrabold text-finance-color sm:text-right';
             } else {
                 // Ideal
-                gapContainer.className = 'flex justify-between items-center p-3 rounded-lg bg-gray-100';
-                outputGap.className = 'text-2xl font-extrabold text-gray-900';
-                document.getElementById('gapLabel').textContent = `${t.gapLabel} (${currentLang === 'en' ? 'Ideal' : 'Ideal'}):`;
+                statusText = currentLang === 'en' ? "(Reached)" : "(Tercapai)";
+                gapContainer.className = 'flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 rounded-lg bg-gray-100 gap-1';
+                outputGap.className = 'text-2xl font-extrabold text-gray-900 sm:text-right';
             }
+            document.getElementById('gapLabel').textContent = `${t.gapLabel} ${statusText}:`;
             
-            resultBox.classList.add('visible');
+            document.getElementById('resultBox').classList.add('visible');
         }
 
-        // --- LANGUAGE & THEME MANAGER ---
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
+            generateInputFields(); 
             
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            if(languageSwitcher) {
-                languageSwitcher.classList.remove('lang-en', 'lang-id');
-                languageSwitcher.classList.add(`lang-${lang}`);
-            }
+            const ids = ['appTitle', 'headerTitle', 'valueProposition', 'expenseTitle', 'expenseDesc', 
+                         'subtotalExpensesLabel', 'periodTitle', 'periodDesc', 'selectedPeriodLabel', 
+                         'currentFundTitle', 'currentFundDesc', 'calculateButton', 'resultHeader', 
+                         'totalExpensesLabel', 'targetLabel', 'currentFundLabel', 'adviceCTA', 
+                         'adviceText', 'descriptionTitle', 'disclaimerBox'];
+            
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = t[id] || t[id.replace('innerHTML', '')];
+            });
 
-            const backBtn = document.getElementById('backToCatalogText');
-            if(backBtn) backBtn.textContent = t.backToCatalogText;
-            
-            if(document.getElementById('footerPrivacy')) {
-                document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
-                document.getElementById('footerTerms').textContent = t.footerTerms;
-                document.getElementById('footerAbout').textContent = t.footerAbout;
-                document.getElementById('footerContact').textContent = t.footerContact;
-                const devSpan = document.getElementById('footerDev');
-                if(devSpan) devSpan.textContent = t.footerDev;
-            }
-
-            // Update Texts
-            generateInputFields(); // Regenerate inputs with new labels
-            
-            document.getElementById('appTitle').textContent = t.appTitle;
-            document.getElementById('headerTitle').textContent = t.headerTitle;
-            document.getElementById('valueProposition').textContent = t.valueProposition;
-            document.getElementById('expenseTitle').textContent = t.expenseTitle;
-            document.getElementById('expenseDesc').textContent = t.expenseDesc;
-            document.getElementById('subtotalExpensesLabel').textContent = t.subtotalExpensesLabel;
-            document.getElementById('periodTitle').textContent = t.periodTitle;
-            document.getElementById('periodDesc').textContent = t.periodDesc;
-            document.getElementById('selectedPeriodLabel').textContent = t.selectedPeriodLabel;
-            document.getElementById('currentFundTitle').textContent = t.currentFundTitle;
-            document.getElementById('currentFundDesc').textContent = t.currentFundDesc;
-            document.getElementById('calculateButton').textContent = t.calculateButton;
-            document.getElementById('resultHeader').textContent = t.resultHeader;
-            document.getElementById('totalExpensesLabel').textContent = t.totalExpensesLabel;
-            document.getElementById('targetLabel').textContent = t.targetLabel;
-            document.getElementById('currentFundLabel').textContent = t.currentFundLabel;
-            document.getElementById('adviceCTA').textContent = t.adviceCTA;
-            document.getElementById('adviceText').textContent = t.adviceText;
-            document.getElementById('descriptionTitle').textContent = t.descriptionTitle;
             document.getElementById('descriptionP1').innerHTML = t.descriptionP1;
-            document.getElementById('descriptionP2').innerHTML = t.descriptionP2; 
-            document.getElementById('disclaimerBox').innerHTML = t.disclaimerBox;
+            document.getElementById('descriptionP2').innerHTML = t.descriptionP2;
 
-            // Re-calc if result visible
             if (document.getElementById('resultBox').classList.contains('visible')) {
-                 calculateEmergencyFund({ preventDefault: () => {} });
+                 calculateEmergencyFund();
             }
             
-            updateRelatedContent(lang);
-        }
-
-        function updateRelatedContent(lang) {
-            const translatableElements = document.querySelectorAll('#related-tools-section [data-en]');
-            translatableElements.forEach(el => {
-                const newText = el.getAttribute(`data-${lang}`);
-                if (newText) el.textContent = newText;
+            document.querySelectorAll('#related-tools-section [data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
             });
         }
-        
-        function applyDynamicTheme() {
-            const category = window.headerCategory || 'finance';
-            const themes = {
-                finance: {
-                    bg: 'bg-green-600',
-                    text: 'text-green-600',
-                    border: 'hover:border-green-400',
-                    hoverText: 'group-hover:text-green-700',
-                    bgGroup: 'group-hover:bg-green-500'
-                }
-            };
-            const theme = themes[category];
-            document.querySelectorAll('.dynamic-bg').forEach(el => el.classList.add(theme.bg));
-            document.querySelectorAll('.dynamic-text').forEach(el => el.classList.add(theme.text));
-            document.querySelectorAll('.dynamic-border').forEach(el => el.classList.add(theme.border));
-            document.querySelectorAll('.dynamic-hover-text').forEach(el => el.classList.add(theme.hoverText));
-            document.querySelectorAll('.dynamic-bg-group').forEach(el => el.classList.add(theme.bgGroup));
-        }
 
-        // --- OBSERVER & INIT ---
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-                    const currentLang = document.documentElement.lang || 'en';
-                    setLanguage(currentLang);
+                    setLanguage(document.documentElement.lang || 'en');
                 }
             });
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             observer.observe(document.documentElement, { attributes: true });
-            applyDynamicTheme();
-            
-            // Initial language
-            let defaultLang = 'en'; 
-            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-            if (browserLang.startsWith('id')) {
-                defaultLang = 'id';
-            }
-            setLanguage(defaultLang); 
+            setLanguage('en'); 
         });
-
     </script>
 </body>
 </html>

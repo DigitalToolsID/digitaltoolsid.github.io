@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pensiun/" />
-    <meta name="description" content="Kalkulator Rencana Pensiun. Hitung target dana pensiun Anda, perkirakan kebutuhan dana bulanan saat pensiun, dan tentukan investasi yang diperlukan per bulan untuk mencapainya." />
+    
+    <meta name="description" content="Retirement Planning Calculator. Calculate your target retirement fund, estimate future monthly expenses, and determine the required monthly investment to reach your goal." />
+    <meta name="keywords" content="Retirement Planning Calculator, Pension Fund Calculator, Future Value Calculator, Kalkulator Pensiun, Hitung Dana Hari Tua, Simulasi Dana Pensiun, Perencanaan Keuangan Pensiun, How much to save for retirement, Cara hitung kebutuhan dana pensiun">
     
     <link rel="icon" href="data:,">
  
@@ -27,6 +29,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -79,11 +92,12 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Retirement Planner</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Retirement Planner</h1>
+            
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                </p>
             
             <form id="retirementForm" onsubmit="calculateRetirement(event)" class="space-y-6">
@@ -204,7 +218,7 @@
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>

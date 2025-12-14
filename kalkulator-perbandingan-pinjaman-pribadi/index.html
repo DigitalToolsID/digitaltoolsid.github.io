@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-perbandingan-pinjaman-pribadi/" />
-    <meta name="description" content="Kalkulator perbandingan pinjaman pribadi. Bandingkan dua skenario pinjaman (Bank A vs. Bank B) untuk menemukan opsi angsuran dan biaya total yang paling hemat." />
+    
+    <meta name="description" content="Personal Loan Comparison Calculator. Compare two loan scenarios (Bank A vs. Bank B) to find the lowest total cost and monthly installment option." />
+    <meta name="keywords" content="Personal Loan Comparison Calculator, Loan Comparison Tool, Effective Interest Rate, Kalkulator Perbandingan Pinjaman, Bandingkan KTA, Simulasi Kredit Multiguna, Hitung Selisih Bunga, which loan is cheaper, cara memilih pinjaman termurah">
     
     <link rel="icon" href="data:,">
  
@@ -27,6 +29,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
     
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* Transisi Hasil */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -139,12 +152,12 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
             
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Personal Loan Comparison Calculator</h1>
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Personal Loan Comparison Calculator</h1>
             
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6">
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
                Compare two different personal loan scenarios (e.g., Bank A vs. Fintech B) to find the option that saves you the most money.
             </p>
             
@@ -350,23 +363,23 @@
         </div>
     </main>
     
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
-            <div class="w-1 h-7 mr-3 bg-green-600"></div> 
+            <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
             <h2 class="text-xl font-bold text-gray-800" data-en="Finance Tools" data-id="Alat Keuangan">Finance Tools</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Debt Payoff" data-id="Pelunasan Utang">Debt Payoff</h3>
-                <p class="text-xs text-gray-600" data-en="Snowball vs Avalanche strategies." data-id="Strategi Snowball vs Avalanche.">Snowball vs Avalanche strategies.</p>
-            </a>
             <a href="../kalkulator-bunga-efektif/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Effective Interest" data-id="Bunga Efektif">Effective Interest</h3>
-                <p class="text-xs text-gray-600" data-en="Calculate true interest rate." data-id="Hitung suku bunga sebenarnya.">Calculate true interest rate.</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Effective Interest Rate" data-id="Bunga Efektif">Effective Interest Rate</h3>
+                <p class="text-xs text-gray-600" data-en="Convert flat rate to effective." data-id="Konversi bunga flat ke efektif.">Convert flat rate to effective.</p>
             </a>
-            <a href="../kalkulator-anggaran-bulanan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 text-green-600 group-hover:text-green-700" data-en="Monthly Budget" data-id="Anggaran Bulanan">Monthly Budget</h3>
-                <p class="text-xs text-gray-600" data-en="Manage 50/30/20 rule." data-id="Kelola aturan 50/30/20.">Manage 50/30/20 rule.</p>
+            <a href="../kalkulator-kpr/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Mortgage Calculator" data-id="Kalkulator KPR Rumah">Mortgage Calculator</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate home loan installments." data-id="Hitung simulasi cicilan rumah.">Calculate home loan installments.</p>
+            </a>
+            <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Debt Payoff" data-id="Pelunasan Utang">Debt Payoff</h3>
+                <p class="text-xs text-gray-600" data-en="Snowball vs Avalanche strategy." data-id="Strategi Snowball vs Avalanche.">Snowball vs Avalanche strategy.</p>
             </a>
         </div>
 
@@ -375,14 +388,8 @@
             <ul class="space-y-3">
                 <li>
                     <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm text-blue-600 hover:underline group">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
+                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
                         <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../kalkulator-bunga-efektif/index.html" class="flex items-center text-sm text-blue-600 hover:underline group">
-                        <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-blue-500"></span>
-                        <span data-en="Understanding Effective vs Flat Interest Rates" data-id="Memahami Suku Bunga Efektif vs Flat">Understanding Effective vs Flat Interest Rates</span>
                     </a>
                 </li>
             </ul>

@@ -34,16 +34,17 @@ function loadHeader() {
     if (!headerContainer) return;
 
     // Logika Warna Header (Fallback ke Biru jika error)
-    const category = window.headerCategory || 'health'; 
-    let headerColor = '#1e3a8a';   // Health (Biru)
-    let sliderColor = '#1e40af';   // Slider (Biru Tua)
+    const category = window.headerCategory || 'health';
+    let headerColor = '#1e3a8a';   // Health: Indigo 900 (Menggantikan Biru Asli 1e3a8a)
+    let sliderColor = '#1e40af';   // Slider: Indigo 800
 
     if (category === 'finance') {
         headerColor = '#16a34a';   // Green
         sliderColor = '#15803d';
     } else if (category === 'productivity') {
-        headerColor = '#9333ea';   // Purple
-        sliderColor = '#7e22ce';
+        // --- REVISI INI: Mengganti Ungu (#9333ea) menjadi Indigo 800 (Lebih Gelap & Nyaman) ---
+        headerColor = '#3730a3';   // Indigo 800 (Lebih Gelap/Soft)
+        sliderColor = '#312e81';   // Indigo 900 (Slider: Lebih gelap dari header)
     }
 
     headerContainer.innerHTML = `
@@ -52,12 +53,13 @@ function loadHeader() {
             
             <a href="../index.html" class="flex items-center text-gray-100 hover:text-white transition duration-150 group">
                 <svg class="w-6 h-6 mr-1 group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
                 </svg>
                 <span id="globalBackText" class="font-medium">Back to Tools Catalog</span>
             </a>
             
-            <div id="languageSwitcher" class="lang-toggle-container relative flex bg-white rounded-full p-1 cursor-pointer select-none w-24 h-9 shadow-inner">
+            <div id="languageSwitcher" class="lang-toggle-container relative flex bg-white rounded-full 
+            p-1 cursor-pointer select-none w-24 h-9 shadow-inner">
                 
                 <div id="langToggleSlider" class="lang-toggle-slider absolute top-1 left-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-300 ease-in-out z-0 shadow-sm" style="background-color: ${sliderColor};"></div>
                 
@@ -98,11 +100,10 @@ function setupLanguageSwitcher() {
     const btnEn = document.getElementById('lang-en');
     const btnId = document.getElementById('lang-id');
     const container = document.getElementById('languageSwitcher');
-
     if (!btnEn || !btnId || !container) return;
 
     const changeLang = (lang) => {
-        document.documentElement.lang = lang; 
+        document.documentElement.lang = lang;
         if (window.updateGlobalModules) window.updateGlobalModules(lang);
     };
 
@@ -113,7 +114,6 @@ function setupLanguageSwitcher() {
 window.updateGlobalModules = function(lang) {
     const t = globalTranslations[lang];
     if (!t) return;
-
     // Update Teks Global
     if (document.getElementById('globalBackText')) document.getElementById('globalBackText').textContent = t.backToCatalog;
     if (document.getElementById('globalPrivacy')) document.getElementById('globalPrivacy').textContent = t.footerPrivacy;
@@ -121,17 +121,16 @@ window.updateGlobalModules = function(lang) {
     if (document.getElementById('globalAbout')) document.getElementById('globalAbout').textContent = t.footerAbout;
     if (document.getElementById('globalContact')) document.getElementById('globalContact').textContent = t.footerContact;
     if (document.getElementById('globalDev')) document.getElementById('globalDev').textContent = t.footerDev;
-
+    
     // --- LOGIKA VISUAL TOGGLE (FIXED) ---
     const btnEn = document.getElementById('lang-en');
     const btnId = document.getElementById('lang-id');
     const slider = document.getElementById('langToggleSlider');
 
     const baseBtnClass = "relative z-10 w-1/2 text-center text-xs font-bold transition-colors duration-300 rounded-full focus:outline-none";
-    
     // KITA GUNAKAN WARNA YANG PASTI ADA (SAFE COLORS)
-    const activeText = "text-white";       // Putih (Kontras di atas Slider Biru/Hijau)
-    const inactiveText = "text-primary";   // Biru Gelap/Hitam (Kontras di atas bg-white)
+    const activeText = "text-white";
+    const inactiveText = "text-primary";
 
     if (btnEn && btnId && slider) {
         if (lang === 'en') {

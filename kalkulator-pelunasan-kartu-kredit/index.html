@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="../output.css">
     
     <link rel="canonical" href="https://digitaltoolsid.github.io/kalkulator-pelunasan-kartu-kredit/" />
-    <meta name="description" content="Kalkulator Pelunasan Kartu Kredit. Hitung berapa lama utang lunas atau berapa yang harus dibayar bulanan untuk bebas utang lebih cepat.">
     
-    <title id="appTitle">Kalkulator Pelunasan Kartu Kredit</title>
+    <meta name="description" content="Credit Card Payoff Calculator. Estimate how long it will take to pay off your debt or calculate the monthly payment needed to become debt-free faster.">
+    <meta name="keywords" content="Credit Card Payoff Calculator, Debt Repayment Calculator, Interest Calculator, Kalkulator Pelunasan Kartu Kredit, Hitung Bunga Kartu Kredit, Simulasi Bebas Utang, Cara melunasi hutang kartu kredit, how to pay off credit card debt, strategi lunas utang">
+    
+    <link rel="icon" href="data:,">
+    
+    <title id="appTitle">Credit Card Payoff Calculator</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M8E7QRYNY"></script>
     <script>
@@ -21,6 +25,17 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4885884866232864" crossorigin="anonymous"></script>
 
     <style>
+        /* STANDAR TAMPILAN: Hard Lock 50% untuk Desktop */
+        @media (min-width: 1024px) {
+            .layout-article-fixed {
+                width: 50% !important;
+                max-width: 50% !important;
+                min-width: 50% !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         /* CSS LOKAL */
         .result-box {
             transition: all 0.5s ease-in-out;
@@ -51,66 +66,67 @@
     <script>window.headerCategory = 'finance';</script>
     <div id="global-header-container"></div>
 
-    <main class="flex-grow p-4 sm:p-8 flex justify-center">
-        <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 sm:p-8">
+    <main class="flex-grow p-4 sm:p-8 flex flex-col items-center">
+        <div class="w-full layout-article-fixed bg-white shadow-xl rounded-xl p-6 sm:p-8">
 
-            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3">Kalkulator Pelunasan Kartu Kredit</h1>
-            <p id="toolSubtitle" class="text-base text-gray-700 font-medium mb-6 leading-relaxed">
-                Terjebak pembayaran minimum? Buat rencana pelunasan cerdas. Hitung waktu pelunasan atau target pembayaran bulanan agar bebas utang lebih cepat.
+            <h1 id="headerTitle" class="text-3xl font-extrabold text-gray-900 mb-3 text-center">Credit Card Payoff Calculator</h1>
+            
+            <p id="toolSubtitle" class="text-sm text-gray-700 font-medium mb-6 leading-relaxed text-justify">
+                Stuck in minimum payments? Create a smart payoff plan. Calculate payoff time or monthly payment targets to become debt-free faster.
             </p>
 
             <form id="payoffForm" onsubmit="calculatePayoff(event)" class="space-y-6">
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="text-lg font-bold text-red-700 mb-3" id="headerDetails">1. Detail Kartu Kredit</h2>
+                    <h2 class="text-lg font-bold text-red-700 mb-3" id="headerDetails">1. Credit Card Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
                         <div class="md:col-span-2">
                             <label for="cardBalance" class="block text-sm font-medium text-gray-700 mb-1">
-                                <span id="labelCardBalance">Saldo Terutang</span>
-                                <span class="currency-label font-normal text-gray-500">(Rp)</span>
+                                <span id="labelCardBalance">Outstanding Balance</span>
+                                <span class="currency-label font-normal text-gray-500">($)</span>
                             </label>
                             <input type="text" id="cardBalance" inputmode="numeric" value="10.000.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500" required>
-                            <p class="text-xs text-gray-500 mt-1" id="descCardBalance">Total tagihan saat ini.</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descCardBalance">Total debt on statement.</p>
                         </div>
 
                         <div class="relative">
-                            <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInterestRate">Bunga Tahunan (%)</label>
+                            <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-1" id="labelInterestRate">Annual Interest Rate (%)</label>
                             <input type="number" id="interestRate" min="0" step="0.01" value="20" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500" required>
-                            <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Biasanya 20% - 25% per tahun.</p>
+                            <p class="text-xs text-gray-500 mt-1" id="descInterestRate">Typically 20% - 25% per year.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <h2 class="text-lg font-bold text-red-700 mb-3" id="headerStrategy">2. Strategi Pembayaran</h2>
+                    <h2 class="text-lg font-bold text-red-700 mb-3" id="headerStrategy">2. Payment Strategy</h2>
                     
                     <div class="mb-4">
-                        <label for="calcMode" class="block text-sm font-medium text-gray-700 mb-1" id="labelCalcMode">Saya ingin menghitung...</label>
+                        <label for="calcMode" class="block text-sm font-medium text-gray-700 mb-1" id="labelCalcMode">I want to calculate...</label>
                         <select id="calcMode" onchange="toggleInputMode()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 bg-white">
-                            <option value="time">Berapa lama sampai lunas? (Bayar Tetap)</option>
-                            <option value="payment">Harus bayar berapa? (Target Waktu)</option>
+                            <option value="time">Time to payoff? (Fixed Payment)</option>
+                            <option value="payment">Monthly payment needed? (Target Time)</option>
                         </select>
                     </div>
 
                     <div id="inputMonthlyPaymentBox">
                         <label for="monthlyPayment" class="block text-sm font-medium text-gray-700 mb-1">
-                            <span id="labelMonthlyPayment">Pembayaran Bulanan Tetap</span>
-                            <span class="currency-label font-normal text-gray-500">(Rp)</span>
+                            <span id="labelMonthlyPayment">Fixed Monthly Payment</span>
+                            <span class="currency-label font-normal text-gray-500">($)</span>
                         </label>
                         <input type="text" id="monthlyPayment" inputmode="numeric" value="500.000" oninput="formatInput(this)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
-                        <p class="text-xs text-gray-500 mt-1" id="descMonthlyPayment">Jumlah yang sanggup dibayar per bulan.</p>
+                        <p class="text-xs text-gray-500 mt-1" id="descMonthlyPayment">Consistent monthly amount.</p>
                     </div>
 
                     <div id="inputMonthsBox" class="hidden">
-                        <label for="monthsGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthsGoal">Target Waktu (Bulan)</label>
+                        <label for="monthsGoal" class="block text-sm font-medium text-gray-700 mb-1" id="labelMonthsGoal">Target Time (Months)</label>
                         <input type="number" id="monthsGoal" min="1" step="1" value="12" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
-                        <p class="text-xs text-gray-500 mt-1" id="descMonthsGoal">Ingin lunas dalam berapa bulan?</p>
+                        <p class="text-xs text-gray-500 mt-1" id="descMonthsGoal">Months to be debt-free?</p>
                     </div>
                 </div>
 
                 <button type="submit" id="calculateButton" class="calculate-button w-full text-white font-bold py-3 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
-                    Hitung Rencana Pelunasan
+                    Calculate Payoff
                 </button>
                 
                 <div id="minPaymentWarning" class="hidden mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4">
@@ -128,30 +144,30 @@
 
             <div id="resultBox" class="result-box mt-6 bg-red-50 border border-red-200 rounded-xl shadow-lg">
                 
-                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-gray-800 border-b pb-2 border-red-300">Hasil Rencana</h3>
+                <h3 id="resultHeader" class="text-xl font-bold mb-4 text-gray-800 border-b pb-2 border-red-300">Payoff Plan Result</h3>
                 
                 <div class="text-center mb-6">
-                    <p id="labelMainResult" class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Bebas Utang Dalam</p>
-                    <p id="resultMain" class="text-4xl font-extrabold text-red-600">0 Bulan</p>
+                    <p id="labelMainResult" class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Debt-Free In:</p>
+                    <p id="resultMain" class="text-4xl font-extrabold text-red-600">0 Months</p>
                 </div>
 
                 <div class="mb-6 bg-white p-4 rounded-lg border border-red-100">
-                    <h4 id="headerInterpretation" class="text-sm font-bold text-gray-800 mb-2">Dampak Finansial</h4>
-                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed"></p>
+                    <h4 id="headerInterpretation" class="text-sm font-bold text-gray-800 mb-2">Financial Impact</h4>
+                    <p id="textInterpretation" class="text-sm text-gray-700 leading-relaxed text-justify"></p>
                 </div>
                 
-                <h4 id="detailHeader" class="text-md font-bold text-gray-800 mb-3">Rincian Biaya</h4>
+                <h4 id="detailHeader" class="text-md font-bold text-gray-800 mb-3">Cost Breakdown</h4>
                 <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 text-sm">
                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100">
-                        <div class="text-gray-600" id="labelPrincipal">Pokok Utang</div>
+                        <div class="text-gray-600" id="labelPrincipal">Principal</div>
                         <div class="text-right font-semibold" id="valPrincipal">0</div>
                     </div>
                     <div class="p-3 grid grid-cols-2 gap-4 border-b border-gray-100 bg-red-50">
-                        <div class="text-red-700 font-medium" id="labelTotalInterest">Total Bunga Dibayar</div>
+                        <div class="text-red-700 font-medium" id="labelTotalInterest">Total Interest</div>
                         <div class="text-right font-bold text-red-700" id="valTotalInterest">0</div>
                     </div>
                     <div class="p-3 grid grid-cols-2 gap-4 font-bold">
-                        <div class="text-gray-800" id="labelTotalPaid">Total Uang Keluar</div>
+                        <div class="text-gray-800" id="labelTotalPaid">Total Paid</div>
                         <div class="text-right text-gray-800" id="valTotalPaid">0</div>
                     </div>
                 </div>
@@ -178,29 +194,29 @@
         </div>
     </main>
 
-    <section id="related-tools-section" class="max-w-2xl mx-auto px-4 py-8 mb-4">
+    <section id="related-tools-section" class="layout-article-fixed w-full px-4 py-8 mb-4">
         <div class="flex items-center mb-5">
             <div class="w-1 h-7 mr-3 bg-green-600 dynamic-bg"></div> 
-            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Alat Keuangan Terkait</h2>
+            <h2 class="text-xl font-bold text-gray-800" data-en="Related Finance Tools" data-id="Alat Keuangan Terkait">Related Finance Tools</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
             <a href="../kalkulator-pelunasan-utang/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Debt Payoff Priority" data-id="Kalkulator Prioritas Utang">Kalkulator Prioritas Utang</h3>
-                <p class="text-xs text-gray-600" data-en="Snowball vs Avalanche method." data-id="Metode Snowball vs Avalanche.">Metode Snowball vs Avalanche.</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Debt Payoff Priority" data-id="Kalkulator Prioritas Utang">Debt Payoff Priority</h3>
+                <p class="text-xs text-gray-600" data-en="Snowball vs Avalanche method." data-id="Metode Snowball vs Avalanche.">Snowball vs Avalanche method.</p>
             </a>
             <a href="../kalkulator-kapasitas-cicilan/index.html" class="tool-card group block p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:border-green-400">
-                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Loan Affordability" data-id="Kapasitas Cicilan">Kapasitas Cicilan</h3>
-                <p class="text-xs text-gray-600" data-en="Calculate safe borrowing limits." data-id="Hitung batas aman pinjaman.">Hitung batas aman pinjaman.</p>
+                <h3 class="text-base font-bold mb-1 group-hover:text-green-700 transition-colors" data-en="Loan Affordability" data-id="Kapasitas Cicilan">Loan Affordability</h3>
+                <p class="text-xs text-gray-600" data-en="Calculate safe borrowing limits." data-id="Hitung batas aman pinjaman.">Calculate safe borrowing limits.</p>
             </a>
         </div>
         
         <div class="border-t border-gray-100 pt-8">
-            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Artikel Terkait:</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Related Articles:" data-id="Artikel Terkait:">Related Articles:</h3>
             <ul class="space-y-3">
                 <li>
                     <a href="../articles/strategi-mempercepat-pelunasan-utang.html" class="flex items-center text-sm hover:underline group text-blue-600 hover:text-blue-800">
                         <span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-green-500"></span>
-                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategi Mempercepat Pelunasan Utang</span>
+                        <span data-en="Strategies to Accelerate Debt Repayment" data-id="Strategi Mempercepat Pelunasan Utang">Strategies to Accelerate Debt Repayment</span>
                     </a>
                 </li>
             </ul>
