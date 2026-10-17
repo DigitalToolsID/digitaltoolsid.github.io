@@ -1,5 +1,14 @@
 // --- components.js (FIXED: SAFE COLORS & HIGH CONTRAST) ---
 
+// 0. UMAMI ANALYTICS (REAL-TIME TRACKING)
+(function initAnalytics() {
+    const script = document.createElement('script');
+    script.defer = true;
+    script.src = 'https://cloud.umami.is/script.js';
+    script.setAttribute('data-website-id', 'bda47b08-003b-4b64-99a6-89814e3eafdd');
+    document.head.appendChild(script);
+})();
+
 // 1. KAMUS BAHASA GLOBAL
 const globalTranslations = {
     id: {
